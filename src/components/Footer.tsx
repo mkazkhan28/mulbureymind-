@@ -15,7 +15,7 @@ export default function Footer() {
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-xl text-slate-900 tracking-tight">
-                  BDS Study Hub
+                  Mulberry Mind
                 </span>
                 <span className="text-[11px] font-semibold text-blue-700 uppercase tracking-wider">
                   DUHS BDS 1st Year Edition
@@ -146,7 +146,7 @@ export default function Footer() {
 
         {/* Bottom copyright & disclaimer */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} BDS Study Hub. Specially customized for Dow University of Health Sciences (DUHS) Karachi.</p>
+          <p>© {new Date().getFullYear()} Mulberry Mind. Specially customized for Dow University of Health Sciences (DUHS) Karachi.</p>
           <div className="flex items-center gap-1.5 text-slate-500">
             <span>Crafted with</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-current" />
