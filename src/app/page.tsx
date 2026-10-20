@@ -595,7 +595,7 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================== */}
-      {/* 4. WHY DUHS STUDENTS PREFER BDS STUDY HUB                     */}
+      {/* 4. WHY DUHS STUDENTS PREFER Mulberry Mind                     */}
       {/* ============================================================== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
