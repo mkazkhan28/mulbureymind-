@@ -30,7 +30,7 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-lg text-slate-900 tracking-tight leading-tight">
-                BDS Study Hub
+                Mulberry Mind
               </span>
               <span className="text-[11px] font-bold text-blue-600 tracking-wider uppercase">
                 DUHS Dental Portal
