@@ -24,7 +24,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "BDS Study Hub | DUHS 1st Year Dental Portal",
+  title: "Mulberry Mind | DUHS 1st Year Dental Portal",
   description:
     "Dow University of Health Sciences (DUHS) dedicated 1st Year BDS study portal. High-yield modular BCQs, past papers, flashcards, and verified slides for DIKIOHS, DDC, DIDC & affiliated dental colleges in Karachi.",
 };
