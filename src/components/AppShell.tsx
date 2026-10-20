@@ -173,13 +173,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         {/* Brand Header */}
         <div className="p-4 border-b border-slate-800/80 flex items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-3 overflow-hidden group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/30 shrink-0 group-hover:scale-105 transition-transform duration-300">
-              <span className="font-extrabold text-sm tracking-tight">BDS</span>
+            <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center bg-gradient-to-br from-purple-900/60 to-blue-900/60 border border-purple-500/30">
+              <img src="/logo-icon.svg" alt="Mulberry Mind" className="w-8 h-8 object-contain" />
             </div>
             {!sidebarCollapsed && (
               <div className="flex flex-col min-w-0">
                 <span className="font-extrabold text-base text-white tracking-tight leading-tight truncate">
-                  BDS Study Hub
+                  Mulberry Mind
                 </span>
                 <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -552,12 +552,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 via-blue-600 to-violet-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
-              BDS
+            <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-gradient-to-br from-purple-900/60 to-blue-900/60 border border-purple-500/30">
+              <img src="/logo-icon.svg" alt="MM" className="w-6 h-6 object-contain" />
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-sm text-white leading-tight">
-                BDS Study Hub
+                Mulberry Mind
               </span>
               <span className="text-[9px] font-bold text-indigo-400 uppercase">
                 DUHS Karachi
@@ -604,11 +604,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <div className="relative w-80 max-w-full bg-[#090e1a] border-r border-slate-800 flex flex-col h-full shadow-2xl z-10 overflow-y-auto p-4 space-y-6">
             <div className="flex items-center justify-between pb-4 border-b border-slate-800">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center text-white font-bold text-xs">
-                  BDS
+                <div className="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-purple-900/60 to-blue-900/60 border border-purple-500/30">
+                  <img src="/logo-icon.svg" alt="MM" className="w-7 h-7 object-contain" />
                 </div>
                 <div>
-                  <div className="font-bold text-sm text-white">BDS Study Hub</div>
+                  <div className="font-bold text-sm text-white">Mulberry Mind</div>
                   <div className="text-[10px] text-indigo-400 font-semibold">DUHS 1st Year Portal</div>
                 </div>
               </div>
@@ -788,10 +788,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 text-xs">
               <div className="space-y-3 md:col-span-1">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center text-white font-bold text-xs shadow">
-                    BDS
+                  <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-gradient-to-br from-purple-900/60 to-blue-900/60 border border-purple-500/30">
+                    <img src="/logo-icon.svg" alt="MM" className="w-6 h-6 object-contain" />
                   </div>
-                  <span className="font-extrabold text-sm text-white">BDS Study Hub</span>
+                  <span className="font-extrabold text-sm text-white">Mulberry Mind</span>
                 </div>
                 <p className="text-slate-400 text-xs leading-relaxed">
                   High-yield modular study portal customized specifically for Dow University of Health Sciences (DUHS Karachi) BDS 1st Year dental surgeons.
@@ -844,7 +844,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </div>
 
             <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
-              <p>© {new Date().getFullYear()} BDS Study Hub. Custom-crafted for Dow University Dental Students.</p>
+              <p>© {new Date().getFullYear()} Mulberry Mind. Custom-crafted for Dow University Dental Students.</p>
               <div className="flex items-center gap-1.5 text-slate-400">
                 <span>Made with</span>
                 <Heart className="w-3.5 h-3.5 text-rose-500 fill-current" />
