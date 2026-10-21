@@ -255,24 +255,6 @@ const BOOKS_DATA: BookItem[] = [
     premium: false,
   },
 
-  // ── PHARMACOLOGY BOOKS ──
-  {
-    id: "pharm-book-1",
-    title: "Katzung's Basic & Clinical Pharmacology",
-    edition: "15th Edition",
-    authors: "Bertram G. Katzung / Todd W. Vanderah",
-    driveId: "PASTE_KATZUNG_PDF_ID",
-    subjectId: "pharm",
-    subjectName: "Pharmacology & Therapeutics",
-    subjectColor: "text-emerald-400",
-    badgeColor: "bg-emerald-950/60 border-emerald-700/50 text-emerald-300",
-    coverGradient: "from-emerald-950/80 via-emerald-900/40 to-slate-900",
-    description: "Crucial chapters on local anesthetics, NSAIDs, antibiotics, and emergency drugs in dental clinics.",
-    topicsCovered: ["Local Anesthetics", "Analgesics & Opioids", "Penicillins & Macrolides", "Emergency Drugs"],
-    isHighYield: true,
-    premium: false,
-  },
-
   // ── COMMUNITY DENTISTRY BOOKS ──
   {
     id: "comm-book-1",
@@ -346,9 +328,7 @@ const SUBJECT_FILTER_LIST = [
   { id: "oral-bio", name: "Oral Biology" },
   { id: "phys", name: "Physiology" },
   { id: "biochem", name: "Biochemistry" },
-  { id: "comm-dent", name: "Community Dentistry" },
-  { id: "pharm", name: "Pharmacology" },
-  { id: "path", name: "General Pathology" }
+  { id: "comm-dent", name: "Community Dentistry" }
 ];
 
 export default function BooksLibraryPage() {
