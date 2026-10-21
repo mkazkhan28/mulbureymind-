@@ -357,6 +357,27 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               )}
             </Link>
 
+            {/* Books & Reference PDFs Library */}
+            <Link
+              href="/books"
+              className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition group ${
+                isActive("/books")
+                  ? "bg-gradient-to-r from-violet-600/20 to-purple-600/10 text-violet-300 border border-violet-500/30"
+                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+              }`}
+              title="Official BDS Textbooks & Atlases"
+            >
+              <div className="flex items-center gap-3">
+                <BookOpen className="w-4 h-4 text-purple-400 shrink-0" />
+                {!sidebarCollapsed && <span>Textbooks &amp; Atlases</span>}
+              </div>
+              {!sidebarCollapsed && (
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40">
+                  PDF
+                </span>
+              )}
+            </Link>
+
             {/* Content Library */}
             <Link
               href="/content"
