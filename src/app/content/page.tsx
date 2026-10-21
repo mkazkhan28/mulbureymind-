@@ -577,6 +577,17 @@ export default function ContentPage() {
                 <div className="flex items-center gap-3">
                   <h2 className={`text-xl font-extrabold ${subjectInfo.color}`}>{group.label}</h2>
                   <div className="h-px flex-1 bg-slate-800" />
+                  {group.id === "anat" && (
+                    <a
+                      href="https://drive.google.com/drive/folders/1Vd9BjuLO2ZNv8nIHRsrFiosw80xNhJrz"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold hover:bg-amber-500/20 transition"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Open Drive Anatomy Folder</span>
+                    </a>
+                  )}
                   <span className="text-xs text-slate-500">{group.files.length} files</span>
                 </div>
 
