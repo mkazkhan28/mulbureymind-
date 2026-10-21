@@ -866,7 +866,7 @@ export const BDS_RESOURCES: StudyResource[] = [
     title: "Guyton Physiology Dental High-Yield Revision Tables",
     type: "PDF",
     fileSize: "4.8 MB",
-    author: "BDS Study Hub Academic Team",
+    author: "Mulberry Mind Academic Team",
     isPremium: false,
     description: "Fast review sheets for cardiovascular loops, neuromuscular physiology, and acid-base disorders."
   },
@@ -896,7 +896,7 @@ export const BDS_RESOURCES: StudyResource[] = [
     title: "High-Yield Dental Pharmacology Master Summary",
     type: "PDF",
     fileSize: "4.8 MB",
-    author: "BDS Study Hub Academic Team",
+    author: "Mulberry Mind Academic Team",
     isPremium: true,
     description: "Tabular comparisons of autonomic drugs, emergency kits, local anesthetic calculations, and antimicrobials."
   },
@@ -935,24 +935,24 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     slug: "starter",
     pricePKR: 0,
     periodText: "Forever Free",
-    durationMonths: 120,
+    durationMonths: 0,
     description: "Try out the platform and practice with initial high-yield questions for BDS 1st Year.",
     features: [
       "Access to sample MCQs across all 6 first-year subjects",
-      "Basic past-paper overview (UHS & NUMS)",
+      "Basic past-paper overview (DUHS)",
       "Sample digital flashcard decks",
       "Instant quiz scoring & rationale",
       "Community discussion preview"
     ]
   },
   {
-    id: "plan-semester",
-    name: "BDS 1st Year Semester Pass",
-    slug: "semester",
-    pricePKR: 1299,
-    periodText: "for 6 Months",
-    durationMonths: 6,
-    description: "Ideal for mid-term tests, send-ups, and targeted semester examination revision.",
+    id: "plan-monthly",
+    name: "Monthly Pass",
+    slug: "monthly",
+    pricePKR: 399,
+    periodText: "per Month",
+    durationMonths: 1,
+    description: "Perfect for month-by-month exam prep.",
     features: [
       "Full access to all 6 BDS 1st Year subjects",
       "Over 3,700+ past paper & practice MCQs",
@@ -963,17 +963,34 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     ]
   },
   {
-    id: "plan-annual",
-    name: "BDS 1st Year Full Session Pass",
-    slug: "annual",
-    badge: "Most Popular & Best Value",
+    id: "plan-sixmonth",
+    name: "6-Month Semester Pass",
+    slug: "six-month",
+    badge: "Best Value",
     isPopular: true,
-    pricePKR: 1999,
+    pricePKR: 1499,
+    periodText: "for 6 Months",
+    durationMonths: 6,
+    description: "Ideal for mid-term tests, send-ups, and targeted semester examination revision.",
+    features: [
+      "Everything in Monthly Pass",
+      "6 months uninterrupted access",
+      "Timed examination mock mode",
+      "Detailed weak-topic analytics",
+      "All active recall digital flashcard decks",
+      "Priority support via WhatsApp"
+    ]
+  },
+  {
+    id: "plan-annual",
+    name: "Full Year Pass",
+    slug: "annual",
+    pricePKR: 2999,
     periodText: "for 12 Months",
     durationMonths: 12,
     description: "Complete, unrestricted access until your final university professional examination.",
     features: [
-      "Everything in Semester Pass",
+      "Everything in 6-Month Pass",
       "10+ Years of verified past papers (UHS, NUMS, KMU, DUHS)",
       "Downloadable high-yield PDF summaries & slide atlases",
       "Bookmark difficult questions for revision",
@@ -983,3 +1000,567 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     ]
   }
 ];
+
+// -------------------------------------------------------------
+// Subject Topics Structure (DUHS BDS 1st Year Curriculum)
+// -------------------------------------------------------------
+export interface SubjectTopic {
+  id: string;
+  title: string;
+  subsections: {
+    type: "ppt" | "papers" | "notes" | "mcqs";
+    label: string;
+    count: number;
+    locked?: boolean;
+  }[];
+}
+
+export const SUBJECT_TOPICS: Record<string, SubjectTopic[]> = {
+  "anatomy": [
+    {
+      id: "anat-t1",
+      title: "Introduction to Anatomy & Anatomical Terminologies",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 3, locked: false },
+        { type: "papers", label: "Past Paper Questions", count: 18, locked: false },
+        { type: "mcqs", label: "Practice MCQs", count: 40, locked: false },
+        { type: "notes", label: "Topic Notes", count: 2, locked: false }
+      ]
+    },
+    {
+      id: "anat-t2",
+      title: "Thorax & Mediastinum",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 22, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 55, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "anat-t3",
+      title: "Head & Neck Anatomy & Triangles",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 7, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 35, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 80, locked: true },
+        { type: "notes", label: "Topic Notes", count: 4, locked: true }
+      ]
+    },
+    {
+      id: "anat-t4",
+      title: "Cranial Nerves (Trigeminal CN V & Facial CN VII)",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 6, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 40, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 90, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "anat-t5",
+      title: "TMJ & Muscles of Mastication",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 28, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 60, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "anat-t6",
+      title: "Skull Osteology, Foramina & Mandible",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 30, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 65, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "anat-t7",
+      title: "Parotid & Submandibular Salivary Gland Anatomy",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 3, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 20, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 45, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "anat-t8",
+      title: "General Histology — Epithelium, Cartilage & Bone",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 25, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 50, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "anat-t9",
+      title: "Upper & Lower Limb Anatomy (General Principles)",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 18, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 35, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "anat-t10",
+      title: "Systemic Embryology — Head & Neck Development",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 20, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 40, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    }
+  ],
+
+  "physiology": [
+    {
+      id: "phys-t1",
+      title: "Introduction to Physiology & Homeostasis",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 2, locked: false },
+        { type: "papers", label: "Past Paper Questions", count: 12, locked: false },
+        { type: "mcqs", label: "Practice MCQs", count: 30, locked: false },
+        { type: "notes", label: "Topic Notes", count: 1, locked: false }
+      ]
+    },
+    {
+      id: "phys-t2",
+      title: "Action Potentials & Nerve-Muscle Transmission",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 6, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 35, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 75, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "phys-t3",
+      title: "Cardiovascular Dynamics & Blood Pressure Regulation",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 7, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 38, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 80, locked: true },
+        { type: "notes", label: "Topic Notes", count: 4, locked: true }
+      ]
+    },
+    {
+      id: "phys-t4",
+      title: "Respiratory Physiology & Gas Transport",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 28, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 60, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "phys-t5",
+      title: "Renal Function, GFR & Acid-Base Balance",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 25, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 55, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "phys-t6",
+      title: "Calcium Homeostasis & Endocrine Pancreas",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 30, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 60, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "phys-t7",
+      title: "Gastrointestinal Physiology & Salivary Secretion",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 22, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 48, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "phys-t8",
+      title: "Blood — Composition, Coagulation & Hemostasis",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 30, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 65, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "phys-t9",
+      title: "Sensory Physiology — Pain & Referred Dental Pain",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 20, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 45, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    }
+  ],
+
+  "oral-biology": [
+    {
+      id: "oral-t1",
+      title: "Amelogenesis & Enamel Microstructure",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: false },
+        { type: "papers", label: "Past Paper Questions", count: 38, locked: false },
+        { type: "mcqs", label: "Practice MCQs", count: 85, locked: false },
+        { type: "notes", label: "Topic Notes", count: 3, locked: false }
+      ]
+    },
+    {
+      id: "oral-t2",
+      title: "Dentinogenesis & Pulp-Dentin Complex",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 35, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 80, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "oral-t3",
+      title: "Periodontal Ligament (PDL) & Alveolar Bone",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 30, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 70, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "oral-t4",
+      title: "Oral Mucosa & Salivary Glands Histology",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 28, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 60, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "oral-t5",
+      title: "Permanent Tooth Morphology & Crown Anatomy",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 6, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 32, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 70, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "oral-t6",
+      title: "Cementogenesis & Cementum Histology",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 3, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 20, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 45, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "oral-t7",
+      title: "Tooth Eruption, Shedding & Chronology",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 3, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 22, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 50, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "oral-t8",
+      title: "Deciduous (Primary) Tooth Morphology",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 3, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 18, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 40, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "oral-t9",
+      title: "Tooth Development — Bud, Cap & Bell Stages",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 25, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 55, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    }
+  ],
+
+  "biochemistry": [
+    {
+      id: "biochem-t1",
+      title: "Introduction to Biochemistry & Cell Chemistry",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 3, locked: false },
+        { type: "papers", label: "Past Paper Questions", count: 15, locked: false },
+        { type: "mcqs", label: "Practice MCQs", count: 35, locked: false },
+        { type: "notes", label: "Topic Notes", count: 2, locked: false }
+      ]
+    },
+    {
+      id: "biochem-t2",
+      title: "Enzyme Kinetics & Clinical Enzymology",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 30, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 65, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "biochem-t3",
+      title: "Carbohydrate Metabolism — Glycolysis & TCA Cycle",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 6, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 32, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 70, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "biochem-t4",
+      title: "Vitamins in Collagen Synthesis & Dental Health",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 28, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 55, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "biochem-t5",
+      title: "Calcium, Phosphate & Fluoride Metabolism",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 25, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 50, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "biochem-t6",
+      title: "Lipid & Protein Metabolism",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 22, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 45, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "biochem-t7",
+      title: "Nucleic Acids, DNA Replication & Molecular Genetics",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 20, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 42, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "biochem-t8",
+      title: "Plasma Proteins, Hemoglobin & Iron Metabolism",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 3, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 18, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 38, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    }
+  ],
+
+  "pharmacology": [
+    {
+      id: "pharm-t1",
+      title: "General Pharmacology & Pharmacokinetics",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: false },
+        { type: "papers", label: "Past Paper Questions", count: 20, locked: false },
+        { type: "mcqs", label: "Practice MCQs", count: 45, locked: false },
+        { type: "notes", label: "Topic Notes", count: 2, locked: false }
+      ]
+    },
+    {
+      id: "pharm-t2",
+      title: "Local Anesthetics & Vasoconstrictors",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 6, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 38, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 80, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "pharm-t3",
+      title: "Antimicrobial Chemotherapy & Prophylaxis",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 6, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 35, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 75, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "pharm-t4",
+      title: "Analgesics, NSAIDs & Opioids",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 28, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 60, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "pharm-t5",
+      title: "Autonomic Nervous System (ANS) Drugs",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 30, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 65, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "pharm-t6",
+      title: "Medical Emergencies in the Dental Office",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 32, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 68, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "pharm-t7",
+      title: "Antifungals, Antivirals & Oral Candidiasis",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 22, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 48, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "pharm-t8",
+      title: "Corticosteroids & Immunosuppressants in Dentistry",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 3, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 20, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 42, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    }
+  ],
+
+  "general-pathology": [
+    {
+      id: "path-t1",
+      title: "Introduction to Pathology & Cellular Homeostasis",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 3, locked: false },
+        { type: "papers", label: "Past Paper Questions", count: 15, locked: false },
+        { type: "mcqs", label: "Practice MCQs", count: 35, locked: false },
+        { type: "notes", label: "Topic Notes", count: 2, locked: false }
+      ]
+    },
+    {
+      id: "path-t2",
+      title: "Cellular Injury, Adaptations & Death",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 6, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 32, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 70, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "path-t3",
+      title: "Acute & Chronic Inflammation",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 7, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 38, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 80, locked: true },
+        { type: "notes", label: "Topic Notes", count: 4, locked: true }
+      ]
+    },
+    {
+      id: "path-t4",
+      title: "Granulomatous Inflammation — TB & Sarcoidosis",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 28, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 55, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "path-t5",
+      title: "Hemodynamics, Thrombosis & Shock",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 30, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 60, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "path-t6",
+      title: "Neoplasia & Carcinogenesis",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 6, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 35, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 70, locked: true },
+        { type: "notes", label: "Topic Notes", count: 3, locked: true }
+      ]
+    },
+    {
+      id: "path-t7",
+      title: "Tissue Repair & Wound Healing",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 4, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 22, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 48, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "path-t8",
+      title: "Immunopathology — Hypersensitivity & Autoimmunity",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 5, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 25, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 50, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    },
+    {
+      id: "path-t9",
+      title: "Genetic & Congenital Disorders",
+      subsections: [
+        { type: "ppt", label: "Lecture Slides (PPT)", count: 3, locked: true },
+        { type: "papers", label: "Past Paper Questions", count: 18, locked: true },
+        { type: "mcqs", label: "Practice MCQs", count: 38, locked: true },
+        { type: "notes", label: "Topic Notes", count: 2, locked: true }
+      ]
+    }
+  ]
+};
