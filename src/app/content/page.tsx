@@ -29,7 +29,159 @@ interface ContentFile {
 }
 
 const CONTENT_FILES: ContentFile[] = [
-  // ── ANATOMY ──────────────────────────────────────────────────────────────
+  // ── ANATOMY BOOKS ────────────────────────────────────────────────────────
+  {
+    id: "anat-book-gray",
+    title: "Gray's Anatomy for Students (Relevant Chapters)",
+    type: "pdf",
+    driveId: "PASTE_GRAYS_ANATOMY_PDF_ID_HERE",
+    subject: "anat",
+    topic: "Books",
+    premium: false,
+    description: "Key chapters for DUHS BDS 1st Year: Head & Neck, Thorax, Embryology",
+  },
+  {
+    id: "anat-book-snell",
+    title: "Snell's Clinical Anatomy — BDS Edition",
+    type: "pdf",
+    driveId: "PASTE_SNELL_ANATOMY_PDF_ID_HERE",
+    subject: "anat",
+    topic: "Books",
+    premium: true,
+    description: "Clinical anatomy with dental relevance — preferred by DUHS examiners",
+  },
+  {
+    id: "anat-book-histology",
+    title: "Junqueira's Basic Histology (Histology Chapters)",
+    type: "pdf",
+    driveId: "PASTE_JUNQUEIRA_HISTOLOGY_PDF_ID_HERE",
+    subject: "anat",
+    topic: "Books",
+    premium: true,
+    description: "Epithelium, connective tissue, bone and cartilage — high yield for DUHS",
+  },
+
+  // ── PHYSIOLOGY BOOKS ──────────────────────────────────────────────────────
+  {
+    id: "phys-book-guyton",
+    title: "Guyton & Hall Medical Physiology (BDS Chapters)",
+    type: "pdf",
+    driveId: "PASTE_GUYTON_PHYSIOLOGY_PDF_ID_HERE",
+    subject: "phys",
+    topic: "Books",
+    premium: false,
+    description: "Standard reference for DUHS Physiology — CVS, Blood, Renal, Respiratory",
+  },
+  {
+    id: "phys-book-ganong",
+    title: "Ganong's Review of Medical Physiology",
+    type: "pdf",
+    driveId: "PASTE_GANONG_PHYSIOLOGY_PDF_ID_HERE",
+    subject: "phys",
+    topic: "Books",
+    premium: true,
+    description: "Concise review with exam-focused summaries for BDS 1st Year",
+  },
+
+  // ── ORAL BIOLOGY BOOKS ────────────────────────────────────────────────────
+  {
+    id: "oral-book-ten-cate",
+    title: "Ten Cate's Oral Histology",
+    type: "pdf",
+    driveId: "PASTE_TEN_CATE_PDF_ID_HERE",
+    subject: "oral-bio",
+    topic: "Books",
+    premium: false,
+    description: "Primary textbook for Oral Biology & Tooth Morphology at DUHS",
+  },
+  {
+    id: "oral-book-wheeler",
+    title: "Wheeler's Dental Anatomy, Physiology & Occlusion",
+    type: "pdf",
+    driveId: "PASTE_WHEELER_PDF_ID_HERE",
+    subject: "oral-bio",
+    topic: "Books",
+    premium: true,
+    description: "Tooth morphology and carving guide — essential for practicals",
+  },
+
+  // ── BIOCHEMISTRY BOOKS ────────────────────────────────────────────────────
+  {
+    id: "biochem-book-lehninger",
+    title: "Lehninger Principles of Biochemistry (Key Chapters)",
+    type: "pdf",
+    driveId: "PASTE_LEHNINGER_PDF_ID_HERE",
+    subject: "biochem",
+    topic: "Books",
+    premium: false,
+    description: "Metabolism, enzymes, molecular biology — DUHS BDS 1st Year relevant chapters",
+  },
+  {
+    id: "biochem-book-harper",
+    title: "Harper's Illustrated Biochemistry",
+    type: "pdf",
+    driveId: "PASTE_HARPERS_BIOCHEM_PDF_ID_HERE",
+    subject: "biochem",
+    topic: "Books",
+    premium: true,
+    description: "Most recommended by DUHS examiners — clinical correlations included",
+  },
+  {
+    id: "biochem-book-lippincott",
+    title: "Lippincott's Illustrated Biochemistry Reviews",
+    type: "pdf",
+    driveId: "PASTE_LIPPINCOTT_BIOCHEM_PDF_ID_HERE",
+    subject: "biochem",
+    topic: "Books",
+    premium: true,
+    description: "High-yield review with colored diagrams — great for rapid revision",
+  },
+
+  // ── PHARMACOLOGY BOOKS ────────────────────────────────────────────────────
+  {
+    id: "pharm-book-katzung",
+    title: "Katzung Basic & Clinical Pharmacology",
+    type: "pdf",
+    driveId: "PASTE_KATZUNG_PDF_ID_HERE",
+    subject: "pharm",
+    topic: "Books",
+    premium: false,
+    description: "Primary pharmacology text — Local anesthetics, antimicrobials, analgesics",
+  },
+  {
+    id: "pharm-book-rang",
+    title: "Rang & Dale's Pharmacology",
+    type: "pdf",
+    driveId: "PASTE_RANG_DALE_PDF_ID_HERE",
+    subject: "pharm",
+    topic: "Books",
+    premium: true,
+    description: "Comprehensive pharmacology with dental drug focus for BDS students",
+  },
+
+  // ── PATHOLOGY BOOKS ───────────────────────────────────────────────────────
+  {
+    id: "path-book-robbins",
+    title: "Robbins Basic Pathology (BDS Chapters)",
+    type: "pdf",
+    driveId: "PASTE_ROBBINS_PATHOLOGY_PDF_ID_HERE",
+    subject: "path",
+    topic: "Books",
+    premium: false,
+    description: "Inflammation, neoplasia, cell injury — the DUHS standard for Pathology",
+  },
+  {
+    id: "path-book-harsh",
+    title: "Harsh Mohan Textbook of Pathology",
+    type: "pdf",
+    driveId: "PASTE_HARSH_MOHAN_PDF_ID_HERE",
+    subject: "path",
+    topic: "Books",
+    premium: true,
+    description: "Pakistani curriculum-friendly pathology text — used widely at DUHS",
+  },
+
+  // ── ANATOMY PAST PAPERS ───────────────────────────────────────────────────
   {
     id: "anat-pp-2024",
     title: "Anatomy Past Paper 2024 — Annual Professional",
@@ -300,9 +452,10 @@ const SUBJECTS = [
 ];
 
 const TYPE_FILTER = [
-  { id: "all",       label: "All Types" },
-  { id: "past-papers", label: "Past Papers" },
-  { id: "topic-q",  label: "Topic Questions" },
+  { id: "all",        label: "All Types" },
+  { id: "books",      label: "📚 Books & PDFs" },
+  { id: "past-papers",label: "📄 Past Papers" },
+  { id: "topic-q",   label: "🗂️ Topic Questions" },
 ];
 
 function getDriveEmbedUrl(driveId: string) {
@@ -328,8 +481,9 @@ export default function ContentPage() {
   const filtered = CONTENT_FILES.filter(f => {
     const matchSubject = activeSubject === "all" || f.subject === activeSubject;
     const matchType = activeType === "all"
+      || (activeType === "books" && f.topic === "Books")
       || (activeType === "past-papers" && f.topic === "Past Papers")
-      || (activeType === "topic-q" && f.topic !== "Past Papers");
+      || (activeType === "topic-q" && f.topic !== "Past Papers" && f.topic !== "Books");
     const matchSearch = !search || f.title.toLowerCase().includes(search.toLowerCase()) || f.topic.toLowerCase().includes(search.toLowerCase());
     return matchSubject && matchType && matchSearch;
   });
@@ -415,7 +569,7 @@ export default function ContentPage() {
           displayGroups.map(group => {
             const subjectInfo = SUBJECTS.find(s => s.id === group.id)!;
             const pastPapers = group.files.filter(f => f.topic === "Past Papers").sort((a,b) => (b.year||"0").localeCompare(a.year||"0"));
-            const topicFiles = group.files.filter(f => f.topic !== "Past Papers");
+            const topicFiles = group.files.filter(f => f.topic !== "Past Papers" && f.topic !== "Books");
 
             return (
               <section key={group.id} className="space-y-5">
@@ -425,6 +579,30 @@ export default function ContentPage() {
                   <div className="h-px flex-1 bg-slate-800" />
                   <span className="text-xs text-slate-500">{group.files.length} files</span>
                 </div>
+
+                {/* Books sub-section */}
+                {(() => {
+                  const books = group.files.filter(f => f.topic === "Books");
+                  if (books.length === 0) return null;
+                  return (
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                        <span className="text-lg">📚</span>
+                        Books &amp; Reference PDFs
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {books.map(file => (
+                          <FileCard
+                            key={file.id}
+                            file={file}
+                            subjectColor={subjectInfo.color}
+                            onView={() => setViewerFile(file)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
 
                 {/* Past Papers sub-section */}
                 {pastPapers.length > 0 && (
@@ -570,9 +748,15 @@ function FileCard({
         <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
           file.topic === "Past Papers"
             ? "bg-amber-500/10 border border-amber-500/20"
+            : file.topic === "Books"
+            ? "bg-emerald-500/10 border border-emerald-500/20"
             : "bg-indigo-500/10 border border-indigo-500/20"
         }`}>
-          <FileText className={`w-4 h-4 ${file.topic === "Past Papers" ? "text-amber-400" : "text-indigo-400"}`} />
+          <FileText className={`w-4 h-4 ${
+            file.topic === "Past Papers" ? "text-amber-400"
+            : file.topic === "Books" ? "text-emerald-400"
+            : "text-indigo-400"
+          }`} />
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-white text-xs font-semibold leading-tight line-clamp-2">{file.title}</p>
