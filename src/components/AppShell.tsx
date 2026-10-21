@@ -230,24 +230,24 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             {/* Home / Overview */}
             <Link
               href="/"
-              className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition group ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition group ${
                 isActive("/") && pathname === "/"
-                  ? "bg-gradient-to-r from-indigo-600/20 to-purple-600/10 text-indigo-300 border border-indigo-500/30"
-                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-gradient-to-r from-indigo-600/25 to-purple-600/15 text-indigo-300 border border-indigo-500/40 shadow-sm"
+                  : "text-slate-200 hover:text-white hover:bg-slate-800/70"
               }`}
               title="Home"
             >
               <Home className="w-4 h-4 text-indigo-400 shrink-0" />
-              {!sidebarCollapsed && <span>Home & Showcase</span>}
+              {!sidebarCollapsed && <span>Home &amp; Showcase</span>}
             </Link>
 
             {/* Dashboard */}
             <Link
               href="/dashboard"
-              className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition group ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition group ${
                 isActive("/dashboard")
-                  ? "bg-gradient-to-r from-indigo-600/20 to-purple-600/10 text-indigo-300 border border-indigo-500/30"
-                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-gradient-to-r from-indigo-600/25 to-purple-600/15 text-indigo-300 border border-indigo-500/40 shadow-sm"
+                  : "text-slate-200 hover:text-white hover:bg-slate-800/70"
               }`}
               title="Dashboard"
             >
@@ -258,10 +258,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             {/* Subjects with Expandable Accordion */}
             <div>
               <div
-                className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition cursor-pointer select-none group ${
+                className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition cursor-pointer select-none group ${
                   isActive("/subjects")
-                    ? "bg-gradient-to-r from-indigo-600/20 to-purple-600/10 text-indigo-300 border border-indigo-500/30"
-                    : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                    ? "bg-gradient-to-r from-indigo-600/25 to-purple-600/15 text-indigo-300 border border-indigo-500/40 shadow-sm"
+                    : "text-slate-200 hover:text-white hover:bg-slate-800/70"
                 }`}
                 onClick={() => setSubjectsExpanded(!subjectsExpanded)}
                 title="Subjects (6)"
@@ -271,7 +271,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   {!sidebarCollapsed && (
                     <span className="flex items-center gap-1.5">
                       <span>DUHS 1st Year (6)</span>
-                      <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                      <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
                         6
                       </span>
                     </span>
@@ -329,20 +329,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* Section 2: Exam & Practice Center */}
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             {!sidebarCollapsed && (
-              <div className="px-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                Exam & Active Recall
+              <div className="px-3 pb-1 text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
+                Exam &amp; Active Recall
               </div>
             )}
 
             {/* BCQ Exam Simulator */}
             <Link
               href="/practice"
-              className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition group ${
+              className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition group ${
                 isActive("/practice")
-                  ? "bg-gradient-to-r from-indigo-600/20 to-purple-600/10 text-indigo-300 border border-indigo-500/30"
-                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-gradient-to-r from-indigo-600/25 to-purple-600/15 text-indigo-300 border border-indigo-500/40 shadow-sm"
+                  : "text-slate-200 hover:text-white hover:bg-slate-800/70"
               }`}
               title="BCQ Simulator"
             >
@@ -351,7 +351,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 {!sidebarCollapsed && <span>BCQ Simulator</span>}
               </div>
               {!sidebarCollapsed && (
-                <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse">
                   LIVE
                 </span>
               )}
@@ -360,10 +360,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             {/* Books & Reference PDFs Library */}
             <Link
               href="/books"
-              className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition group ${
+              className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition group ${
                 isActive("/books")
-                  ? "bg-gradient-to-r from-violet-600/20 to-purple-600/10 text-violet-300 border border-violet-500/30"
-                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-gradient-to-r from-violet-600/25 to-purple-600/15 text-violet-300 border border-violet-500/40 shadow-sm"
+                  : "text-slate-200 hover:text-white hover:bg-slate-800/70"
               }`}
               title="Official BDS Textbooks & Atlases"
             >
@@ -372,7 +372,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 {!sidebarCollapsed && <span>Textbooks &amp; Atlases</span>}
               </div>
               {!sidebarCollapsed && (
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40">
                   PDF
                 </span>
               )}
@@ -381,10 +381,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             {/* Content Library */}
             <Link
               href="/content"
-              className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition group ${
+              className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition group ${
                 isActive("/content")
-                  ? "bg-gradient-to-r from-violet-600/20 to-purple-600/10 text-violet-300 border border-violet-500/30"
-                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-gradient-to-r from-violet-600/25 to-purple-600/15 text-violet-300 border border-violet-500/40 shadow-sm"
+                  : "text-slate-200 hover:text-white hover:bg-slate-800/70"
               }`}
               title="Past Papers & Topic Questions"
             >
@@ -393,17 +393,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 {!sidebarCollapsed && <span>Papers &amp; Questions</span>}
               </div>
               {!sidebarCollapsed && (
-                <span className="text-[10px] text-emerald-400 font-bold">NEW</span>
+                <span className="text-[10px] text-emerald-400 font-extrabold">NEW</span>
               )}
             </Link>
 
             {/* DUHS Past Papers */}
             <Link
               href="/past-papers"
-              className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition group ${
+              className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition group ${
                 isActive("/past-papers")
-                  ? "bg-gradient-to-r from-indigo-600/20 to-purple-600/10 text-indigo-300 border border-indigo-500/30"
-                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-gradient-to-r from-indigo-600/25 to-purple-600/15 text-indigo-300 border border-indigo-500/40 shadow-sm"
+                  : "text-slate-200 hover:text-white hover:bg-slate-800/70"
               }`}
               title="DUHS Past Papers"
             >
@@ -412,17 +412,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 {!sidebarCollapsed && <span>DUHS Past Papers</span>}
               </div>
               {!sidebarCollapsed && (
-                <span className="text-[10px] text-slate-400 font-mono">2015–24</span>
+                <span className="text-[10px] text-slate-400 font-mono font-bold">2015–24</span>
               )}
             </Link>
 
             {/* 3D Flashcards */}
             <Link
               href="/flashcards"
-              className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition group ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition group ${
                 isActive("/flashcards")
-                  ? "bg-gradient-to-r from-indigo-600/20 to-purple-600/10 text-indigo-300 border border-indigo-500/30"
-                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-gradient-to-r from-indigo-600/25 to-purple-600/15 text-indigo-300 border border-indigo-500/40 shadow-sm"
+                  : "text-slate-200 hover:text-white hover:bg-slate-800/70"
               }`}
               title="Flashcards"
             >
@@ -433,15 +433,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             {/* Lecture Notes & Slides */}
             <Link
               href="/resources"
-              className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition group ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition group ${
                 isActive("/resources")
-                  ? "bg-gradient-to-r from-indigo-600/20 to-purple-600/10 text-indigo-300 border border-indigo-500/30"
-                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-gradient-to-r from-indigo-600/25 to-purple-600/15 text-indigo-300 border border-indigo-500/40 shadow-sm"
+                  : "text-slate-200 hover:text-white hover:bg-slate-800/70"
               }`}
               title="Notes & Slides"
             >
               <FileText className="w-4 h-4 text-sky-400 shrink-0" />
-              {!sidebarCollapsed && <span>Notes & Slide Atlases</span>}
+              {!sidebarCollapsed && <span>Notes &amp; Slide Atlases</span>}
             </Link>
           </div>
 
