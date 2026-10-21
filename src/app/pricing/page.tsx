@@ -1,197 +1,204 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import {
-  MEMBERSHIP_PLANS
-} from "@/lib/bds-content";
-import {
-  Sparkles,
-  ShieldCheck,
-  HelpCircle,
-  ArrowRight,
-  Check
-} from "lucide-react";
+import { MEMBERSHIP_PLANS } from "@/lib/bds-content";
+import { Sparkles, ShieldCheck, Check, HelpCircle, Zap, Crown, Clock, Infinity } from "lucide-react";
+
+const planGradients = [
+  { card: "from-slate-900 to-slate-900/80", button: "bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200", border: "border-slate-800", icon: <Clock className="w-5 h-5 text-slate-400" /> },
+  { card: "from-blue-950/80 to-indigo-950/60", button: "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/20", border: "border-blue-800/60", icon: <Zap className="w-5 h-5 text-blue-400" /> },
+  { card: "from-violet-950/80 to-purple-950/60", button: "bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg shadow-violet-500/30", border: "border-violet-600/60 ring-2 ring-violet-500/20", icon: <Crown className="w-5 h-5 text-violet-400" /> },
+  { card: "from-indigo-950/80 to-blue-950/60", button: "bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white shadow-lg shadow-indigo-500/20", border: "border-indigo-700/60", icon: <Infinity className="w-5 h-5 text-indigo-400" /> },
+];
+
+const faqs = [
+  { q: "Which payment methods are accepted?", a: "JazzCash, Easypaisa, local debit/credit cards (Visa, Mastercard, PayPak), and direct bank transfer (Raast / IBFT). Instant activation on payment." },
+  { q: "Does the plan include all 6 subjects?", a: "Yes! All paid plans grant 100% access to all 6 BDS 1st Year subjects: Anatomy, Physiology, Oral Biology, Biochemistry, Pharmacology & Pathology." },
+  { q: "What about BDS 2nd, 3rd, and Final Year?", a: "Those modules are pending and will unlock in upcoming sessions. Current focus is 100% dedicated to DUHS BDS 1st Year professional exam mastery." },
+  { q: "Can I use Mulberry Mind on my smartphone?", a: "Yes! 100% mobile-friendly for Android, iPhone, iPad, and laptops with fast load times." },
+  { q: "Are questions verified for DUHS Karachi?", a: "Yes. BCQs are verified from DUHS past papers 2015–2024 (DIKIOHS, DDC & DIDC) with referenced textbook rationales." },
+  { q: "Can I upgrade my plan later?", a: "Yes — upgrade at any time without losing saved progress, quiz attempts, or bookmarked questions." },
+];
 
 export default function PricingPage() {
-  const faqs = [
-    {
-      q: "Which payment methods are accepted in Pakistan?",
-      a: "We support JazzCash, Easypaisa, local debit/credit cards (Visa, Mastercard, PayPak), and direct online bank transfer (Raast / IBFT). You can pay from any mobile account in less than 2 minutes."
-    },
-    {
-      q: "Does the DUHS 1st Year pass include all 6 subjects?",
-      a: "Yes! Both the Semester Pass and the Full Annual Pass grant 100% full access to all 6 BDS 1st Year subjects: General Anatomy & Histology, Human Physiology, Oral Biology & Tooth Morphology, Biochemistry, Pharmacology & Therapeutics, and General Pathology. There are zero per-subject charges."
-    },
-    {
-      q: "What about BDS 2nd, 3rd, and Final year content?",
-      a: "BDS 2nd, 3rd, and Final year modules are currently pending and scheduled to unlock in upcoming sessions. Our current launch focus is 100% dedicated to BDS 1st Year DUHS professional examination mastery."
-    },
-    {
-      q: "Can I use BDS Study Hub on my smartphone?",
-      a: "Yes! The platform is 100% mobile-friendly and optimized for Android, iPhone, iPad, tablets, and Windows/Mac laptops with fast load times."
-    },
-    {
-      q: "Are the questions verified for Dow University of Health Sciences?",
-      a: "Yes. Our BCQ repository contains verified past papers and modular assessments from 2015 to 2024 from DUHS Karachi (DIKIOHS, DDC & DIDC) with referenced textbook rationales."
-    },
-    {
-      q: "Can I upgrade from Free Starter to the Annual Pass later?",
-      a: "Yes, you can upgrade your account at any time without losing any of your saved progress, quiz attempts, or bookmarked questions."
-    }
-  ];
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 py-8 sm:py-14 relative overflow-hidden">
-      {/* Decorative ambient background glows */}
-      <div className="absolute top-0 left-1/3 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen bg-[#070b14] text-slate-100 py-10 sm:py-16 relative overflow-hidden">
+      {/* Ambient glows */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
-        
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-950/60 border border-indigo-700/60 text-indigo-300 text-xs font-semibold shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Transparent Student Pricing</span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20 relative z-10">
+
+        {/* ── Header ── */}
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-950/60 border border-violet-700/50 text-violet-300 text-xs font-bold shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-violet-400" />
+            Transparent PKR Pricing — No Hidden Fees
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Invest in Your DUHS BDS 1st Year Success
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+            Choose Your Study Plan
           </h1>
-          <p className="text-slate-300 text-xs sm:text-base leading-relaxed">
-            Affordable PKR pricing tailored for 1st Year dental students in Karachi & Pakistan. Instant activation with zero hidden fees.
+          <p className="text-slate-300 text-base leading-relaxed">
+            Affordable pricing for DUHS Karachi dental students. Instant activation with JazzCash, Easypaisa, or bank transfer.
           </p>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-          {MEMBERSHIP_PLANS.map((plan) => {
-            const isAnnual = plan.id === "plan-annual";
+        {/* ── Pricing Cards ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch">
+          {MEMBERSHIP_PLANS.map((plan, i) => {
+            const style = planGradients[i] || planGradients[0];
             return (
               <div
                 key={plan.id}
-                className={`rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 relative bg-slate-900/80 backdrop-blur-xl shadow-2xl ${
-                  isAnnual
-                    ? "border-2 border-indigo-500 shadow-indigo-500/20 hover:shadow-indigo-500/30 ring-1 ring-indigo-400/50"
-                    : "border border-slate-800 hover:border-slate-700 hover:shadow-slate-800/50"
-                }`}
+                className={`relative flex flex-col rounded-3xl p-7 bg-gradient-to-br ${style.card} border ${style.border} transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl`}
               >
-                {isAnnual && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[10px] font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-lg shadow-indigo-600/40 border border-indigo-400/40">
-                    DUHS 1st Year Recommended
+                {/* Popular badge */}
+                {plan.badge && (
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-5 py-1 rounded-full bg-gradient-to-r from-violet-600 to-purple-600 text-white text-[10px] font-extrabold tracking-wide whitespace-nowrap shadow-lg shadow-violet-500/40">
+                    {plan.badge}
                   </div>
                 )}
 
-                <div className="space-y-6">
-                  <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">
-                      {plan.name}
-                    </span>
-                    <div className="flex items-baseline gap-1.5 mt-3">
-                      <span className="text-3xl sm:text-4xl font-extrabold text-white">
-                        PKR {plan.pricePKR.toLocaleString()}
-                      </span>
-                      <span className="text-xs text-slate-400 font-medium">
-                        / {plan.periodText}
-                      </span>
+                {/* Icon + Plan name */}
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center">
+                    {style.icon}
+                  </div>
+                  <h3 className="font-bold text-white text-sm leading-tight">{plan.name}</h3>
+                </div>
+
+                {/* Price */}
+                <div className="mb-2">
+                  {plan.pricePKR === 0 ? (
+                    <div className="text-4xl font-extrabold text-emerald-400">Free</div>
+                  ) : (
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-slate-400 text-sm font-semibold">PKR</span>
+                      <span className="text-4xl font-extrabold text-white">{plan.pricePKR.toLocaleString()}</span>
                     </div>
-                    <p className="text-xs text-slate-300 mt-2.5 leading-relaxed">
-                      {plan.description}
-                    </p>
-                  </div>
-
-                  <div className="space-y-3 pt-5 border-t border-slate-800/80">
-                    <span className="text-xs font-semibold text-slate-300">
-                      What&apos;s included:
-                    </span>
-                    <ul className="space-y-2.5 text-xs text-slate-300">
-                      {plan.features.map((feat, idx) => (
-                        <li key={idx} className="flex items-start gap-2.5">
-                          <Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                          <span className="leading-snug">{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  )}
+                  <p className="text-slate-500 text-xs mt-1 font-medium">{plan.periodText}</p>
                 </div>
 
-                <div className="pt-8 mt-6">
-                  <Link
-                    href={`/checkout?plan=${plan.id}`}
-                    className={`w-full py-3.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-lg ${
-                      isAnnual
-                        ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white shadow-indigo-600/30"
-                        : "bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-700"
-                    }`}
-                  >
-                    <span>{plan.pricePKR === 0 ? "Get Started Free" : `Choose ${plan.name}`}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
+                <p className="text-slate-400 text-xs leading-relaxed mb-5 border-t border-slate-800 pt-4">
+                  {plan.description}
+                </p>
+
+                {/* Features */}
+                <ul className="space-y-2.5 mb-6 flex-1">
+                  {plan.features.map((f, fi) => (
+                    <li key={fi} className="flex items-start gap-2.5 text-xs text-slate-300">
+                      <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA */}
+                <Link
+                  href={plan.pricePKR === 0 ? "/signup" : `/checkout?plan=${plan.slug}`}
+                  className={`w-full py-3 rounded-xl text-center text-xs font-bold transition-all duration-300 ${style.button}`}
+                >
+                  {plan.pricePKR === 0 ? "Get Started Free →" : `Choose ${plan.name} →`}
+                </Link>
               </div>
             );
           })}
         </div>
 
-        {/* Local Payment Methods Banner */}
-        <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-800/80 p-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-indigo-950/80 border border-indigo-700/60 flex items-center justify-center text-indigo-400 shrink-0 shadow-lg shadow-indigo-600/20">
-              <ShieldCheck className="w-7 h-7" />
+        {/* ── Trust badges ── */}
+        <div className="flex flex-wrap items-center justify-center gap-6 py-2">
+          {[
+            { icon: ShieldCheck, label: "Instant Activation" },
+            { icon: ShieldCheck, label: "JazzCash & Easypaisa" },
+            { icon: ShieldCheck, label: "Cancel Anytime" },
+            { icon: ShieldCheck, label: "DUHS Verified Content" },
+          ].map(({ icon: Icon, label }) => (
+            <div key={label} className="flex items-center gap-2 text-sm text-slate-400">
+              <Icon className="w-4 h-4 text-emerald-400" />
+              {label}
             </div>
-            <div>
-              <h3 className="font-bold text-white text-base sm:text-lg">
-                100% Secure Local Pakistani Payment Gateways
-              </h3>
-              <p className="text-xs text-slate-300 mt-1 max-w-lg leading-relaxed">
-                Activate your account via JazzCash Mobile Account, Easypaisa, Raast, or direct bank transfer. All payments include our full satisfaction guarantee.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2.5 flex-wrap justify-center shrink-0">
-            <span className="px-3.5 py-1.5 bg-slate-950 border border-rose-800/60 rounded-xl text-xs font-bold text-rose-300">
-              JazzCash
-            </span>
-            <span className="px-3.5 py-1.5 bg-slate-950 border border-emerald-800/60 rounded-xl text-xs font-bold text-emerald-300">
-              Easypaisa
-            </span>
-            <span className="px-3.5 py-1.5 bg-slate-950 border border-cyan-800/60 rounded-xl text-xs font-bold text-cyan-300">
-              Raast / IBFT
-            </span>
-          </div>
+          ))}
         </div>
 
-        {/* FAQ Section */}
-        <div className="space-y-6 max-w-4xl mx-auto">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xs text-slate-400">
-              Everything you need to know about DUHS BDS subscriptions and instant activation.
-            </p>
-          </div>
+        {/* ── Comparison Table ── */}
+        <div className="overflow-x-auto rounded-3xl border border-slate-800 bg-slate-900/50 backdrop-blur-sm">
+          <table className="w-full text-sm min-w-[600px]">
+            <thead>
+              <tr className="border-b border-slate-800">
+                <th className="text-left px-6 py-4 text-slate-400 font-semibold">Feature</th>
+                {MEMBERSHIP_PLANS.map(p => (
+                  <th key={p.id} className="px-4 py-4 text-center text-white font-bold text-xs">
+                    {p.name}
+                    <div className="text-slate-500 font-normal text-[10px] mt-0.5">
+                      {p.pricePKR === 0 ? "Free" : `PKR ${p.pricePKR.toLocaleString()}`}
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-800/60">
+              {[
+                ["Sample MCQs (all 6 subjects)", true, true, true, true],
+                ["Full BCQ practice library (3,700+)", false, true, true, true],
+                ["Timed mock examination mode", false, true, true, true],
+                ["3D Flashcard decks", "Sample", true, true, true],
+                ["DUHS Past papers 2015–2024", false, true, true, true],
+                ["Weak-topic analytics", false, true, true, true],
+                ["Lecture slides & PDF notes", false, false, true, true],
+                ["Priority WhatsApp support", false, false, true, true],
+                ["Bookmark & review later", false, false, true, true],
+                ["Future content updates free", false, false, false, true],
+              ].map(([feature, ...vals]) => (
+                <tr key={feature as string} className="hover:bg-slate-800/30 transition">
+                  <td className="px-6 py-3.5 text-slate-300 text-xs font-medium">{feature as string}</td>
+                  {vals.map((v, vi) => (
+                    <td key={vi} className="px-4 py-3.5 text-center">
+                      {v === true ? (
+                        <Check className="w-4 h-4 text-emerald-400 mx-auto" />
+                      ) : v === false ? (
+                        <span className="text-slate-700 text-lg">—</span>
+                      ) : (
+                        <span className="text-xs text-amber-400 font-semibold">{v as string}</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 p-5 sm:p-6 shadow-xl space-y-2"
+        {/* ── FAQs ── */}
+        <div className="max-w-3xl mx-auto space-y-4">
+          <h2 className="text-2xl font-extrabold text-white text-center mb-8">
+            <HelpCircle className="w-6 h-6 inline mr-2 text-indigo-400" />
+            Frequently Asked Questions
+          </h2>
+          {faqs.map((faq, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden transition-all"
+            >
+              <button
+                className="w-full flex items-center justify-between px-6 py-4 text-left"
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
               >
-                <div className="font-semibold text-white text-xs sm:text-sm flex items-start gap-2.5">
-                  <HelpCircle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                  <span>{faq.q}</span>
-                </div>
-                <p className="text-xs text-slate-300 leading-relaxed pl-6.5">
+                <span className="font-semibold text-slate-200 text-sm">{faq.q}</span>
+                <span className={`text-indigo-400 text-lg font-bold transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+              </button>
+              {openFaq === i && (
+                <div className="px-6 pb-5 text-slate-400 text-sm leading-relaxed border-t border-slate-800 pt-4">
                   {faq.a}
-                </p>
-              </div>
-            ))}
-          </div>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-
       </div>
     </div>
   );
