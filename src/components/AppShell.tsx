@@ -357,6 +357,25 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               )}
             </Link>
 
+            {/* Content Library */}
+            <Link
+              href="/content"
+              className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition group ${
+                isActive("/content")
+                  ? "bg-gradient-to-r from-violet-600/20 to-purple-600/10 text-violet-300 border border-violet-500/30"
+                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+              }`}
+              title="Past Papers & Topic Questions"
+            >
+              <div className="flex items-center gap-3">
+                <FileText className="w-4 h-4 text-violet-400 shrink-0" />
+                {!sidebarCollapsed && <span>Papers &amp; Questions</span>}
+              </div>
+              {!sidebarCollapsed && (
+                <span className="text-[10px] text-emerald-400 font-bold">NEW</span>
+              )}
+            </Link>
+
             {/* DUHS Past Papers */}
             <Link
               href="/past-papers"
