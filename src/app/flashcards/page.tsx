@@ -80,7 +80,7 @@ export default function FlashcardsLibraryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 py-8 sm:py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
       {/* Decorative ambient background glows */}
       <div className="absolute top-0 left-1/3 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -93,7 +93,7 @@ export default function FlashcardsLibraryPage() {
             <Zap className="w-3.5 h-3.5 text-cyan-400" />
             <span>DUHS Active-Recall Flashcards</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-ink tracking-tight">
             Flashcard Library for DUHS BDS 1st Year
           </h1>
           <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
@@ -110,7 +110,7 @@ export default function FlashcardsLibraryPage() {
               placeholder="Search flashcard decks (e.g. Hunter-Schreger, Cranial Nerves, Lidocaine)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition"
+              className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition"
             />
           </div>
 
@@ -118,7 +118,7 @@ export default function FlashcardsLibraryPage() {
             <select
               value={selectedSubject}
               onChange={(e) => setSelectedSubject(e.target.value)}
-              className="w-full sm:w-64 px-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/40 font-medium cursor-pointer"
+              className="w-full sm:w-64 px-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink focus:outline-none focus:ring-2 focus:ring-cyan-500/40 font-medium cursor-pointer"
             >
               <option value="all">All 6 Core 1st Year Subjects</option>
               {firstYearSubjects.map((s) => (
@@ -155,7 +155,7 @@ export default function FlashcardsLibraryPage() {
                     <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${style.badge}`}>
                       {subject?.name}
                     </span>
-                    <h2 className="text-lg font-bold text-white leading-snug mt-2.5 group-hover:text-cyan-300 transition">
+                    <h2 className="text-lg font-bold text-ink leading-snug mt-2.5 group-hover:text-cyan-300 transition">
                       {deck.title}
                     </h2>
                     <p className="text-xs text-slate-300 mt-2 leading-relaxed">

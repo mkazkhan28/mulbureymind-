@@ -10,49 +10,48 @@ interface ThemeContextType {
   setTheme: (theme: ThemeMode) => void;
 }
 
+const STORAGE_KEY = "bds-theme";
+
 const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
   setTheme: () => {},
 });
 
+/**
+ * Runs before React hydrates (injected in layout.tsx) so the saved theme is
+ * applied on first paint — no flash of the wrong theme. Light is the default.
+ */
+export const themeInitScript = `(function(){try{var t=localStorage.getItem("${STORAGE_KEY}");var r=document.documentElement;if(t==="dark"){r.classList.add("dark");r.classList.remove("light");}else{r.classList.add("light");r.classList.remove("dark");}}catch(e){}})();`;
+
+function applyTheme(t: ThemeMode) {
+  const root = document.documentElement;
+  root.classList.toggle("dark", t === "dark");
+  root.classList.toggle("light", t === "light");
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeMode>("dark");
+  const [theme, setThemeState] = useState<ThemeMode>("light");
 
   useEffect(() => {
-    // Check saved preference or system preference
-    const saved = localStorage.getItem("bds-theme") as ThemeMode | null;
-    if (saved === "light" || saved === "dark") {
-      setThemeState(saved);
-      applyTheme(saved);
-    } else {
-      applyTheme("dark");
-    }
+    const current = document.documentElement.classList.contains("dark") ? "dark" : "light";
+    setThemeState(current);
+    // enable smooth colour transitions only after first paint
+    const id = window.setTimeout(() => document.documentElement.classList.add("theme-ready"), 100);
+    return () => window.clearTimeout(id);
   }, []);
-
-  const applyTheme = (t: ThemeMode) => {
-    const root = document.documentElement;
-    if (t === "light") {
-      root.classList.remove("dark");
-      root.classList.add("light");
-      root.style.colorScheme = "light";
-    } else {
-      root.classList.remove("light");
-      root.classList.add("dark");
-      root.style.colorScheme = "dark";
-    }
-  };
 
   const setTheme = (t: ThemeMode) => {
     setThemeState(t);
-    localStorage.setItem("bds-theme", t);
+    try {
+      localStorage.setItem(STORAGE_KEY, t);
+    } catch {
+      /* storage unavailable (private mode) — theme still applies for this visit */
+    }
     applyTheme(t);
   };
 
-  const toggleTheme = () => {
-    const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
-  };
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>

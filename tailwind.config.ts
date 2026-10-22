@@ -1,5 +1,23 @@
 import type { Config } from "tailwindcss";
 
+/*
+ * Mulberry Mind theme
+ * -------------------
+ * Every colour below points at a CSS variable defined in src/app/globals.css.
+ * The light theme (default) and the dark theme (html.dark) each set their own
+ * values, so one class name renders differently in each theme:
+ *   light → white surfaces, mulberry (brand) + violet (accent)
+ *   dark  → midnight navy surfaces, teal (brand) + azure (accent)
+ * `indigo` and `blue` are aliases of `brand`; `violet` and `purple` alias `accent`.
+ */
+const SHADES = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"];
+const v = (name: string) => `rgb(var(--c-${name}) / <alpha-value>)`;
+const scale = (name: string, extra: string[] = []) =>
+  Object.fromEntries([...SHADES, ...extra].map((s) => [s, v(`${name}-${s}`)]));
+
+const brand = scale("brand");
+const accent = scale("accent");
+
 const config: Config = {
   darkMode: "class",
   content: [
@@ -10,48 +28,34 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Deep obsidian canvas & surfaces
-        duhsDark: {
-          950: "#050811",
-          900: "#070b14",
-          850: "#0b101f",
-          800: "#0f1629",
-          750: "#141c33",
-          700: "#1a2440",
-          600: "#243254",
-        },
-        // Modern jewel accents
-        jewelAmber: {
-          400: "#fbbf24",
-          500: "#f59e0b",
-          600: "#d97706",
-        },
-        jewelRose: {
-          400: "#fb7185",
-          500: "#f43f5e",
-          600: "#e11d48",
-        },
-        jewelCyan: {
-          400: "#22d3ee",
-          500: "#06b6d4",
-          600: "#0891b2",
-        },
-        jewelViolet: {
-          400: "#a78bfa",
-          500: "#8b5cf6",
-          600: "#7c3aed",
-        },
-        jewelEmerald: {
-          400: "#34d399",
-          500: "#10b981",
-          600: "#059669",
-        },
-        jewelBlue: {
-          400: "#60a5fa",
-          500: "#3b82f6",
-          600: "#2563eb",
-          700: "#1d4ed8",
-        }
+        canvas: v("canvas"),
+        surface: { DEFAULT: v("surface"), 2: v("surface-2") },
+        ink: v("ink"),
+        muted: v("muted"),
+        line: v("line"),
+        brand,
+        accent,
+        indigo: brand,
+        blue: brand,
+        violet: accent,
+        purple: accent,
+        slate: scale("slate", ["850"]),
+        amber: scale("amber"),
+        rose: scale("rose"),
+        pink: scale("pink"),
+        cyan: scale("cyan"),
+        sky: scale("sky"),
+        teal: scale("teal"),
+        emerald: scale("emerald"),
+        stone: scale("stone"),
+      },
+      fontFamily: {
+        sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
+      },
+      boxShadow: {
+        soft: "0 1px 2px rgb(var(--c-shadow) / 0.06), 0 8px 24px -6px rgb(var(--c-shadow) / 0.10)",
+        lift: "0 2px 4px rgb(var(--c-shadow) / 0.06), 0 22px 48px -12px rgb(var(--c-shadow) / 0.22)",
       },
       keyframes: {
         float: {
@@ -72,14 +76,44 @@ const config: Config = {
         fadeIn: {
           from: { opacity: "0", transform: "translateY(8px)" },
           to: { opacity: "1", transform: "translateY(0)" },
-        }
+        },
+        rise: {
+          from: { opacity: "0", transform: "translateY(24px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "slide-in-right": {
+          from: { opacity: "0", transform: "translateX(28px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
+        drift: {
+          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
+          "33%": { transform: "translate(30px, -40px) scale(1.08)" },
+          "66%": { transform: "translate(-25px, 20px) scale(0.95)" },
+        },
+        "gradient-pan": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
+        },
+        "spin-slow": {
+          to: { transform: "rotate(360deg)" },
+        },
       },
       animation: {
         float: "float 4s ease-in-out infinite",
         "float-slow": "float-slow 6s ease-in-out infinite",
         "pulse-glow": "pulse-glow 4s ease-in-out infinite",
         fadeIn: "fadeIn 0.4s ease-out forwards",
-      }
+        rise: "rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "slide-in-right": "slide-in-right 0.7s cubic-bezier(0.22, 1, 0.36, 1) both",
+        drift: "drift 18s ease-in-out infinite",
+        "gradient-pan": "gradient-pan 8s ease infinite",
+        marquee: "marquee 40s linear infinite",
+        "spin-slow": "spin-slow 24s linear infinite",
+      },
     },
   },
   plugins: [],

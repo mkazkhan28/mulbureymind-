@@ -66,7 +66,7 @@ export default function PastPapersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 py-8 sm:py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
       {/* Decorative ambient background glows */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 left-10 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -80,7 +80,7 @@ export default function PastPapersPage() {
             <Award className="w-3.5 h-3.5 text-indigo-400" />
             <span>DUHS Karachi BDS 1st Year Archive</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-ink tracking-tight">
             DUHS Past-Paper BCQs (2015–2024)
           </h1>
           <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
@@ -99,7 +99,7 @@ export default function PastPapersPage() {
                 placeholder="Search DUHS questions (e.g. lingula, amelogenin, lidocaine, necrosis)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
+                className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
               />
             </div>
 
@@ -108,7 +108,7 @@ export default function PastPapersPage() {
               <select
                 value={selectedSubject}
                 onChange={(e) => setSelectedSubject(e.target.value)}
-                className="w-full sm:w-64 px-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 font-medium cursor-pointer"
+                className="w-full sm:w-64 px-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink focus:outline-none focus:ring-2 focus:ring-indigo-500/40 font-medium cursor-pointer"
               >
                 <option value="all">All 6 Core 1st Year Subjects</option>
                 {firstYearSubjects.map((s) => (
@@ -133,7 +133,7 @@ export default function PastPapersPage() {
               DIDC (Dow International)
             </span>
             <span className="ml-auto text-slate-400 font-semibold shrink-0">
-              Showing <span className="text-white font-bold">{filteredMCQs.length}</span> questions
+              Showing <span className="text-ink font-bold">{filteredMCQs.length}</span> questions
             </span>
           </div>
         </div>
@@ -143,7 +143,7 @@ export default function PastPapersPage() {
           {filteredMCQs.length === 0 ? (
             <div className="bg-slate-900/80 backdrop-blur-xl p-12 rounded-3xl border border-slate-800/80 text-center space-y-3">
               <Search className="w-8 h-8 text-slate-500 mx-auto" />
-              <h3 className="text-base font-bold text-white">No questions found matching your filter</h3>
+              <h3 className="text-base font-bold text-ink">No questions found matching your filter</h3>
               <p className="text-xs text-slate-400">Try adjusting your search keywords or select "All 6 Core 1st Year Subjects".</p>
             </div>
           ) : (
@@ -187,7 +187,7 @@ export default function PastPapersPage() {
                   </div>
 
                   {/* Question Stem */}
-                  <p className="text-sm sm:text-base font-semibold text-white leading-relaxed">
+                  <p className="text-sm sm:text-base font-semibold text-ink leading-relaxed">
                     {q.question}
                   </p>
 
@@ -239,7 +239,7 @@ export default function PastPapersPage() {
         {/* Bottom Banner */}
         <div className="bg-gradient-to-r from-blue-950/80 via-indigo-950/80 to-purple-950/80 backdrop-blur-xl border border-indigo-800/60 p-6 sm:p-8 rounded-3xl shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div className="space-y-1 max-w-xl">
-            <h3 className="text-lg sm:text-xl font-extrabold text-white">
+            <h3 className="text-lg sm:text-xl font-extrabold text-ink">
               Want to take these under official exam conditions?
             </h3>
             <p className="text-xs sm:text-sm text-slate-300">

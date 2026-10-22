@@ -229,7 +229,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
   });
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-200 py-10 sm:py-16">
+    <div className="min-h-screen bg-canvas text-slate-200 py-10 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Header */}
@@ -243,14 +243,14 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                 Admin Mode
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-ink mt-1">
               BDS Content & Student Management
             </h1>
           </div>
 
           <Link
             href="/dashboard"
-            className="px-4 py-2 bg-[#0c182a] border border-[#1e3452] rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-[#182c48] transition"
+            className="px-4 py-2 bg-surface border border-[#1e3452] rounded-xl text-xs font-semibold text-slate-300 hover:text-ink hover:bg-surface-2 transition"
           >
             ← View as Student
           </Link>
@@ -263,7 +263,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
             className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-2 ${
               activeTab === "overview"
                 ? "bg-blue-600 text-white shadow-md shadow-blue-950/50"
-                : "bg-[#0c182a] text-slate-300 border border-[#1e3452] hover:bg-[#162740] hover:text-white"
+                : "bg-surface text-slate-300 border border-[#1e3452] hover:bg-surface-2 hover:text-white"
             }`}
           >
             <LayoutDashboard className="w-3.5 h-3.5" />
@@ -275,7 +275,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
             className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-2 ${
               activeTab === "mcqs"
                 ? "bg-blue-600 text-white shadow-md shadow-blue-950/50"
-                : "bg-[#0c182a] text-slate-300 border border-[#1e3452] hover:bg-[#162740] hover:text-white"
+                : "bg-surface text-slate-300 border border-[#1e3452] hover:bg-surface-2 hover:text-white"
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
@@ -287,7 +287,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
             className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-2 ${
               activeTab === "csv"
                 ? "bg-blue-600 text-white shadow-md shadow-blue-950/50"
-                : "bg-[#0c182a] text-slate-300 border border-[#1e3452] hover:bg-[#162740] hover:text-white"
+                : "bg-surface text-slate-300 border border-[#1e3452] hover:bg-surface-2 hover:text-white"
             }`}
           >
             <UploadCloud className="w-3.5 h-3.5" />
@@ -299,7 +299,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
             className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-2 ${
               activeTab === "subjects"
                 ? "bg-blue-600 text-white shadow-md shadow-blue-950/50"
-                : "bg-[#0c182a] text-slate-300 border border-[#1e3452] hover:bg-[#162740] hover:text-white"
+                : "bg-surface text-slate-300 border border-[#1e3452] hover:bg-surface-2 hover:text-white"
             }`}
           >
             <BookOpen className="w-3.5 h-3.5" />
@@ -311,7 +311,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
             className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-2 ${
               activeTab === "resources"
                 ? "bg-blue-600 text-white shadow-md shadow-blue-950/50"
-                : "bg-[#0c182a] text-slate-300 border border-[#1e3452] hover:bg-[#162740] hover:text-white"
+                : "bg-surface text-slate-300 border border-[#1e3452] hover:bg-surface-2 hover:text-white"
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
@@ -323,7 +323,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
             className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 flex items-center gap-2 ${
               activeTab === "members"
                 ? "bg-blue-600 text-white shadow-md shadow-blue-950/50"
-                : "bg-[#0c182a] text-slate-300 border border-[#1e3452] hover:bg-[#162740] hover:text-white"
+                : "bg-surface text-slate-300 border border-[#1e3452] hover:bg-surface-2 hover:text-white"
             }`}
           >
             <Users className="w-3.5 h-3.5" />
@@ -344,33 +344,33 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
         {activeTab === "overview" && (
           <div className="space-y-8 animate-fadeIn">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-[#132238] p-6 rounded-2xl border border-[#1e3452] shadow-sm space-y-1">
+              <div className="bg-surface-2 p-6 rounded-2xl border border-[#1e3452] shadow-sm space-y-1">
                 <div className="text-xs text-slate-400 font-medium">Registered Students</div>
-                <div className="text-3xl font-extrabold text-white">428</div>
+                <div className="text-3xl font-extrabold text-ink">428</div>
                 <div className="text-[11px] text-emerald-400 font-semibold">+34 this week</div>
               </div>
 
-              <div className="bg-[#132238] p-6 rounded-2xl border border-[#1e3452] shadow-sm space-y-1">
+              <div className="bg-surface-2 p-6 rounded-2xl border border-[#1e3452] shadow-sm space-y-1">
                 <div className="text-xs text-slate-400 font-medium">Published MCQs</div>
                 <div className="text-3xl font-extrabold text-sky-400">{mcqList.length}</div>
                 <div className="text-[11px] text-slate-400 font-semibold">Across {subjectsList.length} subjects</div>
               </div>
 
-              <div className="bg-[#132238] p-6 rounded-2xl border border-[#1e3452] shadow-sm space-y-1">
+              <div className="bg-surface-2 p-6 rounded-2xl border border-[#1e3452] shadow-sm space-y-1">
                 <div className="text-xs text-slate-400 font-medium">Paid Subscriptions</div>
-                <div className="text-3xl font-extrabold text-white">184</div>
+                <div className="text-3xl font-extrabold text-ink">184</div>
                 <div className="text-[11px] text-teal-400 font-semibold">Annual & Semester</div>
               </div>
 
-              <div className="bg-[#132238] p-6 rounded-2xl border border-[#1e3452] shadow-sm space-y-1">
+              <div className="bg-surface-2 p-6 rounded-2xl border border-[#1e3452] shadow-sm space-y-1">
                 <div className="text-xs text-slate-400 font-medium">Platform Revenue</div>
                 <div className="text-3xl font-extrabold text-emerald-400">PKR 342K</div>
                 <div className="text-[11px] text-slate-400 font-semibold">Processed in Pakistan</div>
               </div>
             </div>
 
-            <div className="bg-[#132238] rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-4 text-slate-200">
-              <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+            <div className="bg-surface-2 rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-4 text-slate-200">
+              <h2 className="text-sm font-bold text-ink uppercase tracking-wider">
                 Common Administrative Tasks
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -379,9 +379,9 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                     setActiveTab("mcqs");
                     handleNewMCQ();
                   }}
-                  className="p-4 rounded-xl border border-dashed border-[#1e3452] hover:border-blue-500 bg-[#0c182a] hover:bg-[#162740] text-left transition space-y-1"
+                  className="p-4 rounded-xl border border-dashed border-[#1e3452] hover:border-blue-500 bg-surface hover:bg-surface-2 text-left transition space-y-1"
                 >
-                  <div className="font-bold text-xs text-white flex items-center gap-1.5">
+                  <div className="font-bold text-xs text-ink flex items-center gap-1.5">
                     <Plus className="w-3.5 h-3.5 text-sky-400" />
                     <span>Create Individual MCQ</span>
                   </div>
@@ -392,9 +392,9 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
 
                 <button
                   onClick={() => setActiveTab("csv")}
-                  className="p-4 rounded-xl border border-dashed border-[#1e3452] hover:border-blue-500 bg-[#0c182a] hover:bg-[#162740] text-left transition space-y-1"
+                  className="p-4 rounded-xl border border-dashed border-[#1e3452] hover:border-blue-500 bg-surface hover:bg-surface-2 text-left transition space-y-1"
                 >
-                  <div className="font-bold text-xs text-white flex items-center gap-1.5">
+                  <div className="font-bold text-xs text-ink flex items-center gap-1.5">
                     <UploadCloud className="w-3.5 h-3.5 text-teal-400" />
                     <span>Upload CSV Question Bank</span>
                   </div>
@@ -405,9 +405,9 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
 
                 <button
                   onClick={() => setActiveTab("subjects")}
-                  className="p-4 rounded-xl border border-dashed border-[#1e3452] hover:border-blue-500 bg-[#0c182a] hover:bg-[#162740] text-left transition space-y-1"
+                  className="p-4 rounded-xl border border-dashed border-[#1e3452] hover:border-blue-500 bg-surface hover:bg-surface-2 text-left transition space-y-1"
                 >
-                  <div className="font-bold text-xs text-white flex items-center gap-1.5">
+                  <div className="font-bold text-xs text-ink flex items-center gap-1.5">
                     <BookOpen className="w-3.5 h-3.5 text-sky-400" />
                     <span>Add / Rename Subjects</span>
                   </div>
@@ -435,18 +435,18 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                     placeholder="Search questions by keyword or past paper..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 text-xs rounded-xl border border-[#1e3452] bg-[#0c182a] text-slate-100 placeholder-slate-500 focus:bg-[#0c182a] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                    className="w-full pl-10 pr-4 py-2 text-xs rounded-xl border border-[#1e3452] bg-surface text-slate-100 placeholder-slate-500 focus:bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                   />
                 </div>
 
                 <select
                   value={filterSubject}
                   onChange={(e) => setFilterSubject(e.target.value)}
-                  className="px-3 py-2 text-xs rounded-xl border border-[#1e3452] bg-[#0c182a] font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                  className="px-3 py-2 text-xs rounded-xl border border-[#1e3452] bg-surface font-medium text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                 >
-                  <option value="all" className="bg-[#0c182a] text-slate-200">All Subjects</option>
+                  <option value="all" className="bg-surface text-slate-200">All Subjects</option>
                   {subjectsList.map((s) => (
-                    <option key={s.id} value={s.id} className="bg-[#0c182a] text-slate-200">
+                    <option key={s.id} value={s.id} className="bg-surface text-slate-200">
                       {s.name}
                     </option>
                   ))}
@@ -463,7 +463,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
             </div>
 
             {/* Questions Table */}
-            <div className="bg-[#132238] rounded-3xl border border-[#1e3452] overflow-hidden shadow-sm">
+            <div className="bg-surface-2 rounded-3xl border border-[#1e3452] overflow-hidden shadow-sm">
               <div className="p-4 border-b border-[#1e3452] flex items-center justify-between text-xs text-slate-400">
                 <span>Showing {filteredMCQs.length} questions in bank</span>
                 <span className="font-semibold text-emerald-400">100% Validated</span>
@@ -473,7 +473,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                 {filteredMCQs.map((q, idx) => {
                   const subj = subjectsList.find((s) => s.id === q.subjectId);
                   return (
-                    <div key={q.id} className="p-4 sm:p-5 flex items-start justify-between gap-4 hover:bg-[#162740] transition">
+                    <div key={q.id} className="p-4 sm:p-5 flex items-start justify-between gap-4 hover:bg-surface-2 transition">
                       <div className="space-y-1.5 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="font-bold text-slate-400">#{idx + 1}</span>
@@ -489,7 +489,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                             Correct: Option {String.fromCharCode(65 + q.correctIndex)}
                           </span>
                         </div>
-                        <p className="font-medium text-white leading-snug">
+                        <p className="font-medium text-ink leading-snug">
                           {q.question}
                         </p>
                       </div>
@@ -497,7 +497,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                       <div className="flex items-center gap-2 shrink-0">
                         <button
                           onClick={() => handleEditMCQ(q)}
-                          className="p-2 text-slate-400 hover:text-sky-300 hover:bg-[#0c182a] rounded-lg transition"
+                          className="p-2 text-slate-400 hover:text-sky-300 hover:bg-surface rounded-lg transition"
                           title="Edit question"
                         >
                           <Edit className="w-4 h-4" />
@@ -526,10 +526,10 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
         {/* TAB 3: CSV BULK IMPORTER */}
         {/* ------------------------------------------------------------- */}
         {activeTab === "csv" && (
-          <div className="bg-[#132238] rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn text-xs text-slate-200">
+          <div className="bg-surface-2 rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn text-xs text-slate-200">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#1e3452] pb-4">
               <div>
-                <h2 className="text-base font-bold text-white">
+                <h2 className="text-base font-bold text-ink">
                   Bulk MCQ Importer (Validated & Protected)
                 </h2>
                 <p className="text-slate-400 text-xs mt-0.5">
@@ -540,7 +540,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleLoadSampleCSV}
-                  className="px-3.5 py-2 bg-[#0c182a] hover:bg-[#182c48] border border-[#1e3452] text-slate-200 rounded-xl font-semibold transition"
+                  className="px-3.5 py-2 bg-surface hover:bg-surface-2 border border-[#1e3452] text-slate-200 rounded-xl font-semibold transition"
                 >
                   Load Sample Data
                 </button>
@@ -564,7 +564,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                 placeholder="SubjectCode,TopicSlug,YearSource,QuestionText,OptionA,OptionB,OptionC,OptionD,CorrectOptionLetter,Explanation,Difficulty"
                 value={csvInput}
                 onChange={(e) => setCsvInput(e.target.value)}
-                className="w-full p-3 font-mono text-[11px] rounded-xl border border-[#1e3452] bg-[#0c182a] text-slate-100 placeholder-slate-500 focus:bg-[#0c182a] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                className="w-full p-3 font-mono text-[11px] rounded-xl border border-[#1e3452] bg-surface text-slate-100 placeholder-slate-500 focus:bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500/30"
               />
             </div>
 
@@ -583,7 +583,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
               <div className="space-y-4 pt-4 border-t border-[#1e3452] animate-fadeIn">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-white text-sm">Validation Summary:</span>
+                    <span className="font-bold text-ink text-sm">Validation Summary:</span>
                     <span className="px-2 py-0.5 bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 font-bold rounded">
                       {csvResult.validCount} Valid Questions
                     </span>
@@ -615,7 +615,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                     <ul className="space-y-1 text-[11px] text-rose-200">
                       {csvResult.errors.map((err, i) => (
                         <li key={i}>
-                          <strong className="text-white">Row {err.rowNumber} [{err.field}]:</strong> {err.message}
+                          <strong className="text-ink">Row {err.rowNumber} [{err.field}]:</strong> {err.message}
                         </li>
                       ))}
                     </ul>
@@ -628,13 +628,13 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                     <span className="font-bold text-slate-300">Preview of parsed questions:</span>
                     <div className="max-h-60 overflow-y-auto border border-[#1e3452] rounded-xl divide-y divide-[#1e3452]">
                       {csvResult.questions.map((q, idx) => (
-                        <div key={idx} className="p-3 bg-[#0c182a] space-y-1">
+                        <div key={idx} className="p-3 bg-surface space-y-1">
                           <div className="flex items-center gap-2 text-[10px] font-semibold text-slate-400">
                             <span>#{idx + 1}</span>
                             <span className="bg-sky-950/60 text-sky-300 border border-sky-800/60 px-1.5 py-0.5 rounded">{q.yearSource}</span>
                             <span className="text-emerald-400">Correct: Option {String.fromCharCode(65 + q.correctIndex)}</span>
                           </div>
-                          <p className="text-xs font-medium text-white">{q.question}</p>
+                          <p className="text-xs font-medium text-ink">{q.question}</p>
                         </div>
                       ))}
                     </div>
@@ -651,10 +651,10 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
         {activeTab === "subjects" && (
           <div className="space-y-8 animate-fadeIn text-xs">
             {/* Subjects Header & Form */}
-            <div className="bg-[#132238] rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-6 text-slate-200">
+            <div className="bg-surface-2 rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-6 text-slate-200">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-base font-bold text-white">
+                  <h2 className="text-base font-bold text-ink">
                     BDS Academic Subjects
                   </h2>
                   <p className="text-slate-400 text-xs mt-0.5">
@@ -672,8 +672,8 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
               </div>
 
               {showAddSubject && (
-                <form onSubmit={handleCreateSubject} className="p-5 bg-[#0c182a] border border-[#1e3452] rounded-2xl space-y-3 animate-fadeIn">
-                  <h3 className="font-bold text-white">New Subject Details</h3>
+                <form onSubmit={handleCreateSubject} className="p-5 bg-surface border border-[#1e3452] rounded-2xl space-y-3 animate-fadeIn">
+                  <h3 className="font-bold text-ink">New Subject Details</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <input
                       type="text"
@@ -681,7 +681,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                       placeholder="Subject Name (e.g. Oral Pathology)"
                       value={newSubjName}
                       onChange={(e) => setNewSubjName(e.target.value)}
-                      className="p-2.5 rounded-xl border border-[#1e3452] bg-[#132238] text-slate-100 placeholder-slate-500 focus:bg-[#132238] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      className="p-2.5 rounded-xl border border-[#1e3452] bg-surface-2 text-slate-100 placeholder-slate-500 focus:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     />
                     <input
                       type="text"
@@ -689,14 +689,14 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                       placeholder="Code (e.g. OPATH-301)"
                       value={newSubjCode}
                       onChange={(e) => setNewSubjCode(e.target.value)}
-                      className="p-2.5 rounded-xl border border-[#1e3452] bg-[#132238] text-slate-100 placeholder-slate-500 focus:bg-[#132238] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      className="p-2.5 rounded-xl border border-[#1e3452] bg-surface-2 text-slate-100 placeholder-slate-500 focus:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     />
                     <input
                       type="text"
                       placeholder="Emoji Icon (e.g. 🦷, 🔬)"
                       value={newSubjIcon}
                       onChange={(e) => setNewSubjIcon(e.target.value)}
-                      className="p-2.5 rounded-xl border border-[#1e3452] bg-[#132238] text-slate-100 placeholder-slate-500 focus:bg-[#132238] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      className="p-2.5 rounded-xl border border-[#1e3452] bg-surface-2 text-slate-100 placeholder-slate-500 focus:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     />
                   </div>
                   <button
@@ -711,11 +711,11 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
               {/* Subjects Cards Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {subjectsList.map((s) => (
-                  <div key={s.id} className="p-4 rounded-2xl border border-[#1e3452] flex items-center justify-between gap-4 bg-[#0c182a] shadow-sm">
+                  <div key={s.id} className="p-4 rounded-2xl border border-[#1e3452] flex items-center justify-between gap-4 bg-surface shadow-sm">
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl p-2 bg-[#132238] border border-[#1e3452] rounded-xl">{s.icon}</span>
+                      <span className="text-3xl p-2 bg-surface-2 border border-[#1e3452] rounded-xl">{s.icon}</span>
                       <div>
-                        <div className="font-bold text-white text-sm">{s.name}</div>
+                        <div className="font-bold text-ink text-sm">{s.name}</div>
                         <div className="text-[11px] text-slate-400">{s.code} • {s.description.slice(0, 50)}...</div>
                       </div>
                     </div>
@@ -727,7 +727,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                             setSubjectsList(subjectsList.map((sub) => sub.id === s.id ? { ...sub, name: newName } : sub));
                           }
                         }}
-                        className="p-2 text-slate-400 hover:text-sky-300 hover:bg-[#132238] rounded-lg transition"
+                        className="p-2 text-slate-400 hover:text-sky-300 hover:bg-surface-2 rounded-lg transition"
                         title="Rename"
                       >
                         <Edit className="w-4 h-4" />
@@ -750,10 +750,10 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
             </div>
 
             {/* Topics Section */}
-            <div className="bg-[#132238] rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-6 text-slate-200">
+            <div className="bg-surface-2 rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-6 text-slate-200">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-base font-bold text-white">
+                  <h2 className="text-base font-bold text-ink">
                     High-Yield Curriculum Topics
                   </h2>
                   <p className="text-slate-400 text-xs mt-0.5">
@@ -771,16 +771,16 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
               </div>
 
               {showAddTopic && (
-                <form onSubmit={handleCreateTopic} className="p-5 bg-[#0c182a] border border-[#1e3452] rounded-2xl space-y-3 animate-fadeIn">
-                  <h3 className="font-bold text-white">New Topic Details</h3>
+                <form onSubmit={handleCreateTopic} className="p-5 bg-surface border border-[#1e3452] rounded-2xl space-y-3 animate-fadeIn">
+                  <h3 className="font-bold text-ink">New Topic Details</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <select
                       value={topicSubjId}
                       onChange={(e) => setTopicSubjId(e.target.value)}
-                      className="p-2.5 rounded-xl border border-[#1e3452] bg-[#132238] text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      className="p-2.5 rounded-xl border border-[#1e3452] bg-surface-2 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     >
                       {subjectsList.map((s) => (
-                        <option key={s.id} value={s.id} className="bg-[#132238] text-slate-200">
+                        <option key={s.id} value={s.id} className="bg-surface-2 text-slate-200">
                           {s.name}
                         </option>
                       ))}
@@ -792,7 +792,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                       placeholder="Topic Name (e.g. Sialolithiasis & Salivary Glands)"
                       value={newTopicName}
                       onChange={(e) => setNewTopicName(e.target.value)}
-                      className="p-2.5 rounded-xl border border-[#1e3452] bg-[#132238] text-slate-100 placeholder-slate-500 focus:bg-[#132238] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      className="p-2.5 rounded-xl border border-[#1e3452] bg-surface-2 text-slate-100 placeholder-slate-500 focus:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     />
                   </div>
                   <label className="flex items-center gap-2 cursor-pointer pt-1">
@@ -800,7 +800,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                       type="checkbox"
                       checked={newTopicHighYield}
                       onChange={(e) => setNewTopicHighYield(e.target.checked)}
-                      className="rounded text-blue-600 bg-[#132238] border-[#1e3452]"
+                      className="rounded text-blue-600 bg-surface-2 border-[#1e3452]"
                     />
                     <span className="font-medium text-slate-300">Flag as High-Yield Exam Topic</span>
                   </label>
@@ -817,9 +817,9 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                 {topicsList.map((t) => {
                   const parentSubj = subjectsList.find((s) => s.id === t.subjectId);
                   return (
-                    <div key={t.id} className="p-3.5 rounded-xl border border-[#1e3452] bg-[#0c182a] flex items-start justify-between gap-2">
+                    <div key={t.id} className="p-3.5 rounded-xl border border-[#1e3452] bg-surface flex items-start justify-between gap-2">
                       <div className="space-y-1">
-                        <div className="font-bold text-white text-xs">{t.name}</div>
+                        <div className="font-bold text-ink text-xs">{t.name}</div>
                         <div className="text-[10px] text-slate-400">{parentSubj?.name || "BDS Subject"}</div>
                       </div>
                       {t.highYield && (
@@ -839,10 +839,10 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
         {/* TAB 5: RESOURCES */}
         {/* ------------------------------------------------------------- */}
         {activeTab === "resources" && (
-          <div className="bg-[#132238] rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn text-xs text-slate-200">
+          <div className="bg-surface-2 rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn text-xs text-slate-200">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-base font-bold text-white">
+                <h2 className="text-base font-bold text-ink">
                   Study Guides & Lecture Presentations
                 </h2>
                 <p className="text-slate-400 text-xs mt-0.5">
@@ -862,11 +862,11 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
               {BDS_RESOURCES.map((res) => (
                 <div key={res.id} className="py-3 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <span className="px-2 py-0.5 rounded bg-[#0c182a] border border-[#1e3452] text-slate-300 font-bold text-[10px]">
+                    <span className="px-2 py-0.5 rounded bg-surface border border-[#1e3452] text-slate-300 font-bold text-[10px]">
                       {res.type}
                     </span>
                     <div>
-                      <div className="font-semibold text-white">{res.title}</div>
+                      <div className="font-semibold text-ink">{res.title}</div>
                       <div className="text-[11px] text-slate-400">{res.fileSize} • {res.author}</div>
                     </div>
                   </div>
@@ -883,8 +883,8 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
         {/* TAB 6: MEMBERS & PAYMENTS */}
         {/* ------------------------------------------------------------- */}
         {activeTab === "members" && (
-          <div className="bg-[#132238] rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn text-xs text-slate-200">
-            <h2 className="text-base font-bold text-white">
+          <div className="bg-surface-2 rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-6 animate-fadeIn text-xs text-slate-200">
+            <h2 className="text-base font-bold text-ink">
               Student Accounts & Payment Verifications
             </h2>
 
@@ -901,8 +901,8 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#1e3452] text-slate-300">
-                  <tr className="hover:bg-[#162740] transition">
-                    <td className="py-3 font-semibold text-white">Dr. Ayesha Khan</td>
+                  <tr className="hover:bg-surface-2 transition">
+                    <td className="py-3 font-semibold text-ink">Dr. Ayesha Khan</td>
                     <td className="py-3 text-slate-300">de&apos;Montmorency Lahore</td>
                     <td className="py-3 text-slate-200">Annual Pass (PKR 1,999)</td>
                     <td className="py-3 text-slate-300">JazzCash</td>
@@ -915,8 +915,8 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                       <button onClick={() => alert("Membership renewed for Ayesha Khan")} className="text-sky-400 hover:text-sky-300 font-semibold underline">Manage</button>
                     </td>
                   </tr>
-                  <tr className="hover:bg-[#162740] transition">
-                    <td className="py-3 font-semibold text-white">Dr. Usman Malik</td>
+                  <tr className="hover:bg-surface-2 transition">
+                    <td className="py-3 font-semibold text-ink">Dr. Usman Malik</td>
                     <td className="py-3 text-slate-300">Nishtar Institute of Dentistry</td>
                     <td className="py-3 text-slate-200">Semester Pass (PKR 1,299)</td>
                     <td className="py-3 text-slate-300">Easypaisa</td>
@@ -939,15 +939,15 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
         {/* MODAL: CREATE OR EDIT SINGLE MCQ */}
         {/* ------------------------------------------------------------- */}
         {showMCQModal && (
-          <div className="fixed inset-0 z-50 bg-[#060d18]/80 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="bg-[#132238] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto text-xs animate-fadeIn border border-[#1e3452] text-slate-200">
+          <div className="fixed inset-0 z-50 bg-canvas/80 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="bg-surface-2 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto text-xs animate-fadeIn border border-[#1e3452] text-slate-200">
               <div className="flex items-center justify-between border-b border-[#1e3452] pb-3">
-                <h3 className="font-bold text-sm text-white">
+                <h3 className="font-bold text-sm text-ink">
                   {editingMCQId ? "Edit Examination MCQ" : "Add New Examination MCQ"}
                 </h3>
                 <button
                   onClick={() => setShowMCQModal(false)}
-                  className="p-1 text-slate-400 hover:text-white rounded-lg transition"
+                  className="p-1 text-slate-400 hover:text-ink rounded-lg transition"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -962,10 +962,10 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                     <select
                       value={mcqFormSubject}
                       onChange={(e) => setMcqFormSubject(e.target.value)}
-                      className="w-full p-2.5 rounded-xl border border-[#1e3452] bg-[#0c182a] text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      className="w-full p-2.5 rounded-xl border border-[#1e3452] bg-surface text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     >
                       {subjectsList.map((s) => (
-                        <option key={s.id} value={s.id} className="bg-[#0c182a] text-slate-200">
+                        <option key={s.id} value={s.id} className="bg-surface text-slate-200">
                           {s.name}
                         </option>
                       ))}
@@ -981,7 +981,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                       placeholder="e.g. UHS BDS 2024"
                       value={mcqFormYear}
                       onChange={(e) => setMcqFormYear(e.target.value)}
-                      className="w-full p-2.5 rounded-xl border border-[#1e3452] bg-[#0c182a] text-slate-100 placeholder-slate-500 focus:bg-[#0c182a] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      className="w-full p-2.5 rounded-xl border border-[#1e3452] bg-surface text-slate-100 placeholder-slate-500 focus:bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     />
                   </div>
 
@@ -992,11 +992,11 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                     <select
                       value={mcqFormDifficulty}
                       onChange={(e) => setMcqFormDifficulty(e.target.value as "Easy" | "Medium" | "Hard")}
-                      className="w-full p-2.5 rounded-xl border border-[#1e3452] bg-[#0c182a] text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      className="w-full p-2.5 rounded-xl border border-[#1e3452] bg-surface text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     >
-                      <option value="Easy" className="bg-[#0c182a] text-slate-200">Easy</option>
-                      <option value="Medium" className="bg-[#0c182a] text-slate-200">Medium</option>
-                      <option value="Hard" className="bg-[#0c182a] text-slate-200">Hard</option>
+                      <option value="Easy" className="bg-surface text-slate-200">Easy</option>
+                      <option value="Medium" className="bg-surface text-slate-200">Medium</option>
+                      <option value="Hard" className="bg-surface text-slate-200">Hard</option>
                     </select>
                   </div>
                 </div>
@@ -1011,7 +1011,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                     placeholder="Enter the full question text..."
                     value={mcqFormQuestion}
                     onChange={(e) => setMcqFormQuestion(e.target.value)}
-                    className="w-full p-2.5 rounded-xl border border-[#1e3452] bg-[#0c182a] text-slate-100 placeholder-slate-500 focus:bg-[#0c182a] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                    className="w-full p-2.5 rounded-xl border border-[#1e3452] bg-surface text-slate-100 placeholder-slate-500 focus:bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                   />
                 </div>
 
@@ -1026,7 +1026,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                         name="modalCorrectOpt"
                         checked={mcqFormCorrect === i}
                         onChange={() => setMcqFormCorrect(i)}
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500 bg-[#0c182a] border-[#1e3452]"
+                        className="w-4 h-4 text-blue-600 focus:ring-blue-500 bg-surface border-[#1e3452]"
                       />
                       <span className="font-bold text-slate-400 w-4">
                         {String.fromCharCode(65 + i)}
@@ -1041,7 +1041,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                           updated[i] = e.target.value;
                           setMcqFormOptions(updated);
                         }}
-                        className="flex-1 p-2 rounded-lg border border-[#1e3452] bg-[#0c182a] text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                        className="flex-1 p-2 rounded-lg border border-[#1e3452] bg-surface text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                       />
                     </div>
                   ))}
@@ -1056,7 +1056,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                     placeholder="Explain why this answer is correct..."
                     value={mcqFormExplanation}
                     onChange={(e) => setMcqFormExplanation(e.target.value)}
-                    className="w-full p-2.5 rounded-xl border border-[#1e3452] bg-[#0c182a] text-slate-100 placeholder-slate-500 focus:bg-[#0c182a] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                    className="w-full p-2.5 rounded-xl border border-[#1e3452] bg-surface text-slate-100 placeholder-slate-500 focus:bg-surface focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                   />
                 </div>
 
@@ -1064,7 +1064,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                   <button
                     type="button"
                     onClick={() => setShowMCQModal(false)}
-                    className="px-4 py-2 border border-[#1e3452] bg-[#0c182a] hover:bg-[#162740] rounded-xl text-slate-300 transition"
+                    className="px-4 py-2 border border-[#1e3452] bg-surface hover:bg-surface-2 rounded-xl text-slate-300 transition"
                   >
                     Cancel
                   </button>

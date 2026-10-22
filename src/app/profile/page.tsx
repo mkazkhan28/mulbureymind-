@@ -27,7 +27,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 py-8 sm:py-14 relative overflow-hidden">
+    <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-14 relative overflow-hidden">
       {/* Decorative ambient background glows */}
       <div className="absolute top-0 left-1/3 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -39,7 +39,7 @@ export default function ProfilePage() {
           <span className="text-xs font-bold text-cyan-300 uppercase tracking-widest bg-cyan-950/70 px-3.5 py-1 rounded-full border border-cyan-800/60 shadow-sm inline-block">
             Student Identity & Security
           </span>
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mt-2">
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-ink tracking-tight mt-2">
             Student Profile & Academic Settings
           </h1>
           <p className="text-xs sm:text-sm text-slate-400">
@@ -57,7 +57,7 @@ export default function ProfilePage() {
         {/* Profile Card */}
         <form onSubmit={handleSave} className="bg-slate-900/80 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl space-y-6">
           <div className="space-y-4 text-xs">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-sm font-bold text-ink uppercase tracking-wider flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400" />
               Academic Identification
             </h2>
@@ -72,7 +72,7 @@ export default function ProfilePage() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-950/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
                 />
               </div>
             </div>
@@ -105,7 +105,7 @@ export default function ProfilePage() {
                   type="text"
                   value={college}
                   onChange={(e) => setCollege(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-950/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
                 />
               </div>
             </div>
@@ -120,7 +120,7 @@ export default function ProfilePage() {
                   <select
                     value={year}
                     onChange={(e) => setYear(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-950 text-white font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/40 cursor-pointer"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-950 text-ink font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/40 cursor-pointer"
                   >
                     <option value="bds-1">DUHS BDS 1st Year (Active Curriculum)</option>
                     <option value="bds-2">BDS 2nd Year (Pending)</option>
@@ -140,7 +140,7 @@ export default function ProfilePage() {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-950/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
                   />
                 </div>
               </div>

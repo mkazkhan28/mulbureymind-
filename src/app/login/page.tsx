@@ -3,23 +3,19 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  Lock,
-  Mail,
-  ArrowRight,
-  UserCheck
-} from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Loader2, Lock, Mail, ShieldCheck, UserRound } from "lucide-react";
+import AuthLayout from "@/components/AuthLayout";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
     setTimeout(() => {
       setIsLoading(false);
       router.push("/dashboard");
@@ -30,118 +26,104 @@ export default function LoginPage() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      if (role === "admin") {
-        router.push("/admin");
-      } else {
-        router.push("/dashboard");
-      }
+      router.push(role === "admin" ? "/admin" : "/dashboard");
     }, 500);
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-xl">
-        
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-700 to-blue-500 flex items-center justify-center text-white mx-auto shadow-md shadow-blue-600/25">
-            <span className="font-bold text-base">BDS</span>
-          </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            Log in to BDS Study Hub
-          </h1>
-          <p className="text-xs text-slate-500">
-            Welcome back! Continue your DUHS BDS 1st year preparations.
-          </p>
-        </div>
-
-        {/* Demo Fast Login Pills for quick testing */}
-        <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-xs space-y-2">
-          <div className="font-semibold text-slate-700 flex items-center gap-1.5">
-            <UserCheck className="w-3.5 h-3.5 text-blue-600" />
-            <span>One-Click Prototype Logins:</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => handleDemoLogin("student")}
-              className="py-1.5 px-2 bg-white border border-slate-200 rounded-lg text-slate-700 font-medium hover:bg-slate-50 hover:text-blue-600 transition text-[11px]"
-            >
-              Demo DUHS Student
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDemoLogin("admin")}
-              className="py-1.5 px-2 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 font-semibold hover:bg-blue-100 transition text-[11px]"
-            >
-              Demo Administrator
-            </button>
-          </div>
-        </div>
-
-        {/* Login Form */}
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
-              Email Address
-            </label>
-            <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="email"
-                required
-                placeholder="dentist@duhs.edu.pk"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="block text-xs font-semibold text-slate-700">
-                Password
-              </label>
-              <Link
-                href="/forgot-password"
-                className="text-[11px] font-semibold text-blue-700 hover:underline"
-              >
-                Forgot password?
-              </Link>
-            </div>
-            <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="password"
-                required
-                placeholder="••••••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow-md shadow-blue-600/25 transition flex items-center justify-center gap-2 disabled:opacity-60"
-          >
-            {isLoading ? "Authenticating..." : "Log In to Account"}
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </form>
-
-        {/* Footer */}
-        <div className="text-center text-xs text-slate-500">
-          Don&apos;t have an account yet?{" "}
-          <Link href="/signup" className="font-bold text-blue-700 hover:underline">
-            Create Free Account
+    <AuthLayout
+      title="Welcome back"
+      subtitle="Log in to continue your DUHS BDS 1st Year preparation."
+      footer={
+        <>
+          New to Mulberry Mind?{" "}
+          <Link href="/signup" className="font-semibold text-brand-400 hover:underline">
+            Create a free account
           </Link>
+        </>
+      }
+    >
+      <form onSubmit={handleLogin} className="space-y-5">
+        <div>
+          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-slate-200">
+            Email address
+          </label>
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+            <input
+              id="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder="you@duhs.edu.pk"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="field pl-10"
+            />
+          </div>
         </div>
 
+        <div>
+          <div className="mb-1.5 flex items-center justify-between">
+            <label htmlFor="password" className="block text-sm font-medium text-slate-200">
+              Password
+            </label>
+            <Link href="/forgot-password" className="text-xs font-semibold text-brand-400 hover:underline">
+              Forgot password?
+            </Link>
+          </div>
+          <div className="relative">
+            <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              required
+              autoComplete="current-password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="field pl-10 pr-11"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:text-ink"
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" disabled={isLoading} className="btn-brand group w-full !py-3">
+          {isLoading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Signing in…
+            </>
+          ) : (
+            <>
+              Log in <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </>
+          )}
+        </button>
+      </form>
+
+      {/* Prototype shortcuts (kept from the original build) */}
+      <div className="mt-8">
+        <div className="flex items-center gap-3 text-xs text-slate-500">
+          <span className="h-px flex-1 bg-line" />
+          or try a demo account
+          <span className="h-px flex-1 bg-line" />
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <button type="button" onClick={() => handleDemoLogin("student")} className="btn-ghost !py-2.5 !text-xs">
+            <UserRound className="h-4 w-4" /> Demo student
+          </button>
+          <button type="button" onClick={() => handleDemoLogin("admin")} className="btn-ghost !py-2.5 !text-xs">
+            <ShieldCheck className="h-4 w-4" /> Demo admin
+          </button>
+        </div>
       </div>
-    </div>
+    </AuthLayout>
   );
 }

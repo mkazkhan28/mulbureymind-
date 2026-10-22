@@ -113,7 +113,7 @@ export default function StudentDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 py-8 sm:py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
       {/* Decorative ambient background glows */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -128,7 +128,7 @@ export default function StudentDashboardPage() {
             </div>
             <div>
               <div className="flex items-center gap-2.5 flex-wrap">
-                <h1 className="text-xl sm:text-2xl font-extrabold text-white">
+                <h1 className="text-xl sm:text-2xl font-extrabold text-ink">
                   {student.name}
                 </h1>
                 <span className="text-[10px] bg-cyan-950/70 text-cyan-300 border border-cyan-800/60 font-bold px-2.5 py-0.5 rounded-full">
@@ -152,7 +152,7 @@ export default function StudentDashboardPage() {
             </div>
             <div className="text-xs">
               <div className="flex items-center gap-1.5">
-                <span className="font-bold text-white">{student.membership.planName}</span>
+                <span className="font-bold text-ink">{student.membership.planName}</span>
                 <span className="text-[9px] bg-emerald-500 text-slate-950 font-black px-1.5 py-0.5 rounded">
                   {student.membership.status}
                 </span>
@@ -171,7 +171,7 @@ export default function StudentDashboardPage() {
               <span>BCQs Practiced</span>
               <FileText className="w-4 h-4 text-cyan-400" />
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-white">
+            <div className="text-2xl sm:text-3xl font-extrabold text-ink">
               {student.stats.totalMCQsAnswered}
             </div>
             <div className="text-[11px] text-cyan-400 font-medium">
@@ -222,7 +222,7 @@ export default function StudentDashboardPage() {
         {/* Subjects Grid */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-white tracking-tight">
+            <h2 className="text-xl font-bold text-ink tracking-tight">
               DUHS BDS 1st Year Core Subjects (6)
             </h2>
             <Link
@@ -249,7 +249,7 @@ export default function StudentDashboardPage() {
                         {subj.code}
                       </span>
                     </div>
-                    <h3 className="font-bold text-sm text-white group-hover:text-cyan-300 transition leading-snug">
+                    <h3 className="font-bold text-sm text-ink group-hover:text-cyan-300 transition leading-snug">
                       {subj.name}
                     </h3>
                     <p className="text-xs text-slate-400">
@@ -266,7 +266,7 @@ export default function StudentDashboardPage() {
                     </Link>
                     <Link
                       href={`/subjects/${subj.slug}`}
-                      className="text-xs font-medium text-slate-400 hover:text-white transition flex items-center gap-1"
+                      className="text-xs font-medium text-slate-400 hover:text-ink transition flex items-center gap-1"
                     >
                       <span>Explore</span>
                       <ChevronRight className="w-3 h-3" />
@@ -284,7 +284,7 @@ export default function StudentDashboardPage() {
           {/* Left Column: Recent Quiz Attempts */}
           <div className="lg:col-span-7 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-white tracking-tight">
+              <h2 className="text-xl font-bold text-ink tracking-tight">
                 Recent Quiz Attempts
               </h2>
               <Link
@@ -302,7 +302,7 @@ export default function StudentDashboardPage() {
                   className="bg-slate-900/80 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-xl flex items-center justify-between gap-4"
                 >
                   <div className="space-y-1">
-                    <h3 className="font-semibold text-xs sm:text-sm text-white leading-snug">
+                    <h3 className="font-semibold text-xs sm:text-sm text-ink leading-snug">
                       {quiz.title}
                     </h3>
                     <div className="flex items-center gap-2 text-[11px] text-slate-400">
@@ -312,7 +312,7 @@ export default function StudentDashboardPage() {
                   </div>
 
                   <div className="text-right shrink-0">
-                    <div className="text-xs font-bold text-white">
+                    <div className="text-xs font-bold text-ink">
                       {quiz.score}
                     </div>
                     <span className="text-[10px] font-semibold text-emerald-300 bg-emerald-950/70 border border-emerald-700/60 px-2 py-0.5 rounded-full">
@@ -327,7 +327,7 @@ export default function StudentDashboardPage() {
           {/* Right Column: Downloadable Notes & Lecture Slides */}
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-white tracking-tight">
+              <h2 className="text-xl font-bold text-ink tracking-tight">
                 DUHS 1st Year Study Handouts
               </h2>
               <Link
@@ -355,7 +355,7 @@ export default function StudentDashboardPage() {
                         </span>
                       )}
                     </div>
-                    <h3 className="font-semibold text-xs text-white group-hover:text-cyan-300 transition leading-tight">
+                    <h3 className="font-semibold text-xs text-ink group-hover:text-cyan-300 transition leading-tight">
                       {res.title}
                     </h3>
                     <div className="text-[10px] text-slate-400">

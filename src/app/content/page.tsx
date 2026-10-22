@@ -497,14 +497,14 @@ export default function ContentPage() {
   const displayGroups = activeSubject === "all" ? grouped : grouped.filter(g => g.id === activeSubject);
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 pb-20">
+    <div className="min-h-screen bg-canvas text-slate-100 pb-20">
 
       {/* ── Header ── */}
-      <div className="bg-[#0a0f1e] border-b border-slate-800 sticky top-0 z-20 backdrop-blur-md">
+      <div className="bg-surface border-b border-slate-800 sticky top-0 z-20 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex-1">
-              <h1 className="text-xl font-extrabold text-white">
+              <h1 className="text-xl font-extrabold text-ink">
                 📄 Past Papers &amp; Topic Questions
               </h1>
               <p className="text-slate-400 text-xs mt-0.5">
@@ -519,7 +519,7 @@ export default function ContentPage() {
                 placeholder="Search papers..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="pl-9 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-purple-500 w-56"
+                className="pl-9 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-ink placeholder-slate-600 text-sm focus:outline-none focus:border-purple-500 w-56"
               />
             </div>
           </div>
@@ -662,13 +662,13 @@ export default function ContentPage() {
 
       {/* ── Full-screen File Viewer Modal ── */}
       {viewerFile && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-[#070b14]/95 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex flex-col bg-canvas/95 backdrop-blur-md">
           {/* Modal header */}
-          <div className="flex items-center justify-between px-5 py-3 bg-[#0a0f1e] border-b border-slate-800">
+          <div className="flex items-center justify-between px-5 py-3 bg-surface border-b border-slate-800">
             <div className="flex items-center gap-3 min-w-0">
               <FileText className="w-5 h-5 text-indigo-400 shrink-0" />
               <div className="min-w-0">
-                <p className="font-bold text-white text-sm truncate">{viewerFile.title}</p>
+                <p className="font-bold text-ink text-sm truncate">{viewerFile.title}</p>
                 <p className="text-slate-500 text-xs">DUHS BDS 1st Year &bull; {viewerFile.topic}</p>
               </div>
             </div>
@@ -693,7 +693,7 @@ export default function ContentPage() {
               )}
               <button
                 onClick={() => setViewerFile(null)}
-                className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition"
+                className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-ink transition"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -708,7 +708,7 @@ export default function ContentPage() {
                   <FileText className="w-8 h-8 text-amber-400" />
                 </div>
                 <div>
-                  <p className="text-white font-bold text-lg">File ID Not Yet Added</p>
+                  <p className="text-ink font-bold text-lg">File ID Not Yet Added</p>
                   <p className="text-slate-400 text-sm mt-2 max-w-md">
                     This is a placeholder. To add the actual file, replace <code className="text-amber-400 bg-slate-800 px-1.5 py-0.5 rounded text-xs">{viewerFile.driveId}</code> with the real Google Drive file ID in <code className="text-indigo-400 bg-slate-800 px-1.5 py-0.5 rounded text-xs">src/app/content/page.tsx</code>
                   </p>
@@ -770,7 +770,7 @@ function FileCard({
           }`} />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-white text-xs font-semibold leading-tight line-clamp-2">{file.title}</p>
+          <p className="text-ink text-xs font-semibold leading-tight line-clamp-2">{file.title}</p>
           <div className="flex items-center gap-2 mt-1">
             {file.year && (
               <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">{file.year}</span>

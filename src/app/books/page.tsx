@@ -356,9 +356,9 @@ export default function BooksLibraryPage() {
   const getDriveDirectUrl = (driveId: string) => `https://drive.google.com/file/d/${driveId}/view`;
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 pb-24">
+    <div className="min-h-screen bg-canvas text-slate-100 pb-24">
       {/* ── Page Hero Banner ── */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#0e1529] via-[#090e1c] to-[#070b14] border-b border-slate-800/80 px-4 sm:px-6 lg:px-8 py-12">
+      <section className="relative overflow-hidden bg-gradient-to-b from-surface via-[#090e1c] to-canvas border-b border-slate-800/80 px-4 sm:px-6 lg:px-8 py-12">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -369,7 +369,7 @@ export default function BooksLibraryPage() {
           </div>
 
           <div className="max-w-3xl space-y-3">
-            <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            <h1 className="text-3xl sm:text-5xl font-black text-ink tracking-tight">
               Standard BDS Textbooks{" "}
               <span className="bg-gradient-to-r from-purple-400 via-violet-300 to-blue-400 bg-clip-text text-transparent">
                 &amp; Digital Atlases
@@ -389,7 +389,7 @@ export default function BooksLibraryPage() {
                 placeholder="Search by book title, author, or keyword..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition shadow-inner"
+                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-ink placeholder-slate-500 text-sm focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition shadow-inner"
               />
             </div>
 
@@ -423,7 +423,7 @@ export default function BooksLibraryPage() {
         {subjectsWithBooks.length === 0 ? (
           <div className="text-center py-20 bg-slate-900/40 rounded-3xl border border-slate-800 p-8 space-y-3">
             <BookOpen className="w-12 h-12 text-slate-600 mx-auto" />
-            <h3 className="text-lg font-bold text-white">No textbooks found</h3>
+            <h3 className="text-lg font-bold text-ink">No textbooks found</h3>
             <p className="text-xs text-slate-400 max-w-sm mx-auto">
               We couldn&apos;t match any books with your current filters or query. Try resetting your search terms.
             </p>
@@ -435,7 +435,7 @@ export default function BooksLibraryPage() {
               <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-violet-500 shadow-sm shadow-violet-500/50" />
-                  <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  <h2 className="text-xl sm:text-2xl font-black text-ink tracking-tight">
                     {group.name}
                   </h2>
                   <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-800/90 text-slate-400 border border-slate-700">
@@ -471,7 +471,7 @@ export default function BooksLibraryPage() {
 
                         {/* Title & Meta */}
                         <div>
-                          <h3 className="font-extrabold text-white text-lg leading-tight group-hover:text-violet-300 transition-colors">
+                          <h3 className="font-extrabold text-ink text-lg leading-tight group-hover:text-violet-300 transition-colors">
                             {book.title}
                           </h3>
                           {book.edition && (
@@ -521,14 +521,14 @@ export default function BooksLibraryPage() {
                               href={getDriveDirectUrl(book.driveId)}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-white transition"
+                              className="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-ink transition"
                               title="Open Original in Google Drive"
                             >
                               <ExternalLink className="w-4 h-4" />
                             </a>
                             <a
                               href={getDriveDownloadUrl(book.driveId)}
-                              className="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-white transition"
+                              className="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-ink transition"
                               title="Direct Download"
                             >
                               <Download className="w-4 h-4" />
@@ -547,15 +547,15 @@ export default function BooksLibraryPage() {
 
       {/* ── Reader Modal ── */}
       {activeBook && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-[#070b14]/95 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex flex-col bg-canvas/95 backdrop-blur-md">
           {/* Reader Header */}
-          <div className="flex items-center justify-between px-6 py-3.5 bg-[#0a0f1e] border-b border-slate-800">
+          <div className="flex items-center justify-between px-6 py-3.5 bg-surface border-b border-slate-800">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center shrink-0">
                 <BookOpen className="w-5 h-5 text-violet-400" />
               </div>
               <div className="min-w-0">
-                <h3 className="font-bold text-white text-sm truncate">
+                <h3 className="font-bold text-ink text-sm truncate">
                   {activeBook.title}
                 </h3>
                 <p className="text-slate-400 text-xs">
@@ -583,7 +583,7 @@ export default function BooksLibraryPage() {
               </a>
               <button
                 onClick={() => setActiveBook(null)}
-                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition ml-2"
+                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-ink transition ml-2"
                 title="Close Viewer"
               >
                 <X className="w-4 h-4" />

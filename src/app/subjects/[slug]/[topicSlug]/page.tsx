@@ -39,10 +39,10 @@ export default function TopicDetailPage() {
 
   if (!subject || !topic) {
     return (
-      <div className="min-h-screen bg-[#0a1424] text-slate-200 flex items-center justify-center p-4">
-        <div className="bg-[#132238] p-8 rounded-2xl border border-[#1e3452] text-center max-w-md space-y-4">
+      <div className="min-h-screen bg-surface text-slate-200 flex items-center justify-center p-4">
+        <div className="bg-surface-2 p-8 rounded-2xl border border-[#1e3452] text-center max-w-md space-y-4">
           <BookOpen className="w-10 h-10 text-slate-500 mx-auto" />
-          <h2 className="text-lg font-bold text-white">Topic Not Found</h2>
+          <h2 className="text-lg font-bold text-ink">Topic Not Found</h2>
           <p className="text-xs text-slate-400">The requested topic could not be found.</p>
           <Link
             href="/subjects"
@@ -58,24 +58,24 @@ export default function TopicDetailPage() {
   const topicMCQs = BDS_MCQS.filter((q) => q.topicId === topic.id);
 
   return (
-    <div className="min-h-screen bg-[#0a1424] text-slate-200 py-10 sm:py-16">
+    <div className="min-h-screen bg-surface text-slate-200 py-10 sm:py-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Breadcrumb Navigation */}
         <div className="flex items-center gap-2 text-xs text-slate-400">
-          <Link href="/subjects" className="hover:text-white transition">
+          <Link href="/subjects" className="hover:text-ink transition">
             Subjects
           </Link>
           <span>/</span>
-          <Link href={`/subjects/${subject.slug}`} className="hover:text-white transition">
+          <Link href={`/subjects/${subject.slug}`} className="hover:text-ink transition">
             {subject.name}
           </Link>
           <span>/</span>
-          <span className="font-semibold text-white">{topic.name}</span>
+          <span className="font-semibold text-ink">{topic.name}</span>
         </div>
 
         {/* Topic Header Card */}
-        <div className="bg-[#132238] rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-4 text-slate-200">
+        <div className="bg-surface-2 rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-4 text-slate-200">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ export default function TopicDetailPage() {
                   </span>
                 )}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-ink">
                 {topic.name}
               </h1>
             </div>
@@ -104,7 +104,7 @@ export default function TopicDetailPage() {
               </Link>
               <Link
                 href={`/flashcards?subject=${subject.id}`}
-                className="px-4 py-2.5 bg-[#0c182a] hover:bg-[#182c48] text-slate-200 border border-[#1e3452] rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
+                className="px-4 py-2.5 bg-surface hover:bg-surface-2 text-slate-200 border border-[#1e3452] rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
               >
                 <Layers className="w-4 h-4" />
                 <span>Flashcards</span>
@@ -118,10 +118,10 @@ export default function TopicDetailPage() {
 
           <div className="flex items-center gap-6 pt-3 border-t border-[#1e3452] text-xs text-slate-400">
             <span>
-              <strong className="text-white">{topic.mcqCount}</strong> Questions in database
+              <strong className="text-ink">{topic.mcqCount}</strong> Questions in database
             </span>
             <span>
-              <strong className="text-white">{topic.flashcardCount}</strong> Flashcards
+              <strong className="text-ink">{topic.flashcardCount}</strong> Flashcards
             </span>
             <span>Updated for 2024–2025 BDS Syllabi</span>
           </div>
@@ -130,7 +130,7 @@ export default function TopicDetailPage() {
         {/* High-Yield Past-Paper Questions for this Topic */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-white">
+            <h2 className="text-lg font-bold text-ink">
               Past Paper & Practice Questions for this Topic
             </h2>
             <span className="text-xs text-slate-400 font-medium">
@@ -145,11 +145,11 @@ export default function TopicDetailPage() {
                 return (
                   <div
                     key={q.id}
-                    className="bg-[#132238] rounded-2xl border border-[#1e3452] p-5 shadow-sm space-y-4 text-slate-200"
+                    className="bg-surface-2 rounded-2xl border border-[#1e3452] p-5 shadow-sm space-y-4 text-slate-200"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-center gap-2">
-                        <span className="w-6 h-6 rounded-full bg-[#0c182a] text-slate-300 border border-[#1e3452] text-xs font-bold flex items-center justify-center shrink-0">
+                        <span className="w-6 h-6 rounded-full bg-surface text-slate-300 border border-[#1e3452] text-xs font-bold flex items-center justify-center shrink-0">
                           {idx + 1}
                         </span>
                         <span className="text-xs font-semibold text-sky-300 bg-sky-950/60 border border-sky-800/60 px-2 py-0.5 rounded">
@@ -161,7 +161,7 @@ export default function TopicDetailPage() {
                       </span>
                     </div>
 
-                    <p className="text-sm font-medium text-white leading-snug">
+                    <p className="text-sm font-medium text-ink leading-snug">
                       {q.question}
                     </p>
 
@@ -175,7 +175,7 @@ export default function TopicDetailPage() {
                             className={`p-2.5 rounded-lg border transition ${
                               isExpanded && isCorrect
                                 ? "bg-emerald-950/60 border-emerald-700/80 font-medium text-emerald-200"
-                                : "bg-[#0c182a] border-[#1e3452] text-slate-300"
+                                : "bg-surface border-[#1e3452] text-slate-300"
                             }`}
                           >
                             <span className="font-bold mr-1.5 text-slate-400">
@@ -205,8 +205,8 @@ export default function TopicDetailPage() {
 
                     {/* Expanded Explanation box */}
                     {isExpanded && (
-                      <div className="p-4 bg-[#0c182a] border border-blue-900/60 rounded-xl text-xs text-slate-300 space-y-1.5 animate-fadeIn">
-                        <div className="font-semibold text-white flex items-center gap-1.5">
+                      <div className="p-4 bg-surface border border-blue-900/60 rounded-xl text-xs text-slate-300 space-y-1.5 animate-fadeIn">
+                        <div className="font-semibold text-ink flex items-center gap-1.5">
                           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                           <span>
                             Correct Answer: Option {String.fromCharCode(65 + q.correctIndex)} (
@@ -221,7 +221,7 @@ export default function TopicDetailPage() {
               })}
             </div>
           ) : (
-            <div className="bg-[#132238] rounded-2xl border border-[#1e3452] p-8 text-center space-y-3">
+            <div className="bg-surface-2 rounded-2xl border border-[#1e3452] p-8 text-center space-y-3">
               <FileText className="w-8 h-8 text-slate-500 mx-auto" />
               <p className="text-xs text-slate-400">
                 Additional questions for this topic are being compiled by the academic team.

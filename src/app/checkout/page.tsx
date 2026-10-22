@@ -78,7 +78,7 @@ function CheckoutContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 py-8 sm:py-14 relative overflow-hidden">
+    <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-14 relative overflow-hidden">
       {/* Decorative ambient background glows */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-1/3 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -91,7 +91,7 @@ function CheckoutContent() {
               <span className="text-xs font-bold text-cyan-300 uppercase tracking-widest bg-cyan-950/70 px-3.5 py-1 rounded-full border border-cyan-800/60 shadow-sm">
                 DUHS Student Gateway Checkout
               </span>
-              <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              <h1 className="text-2xl sm:text-4xl font-extrabold text-ink tracking-tight">
                 Complete Your DUHS 1st Year Membership
               </h1>
               <p className="text-xs sm:text-sm text-slate-300">
@@ -103,7 +103,7 @@ function CheckoutContent() {
             <div className="bg-indigo-950/60 border border-indigo-700/60 rounded-2xl p-4 flex items-start gap-3 text-xs text-indigo-200 shadow-xl">
               <AlertCircle className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <span className="font-bold text-white">Safe Pakistani Payment Simulator Active:</span>
+                <span className="font-bold text-ink">Safe Pakistani Payment Simulator Active:</span>
                 <p className="leading-relaxed text-slate-300">
                   You can test the complete checkout workflow safely. No actual PKR charges will be deducted from your bank or mobile wallet during this demonstration phase.
                 </p>
@@ -117,7 +117,7 @@ function CheckoutContent() {
                 
                 {/* Student Info Card */}
                 <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-slate-800 shadow-xl space-y-4">
-                  <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <h2 className="text-sm font-bold text-ink uppercase tracking-wider flex items-center gap-2">
                     <span className="w-5 h-5 rounded-md bg-indigo-600 text-white flex items-center justify-center text-xs">1</span>
                     Student Identification
                   </h2>
@@ -132,7 +132,7 @@ function CheckoutContent() {
                         placeholder="e.g. Dr. Ayesha Khan"
                         value={studentName}
                         onChange={(e) => setStudentName(e.target.value)}
-                        className="w-full p-3 rounded-xl border border-slate-700/80 bg-slate-950/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
+                        className="w-full p-3 rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
                       />
                     </div>
 
@@ -146,7 +146,7 @@ function CheckoutContent() {
                         placeholder="e.g. DIKIOHS, Dow Dental College, or DIDC"
                         value={collegeName}
                         onChange={(e) => setCollegeName(e.target.value)}
-                        className="w-full p-3 rounded-xl border border-slate-700/80 bg-slate-950/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
+                        className="w-full p-3 rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
                       />
                     </div>
 
@@ -160,7 +160,7 @@ function CheckoutContent() {
                         placeholder="0300-1234567"
                         value={mobileNumber}
                         onChange={(e) => setMobileNumber(e.target.value)}
-                        className="w-full p-3 rounded-xl border border-slate-700/80 bg-slate-950/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
+                        className="w-full p-3 rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
                       />
                     </div>
                   </div>
@@ -168,7 +168,7 @@ function CheckoutContent() {
 
                 {/* Payment Methods Card */}
                 <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-slate-800 shadow-xl space-y-4">
-                  <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <h2 className="text-sm font-bold text-ink uppercase tracking-wider flex items-center gap-2">
                     <span className="w-5 h-5 rounded-md bg-indigo-600 text-white flex items-center justify-center text-xs">2</span>
                     Select Payment Gateway
                   </h2>
@@ -185,7 +185,7 @@ function CheckoutContent() {
                     >
                       <Smartphone className="w-5 h-5 text-rose-400 shrink-0" />
                       <div>
-                        <div className="text-xs font-bold text-white">JazzCash</div>
+                        <div className="text-xs font-bold text-ink">JazzCash</div>
                         <div className="text-[10px] text-slate-400">Mobile Account / MPIN</div>
                       </div>
                     </button>
@@ -201,7 +201,7 @@ function CheckoutContent() {
                     >
                       <Smartphone className="w-5 h-5 text-emerald-400 shrink-0" />
                       <div>
-                        <div className="text-xs font-bold text-white">Easypaisa</div>
+                        <div className="text-xs font-bold text-ink">Easypaisa</div>
                         <div className="text-[10px] text-slate-400">Instant Wallet Approval</div>
                       </div>
                     </button>
@@ -217,7 +217,7 @@ function CheckoutContent() {
                     >
                       <CreditCard className="w-5 h-5 text-indigo-400 shrink-0" />
                       <div>
-                        <div className="text-xs font-bold text-white">Debit / Credit Card</div>
+                        <div className="text-xs font-bold text-ink">Debit / Credit Card</div>
                         <div className="text-[10px] text-slate-400">PayPak, Visa, Master</div>
                       </div>
                     </button>
@@ -233,7 +233,7 @@ function CheckoutContent() {
                     >
                       <Building className="w-5 h-5 text-cyan-400 shrink-0" />
                       <div>
-                        <div className="text-xs font-bold text-white">Direct Bank Transfer</div>
+                        <div className="text-xs font-bold text-ink">Direct Bank Transfer</div>
                         <div className="text-[10px] text-slate-400">Raast / IBFT</div>
                       </div>
                     </button>
@@ -243,27 +243,27 @@ function CheckoutContent() {
                   <div className="p-4 bg-slate-950/80 rounded-2xl text-xs text-slate-300 border border-slate-850 space-y-2">
                     {paymentMethod === "jazzcash" && (
                       <p className="leading-relaxed">
-                        📱 <strong className="text-white">JazzCash Mobile Account:</strong> After clicking Proceed, a payment authorization USSD push will appear on your phone asking for your 4-digit secret MPIN.
+                        📱 <strong className="text-ink">JazzCash Mobile Account:</strong> After clicking Proceed, a payment authorization USSD push will appear on your phone asking for your 4-digit secret MPIN.
                       </p>
                     )}
                     {paymentMethod === "easypaisa" && (
                       <p className="leading-relaxed">
-                        📱 <strong className="text-white">Easypaisa Mobile Account:</strong> Approve the transaction prompt in your Easypaisa application within 60 seconds to complete activation.
+                        📱 <strong className="text-ink">Easypaisa Mobile Account:</strong> Approve the transaction prompt in your Easypaisa application within 60 seconds to complete activation.
                       </p>
                     )}
                     {paymentMethod === "card" && (
                       <p className="leading-relaxed">
-                        💳 <strong className="text-white">Pakistani Debit / Credit Card:</strong> 3D-Secure 2.0 protected. You will receive an SMS OTP from your issuing Pakistani bank (Habib Bank, Meezan, Bank Alfalah, etc.).
+                        💳 <strong className="text-ink">Pakistani Debit / Credit Card:</strong> 3D-Secure 2.0 protected. You will receive an SMS OTP from your issuing Pakistani bank (Habib Bank, Meezan, Bank Alfalah, etc.).
                       </p>
                     )}
                     {paymentMethod === "ibft" && (
                       <div className="space-y-2.5">
-                        <div className="font-bold text-white">Bank Deposit Instructions:</div>
+                        <div className="font-bold text-ink">Bank Deposit Instructions:</div>
                         <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 text-[11px] space-y-1.5">
-                          <div><strong className="text-slate-400">Bank:</strong> <span className="text-white">Meezan Bank Islamic Ltd</span></div>
-                          <div><strong className="text-slate-400">Account Title:</strong> <span className="text-white">BDS Study Hub Educational Services</span></div>
+                          <div><strong className="text-slate-400">Bank:</strong> <span className="text-ink">Meezan Bank Islamic Ltd</span></div>
+                          <div><strong className="text-slate-400">Account Title:</strong> <span className="text-ink">BDS Study Hub Educational Services</span></div>
                           <div className="flex items-center justify-between">
-                            <span><strong className="text-slate-400">IBAN:</strong> <span className="text-white font-mono">PK88MEZN0001020304050607</span></span>
+                            <span><strong className="text-slate-400">IBAN:</strong> <span className="text-ink font-mono">PK88MEZN0001020304050607</span></span>
                             <button
                               type="button"
                               onClick={() => handleCopyIban("PK88MEZN0001020304050607")}
@@ -273,7 +273,7 @@ function CheckoutContent() {
                               <span>{copiedBank ? "Copied" : "Copy"}</span>
                             </button>
                           </div>
-                          <div><strong className="text-slate-400">Raast ID:</strong> <span className="text-white font-mono">03001234567</span></div>
+                          <div><strong className="text-slate-400">Raast ID:</strong> <span className="text-ink font-mono">03001234567</span></div>
                         </div>
 
                         <div>
@@ -285,7 +285,7 @@ function CheckoutContent() {
                             placeholder="e.g. IBFT-84920491 or Branch Slip #"
                             value={bankRefNumber}
                             onChange={(e) => setBankRefNumber(e.target.value)}
-                            className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-900 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40"
+                            className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-900 text-xs text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40"
                           />
                         </div>
                       </div>
@@ -298,7 +298,7 @@ function CheckoutContent() {
               {/* Right Column: Order Summary */}
               <div className="md:col-span-5 space-y-4">
                 <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-slate-800 shadow-xl space-y-4">
-                  <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+                  <h2 className="text-sm font-bold text-ink uppercase tracking-wider">
                     Order Summary
                   </h2>
 
@@ -310,7 +310,7 @@ function CheckoutContent() {
                     <select
                       value={selectedPlanId}
                       onChange={(e) => setSelectedPlanId(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-slate-700 bg-slate-950 text-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/40 cursor-pointer"
+                      className="w-full p-3 rounded-xl border border-slate-700 bg-slate-950 text-ink text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/40 cursor-pointer"
                     >
                       {MEMBERSHIP_PLANS.map((p) => (
                         <option key={p.id} value={p.id}>
@@ -323,7 +323,7 @@ function CheckoutContent() {
                   <div className="pt-3 border-t border-slate-800 space-y-2.5 text-xs">
                     <div className="flex justify-between text-slate-300">
                       <span>Plan Duration</span>
-                      <span className="font-semibold text-white">{currentPlan.periodText}</span>
+                      <span className="font-semibold text-ink">{currentPlan.periodText}</span>
                     </div>
                     <div className="flex justify-between text-slate-300">
                       <span>Curriculum Focus</span>
@@ -333,7 +333,7 @@ function CheckoutContent() {
                       <span>Gateway Fee</span>
                       <span className="font-semibold text-emerald-400">PKR 0 (Free)</span>
                     </div>
-                    <div className="pt-3 border-t border-slate-800 flex justify-between text-sm font-extrabold text-white">
+                    <div className="pt-3 border-t border-slate-800 flex justify-between text-sm font-extrabold text-ink">
                       <span>Total Amount:</span>
                       <span className="text-cyan-300 text-base">
                         PKR {currentPlan.pricePKR.toLocaleString()}
@@ -376,22 +376,22 @@ function CheckoutContent() {
               <span className="text-xs font-bold text-emerald-300 uppercase tracking-widest bg-emerald-950/70 px-3.5 py-1 rounded-full border border-emerald-700/60 shadow-sm">
                 Payment Verified & Activated
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-ink">
                 Welcome to DUHS BDS Study Hub!
               </h2>
               <p className="text-xs text-slate-300">
-                Your subscription to <strong className="text-white">{currentPlan.name}</strong> is now live on your account.
+                Your subscription to <strong className="text-ink">{currentPlan.name}</strong> is now live on your account.
               </p>
             </div>
 
             <div className="p-5 bg-slate-950/80 rounded-2xl border border-slate-800 text-xs text-left space-y-2.5">
               <div className="flex justify-between">
                 <span className="text-slate-400">Student:</span>
-                <span className="font-semibold text-white">{studentName || "Dr. Ayesha Khan"}</span>
+                <span className="font-semibold text-ink">{studentName || "Dr. Ayesha Khan"}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Dental College:</span>
-                <span className="font-semibold text-white">{collegeName || "DIKIOHS (Dow University)"}</span>
+                <span className="font-semibold text-ink">{collegeName || "DIKIOHS (Dow University)"}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Transaction Reference:</span>
@@ -399,7 +399,7 @@ function CheckoutContent() {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Gateway Provider:</span>
-                <span className="font-semibold text-white uppercase">{paymentMethod}</span>
+                <span className="font-semibold text-ink uppercase">{paymentMethod}</span>
               </div>
             </div>
 
@@ -424,7 +424,7 @@ export default function CheckoutPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#070b14] text-slate-400 flex items-center justify-center text-xs">
+        <div className="min-h-screen bg-canvas text-slate-400 flex items-center justify-center text-xs">
           Loading Checkout...
         </div>
       }

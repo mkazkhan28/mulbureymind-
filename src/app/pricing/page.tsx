@@ -25,7 +25,7 @@ export default function PricingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 py-10 sm:py-16 relative overflow-hidden">
+    <div className="min-h-screen bg-canvas text-slate-100 py-10 sm:py-16 relative overflow-hidden">
       {/* Ambient glows */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -39,7 +39,7 @@ export default function PricingPage() {
             <Sparkles className="w-3.5 h-3.5 text-violet-400" />
             Transparent PKR Pricing — No Hidden Fees
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-ink tracking-tight">
             Choose Your Study Plan
           </h1>
           <p className="text-slate-300 text-base leading-relaxed">
@@ -68,7 +68,7 @@ export default function PricingPage() {
                   <div className="w-10 h-10 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center">
                     {style.icon}
                   </div>
-                  <h3 className="font-bold text-white text-sm leading-tight">{plan.name}</h3>
+                  <h3 className="font-bold text-ink text-sm leading-tight">{plan.name}</h3>
                 </div>
 
                 {/* Price */}
@@ -78,7 +78,7 @@ export default function PricingPage() {
                   ) : (
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-slate-400 text-sm font-semibold">PKR</span>
-                      <span className="text-4xl font-extrabold text-white">{plan.pricePKR.toLocaleString()}</span>
+                      <span className="text-4xl font-extrabold text-ink">{plan.pricePKR.toLocaleString()}</span>
                     </div>
                   )}
                   <p className="text-slate-500 text-xs mt-1 font-medium">{plan.periodText}</p>
@@ -132,7 +132,7 @@ export default function PricingPage() {
               <tr className="border-b border-slate-800">
                 <th className="text-left px-6 py-4 text-slate-400 font-semibold">Feature</th>
                 {MEMBERSHIP_PLANS.map(p => (
-                  <th key={p.id} className="px-4 py-4 text-center text-white font-bold text-xs">
+                  <th key={p.id} className="px-4 py-4 text-center text-ink font-bold text-xs">
                     {p.name}
                     <div className="text-slate-500 font-normal text-[10px] mt-0.5">
                       {p.pricePKR === 0 ? "Free" : `PKR ${p.pricePKR.toLocaleString()}`}
@@ -175,7 +175,7 @@ export default function PricingPage() {
 
         {/* ── FAQs ── */}
         <div className="max-w-3xl mx-auto space-y-4">
-          <h2 className="text-2xl font-extrabold text-white text-center mb-8">
+          <h2 className="text-2xl font-extrabold text-ink text-center mb-8">
             <HelpCircle className="w-6 h-6 inline mr-2 text-indigo-400" />
             Frequently Asked Questions
           </h2>

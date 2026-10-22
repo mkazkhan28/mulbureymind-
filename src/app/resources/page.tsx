@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
+import QuerySync from "@/components/QuerySync";
 import Link from "next/link";
 import {
   BDS_RESOURCES,
@@ -78,7 +79,15 @@ export default function ResourcesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 py-8 sm:py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
+      <Suspense fallback={null}>
+        <QuerySync
+          onParams={(p) => {
+          if (p.get("subject")) setSelectedSubject(p.get("subject") as string);
+          if (p.get("type")) setSelectedType(p.get("type") as string);
+          }}
+        />
+      </Suspense>
       {/* Decorative ambient background glows */}
       <div className="absolute top-0 right-1/3 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -91,7 +100,7 @@ export default function ResourcesPage() {
             <FileText className="w-3.5 h-3.5 text-blue-400" />
             <span>DUHS Academic Downloads</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-ink tracking-tight">
             PDF Notes, Slides & Viva Guides
           </h1>
           <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
@@ -134,7 +143,7 @@ export default function ResourcesPage() {
               placeholder="Search notes, slide atlases, or presentation guides..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
+              className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
             />
           </div>
 
@@ -142,7 +151,7 @@ export default function ResourcesPage() {
             <select
               value={selectedSubject}
               onChange={(e) => setSelectedSubject(e.target.value)}
-              className="flex-1 md:w-60 px-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 font-medium cursor-pointer"
+              className="flex-1 md:w-60 px-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink focus:outline-none focus:ring-2 focus:ring-indigo-500/40 font-medium cursor-pointer"
             >
               <option value="all">All 6 Core 1st Year Subjects</option>
               {firstYearSubjects.map((s) => (
@@ -155,7 +164,7 @@ export default function ResourcesPage() {
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-36 px-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 font-medium cursor-pointer"
+              className="w-36 px-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink focus:outline-none focus:ring-2 focus:ring-indigo-500/40 font-medium cursor-pointer"
             >
               <option value="all">All Files</option>
               <option value="PDF">PDF Notes</option>
@@ -206,7 +215,7 @@ export default function ResourcesPage() {
                     )}
                   </div>
 
-                  <h2 className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition leading-snug">
+                  <h2 className="text-base sm:text-lg font-bold text-ink group-hover:text-cyan-300 transition leading-snug">
                     {res.title}
                   </h2>
                   <p className="text-xs text-slate-300 leading-relaxed">
@@ -249,7 +258,7 @@ export default function ResourcesPage() {
         <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl p-6 border border-slate-800 text-xs text-slate-300 flex items-start gap-3 shadow-xl">
           <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <span className="font-bold text-white">
+            <span className="font-bold text-ink">
               DUHS Karachi Academic Content Storage
             </span>
             <p className="leading-relaxed text-slate-400">
@@ -264,7 +273,7 @@ export default function ResourcesPage() {
             <div className="bg-slate-900 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-5 text-center animate-fadeIn relative border border-slate-800">
               <button
                 onClick={() => setLockedModalOpen(false)}
-                className="absolute top-5 right-5 p-1 text-slate-400 hover:text-white rounded-lg transition cursor-pointer"
+                className="absolute top-5 right-5 p-1 text-slate-400 hover:text-ink rounded-lg transition cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -277,16 +286,16 @@ export default function ResourcesPage() {
                 <span className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest bg-indigo-950/70 px-3 py-0.5 rounded-full border border-indigo-700/60 shadow-sm">
                   DUHS 1st Year Pass Resource
                 </span>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-white">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-ink">
                   Unlock Full Academic Access
                 </h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  <strong className="text-white">{activeResource?.title}</strong> is part of our complete DUHS BDS First Year examination resource library.
+                  <strong className="text-ink">{activeResource?.title}</strong> is part of our complete DUHS BDS First Year examination resource library.
                 </p>
               </div>
 
               <div className="p-4 bg-slate-950/80 rounded-2xl text-left space-y-2 text-xs border border-slate-800">
-                <div className="font-bold text-white">What you unlock:</div>
+                <div className="font-bold text-ink">What you unlock:</div>
                 <div className="flex items-center gap-2 text-slate-300">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>All high-yield lecture slides & summary PDFs</span>

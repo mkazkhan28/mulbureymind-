@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
-import { ThemeProvider } from "@/context/ThemeContext";
+import { ThemeProvider, themeInitScript } from "@/context/ThemeContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,7 +20,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#4f46e5",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0f1d" },
+  ],
 };
 
 export const metadata: Metadata = {
@@ -35,14 +38,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="light" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased min-h-screen bg-[#070b14] text-slate-100 selection:bg-indigo-600 selection:text-white transition-colors duration-300`}
+        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased min-h-screen bg-canvas text-ink`}
       >
         <ThemeProvider>
-          <AppShell>
-            {children}
-          </AppShell>
+          <AppShell>{children}</AppShell>
         </ThemeProvider>
       </body>
     </html>

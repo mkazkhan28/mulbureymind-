@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import QuerySync from "@/components/QuerySync";
 import Link from "next/link";
 import {
   BDS_MCQS,
@@ -153,7 +154,14 @@ export default function PracticeQuizPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 py-8 sm:py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
+      <Suspense fallback={null}>
+        <QuerySync
+          onParams={(p) => {
+          if (p.get("subject")) setSelectedSubject(p.get("subject") as string);
+          }}
+        />
+      </Suspense>
       {/* Decorative ambient background glows */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -169,7 +177,7 @@ export default function PracticeQuizPage() {
                 <Target className="w-3.5 h-3.5 text-cyan-400" />
                 DUHS Modular BCQ Simulator
               </span>
-              <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              <h1 className="text-2xl sm:text-4xl font-extrabold text-ink tracking-tight">
                 BDS 1st Year Examination Center
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -188,7 +196,7 @@ export default function PracticeQuizPage() {
                   <select
                     value={selectedSubject}
                     onChange={(e) => setSelectedSubject(e.target.value)}
-                    className="w-full p-3.5 rounded-xl border border-slate-700/80 bg-slate-950/80 text-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition cursor-pointer appearance-none"
+                    className="w-full p-3.5 rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition cursor-pointer appearance-none"
                   >
                     <option value="all">All 6 Core 1st Year Subjects (Comprehensive DUHS Pool)</option>
                     {firstYearSubjects.map((s) => (
@@ -217,7 +225,7 @@ export default function PracticeQuizPage() {
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-xs text-white">Tutor Mode</span>
+                      <span className="font-bold text-xs text-ink">Tutor Mode</span>
                       <Zap className={`w-3.5 h-3.5 ${examMode === "tutor" ? "text-cyan-400" : "text-slate-500"}`} />
                     </div>
                     <div className="text-[11px] text-slate-400 leading-snug">
@@ -235,7 +243,7 @@ export default function PracticeQuizPage() {
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-xs text-white">Timed Test</span>
+                      <span className="font-bold text-xs text-ink">Timed Test</span>
                       <Clock className={`w-3.5 h-3.5 ${examMode === "exam" ? "text-indigo-400" : "text-slate-500"}`} />
                     </div>
                     <div className="text-[11px] text-slate-400 leading-snug">
@@ -253,7 +261,7 @@ export default function PracticeQuizPage() {
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-xs text-white flex items-center gap-1">
+                      <span className="font-bold text-xs text-ink flex items-center gap-1">
                         Mock Exam
                       </span>
                       <Flame className={`w-3.5 h-3.5 ${examMode === "mock" ? "text-rose-400" : "text-slate-500"}`} />
@@ -294,7 +302,7 @@ export default function PracticeQuizPage() {
             {/* Top Toolbar */}
             <div className="bg-slate-900/80 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-xl flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="text-xs sm:text-sm font-bold text-white">
+                <span className="text-xs sm:text-sm font-bold text-ink">
                   Question {currentIndex + 1} of {questions.length}
                 </span>
                 <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-indigo-950/70 text-indigo-300 border border-indigo-700/60 font-semibold shadow-sm">
@@ -321,7 +329,7 @@ export default function PracticeQuizPage() {
                   className={`px-3 py-1.5 rounded-xl text-xs font-medium transition flex items-center gap-1.5 border ${
                     flaggedQuestions[currentIndex]
                       ? "bg-amber-950/70 text-amber-300 border-amber-600/70 font-bold"
-                      : "bg-slate-950/60 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-900"
+                      : "bg-slate-950/60 text-slate-400 border-slate-800 hover:text-ink hover:bg-slate-900"
                   }`}
                   title="Flag question for review"
                 >
@@ -346,7 +354,7 @@ export default function PracticeQuizPage() {
 
             {/* Question Stem Card */}
             <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-800/80 p-6 sm:p-8 shadow-2xl space-y-6">
-              <p className="text-base sm:text-lg font-semibold text-white leading-relaxed">
+              <p className="text-base sm:text-lg font-semibold text-ink leading-relaxed">
                 {currentQ.question}
               </p>
 
@@ -359,7 +367,7 @@ export default function PracticeQuizPage() {
 
                   let btnStyle = "border-slate-800 bg-slate-950/50 hover:border-indigo-500/50 hover:bg-slate-900/70 text-slate-200";
                   if (isSelected && !showFeedback) {
-                    btnStyle = "border-indigo-500 bg-indigo-950/40 text-white font-semibold ring-1 ring-indigo-500 shadow-md shadow-indigo-500/10";
+                    btnStyle = "border-indigo-500 bg-indigo-950/40 text-ink font-semibold ring-1 ring-indigo-500 shadow-md shadow-indigo-500/10";
                   }
                   if (showFeedback) {
                     if (isCorrect) {
@@ -414,7 +422,7 @@ export default function PracticeQuizPage() {
                 <button
                   disabled={currentIndex === 0}
                   onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
-                  className="px-4 py-2.5 rounded-xl text-xs font-semibold border border-slate-800 bg-slate-950/70 text-slate-300 hover:text-white hover:bg-slate-900 disabled:opacity-30 disabled:hover:bg-slate-950/70 flex items-center gap-1.5 transition"
+                  className="px-4 py-2.5 rounded-xl text-xs font-semibold border border-slate-800 bg-slate-950/70 text-slate-300 hover:text-ink hover:bg-slate-900 disabled:opacity-30 disabled:hover:bg-slate-950/70 flex items-center gap-1.5 transition"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>Previous</span>
@@ -448,7 +456,7 @@ export default function PracticeQuizPage() {
                   Question Matrix
                 </span>
                 <span className="text-slate-300 font-medium">
-                  Answered: <strong className="text-white">{Object.keys(userAnswers).length}</strong> / {questions.length}
+                  Answered: <strong className="text-ink">{Object.keys(userAnswers).length}</strong> / {questions.length}
                 </span>
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -457,7 +465,7 @@ export default function PracticeQuizPage() {
                   const isAnswered = userAnswers[idx] !== undefined;
                   const isFlagged = flaggedQuestions[idx];
 
-                  let pillStyle = "bg-slate-950/70 text-slate-400 border border-slate-800 hover:border-slate-700 hover:text-white";
+                  let pillStyle = "bg-slate-950/70 text-slate-400 border border-slate-800 hover:border-slate-700 hover:text-ink";
                   if (isAnswered) pillStyle = "bg-indigo-950/70 text-indigo-300 border border-indigo-700/60 font-semibold";
                   if (isFlagged) pillStyle = "bg-amber-950/70 text-amber-300 border border-amber-600/70 font-bold";
                   if (isCurrent) pillStyle = "bg-gradient-to-r from-blue-600 to-violet-600 text-white font-extrabold shadow-md shadow-indigo-600/30 border-transparent ring-2 ring-indigo-400";
@@ -492,7 +500,7 @@ export default function PracticeQuizPage() {
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                       DUHS BDS 1st Year Examination Report
                     </span>
-                    <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                    <h2 className="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">
                       {score.grade}
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-400">
@@ -503,7 +511,7 @@ export default function PracticeQuizPage() {
                   {/* Score Numbers */}
                   <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-md mx-auto p-4 bg-slate-950/70 rounded-2xl border border-slate-800">
                     <div>
-                      <div className="text-2xl sm:text-3xl font-extrabold text-white">
+                      <div className="text-2xl sm:text-3xl font-extrabold text-ink">
                         {score.correct} / {score.total}
                       </div>
                       <div className="text-[11px] text-slate-400 font-medium">Correct BCQs</div>
@@ -528,7 +536,7 @@ export default function PracticeQuizPage() {
 
                   {/* Subject Breakdown */}
                   <div className="max-w-lg mx-auto p-5 bg-slate-950/70 rounded-2xl border border-slate-800 text-left space-y-3 text-xs">
-                    <div className="font-bold text-white flex items-center justify-between">
+                    <div className="font-bold text-ink flex items-center justify-between">
                       <span>Modular Subject Performance:</span>
                       <span className="text-slate-400 font-normal">DUHS Pass: ≥ 60%</span>
                     </div>
@@ -567,7 +575,7 @@ export default function PracticeQuizPage() {
                     </button>
                     <Link
                       href="/dashboard"
-                      className="px-6 py-3 rounded-xl border border-slate-800 bg-slate-950/70 hover:bg-slate-900 text-slate-300 hover:text-white text-xs font-semibold transition"
+                      className="px-6 py-3 rounded-xl border border-slate-800 bg-slate-950/70 hover:bg-slate-900 text-slate-300 hover:text-ink text-xs font-semibold transition"
                     >
                       Save & Return to Dashboard
                     </Link>
@@ -578,7 +586,7 @@ export default function PracticeQuizPage() {
 
             {/* Detailed Question Review */}
             <div className="space-y-4">
-              <h3 className="text-xl font-bold text-white tracking-tight">
+              <h3 className="text-xl font-bold text-ink tracking-tight">
                 Detailed Question Review & Clinical Solutions
               </h3>
               <div className="space-y-4">
@@ -610,7 +618,7 @@ export default function PracticeQuizPage() {
                         )}
                       </div>
 
-                      <p className="text-sm font-semibold text-white leading-relaxed">{q.question}</p>
+                      <p className="text-sm font-semibold text-ink leading-relaxed">{q.question}</p>
 
                       <div className="text-xs space-y-1 text-slate-300">
                         <div>

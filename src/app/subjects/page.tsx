@@ -35,37 +35,37 @@ export default function SubjectsPage() {
 
   const subjectThemes: Record<string, { gradient: string; border: string; badge: string; text: string }> = {
     anat: {
-      gradient: "from-amber-500/15 via-[#0e1628] to-[#090d18]",
+      gradient: "from-amber-500/15 via-surface to-[#090d18]",
       border: "border-amber-500/30 hover:border-amber-400",
       badge: "bg-amber-500/15 text-amber-300 border-amber-500/30",
       text: "text-amber-400"
     },
     phys: {
-      gradient: "from-rose-500/15 via-[#0e1628] to-[#090d18]",
+      gradient: "from-rose-500/15 via-surface to-[#090d18]",
       border: "border-rose-500/30 hover:border-rose-400",
       badge: "bg-rose-500/15 text-rose-300 border-rose-500/30",
       text: "text-rose-400"
     },
     "oral-bio": {
-      gradient: "from-cyan-500/15 via-[#0e1628] to-[#090d18]",
+      gradient: "from-cyan-500/15 via-surface to-[#090d18]",
       border: "border-cyan-500/30 hover:border-cyan-400",
       badge: "bg-cyan-500/15 text-cyan-300 border-cyan-500/30",
       text: "text-cyan-400"
     },
     biochem: {
-      gradient: "from-violet-500/15 via-[#0e1628] to-[#090d18]",
+      gradient: "from-violet-500/15 via-surface to-[#090d18]",
       border: "border-violet-500/30 hover:border-violet-400",
       badge: "bg-violet-500/15 text-violet-300 border-violet-500/30",
       text: "text-violet-400"
     },
     pharm: {
-      gradient: "from-emerald-500/15 via-[#0e1628] to-[#090d18]",
+      gradient: "from-emerald-500/15 via-surface to-[#090d18]",
       border: "border-emerald-500/30 hover:border-emerald-400",
       badge: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
       text: "text-emerald-400"
     },
     path: {
-      gradient: "from-blue-500/15 via-[#0e1628] to-[#090d18]",
+      gradient: "from-blue-500/15 via-surface to-[#090d18]",
       border: "border-blue-500/30 hover:border-blue-400",
       badge: "bg-blue-500/15 text-blue-300 border-blue-500/30",
       text: "text-sky-400"
@@ -82,7 +82,7 @@ export default function SubjectsPage() {
             <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
             <span>DUHS BDS 1st Year Modular Directory</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">
             Browse DUHS 1st Year Subjects & Modules
           </h1>
           <p className="text-slate-300 text-sm sm:text-base">
@@ -122,7 +122,7 @@ export default function SubjectsPage() {
 
         {/* If selected year is Pending, show stylish pending notice */}
         {!activeYearObj?.isActive ? (
-          <div className="bg-[#0e1628]/90 backdrop-blur-xl rounded-3xl border border-slate-800 p-8 sm:p-12 text-center max-w-xl mx-auto space-y-5 animate-fadeIn shadow-2xl">
+          <div className="bg-surface/90 backdrop-blur-xl rounded-3xl border border-slate-800 p-8 sm:p-12 text-center max-w-xl mx-auto space-y-5 animate-fadeIn shadow-2xl">
             <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto text-amber-400">
               <Lock className="w-7 h-7" />
             </div>
@@ -130,7 +130,7 @@ export default function SubjectsPage() {
               <span className="text-xs font-bold text-amber-300 uppercase tracking-wider bg-amber-500/15 px-3 py-1 rounded-full border border-amber-500/30">
                 Curriculum Module Pending
               </span>
-              <h2 className="text-xl sm:text-2xl font-bold text-white mt-2">
+              <h2 className="text-xl sm:text-2xl font-bold text-ink mt-2">
                 {activeYearObj?.name} Content In Progress
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md mx-auto">
@@ -139,12 +139,12 @@ export default function SubjectsPage() {
             </div>
 
             <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl text-xs text-slate-300 text-left space-y-2">
-              <div className="font-bold text-white flex items-center gap-1.5">
+              <div className="font-bold text-ink flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-cyan-400" />
                 <span>Currently Active & Unrestricted:</span>
               </div>
               <p className="text-slate-400">
-                <strong className="text-white">BDS 1st Year</strong> is 100% active right now with 6 comprehensive core subjects: Anatomy, Physiology, Oral Biology, Biochemistry, Pharmacology, and Pathology.
+                <strong className="text-ink">BDS 1st Year</strong> is 100% active right now with 6 comprehensive core subjects: Anatomy, Physiology, Oral Biology, Biochemistry, Pharmacology, and Pathology.
               </p>
             </div>
 
@@ -170,7 +170,7 @@ export default function SubjectsPage() {
                   placeholder="Search by subject name or code (e.g. Oral Biology)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-800 bg-[#0e1628]/90 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 shadow-sm"
+                  className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-800 bg-surface/90 text-ink placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 shadow-sm"
                 />
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function SubjectsPage() {
                 {filteredSubjects.map((subj) => {
                   const subjectTopics = BDS_TOPICS.filter((t) => t.subjectId === subj.id);
                   const theme = subjectThemes[subj.id] || {
-                    gradient: "from-indigo-500/15 via-[#0e1628] to-[#090d18]",
+                    gradient: "from-indigo-500/15 via-surface to-[#090d18]",
                     border: "border-slate-800 hover:border-indigo-500",
                     badge: "bg-indigo-500/15 text-indigo-300 border-indigo-500/30",
                     text: "text-indigo-400"
@@ -202,7 +202,7 @@ export default function SubjectsPage() {
                             <span className={`text-[10px] font-bold tracking-wider uppercase ${theme.text}`}>
                               {subj.code}
                             </span>
-                            <h2 className="text-lg font-bold text-white leading-snug">
+                            <h2 className="text-lg font-bold text-ink leading-snug">
                               {subj.name}
                             </h2>
                           </div>
@@ -222,7 +222,7 @@ export default function SubjectsPage() {
                               <Link
                                 key={top.id}
                                 href={`/subjects/${subj.slug}/${top.slug}`}
-                                className="text-[11px] px-2 py-0.5 bg-slate-900/80 hover:bg-slate-800 hover:text-white border border-slate-700/80 rounded-md text-slate-300 transition flex items-center gap-1 font-medium"
+                                className="text-[11px] px-2 py-0.5 bg-slate-900/80 hover:bg-slate-800 hover:text-ink border border-slate-700/80 rounded-md text-slate-300 transition flex items-center gap-1 font-medium"
                               >
                                 <span>{top.name}</span>
                               </Link>
@@ -233,7 +233,7 @@ export default function SubjectsPage() {
                         {/* Stats */}
                         <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
                           <div className="p-2 bg-slate-900/80 border border-slate-800 rounded-lg">
-                            <div className="text-sm font-bold text-white">{subj.mcqCount}+</div>
+                            <div className="text-sm font-bold text-ink">{subj.mcqCount}+</div>
                             <div className="text-[10px] text-slate-400">BCQs</div>
                           </div>
                           <div className="p-2 bg-slate-900/80 border border-slate-800 rounded-lg">
@@ -241,7 +241,7 @@ export default function SubjectsPage() {
                             <div className="text-[10px] text-slate-400">Cards</div>
                           </div>
                           <div className="p-2 bg-slate-900/80 border border-slate-800 rounded-lg">
-                            <div className="text-sm font-bold text-white">{subj.pastPapersCount} Yrs</div>
+                            <div className="text-sm font-bold text-ink">{subj.pastPapersCount} Yrs</div>
                             <div className="text-[10px] text-slate-400">Papers</div>
                           </div>
                         </div>
@@ -252,14 +252,14 @@ export default function SubjectsPage() {
                         <div className="flex items-center gap-1.5">
                           <Link
                             href={`/practice?subject=${subj.id}`}
-                            className="px-2.5 py-1 text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 rounded-lg transition flex items-center gap-1"
+                            className="px-2.5 py-1 text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-ink border border-slate-800 rounded-lg transition flex items-center gap-1"
                           >
                             <FileText className="w-3 h-3 text-cyan-400" />
                             <span>Quiz</span>
                           </Link>
                           <Link
                             href={`/flashcards?subject=${subj.id}`}
-                            className="px-2.5 py-1 text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 rounded-lg transition flex items-center gap-1"
+                            className="px-2.5 py-1 text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-ink border border-slate-800 rounded-lg transition flex items-center gap-1"
                           >
                             <Layers className="w-3 h-3 text-rose-400" />
                             <span>Cards</span>
@@ -279,11 +279,11 @@ export default function SubjectsPage() {
                 })}
               </div>
             ) : (
-              <div className="bg-[#0e1628]/90 rounded-2xl border border-slate-800 p-12 text-center max-w-lg mx-auto space-y-4">
+              <div className="bg-surface/90 rounded-2xl border border-slate-800 p-12 text-center max-w-lg mx-auto space-y-4">
                 <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-slate-400">
                   <BookOpen className="w-6 h-6" />
                 </div>
-                <h3 className="font-bold text-lg text-white">
+                <h3 className="font-bold text-lg text-ink">
                   No matching subjects found
                 </h3>
                 <p className="text-xs text-slate-400 leading-relaxed">

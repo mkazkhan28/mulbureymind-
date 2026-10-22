@@ -33,10 +33,10 @@ export default function FlashcardStudyPage() {
 
   if (!deck && cards.length === 0) {
     return (
-      <div className="min-h-screen bg-[#070b14] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-canvas flex items-center justify-center p-4">
         <div className="bg-slate-900/80 backdrop-blur-xl p-8 rounded-3xl border border-slate-800 text-center max-w-md space-y-4 shadow-2xl">
           <Layers className="w-10 h-10 text-slate-500 mx-auto" />
-          <h2 className="text-xl font-bold text-white">Deck Not Found</h2>
+          <h2 className="text-xl font-bold text-ink">Deck Not Found</h2>
           <p className="text-xs text-slate-400">The requested DUHS flashcard deck could not be found.</p>
           <Link
             href="/flashcards"
@@ -75,7 +75,7 @@ export default function FlashcardStudyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 py-8 sm:py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
       {/* Decorative ambient background glows */}
       <div className="absolute top-10 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -86,7 +86,7 @@ export default function FlashcardStudyPage() {
         <div className="flex items-center justify-between">
           <Link
             href="/flashcards"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-ink transition"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>All Flashcard Decks</span>
@@ -101,7 +101,7 @@ export default function FlashcardStudyPage() {
             {/* Progress Bar */}
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs font-medium text-slate-400">
-                <span>Card <strong className="text-white">{currentIndex + 1}</strong> of {cards.length}</span>
+                <span>Card <strong className="text-ink">{currentIndex + 1}</strong> of {cards.length}</span>
                 <span className="text-cyan-400 font-bold">{Math.round(((currentIndex + 1) / (cards.length || 1)) * 100)}%</span>
               </div>
               <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
@@ -126,14 +126,14 @@ export default function FlashcardStudyPage() {
                     <span className="font-bold text-cyan-300 uppercase tracking-wider bg-cyan-950/60 px-3 py-0.5 rounded-full border border-cyan-800/60">
                       DUHS Concept Prompt
                     </span>
-                    <div className="flex items-center gap-1.5 text-slate-400 hover:text-white font-medium">
+                    <div className="flex items-center gap-1.5 text-slate-400 hover:text-ink font-medium">
                       <RotateCw className="w-3.5 h-3.5" />
                       <span>Tap to Flip</span>
                     </div>
                   </div>
 
                   <div className="my-auto text-center py-6 px-4">
-                    <p className="text-lg sm:text-2xl font-bold text-white leading-relaxed">
+                    <p className="text-lg sm:text-2xl font-bold text-ink leading-relaxed">
                       {currentCard?.front}
                     </p>
                   </div>
@@ -144,19 +144,19 @@ export default function FlashcardStudyPage() {
                 </div>
 
                 {/* BACK FACE (Answer & Clinical Pearl) */}
-                <div className="absolute inset-0 backface-hidden rotate-y-180 bg-slate-950 text-white rounded-3xl p-7 sm:p-8 flex flex-col justify-between border-2 border-indigo-500/80 shadow-2xl shadow-indigo-500/20">
+                <div className="absolute inset-0 backface-hidden rotate-y-180 bg-slate-950 text-ink rounded-3xl p-7 sm:p-8 flex flex-col justify-between border-2 border-indigo-500/80 shadow-2xl shadow-indigo-500/20">
                   <div className="flex items-center justify-between text-xs border-b border-slate-850 pb-3">
                     <span className="font-bold text-indigo-300 uppercase tracking-wider bg-indigo-950/60 px-3 py-0.5 rounded-full border border-indigo-700/60">
                       Answer & High-Yield Concept
                     </span>
-                    <div className="flex items-center gap-1.5 text-slate-400 hover:text-white font-medium">
+                    <div className="flex items-center gap-1.5 text-slate-400 hover:text-ink font-medium">
                       <RotateCw className="w-3.5 h-3.5" />
                       <span>Tap to Flip Back</span>
                     </div>
                   </div>
 
                   <div className="my-auto text-center py-4 px-2 space-y-4">
-                    <p className="text-lg sm:text-2xl font-extrabold text-white leading-relaxed">
+                    <p className="text-lg sm:text-2xl font-extrabold text-ink leading-relaxed">
                       {currentCard?.back}
                     </p>
                     {currentCard?.clinicalNote && (
@@ -213,7 +213,7 @@ export default function FlashcardStudyPage() {
             </div>
 
             <div className="space-y-1">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-ink">
                 Deck Session Completed!
               </h2>
               <p className="text-xs sm:text-sm text-slate-400">
@@ -242,7 +242,7 @@ export default function FlashcardStudyPage() {
               </button>
               <Link
                 href="/flashcards"
-                className="px-6 py-3 border border-slate-800 bg-slate-950/70 text-slate-300 hover:text-white hover:bg-slate-900 rounded-xl text-xs font-semibold transition"
+                className="px-6 py-3 border border-slate-800 bg-slate-950/70 text-slate-300 hover:text-ink hover:bg-slate-900 rounded-xl text-xs font-semibold transition"
               >
                 Explore Other Decks
               </Link>
