@@ -2,6 +2,7 @@
 
 import React, { useState, Suspense } from "react";
 import QuerySync from "@/components/QuerySync";
+import { drivePreviewUrl, driveDownloadUrl } from "@/lib/drive";
 import Link from "next/link";
 import {
   BDS_RESOURCES,
@@ -16,7 +17,9 @@ import {
   ShieldCheck,
   CheckCircle2,
   X,
-  ArrowRight
+  ArrowRight,
+  Eye,
+  Maximize2
 } from "lucide-react";
 
 export default function ResourcesPage() {
@@ -28,6 +31,7 @@ export default function ResourcesPage() {
   const [lockedModalOpen, setLockedModalOpen] = useState(false);
   const [activeResource, setActiveResource] = useState<StudyResource | null>(null);
   const [downloadSuccessMessage, setDownloadSuccessMessage] = useState<string | null>(null);
+  const [viewing, setViewing] = useState<StudyResource | null>(null);
 
   // Student active membership status simulator
   const [isStudentSubscribed, setIsStudentSubscribed] = useState(false);
@@ -228,6 +232,27 @@ export default function ResourcesPage() {
                     {res.fileSize} • {res.author}
                   </span>
 
+                  {res.driveFileId && !isLocked ? (
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setViewing(res)}
+                        className="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md cursor-pointer bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>View</span>
+                      </button>
+                      <a
+                        href={driveDownloadUrl(res.driveFileId)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-slate-950/80 hover:bg-slate-800 border border-slate-700 text-ink"
+                        title="Download"
+                      >
+                        <DownloadCloud className="w-3.5 h-3.5 text-cyan-400" />
+                        <span className="hidden sm:inline">Download</span>
+                      </a>
+                    </div>
+                  ) : (
                   <button
                     onClick={() => handleResourceAction(res)}
                     className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md cursor-pointer ${
@@ -248,6 +273,7 @@ export default function ResourcesPage() {
                       </>
                     )}
                   </button>
+                  )}
                 </div>
               </div>
             );
@@ -266,6 +292,55 @@ export default function ResourcesPage() {
             </p>
           </div>
         </div>
+
+        {/* SLIDE VIEWER (Google Drive embed) */}
+        {viewing?.driveFileId && (
+          <div
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fadeIn"
+            onClick={() => setViewing(null)}
+          >
+            <div
+              className="bg-surface rounded-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-line"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-line">
+                <div className="min-w-0">
+                  <div className="text-sm font-bold text-ink truncate">{viewing.title}</div>
+                  <div className="text-[11px] text-slate-400">{viewing.type} • {viewing.fileSize}</div>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <a
+                    href={driveDownloadUrl(viewing.driveFileId)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-ink hover:bg-slate-800 flex items-center gap-1.5"
+                  >
+                    <DownloadCloud className="w-3.5 h-3.5" /> <span className="hidden sm:inline">Download</span>
+                  </a>
+                  <a
+                    href={`https://drive.google.com/file/d/${viewing.driveFileId}/view`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-lg text-slate-300 hover:text-ink hover:bg-slate-800"
+                    title="Open full screen in Google Drive"
+                  >
+                    <Maximize2 className="w-4 h-4" />
+                  </a>
+                  <button onClick={() => setViewing(null)} className="p-2 rounded-lg text-slate-300 hover:text-ink hover:bg-slate-800" aria-label="Close viewer">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <iframe
+                src={drivePreviewUrl(viewing.driveFileId)}
+                title={viewing.title}
+                className="flex-1 w-full bg-slate-950"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        )}
 
         {/* UPGRADE PAYWALL MODAL */}
         {lockedModalOpen && (

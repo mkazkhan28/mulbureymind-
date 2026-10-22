@@ -73,6 +73,10 @@ export interface StudyResource {
   author: string;
   isPremium: boolean;
   description: string;
+  /** Google Drive file ID (from a link like drive.google.com/file/d/<ID>/view).
+   *  When set, the Resources page shows View (embedded slides) and Download buttons.
+   *  The file must be shared as "Anyone with the link → Viewer". */
+  driveFileId?: string;
 }
 
 // -------------------------------------------------------------
