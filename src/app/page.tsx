@@ -192,7 +192,7 @@ export default function HomePage() {
       <section className="relative bg-surface/60 py-20">
         <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
           <Reveal>
-            <p className="text-sm font-semibold uppercase tracking-wider text-brand-400">Why Mulberry Mind</p>
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand-400">Why HMHDental</p>
             <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">Built for DUHS exams — not a generic study app</h2>
             <p className="mt-4 text-slate-400">
               Every question, deck and slide is mapped to the DUHS modular syllabus, so you revise exactly what will be examined.

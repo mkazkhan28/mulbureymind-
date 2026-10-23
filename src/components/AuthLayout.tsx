@@ -39,10 +39,11 @@ export default function AuthLayout({
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_top_left,black_10%,transparent_60%)]" />
         <div className="relative flex items-center justify-between">
           <Link href="/" className="group flex items-center gap-2.5">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500/15 to-accent-500/15 ring-1 ring-brand-500/25 transition-transform duration-300 group-hover:rotate-6">
-              <img src="/logo-icon.svg" alt="" className="h-7 w-7" />
+            <img src="/logo-icon.svg" alt="HMHDental logo" className="h-11 w-11 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105" />
+            <span className="font-display text-lg tracking-tight text-ink">
+              <span className="font-bold">HMH</span>
+              <span className="font-medium">Dental</span>
             </span>
-            <span className="font-bold tracking-tight text-ink">Mulberry Mind</span>
           </Link>
           <div className="flex items-center gap-2">
             <Link href="/" className="hidden items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium text-slate-400 transition hover:text-ink sm:inline-flex">

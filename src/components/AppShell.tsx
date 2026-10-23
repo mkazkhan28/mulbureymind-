@@ -293,11 +293,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const Brand = ({ small = false }: { small?: boolean }) => (
     <Link href="/" className="group flex min-w-0 items-center gap-2.5">
-      <span className={`flex shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500/15 to-accent-500/15 ring-1 ring-brand-500/25 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-105 ${small ? "h-8 w-8" : "h-10 w-10"}`}>
-        <img src="/logo-icon.svg" alt="" className={small ? "h-6 w-6" : "h-7 w-7"} />
+      <span className={`flex shrink-0 items-center justify-center transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 ${small ? "h-9 w-9" : "h-11 w-11"}`}>
+        <img src="/logo-icon.svg" alt="HMHDental logo" className="h-full w-full" />
       </span>
       <span className="flex min-w-0 flex-col">
-        <span className={`truncate font-bold tracking-tight text-ink ${small ? "text-sm" : "text-base"}`}>Mulberry Mind</span>
+        <span className={`truncate font-display tracking-tight text-ink ${small ? "text-base" : "text-lg"} leading-tight`}>
+          <span className="font-bold">HMH</span>
+          <span className="font-medium">Dental</span>
+        </span>
         <span className="truncate text-[10px] font-semibold uppercase tracking-wider text-brand-400">DUHS · BDS 1st Year</span>
       </span>
     </Link>
@@ -478,7 +481,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             />
           </div>
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-line pt-6 text-xs text-slate-400 sm:flex-row">
-            <p>© {new Date().getFullYear()} Mulberry Mind. Made for Dow University dental students.</p>
+            <p>© {new Date().getFullYear()} HMHDental. Made for Dow University dental students.</p>
             <p className="flex items-center gap-1.5">
               Made with <Heart className="h-3.5 w-3.5 fill-current text-rose-500" /> for future dental surgeons
             </p>

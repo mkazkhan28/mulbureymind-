@@ -6,8 +6,8 @@ import type { Config } from "tailwindcss";
  * Every colour below points at a CSS variable defined in src/app/globals.css.
  * The light theme (default) and the dark theme (html.dark) each set their own
  * values, so one class name renders differently in each theme:
- *   light → white surfaces, mulberry (brand) + violet (accent)
- *   dark  → midnight navy surfaces, teal (brand) + azure (accent)
+ *   light → Soft White surfaces, Cobalt Blue (brand) + Emerald (accent)
+ *   dark  → Obsidian / Graphite surfaces, Emerald (brand) + Cobalt Blue (accent)
  * `indigo` and `blue` are aliases of `brand`; `violet` and `purple` alias `accent`.
  */
 const SHADES = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"];
@@ -50,7 +50,8 @@ const config: Config = {
         stone: scale("stone"),
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["var(--font-body)", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "var(--font-body)", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
       },
       boxShadow: {

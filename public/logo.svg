@@ -1,36 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" width="280" height="60">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 64" fill="none">
+  <svg x="0" y="0" width="64" height="64" viewBox="0 0 64 64" fill="none">
   <defs>
-    <linearGradient id="mulGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#c084fc;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+    <linearGradient id="hmh-g" x1="8" y1="10" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#16C47F"/>
+      <stop offset="0.55" stop-color="#1F9FB8"/>
+      <stop offset="1" stop-color="#2F6BFF"/>
     </linearGradient>
   </defs>
-
-  <!-- Icon: stylized M with brain/tooth hint -->
-  <g transform="translate(4, 8)">
-    <!-- Tooth silhouette -->
-    <path d="M22 4 C16 4 12 8 12 13 C12 17 13 20 14 24 C15 28 16 32 18 32 C20 32 20 28 22 28 C24 28 24 32 26 32 C28 32 29 28 30 24 C31 20 32 17 32 13 C32 8 28 4 22 4 Z" fill="url(#iconGrad)" opacity="0.9"/>
-    <!-- Neural dots -->
-    <circle cx="18" cy="14" r="1.5" fill="white" opacity="0.8"/>
-    <circle cx="22" cy="11" r="1.5" fill="white" opacity="0.8"/>
-    <circle cx="26" cy="14" r="1.5" fill="white" opacity="0.8"/>
-    <circle cx="20" cy="18" r="1.2" fill="white" opacity="0.6"/>
-    <circle cx="24" cy="18" r="1.2" fill="white" opacity="0.6"/>
-    <!-- Connections -->
-    <line x1="18" y1="14" x2="22" y2="11" stroke="white" stroke-width="0.6" opacity="0.5"/>
-    <line x1="22" y1="11" x2="26" y2="14" stroke="white" stroke-width="0.6" opacity="0.5"/>
-    <line x1="18" y1="14" x2="20" y2="18" stroke="white" stroke-width="0.6" opacity="0.5"/>
-    <line x1="26" y1="14" x2="24" y2="18" stroke="white" stroke-width="0.6" opacity="0.5"/>
+  <g stroke="url(#hmh-g)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- tooth -->
+    <path stroke-width="3.6" d="M22.5 43 C20.5 35 15.5 31 15.5 21.5 C15.5 13.5 21 9.5 26.5 10.3 C29.3 10.7 30.6 12.3 32 12.3 C33.4 12.3 34.7 10.7 37.5 10.3 C43 9.5 48.5 13.5 48.5 21.5 C48.5 31 43.5 35 41.5 43"/>
+    <!-- H -->
+    <path stroke-width="4.2" d="M27 19 V34 M37 19 V34 M27 26.5 H37"/>
+    <!-- open book -->
+    <path stroke-width="3.2" d="M32 54 C26.5 49.5 18 48.5 10.5 49.5 V31.5 M32 54 C37.5 49.5 46 48.5 53.5 49.5 V31.5"/>
+    <path stroke-width="3.2" d="M5.5 35 V53.5 C14 52.5 24 53.5 32 58 C40 53.5 50 52.5 58.5 53.5 V35"/>
   </g>
-
-  <!-- Brand name -->
-  <text x="50" y="28" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="800" fill="url(#mulGrad)" letter-spacing="-0.5">Mulberry</text>
-  <text x="50" y="50" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="500" fill="#94a3b8" letter-spacing="3">MIND</text>
-
-  <!-- Accent dot -->
-  <circle cx="183" cy="46" r="2.5" fill="url(#mulGrad)"/>
+</svg>
+  <text x="76" y="44" font-family="'Space Grotesk', 'Sora', system-ui, sans-serif" font-size="34" fill="currentColor" letter-spacing="-0.5"><tspan font-weight="700">HMH</tspan><tspan font-weight="500">Dental</tspan></text>
 </svg>

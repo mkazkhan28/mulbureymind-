@@ -36,7 +36,7 @@ export default function LoginPage() {
       subtitle="Log in to continue your DUHS BDS 1st Year preparation."
       footer={
         <>
-          New to Mulberry Mind?{" "}
+          New to HMHDental?{" "}
           <Link href="/signup" className="font-semibold text-brand-400 hover:underline">
             Create a free account
           </Link>
