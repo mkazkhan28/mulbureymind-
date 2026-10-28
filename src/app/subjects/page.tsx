@@ -35,37 +35,37 @@ export default function SubjectsPage() {
 
   const subjectThemes: Record<string, { gradient: string; border: string; badge: string; text: string }> = {
     anat: {
-      gradient: "from-amber-500/15 via-surface to-[#090d18]",
+      gradient: "from-amber-500/15 via-surface to-canvas",
       border: "border-amber-500/30 hover:border-amber-400",
       badge: "bg-amber-500/15 text-amber-300 border-amber-500/30",
       text: "text-amber-400"
     },
     phys: {
-      gradient: "from-rose-500/15 via-surface to-[#090d18]",
+      gradient: "from-rose-500/15 via-surface to-canvas",
       border: "border-rose-500/30 hover:border-rose-400",
       badge: "bg-rose-500/15 text-rose-300 border-rose-500/30",
       text: "text-rose-400"
     },
     "oral-bio": {
-      gradient: "from-cyan-500/15 via-surface to-[#090d18]",
+      gradient: "from-cyan-500/15 via-surface to-canvas",
       border: "border-cyan-500/30 hover:border-cyan-400",
       badge: "bg-cyan-500/15 text-cyan-300 border-cyan-500/30",
       text: "text-cyan-400"
     },
     biochem: {
-      gradient: "from-violet-500/15 via-surface to-[#090d18]",
+      gradient: "from-violet-500/15 via-surface to-canvas",
       border: "border-violet-500/30 hover:border-violet-400",
       badge: "bg-violet-500/15 text-violet-300 border-violet-500/30",
       text: "text-violet-400"
     },
     pharm: {
-      gradient: "from-emerald-500/15 via-surface to-[#090d18]",
+      gradient: "from-emerald-500/15 via-surface to-canvas",
       border: "border-emerald-500/30 hover:border-emerald-400",
       badge: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
       text: "text-emerald-400"
     },
     path: {
-      gradient: "from-blue-500/15 via-surface to-[#090d18]",
+      gradient: "from-blue-500/15 via-surface to-canvas",
       border: "border-blue-500/30 hover:border-blue-400",
       badge: "bg-blue-500/15 text-blue-300 border-blue-500/30",
       text: "text-sky-400"
@@ -181,7 +181,7 @@ export default function SubjectsPage() {
                 {filteredSubjects.map((subj) => {
                   const subjectTopics = BDS_TOPICS.filter((t) => t.subjectId === subj.id);
                   const theme = subjectThemes[subj.id] || {
-                    gradient: "from-indigo-500/15 via-surface to-[#090d18]",
+                    gradient: "from-indigo-500/15 via-surface to-canvas",
                     border: "border-slate-800 hover:border-indigo-500",
                     badge: "bg-indigo-500/15 text-indigo-300 border-indigo-500/30",
                     text: "text-indigo-400"

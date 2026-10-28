@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
           </p>
         </div>
 
-        <div className="bg-surface-2 rounded-3xl border border-[#1e3452] p-8 sm:p-10 shadow-sm space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
+        <div className="bg-surface-2 rounded-3xl border border-line p-8 sm:p-10 shadow-sm space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
           <section className="space-y-2">
             <h2 className="font-bold text-base text-ink">1. Information We Collect</h2>
             <p>

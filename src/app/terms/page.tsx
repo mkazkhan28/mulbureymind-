@@ -18,7 +18,7 @@ export default function TermsAndRefundPage() {
           </p>
         </div>
 
-        <div className="bg-surface-2 rounded-3xl border border-[#1e3452] p-8 sm:p-10 shadow-sm space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
+        <div className="bg-surface-2 rounded-3xl border border-line p-8 sm:p-10 shadow-sm space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
           
           {/* Medical Disclaimer Banner */}
           <div className="p-4 bg-surface border border-blue-900/60 rounded-2xl text-xs text-slate-200 space-y-1">

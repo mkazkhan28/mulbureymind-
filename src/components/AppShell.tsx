@@ -29,7 +29,17 @@ import {
   Sun,
   X,
   Zap,
+  FolderOpen,
+  ListTree,
+  Sprout,
+  Microscope,
+  Brain,
+  ScanFace,
+  Bone,
+  HeartPulse,
 } from "lucide-react";
+import { getSubjectStructure, PPT_GROUPS } from "@/lib/subject-structure";
+import { BOOKS_DATA } from "@/lib/books";
 import { BDS_RESOURCES, BDS_SUBJECTS, BDS_FLASHCARD_DECKS } from "@/lib/bds-content";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -57,7 +67,34 @@ const TOP_NAV = [
 
 const firstYearSubjects = BDS_SUBJECTS.filter((s) => s.yearId === "bds-1");
 
-function subjectLinks(s: (typeof BDS_SUBJECTS)[number]) {
+type SubjectLink = { href?: string; label: string; icon?: React.ElementType; meta?: string; heading?: boolean; indent?: boolean };
+const AREA_ICONS = { Sprout, Microscope, Brain, ScanFace, Bone, HeartPulse } as const;
+
+function subjectLinks(s: (typeof BDS_SUBJECTS)[number]): SubjectLink[] {
+  const structure = getSubjectStructure(s.slug);
+  if (structure) {
+    // Structured subject: Textbooks · Course outline · PPTs (Combined | DDC) · areas
+    const base = `/subjects/${s.slug}`;
+    const books = BOOKS_DATA.filter((b) => b.subjectId === structure.bookSubjectId).length;
+    return [
+      { href: base, label: "Overview", icon: BookOpen },
+      { href: `${base}/textbooks`, label: "Textbooks", icon: Library, meta: books ? String(books) : "" },
+      { href: `${base}/course-outline`, label: "Course outline", icon: ListTree, meta: structure.courseOutline.length ? String(structure.courseOutline.length) : "" },
+      { label: "PPTs", heading: true },
+      ...PPT_GROUPS.map((g) => ({
+        href: `${base}/${g.slug}`,
+        label: g.short,
+        icon: FolderOpen,
+        meta: structure.ppts[g.key].length ? String(structure.ppts[g.key].length) : "",
+        indent: true,
+      })),
+      { label: "Subjects", heading: true },
+      ...structure.areas.map((a) => ({ href: `${base}/${a.slug}`, label: a.title, icon: AREA_ICONS[a.icon], indent: true })),
+      { label: "Practice", heading: true },
+      { href: `/practice?subject=${s.id}`, label: "MCQs", icon: ListChecks, meta: s.mcqCount.toLocaleString(), indent: true },
+      { href: `/past-papers`, label: "Past papers", icon: Award, meta: s.pastPapersCount ? `${s.pastPapersCount} yrs` : "", indent: true },
+    ];
+  }
   const notes = BDS_RESOURCES.filter((r) => r.subjectId === s.id).length;
   const decks = BDS_FLASHCARD_DECKS.filter((d) => d.subjectId === s.id).length;
   return [
@@ -219,18 +256,26 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <div className={`grid transition-all duration-300 ease-out ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
                 <div className="overflow-hidden">
                   <ul className="ml-[22px] space-y-0.5 border-l border-slate-700 py-1.5 pl-3 pr-1">
-                    {subjectLinks(s).map((l) => (
-                      <li key={l.label}>
-                        <Link
-                          href={l.href}
-                          className="group flex items-center gap-2 rounded-lg px-2 py-1.5 text-[13px] text-slate-300 transition hover:bg-slate-800 hover:text-ink"
-                        >
-                          <l.icon className={`h-3.5 w-3.5 shrink-0 ${tone.text}`} />
-                          <span className="flex-1">{l.label}</span>
-                          {l.meta && <span className="text-[10px] font-medium text-slate-500 group-hover:text-slate-300">{l.meta}</span>}
-                        </Link>
-                      </li>
-                    ))}
+                    {subjectLinks(s).map((l) =>
+                      l.heading ? (
+                        <li key={`h-${l.label}`} className="px-2 pb-0.5 pt-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                          {l.label}
+                        </li>
+                      ) : (
+                        <li key={l.href}>
+                          <Link
+                            href={l.href ?? "#"}
+                            className={`group flex items-center gap-2 rounded-lg px-2 py-1.5 text-[13px] transition hover:bg-slate-800 hover:text-ink ${
+                              l.indent ? "pl-3" : ""
+                            } ${pathname === l.href ? "bg-slate-800 font-semibold text-ink" : "text-slate-300"}`}
+                          >
+                            {l.icon && <l.icon className={`h-3.5 w-3.5 shrink-0 ${tone.text}`} />}
+                            <span className="flex-1 truncate">{l.label}</span>
+                            {l.meta && <span className="text-[10px] font-medium text-slate-500 group-hover:text-slate-300">{l.meta}</span>}
+                          </Link>
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
               </div>

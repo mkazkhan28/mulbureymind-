@@ -8,6 +8,8 @@ import {
   BDS_TOPICS,
   BDS_MCQS
 } from "@/lib/bds-content";
+import { getSubjectStructure, CORE_SECTIONS } from "@/lib/subject-structure";
+import { SubjectSection } from "@/components/SubjectHub";
 import {
   BookOpen,
   CheckCircle2,
@@ -37,10 +39,16 @@ export default function TopicDetailPage() {
     }));
   };
 
+  // Structured subjects: Textbooks, Course outline, PPT collections and areas
+  const structure = getSubjectStructure(slug);
+  if (subject && structure && (CORE_SECTIONS.some((c) => c.slug === topicSlug) || structure.areas.some((a) => a.slug === topicSlug))) {
+    return <SubjectSection subject={subject} structure={structure} section={topicSlug} />;
+  }
+
   if (!subject || !topic) {
     return (
       <div className="min-h-screen bg-surface text-slate-200 flex items-center justify-center p-4">
-        <div className="bg-surface-2 p-8 rounded-2xl border border-[#1e3452] text-center max-w-md space-y-4">
+        <div className="bg-surface-2 p-8 rounded-2xl border border-line text-center max-w-md space-y-4">
           <BookOpen className="w-10 h-10 text-slate-500 mx-auto" />
           <h2 className="text-lg font-bold text-ink">Topic Not Found</h2>
           <p className="text-xs text-slate-400">The requested topic could not be found.</p>
@@ -75,7 +83,7 @@ export default function TopicDetailPage() {
         </div>
 
         {/* Topic Header Card */}
-        <div className="bg-surface-2 rounded-3xl border border-[#1e3452] p-6 sm:p-8 shadow-sm space-y-4 text-slate-200">
+        <div className="bg-surface-2 rounded-3xl border border-line p-6 sm:p-8 shadow-sm space-y-4 text-slate-200">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
@@ -104,7 +112,7 @@ export default function TopicDetailPage() {
               </Link>
               <Link
                 href={`/flashcards?subject=${subject.id}`}
-                className="px-4 py-2.5 bg-surface hover:bg-surface-2 text-slate-200 border border-[#1e3452] rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
+                className="px-4 py-2.5 bg-surface hover:bg-surface-2 text-slate-200 border border-line rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
               >
                 <Layers className="w-4 h-4" />
                 <span>Flashcards</span>
@@ -116,7 +124,7 @@ export default function TopicDetailPage() {
             {topic.description}
           </p>
 
-          <div className="flex items-center gap-6 pt-3 border-t border-[#1e3452] text-xs text-slate-400">
+          <div className="flex items-center gap-6 pt-3 border-t border-line text-xs text-slate-400">
             <span>
               <strong className="text-ink">{topic.mcqCount}</strong> Questions in database
             </span>
@@ -145,11 +153,11 @@ export default function TopicDetailPage() {
                 return (
                   <div
                     key={q.id}
-                    className="bg-surface-2 rounded-2xl border border-[#1e3452] p-5 shadow-sm space-y-4 text-slate-200"
+                    className="bg-surface-2 rounded-2xl border border-line p-5 shadow-sm space-y-4 text-slate-200"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-center gap-2">
-                        <span className="w-6 h-6 rounded-full bg-surface text-slate-300 border border-[#1e3452] text-xs font-bold flex items-center justify-center shrink-0">
+                        <span className="w-6 h-6 rounded-full bg-surface text-slate-300 border border-line text-xs font-bold flex items-center justify-center shrink-0">
                           {idx + 1}
                         </span>
                         <span className="text-xs font-semibold text-sky-300 bg-sky-950/60 border border-sky-800/60 px-2 py-0.5 rounded">
@@ -175,7 +183,7 @@ export default function TopicDetailPage() {
                             className={`p-2.5 rounded-lg border transition ${
                               isExpanded && isCorrect
                                 ? "bg-emerald-950/60 border-emerald-700/80 font-medium text-emerald-200"
-                                : "bg-surface border-[#1e3452] text-slate-300"
+                                : "bg-surface border-line text-slate-300"
                             }`}
                           >
                             <span className="font-bold mr-1.5 text-slate-400">
@@ -221,7 +229,7 @@ export default function TopicDetailPage() {
               })}
             </div>
           ) : (
-            <div className="bg-surface-2 rounded-2xl border border-[#1e3452] p-8 text-center space-y-3">
+            <div className="bg-surface-2 rounded-2xl border border-line p-8 text-center space-y-3">
               <FileText className="w-8 h-8 text-slate-500 mx-auto" />
               <p className="text-xs text-slate-400">
                 Additional questions for this topic are being compiled by the academic team.

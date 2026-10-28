@@ -8,6 +8,8 @@ import {
   BDS_TOPICS,
   BDS_RESOURCES
 } from "@/lib/bds-content";
+import { getSubjectStructure } from "@/lib/subject-structure";
+import { SubjectHub } from "@/components/SubjectHub";
 import {
   BookOpen,
   ChevronRight,
@@ -40,6 +42,10 @@ export default function SubjectDetailPage() {
       </div>
     );
   }
+
+  // Subjects with a structured hub (Textbooks · Course outline · PPTs · areas)
+  const structure = getSubjectStructure(subject.slug);
+  if (structure) return <SubjectHub subject={subject} structure={structure} />;
 
   const topics = BDS_TOPICS.filter((t) => t.subjectId === subject.id);
   const resources = BDS_RESOURCES.filter((r) => r.subjectId === subject.id);
