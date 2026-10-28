@@ -246,6 +246,14 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
             ))}
           </ul>
         </div>
+        {booksFor(structure).some((b) => b.area === area.slug) && (
+          <div className="space-y-3">
+            <h3 className="flex items-center gap-2 font-semibold text-ink">
+              <Library className="h-4 w-4 text-brand-400" /> Textbook
+            </h3>
+            <BookList books={booksFor(structure).filter((b) => b.area === area.slug)} />
+          </div>
+        )}
         {PPT_GROUPS.map((g) => (
           <div key={g.key} className="space-y-3">
             <h3 className="flex items-center gap-2 font-semibold text-ink">
@@ -484,7 +492,6 @@ function FileList({
 }
 
 function BookList({ books }: { books: BookItem[] }) {
-  const [viewing, setViewing] = useState<BookItem | null>(null);
   if (!books.length) return <EmptyState text="No textbooks added for this subject yet." />;
   return (
     <>
@@ -512,24 +519,23 @@ function BookList({ books }: { books: BookItem[] }) {
                 </Link>
               ) : (
                 <>
-                  <button onClick={() => setViewing(b)} className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-400 transition hover:bg-brand-500/20">
-                    <Eye className="h-3.5 w-3.5" /> Read online
-                  </button>
-                  <a
+                  <Link href={`/read/${b.id}`} className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-400 transition hover:bg-brand-500/20">
+                    <Eye className="h-3.5 w-3.5" /> {b.driveId || b.pdfUrl ? "Read & take notes" : "PDF coming soon"}
+                  </Link>
+                  {b.driveId && <a
                     href={driveDownloadUrl(b.driveId)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:bg-slate-800 hover:text-ink"
                   >
                     <DownloadCloud className="h-3.5 w-3.5" /> Download
-                  </a>
+                  </a>}
                 </>
               )}
             </div>
           </article>
         ))}
       </div>
-      {viewing && <DriveViewer title={viewing.title} subtitle={viewing.authors} drive={viewing.driveId} onClose={() => setViewing(null)} />}
     </>
   );
 }

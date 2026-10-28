@@ -44,7 +44,7 @@ import { BDS_RESOURCES, BDS_SUBJECTS, BDS_FLASHCARD_DECKS } from "@/lib/bds-cont
 import { useTheme } from "@/context/ThemeContext";
 
 /* Routes that render full-screen without the sidebar / top bar */
-const BARE_ROUTES = ["/login", "/signup", "/forgot-password"];
+const BARE_ROUTES = ["/login", "/signup", "/forgot-password", "/read/"];
 
 /* Subject accent colours — 400-level text reads well in both themes */
 const SUBJECT_TONE: Record<string, { text: string; bg: string; ring: string }> = {

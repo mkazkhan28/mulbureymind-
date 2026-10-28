@@ -396,6 +396,57 @@ html.dark {
   transform: none;
 }
 
+
+/* ---------------------------------------------------------------------------
+   Book reader: PDF.js text layer (invisible text over the page so it can be
+   selected for highlights). Adapted from pdf.js web/viewer.css (Apache-2.0).
+   --------------------------------------------------------------------------- */
+.pdf-page .textLayer {
+  position: absolute;
+  text-align: initial;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  z-index: 1;
+}
+.pdf-page .textLayer :is(span, br) {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+}
+.pdf-page .textLayer > :not(.markedContent),
+.pdf-page .textLayer .markedContent span:not(.markedContent) {
+  z-index: 1;
+}
+.pdf-page .textLayer span.markedContent {
+  top: 0;
+  height: 0;
+}
+.pdf-page .textLayer ::selection {
+  background: rgb(var(--c-brand-500) / 0.3);
+}
+.pdf-page .textLayer br::selection {
+  background: transparent;
+}
+.pdf-page .textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+.pdf-page .textLayer .endOfContent.active {
+  top: 0;
+}
+
 /* 3D Flip Card Perspective */
 .perspective-1000 {
   perspective: 1000px;

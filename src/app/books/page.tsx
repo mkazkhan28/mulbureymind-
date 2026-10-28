@@ -137,7 +137,8 @@ export default function BooksLibraryPage() {
               {/* Books Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {group.books.map((book) => {
-                  const isPlaceholder = book.driveId.startsWith("PASTE_");
+                  const hasDrive = !!book.driveId && !book.driveId.startsWith("PASTE_");
+                  const isPlaceholder = !hasDrive && !book.pdfUrl;
                   return (
                     <div
                       key={book.id}
@@ -193,17 +194,18 @@ export default function BooksLibraryPage() {
                       <div className="pt-6 border-t border-slate-800/80 mt-6 flex items-center gap-2">
                         {isPlaceholder ? (
                           <div className="w-full py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-center text-xs font-semibold text-slate-500">
-                            Volume Link Pending
+                            PDF coming soon
                           </div>
                         ) : (
                           <>
-                            <button
-                              onClick={() => setActiveBook(book)}
+                            <Link
+                              href={`/read/${book.id}`}
                               className="flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs shadow-md shadow-violet-600/30 transition flex items-center justify-center gap-2 group-hover:shadow-lg"
                             >
                               <Eye className="w-4 h-4" />
-                              <span>Read Inside</span>
-                            </button>
+                              <span>Read &amp; take notes</span>
+                            </Link>
+                            {hasDrive && (<>
                             <a
                               href={getDriveDirectUrl(book.driveId)}
                               target="_blank"
@@ -220,6 +222,7 @@ export default function BooksLibraryPage() {
                             >
                               <Download className="w-4 h-4" />
                             </a>
+                            </>)}
                           </>
                         )}
                       </div>

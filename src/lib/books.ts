@@ -1,12 +1,26 @@
-/** Textbook library (Google Drive hosted). Used by the Textbooks page and each subject's Textbooks section. */
+/**
+ * Textbook library. Used by the Textbooks page, each subject's Textbooks section and the in-site reader (/read/<id>).
+ *
+ * Where the PDF comes from (first match wins):
+ *   1. pdfUrl  – a direct PDF link that allows cross-origin reads (e.g. Supabase Storage public URL,
+ *                Cloudflare R2, or a file in /public like "/books/langman-15e.pdf")
+ *   2. driveId – a Google Drive file shared as "Anyone with the link → Viewer". The site streams it
+ *                through /api/books/<id>/pdf so the reader can highlight and take notes on it.
+ * Leave both empty to show "PDF coming soon".
+ */
 
 export interface BookItem {
   id: string;
   title: string;
   edition?: string;
   authors: string;
+  /** Google Drive file ID ("" if not uploaded yet) */
   driveId: string;
+  /** Optional direct PDF URL (takes priority over driveId) */
+  pdfUrl?: string;
   subjectId: string;
+  /** Area within the subject (matches slugs in lib/subject-structure.ts), e.g. "embryology" */
+  area?: string;
   subjectName: string;
   subjectColor: string;
   badgeColor: string;
@@ -18,84 +32,89 @@ export interface BookItem {
 }
 
 export const BOOKS_DATA: BookItem[] = [
-  // ── ANATOMY BOOKS ──
+  // ── ANATOMY BOOKS (latest editions, one per area) ──
   {
-    id: "anat-book-1",
-    title: "Snell's Clinical Anatomy by Regions",
-    edition: "DUHS Preferred 10th Ed.",
-    authors: "Lawrence E. Wineski / Snell",
-    driveId: "1ogBviSGsi7xdxbyaM_cgo2lr8q4JFcN8",
+    id: "anat-neuro-snell",
+    title: "Snell's Clinical Neuroanatomy",
+    edition: "9th Edition",
+    authors: "Ryan Splittgerber (Richard S. Snell)",
+    driveId: "",
     subjectId: "anat",
+    area: "neuroanatomy",
+    subjectName: "General Anatomy & Histology",
+    subjectColor: "text-amber-400",
+    badgeColor: "bg-amber-950/60 border-amber-700/50 text-amber-300",
+    coverGradient: "from-violet-950/80 via-violet-900/40 to-slate-900",
+    description: "Clinically oriented neuroanatomy: spinal cord, brainstem, cranial nerve nuclei, cerebellum, cerebrum and blood supply, with clinical cases.",
+    topicsCovered: ["Spinal Cord & Tracts", "Brainstem", "Cranial Nerve Nuclei", "Blood Supply of Brain"],
+    isHighYield: true,
+    premium: false,
+  },
+  {
+    id: "anat-embryo-langman",
+    title: "Langman's Medical Embryology",
+    edition: "15th Edition",
+    authors: "T.W. Sadler",
+    driveId: "",
+    subjectId: "anat",
+    area: "embryology",
+    subjectName: "General Anatomy & Histology",
+    subjectColor: "text-amber-400",
+    badgeColor: "bg-amber-950/60 border-amber-700/50 text-amber-300",
+    coverGradient: "from-emerald-950/80 via-emerald-900/40 to-slate-900",
+    description: "The standard embryology text: general embryology, pharyngeal apparatus, development of the face and palate, and congenital anomalies.",
+    topicsCovered: ["Gametogenesis & Fertilisation", "Pharyngeal Arches", "Face & Palate", "Congenital Anomalies"],
+    isHighYield: true,
+    premium: false,
+  },
+  {
+    id: "anat-hn-bdc",
+    title: "BD Chaurasia's Human Anatomy: Head & Neck",
+    edition: "10th Edition (2025) · Vols 3 & 4",
+    authors: "B.D. Chaurasia (ed. Krishna Garg)",
+    driveId: "",
+    subjectId: "anat",
+    area: "head-and-neck",
     subjectName: "General Anatomy & Histology",
     subjectColor: "text-amber-400",
     badgeColor: "bg-amber-950/60 border-amber-700/50 text-amber-300",
     coverGradient: "from-amber-950/80 via-amber-900/40 to-slate-900",
-    description: "Primary reference for Head, Neck, Thorax, and cranial nerve relations frequently examined in DUHS BDS Annuals.",
-    topicsCovered: ["Head & Neck", "Thorax & Mediastinum", "Cranial Nerves", "Triangles of Neck"],
+    description: "The subcontinent's standard head and neck text: skull, face, neck triangles, TMJ, oral cavity, pharynx and larynx, with clear diagrams.",
+    topicsCovered: ["Skull & Mandible", "Triangles of Neck", "TMJ & Mastication", "Oral Cavity & Pharynx"],
     isHighYield: true,
     premium: false,
   },
   {
-    id: "anat-book-2",
-    title: "BD Chaurasia's Human Anatomy (Head & Neck)",
-    edition: "Volume 3 & Brain",
-    authors: "B.D. Chaurasia",
-    driveId: "1L07S0TzJZhOPd22VzD47Tk4LD9O0pH2M",
+    id: "anat-general-bdc",
+    title: "BD Chaurasia's Handbook of General Anatomy",
+    edition: "8th Edition",
+    authors: "B.D. Chaurasia (ed. Krishna Garg)",
+    driveId: "",
     subjectId: "anat",
+    area: "general-anatomy",
     subjectName: "General Anatomy & Histology",
     subjectColor: "text-amber-400",
     badgeColor: "bg-amber-950/60 border-amber-700/50 text-amber-300",
-    coverGradient: "from-amber-900/60 via-slate-900 to-slate-950",
-    description: "Standard subcontinent exam handbook with straightforward schematics and muscle insertion tables.",
-    topicsCovered: ["Osteology of Skull", "Muscles of Mastication", "Salivary Glands", "TMJ Anatomy"],
+    coverGradient: "from-sky-950/80 via-sky-900/40 to-slate-900",
+    description: "Compact introduction to anatomical terminology, bones, joints, muscles, vessels, nerves and skin — the foundation for the whole course.",
+    topicsCovered: ["Terminology", "Bones & Joints", "Muscles", "Vessels & Nerves"],
     isHighYield: true,
     premium: false,
   },
   {
-    id: "anat-book-3",
-    title: "diFiore's Atlas of Histology with Functional Correlations",
-    edition: "13th Edition",
-    authors: "Victor P. Eroschenko",
-    driveId: "1ofkz3HZyvJ2Xn69FTrFQ3JRXsPRp--am",
+    id: "anat-histo-laiq",
+    title: "Medical Histology: Text & Atlas",
+    edition: "9th Edition",
+    authors: "Laiq Hussain Siddiqui",
+    driveId: "",
     subjectId: "anat",
+    area: "histology",
     subjectName: "General Anatomy & Histology",
     subjectColor: "text-amber-400",
     badgeColor: "bg-amber-950/60 border-amber-700/50 text-amber-300",
-    coverGradient: "from-amber-950/70 via-stone-900 to-slate-900",
-    description: "Complete histology micro-atlas for OSPE slides identification, enamel/dentin margins, and glandular tissue.",
-    topicsCovered: ["Basic Epithelia", "Cartilage & Bone", "Lymphoid Tissues", "Salivary Histology"],
-    isHighYield: false,
-    premium: false,
-  },
-  {
-    id: "anat-book-4",
-    title: "Langman's Medical Embryology",
-    edition: "14th International Ed.",
-    authors: "T.W. Sadler",
-    driveId: "1GKEl_4lAHYHXh8a4V3VLYs7uW1cT_aM0",
-    subjectId: "anat",
-    subjectName: "General Anatomy & Histology",
-    subjectColor: "text-amber-400",
-    badgeColor: "bg-amber-950/60 border-amber-700/50 text-amber-300",
-    coverGradient: "from-amber-900/50 via-slate-900 to-slate-950",
-    description: "Covers pharyngeal apparatus, palate formation, tongue origin, and congenital facial cleft anomalies.",
-    topicsCovered: ["Pharyngeal Arches", "Face & Palate Development", "Tongue Embryology", "Congenital Defects"],
-    isHighYield: true,
-    premium: false,
-  },
-  {
-    id: "anat-book-5",
-    title: "Netter's Head and Neck Anatomy for Dentistry",
-    edition: "3rd Edition",
-    authors: "Neil S. Norton / Frank H. Netter",
-    driveId: "17auYiqximZuO-5vPKDM6FdyKFpUTnR1_",
-    subjectId: "anat",
-    subjectName: "General Anatomy & Histology",
-    subjectColor: "text-amber-400",
-    badgeColor: "bg-amber-950/60 border-amber-700/50 text-amber-300",
-    coverGradient: "from-amber-950/80 via-slate-900 to-slate-950",
-    description: "Gold-standard pictorial illustrations of pterygopalatine fossa, infratemporal fossa, and local anesthesia injection paths.",
-    topicsCovered: ["Trigeminal Distribution", "Infratemporal Fossa", "Maxillary Artery", "Dental Anesthesia Nerves"],
+    coverGradient: "from-rose-950/80 via-rose-900/40 to-slate-900",
+    description: "Pakistan's standard histology text and atlas: basic tissues and organ systems with labelled photomicrographs for slide identification.",
+    topicsCovered: ["Epithelium & Glands", "Connective Tissue", "Cartilage & Bone", "Muscle & Nervous Tissue"],
     isHighYield: true,
     premium: false,
   },
