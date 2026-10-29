@@ -49,6 +49,11 @@ const pptCount = (s: SubjectStructure, area?: string) =>
   PPT_GROUPS.reduce((n, g) => n + s.ppts[g.key].filter((f) => !area || inArea(f, area)).length, 0);
 /** A file belongs to an area if it's filed there or linked there via alsoIn. */
 const inArea = (f: StudyFile, area: string) => f.area === area || !!f.alsoIn?.includes(area);
+/** Files for an area page: its own lectures first, then ones linked in from other areas (filed under their linkTopic). */
+const areaFiles = (files: StudyFile[], area: string): StudyFile[] => [
+  ...files.filter((f) => f.area === area),
+  ...files.filter((f) => f.area !== area && f.alsoIn?.includes(area)).map((f) => ({ ...f, topic: f.linkTopic ?? f.topic })),
+];
 
 /* ======================================================================== */
 /* Title list — the subject's table of contents                            */
@@ -261,7 +266,7 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
             <h3 className="flex items-center gap-2 font-semibold text-ink">
               <FolderOpen className="h-4 w-4 text-brand-400" /> {g.short} PPTs
             </h3>
-            <FileList files={structure.ppts[g.key].filter((f) => inArea(f, area.slug))} empty={`No ${g.short} slides for ${area.title} yet.`} areas={structure.areas} currentArea={area.slug} />
+            <FileList files={areaFiles(structure.ppts[g.key], area.slug)} empty={`No ${g.short} slides for ${area.title} yet.`} areas={structure.areas} currentArea={area.slug} />
           </div>
         ))}
         <Link href={`/practice?subject=${subject.id}`} className="btn-ghost">
@@ -453,8 +458,8 @@ function FileList({
   const byTopic = (list: StudyFile[]) => {
     const out: { topic?: string; files: StudyFile[] }[] = [];
     for (const f of list) {
-      const last = out[out.length - 1];
-      if (last && last.topic === f.topic) last.files.push(f);
+      const group = out.find((g) => g.topic === f.topic);
+      if (group) group.files.push(f);
       else out.push({ topic: f.topic, files: [f] });
     }
     return out;
