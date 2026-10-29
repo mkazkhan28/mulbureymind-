@@ -49,6 +49,7 @@ import {
   type PageRect,
 } from "@/lib/annotations";
 import { driveFileId, drivePreviewUrl } from "@/lib/drive";
+import { recordOpen } from "@/lib/progress";
 
 type PdfJs = typeof import("pdfjs-dist");
 /** Anything the reader can open: a textbook or a lecture PDF. */
@@ -199,7 +200,10 @@ export default function BookReader({ book, backHref = "/books", backLabel = "Bac
 
   useEffect(() => {
     setPageInput(String(page));
-    if (status === "ready") savePosition(book.id, { page, zoom: scale });
+    if (status === "ready") {
+      savePosition(book.id, { page, zoom: scale });
+      recordOpen(book.id, page); // streak, daily goal & continue-reading
+    }
   }, [page, scale, status, book.id]);
 
   const goTo = useCallback(

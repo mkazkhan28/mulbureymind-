@@ -34,9 +34,12 @@ import {
   type SubjectStructure,
 } from "@/lib/subject-structure";
 import DriveViewer from "@/components/DriveViewer";
+import { useProgress } from "@/lib/progress";
+import { lecturesInArea } from "@/lib/catalog";
+import { ContinueReading } from "@/components/Motivation";
 import { Reveal } from "@/components/Reveal";
 
-const AREA_ICONS = { Sprout, Microscope, Brain, ScanFace, Bone, HeartPulse } as const;
+export const AREA_ICONS = { Sprout, Microscope, Brain, ScanFace, Bone, HeartPulse } as const;
 
 /* Subject accent (text-*-400 reads well in both themes) */
 const TONE: Record<string, { text: string; bg: string; ring: string; bar: string }> = {
@@ -137,6 +140,24 @@ export function SubjectHub({ subject, structure }: { subject: Subject; structure
           </div>
         </header>
 
+        {/* Continue where you left off */}
+        <section className="space-y-4">
+          <SectionTitle eyebrow="Pick up where you stopped" title="Continue reading" />
+          <ContinueReading subjectSlug={subject.slug} />
+        </section>
+
+        {/* Areas */}
+        <section className="space-y-4">
+          <SectionTitle eyebrow={`${structure.shortName} subjects`} title={`${structure.areas.length} areas of the syllabus`} />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {structure.areas.map((a, i) => (
+              <Reveal key={a.slug} delay={(i % 3) * 80}>
+                <AreaCard area={a} href={`${base}/${a.slug}`} ppts={pptCount(structure, a.slug)} lectureIds={lecturesInArea(subject.slug, a.slug)} />
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
         {/* Study materials */}
         <section className="space-y-4">
           <SectionTitle eyebrow="Study materials" title="Books, outline and lecture slides" />
@@ -189,17 +210,6 @@ export function SubjectHub({ subject, structure }: { subject: Subject; structure
           </div>
         </section>
 
-        {/* Areas */}
-        <section className="space-y-4">
-          <SectionTitle eyebrow={`${structure.shortName} subjects`} title={`${structure.areas.length} areas of the syllabus`} />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {structure.areas.map((a, i) => (
-              <Reveal key={a.slug} delay={(i % 3) * 80}>
-                <AreaCard area={a} href={`${base}/${a.slug}`} ppts={pptCount(structure, a.slug)} tone={tone} />
-              </Reveal>
-            ))}
-          </div>
-        </section>
       </div>
     </div>
   );
@@ -352,26 +362,50 @@ function MaterialCard({ href, icon: Icon, title, text, meta }: { href: string; i
   );
 }
 
-function AreaCard({ area, href, ppts, tone }: { area: SubjectArea; href: string; ppts: number; tone: typeof DEFAULT_TONE }) {
+export const AREA_STYLE: Record<string, { grad: string; chip: string; icon: string; bar: string }> = {
+  // 500–700 shades look the same in light and dark themes, so tiles stay bright in both
+  embryology: { grad: "from-emerald-500 to-teal-600", chip: "bg-emerald-500/15 text-emerald-400", icon: "text-emerald-600", bar: "from-emerald-500 to-teal-500" },
+  histology: { grad: "from-pink-500 to-rose-600", chip: "bg-pink-500/15 text-pink-400", icon: "text-pink-600", bar: "from-pink-500 to-rose-500" },
+  neuroanatomy: { grad: "from-sky-500 to-accent-600", chip: "bg-sky-500/15 text-sky-400", icon: "text-sky-600", bar: "from-sky-500 to-accent-500" },
+  "head-and-neck": { grad: "from-amber-500 to-orange-600", chip: "bg-amber-500/15 text-amber-400", icon: "text-amber-600", bar: "from-amber-500 to-amber-600" },
+  "general-anatomy": { grad: "from-teal-500 to-brand-700", chip: "bg-teal-500/15 text-teal-400", icon: "text-teal-600", bar: "from-teal-500 to-brand-500" },
+  "thorax-and-abdomen": { grad: "from-rose-500 to-pink-700", chip: "bg-rose-500/15 text-rose-400", icon: "text-rose-600", bar: "from-rose-500 to-pink-500" },
+};
+export const DEFAULT_AREA_STYLE = { grad: "from-brand-500 to-accent-600", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" };
+
+function AreaCard({ area, href, ppts, lectureIds }: { area: SubjectArea; href: string; ppts: number; lectureIds: string[]; tone?: typeof DEFAULT_TONE }) {
   const Icon = AREA_ICONS[area.icon];
+  const st = AREA_STYLE[area.slug] ?? DEFAULT_AREA_STYLE;
+  const progress = useProgress();
+  const opened = progress ? lectureIds.filter((id) => progress.opened[id]).length : 0;
+  const pct = lectureIds.length ? Math.round((opened / lectureIds.length) * 100) : 0;
   return (
     <Link
       href={href}
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-5 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift"
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lift"
     >
-      <span className={`absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r ${tone.bar} transition-transform duration-500 group-hover:scale-x-100`} />
-      <div className="flex items-center gap-3">
-        <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${tone.bg} ${tone.text} transition-transform duration-300 group-hover:scale-110`}>
-          <Icon className="h-5 w-5" />
+      <div className={`relative h-28 overflow-hidden bg-gradient-to-br ${st.grad}`}>
+        <div className="absolute inset-0 opacity-25 [background-image:radial-gradient(white_1.2px,transparent_1.2px)] [background-size:16px_16px]" />
+        <Icon className="absolute -bottom-5 -right-3 h-32 w-32 text-white/25 transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
+        <span className="absolute left-4 top-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/90 shadow-md backdrop-blur transition-transform duration-300 group-hover:scale-110">
+          <Icon className={`h-6 w-6 ${st.icon}`} />
         </span>
-        <h3 className="text-lg font-semibold text-ink">{area.title}</h3>
+        <span className="absolute right-4 top-4 rounded-full bg-black/25 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur">
+          {ppts ? `${ppts} lecture${ppts === 1 ? "" : "s"}` : "Coming soon"}
+        </span>
       </div>
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400">{area.summary}</p>
-      <div className="mt-4 flex items-center justify-between border-t border-line pt-3 text-xs">
-        <span className="text-slate-500">
-          {area.topics.length} topics · {ppts ? `${ppts} PPT${ppts === 1 ? "" : "s"}` : "PPTs coming soon"}
-        </span>
-        <ChevronRight className="h-4 w-4 text-slate-500 transition-transform group-hover:translate-x-1" />
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="text-lg font-bold text-ink">{area.title}</h3>
+        <p className="mt-1.5 flex-1 text-sm leading-relaxed text-slate-400">{area.summary}</p>
+        <div className="mt-4">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-slate-500">{progress ? `${opened} of ${lectureIds.length} opened` : `${lectureIds.length} lectures`}</span>
+            <span className={`rounded-full px-2 py-0.5 font-semibold ${st.chip}`}>{pct}%</span>
+          </div>
+          <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-slate-800">
+            <div className={`h-full rounded-full bg-gradient-to-r ${st.bar} transition-all duration-700`} style={{ width: `${pct}%` }} />
+          </div>
+        </div>
       </div>
     </Link>
   );
@@ -444,6 +478,7 @@ function FileList({
   currentArea?: string;
 }) {
   const [viewing, setViewing] = useState<StudyFile | null>(null);
+  const progress = useProgress();
   if (!files.length) return <EmptyState text={empty} />;
 
   const groups: { title?: string; files: StudyFile[] }[] =
@@ -454,7 +489,6 @@ function FileList({
         ].filter((g) => g.files.length)
       : [{ files }];
 
-  // Within a group, split by topic (keeping the original lecture order)
   const byTopic = (list: StudyFile[]) => {
     const out: { topic?: string; files: StudyFile[] }[] = [];
     for (const f of list) {
@@ -466,72 +500,103 @@ function FileList({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {groups.map((g, gi) => (
-        <div key={gi} className="space-y-4">
+        <div key={gi} className="space-y-6">
           {g.title && <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500">{g.title}</h3>}
           {byTopic(g.files).map((t, ti) => (
-            <div key={ti} className="space-y-2">
+            <section key={ti} className="space-y-3">
               {t.topic && (
-                <h4 className="flex items-center gap-2 text-sm font-semibold text-ink">
+                <h4 className="flex items-center gap-2 text-base font-semibold text-ink">
+                  <span className="h-5 w-1.5 rounded-full bg-gradient-to-b from-brand-400 to-accent-500" />
                   {t.topic}
                   <span className="rounded-full bg-slate-850 px-2 py-0.5 text-[11px] font-medium text-slate-400">
                     {t.files.length} lecture{t.files.length === 1 ? "" : "s"}
                   </span>
                 </h4>
               )}
-              <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
-                {t.files.map((f) => (
-                  <li key={f.id} className="flex items-center gap-3 px-4 py-3 transition hover:bg-slate-850/60">
-                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold ${f.type === "PDF" ? "bg-rose-500/10 text-rose-400" : "bg-amber-500/10 text-amber-400"}`}>
-                      {f.type === "PDF" ? "PDF" : "PPT"}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-sm font-medium leading-snug text-ink">
-                        {f.title}
-                        {currentArea && f.area && f.area !== currentArea && (
-                          <span className="ml-2 inline-block rounded-full bg-brand-500/10 px-2 py-0.5 align-middle text-[10px] font-semibold text-brand-400">
-                            From {areas?.find((a) => a.slug === f.area)?.title ?? f.area}
-                          </span>
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                {t.files.map((f) => {
+                  const seen = progress?.opened[f.id];
+                  const pct = seen && f.pages ? Math.min(100, Math.round((seen.page / f.pages) * 100)) : 0;
+                  const from = currentArea && f.area && f.area !== currentArea ? areas?.find((a) => a.slug === f.area)?.title ?? f.area : null;
+                  const canRead = !f.isPremium && !!f.pdf;
+                  return (
+                    <article
+                      key={f.id}
+                      className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-brand-500/40 hover:shadow-lift"
+                    >
+                      {/* whole card opens the lecture */}
+                      {canRead ? (
+                        <Link href={`/read/${f.id}`} className="absolute inset-0 z-10" aria-label={`Open ${f.title}`} />
+                      ) : f.drive && !f.isPremium ? (
+                        <button onClick={() => setViewing(f)} className="absolute inset-0 z-10" aria-label={`Open ${f.title}`} />
+                      ) : f.isPremium ? (
+                        <Link href="/pricing" className="absolute inset-0 z-10" aria-label={`Unlock ${f.title}`} />
+                      ) : null}
+
+                      <div className="relative aspect-[16/10] overflow-hidden bg-slate-850">
+                        {f.pdf ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={`/files/thumbs/${f.id}.webp`}
+                            alt=""
+                            loading="lazy"
+                            className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${f.isPremium ? "blur-[2px]" : ""}`}
+                          />
+                        ) : (
+                          <div className="flex h-full items-center justify-center text-amber-400">
+                            <Presentation className="h-10 w-10" />
+                          </div>
                         )}
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-80" />
+                        <span className="absolute left-2.5 top-2.5 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-semibold text-white backdrop-blur">
+                          {f.pages ? `${f.pages} slides` : "Slides"}
+                        </span>
+                        {f.isPremium ? (
+                          <span className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-amber-500 px-2 py-0.5 text-[11px] font-bold text-white">
+                            <Lock className="h-3 w-3" /> Pass
+                          </span>
+                        ) : progress && !seen ? (
+                          <span className="absolute right-2.5 top-2.5 rounded-full bg-brand-500 px-2 py-0.5 text-[11px] font-bold text-white shadow">New</span>
+                        ) : seen ? (
+                          <span className="absolute right-2.5 top-2.5 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-bold text-brand-700">
+                            {pct >= 95 ? "Finished ✓" : "In progress"}
+                          </span>
+                        ) : null}
+                        <span className="pointer-events-none absolute bottom-2.5 left-1/2 flex -translate-x-1/2 translate-y-2 items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#0f1f3d] opacity-0 shadow-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                          <Eye className="h-3.5 w-3.5" /> {f.isPremium ? "Unlock" : seen ? "Continue" : "Open"}
+                        </span>
                       </div>
-                      <div className="truncate text-xs text-slate-500">{[f.pages ? `${f.pages} slides` : "", f.by].filter(Boolean).join(" · ")}</div>
-                    </div>
-                    {f.isPremium ? (
-                      <Link href="/pricing" className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-400">
-                        <Lock className="h-3.5 w-3.5" /> Unlock
-                      </Link>
-                    ) : f.pdf ? (
-                      <div className="flex shrink-0 items-center gap-1">
-                        <Link href={`/read/${f.id}`} className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-400 transition hover:bg-brand-500/20">
-                          <Eye className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Read &amp; take notes</span><span className="sm:hidden">Read</span>
-                        </Link>
-                        <a href={f.pdf} download className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-800 hover:text-ink" title="Download PDF">
-                          <DownloadCloud className="h-4 w-4" />
-                        </a>
+
+                      <div className="flex flex-1 flex-col p-3.5">
+                        <h5 className="line-clamp-2 text-[15px] font-semibold leading-snug text-ink">{f.title}</h5>
+                        <div className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
+                          {f.by && <span className="truncate">{f.by}</span>}
+                          {from && <span className="rounded-full bg-brand-500/10 px-2 py-0.5 text-[10px] font-semibold text-brand-400">From {from}</span>}
+                        </div>
+                        <div className="mt-auto flex items-center gap-2 pt-3">
+                          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-800">
+                            <div className="h-full rounded-full bg-gradient-to-r from-brand-500 to-accent-500 transition-all duration-700" style={{ width: `${pct}%` }} />
+                          </div>
+                          {f.pdf && !f.isPremium && (
+                            <a
+                              href={f.pdf}
+                              download
+                              className="relative z-20 rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-800 hover:text-ink"
+                              title="Download PDF"
+                              aria-label={`Download ${f.title}`}
+                            >
+                              <DownloadCloud className="h-4 w-4" />
+                            </a>
+                          )}
+                        </div>
                       </div>
-                    ) : f.drive ? (
-                      <div className="flex shrink-0 items-center gap-1">
-                        <button onClick={() => setViewing(f)} className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-400 transition hover:bg-brand-500/20">
-                          <Eye className="h-3.5 w-3.5" /> View
-                        </button>
-                        <a
-                          href={driveDownloadUrl(driveFileId(f.drive))}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-800 hover:text-ink"
-                          title="Download"
-                        >
-                          <DownloadCloud className="h-4 w-4" />
-                        </a>
-                      </div>
-                    ) : (
-                      <span className="text-xs text-slate-500">Coming soon</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
           ))}
         </div>
       ))}

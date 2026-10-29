@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import { getSubjectStructure, PPT_GROUPS } from "@/lib/subject-structure";
 import { BOOKS_DATA } from "@/lib/books";
+import { searchCatalog } from "@/lib/catalog";
 import { BDS_RESOURCES, BDS_SUBJECTS, BDS_FLASHCARD_DECKS } from "@/lib/bds-content";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -546,14 +547,47 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <input
                 type="text"
                 autoFocus
-                placeholder="Search subjects, MCQs, past papers, PPTs…"
+                placeholder="Search any lecture, book or page… e.g. “thalamus”"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-transparent text-sm text-ink placeholder:text-slate-500 focus:outline-none"
               />
               <kbd className="rounded-md border border-line bg-slate-850 px-1.5 py-0.5 font-mono text-[10px] text-slate-400">ESC</kbd>
             </div>
-            <div className="max-h-80 space-y-0.5 overflow-y-auto p-2">
+            <div className="max-h-[60vh] space-y-0.5 overflow-y-auto p-2">
+              {searchQuery.trim().length >= 2 && (() => {
+                const hits = searchCatalog(searchQuery, 8);
+                if (!hits.length) return null;
+                return (
+                  <div className="pb-2">
+                    <div className="px-2.5 pb-1 pt-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Lectures &amp; books</div>
+                    {hits.map((h) => (
+                      <Link
+                        key={h.id}
+                        href={h.href}
+                        onClick={() => setSearchModalOpen(false)}
+                        className="group flex items-center gap-3 rounded-xl p-2 transition hover:bg-slate-800"
+                      >
+                        <span className="flex h-10 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-850">
+                          {h.thumb ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={h.thumb} alt="" className="h-full w-full object-cover" />
+                          ) : (
+                            <BookOpen className="h-4 w-4 text-brand-400" />
+                          )}
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-sm font-semibold text-ink group-hover:text-brand-400">{h.title}</span>
+                          <span className="block truncate text-xs text-slate-400">
+                            {[h.areaTitle, h.topic, h.pages ? `${h.pages} slides` : ""].filter(Boolean).join(" · ")}
+                          </span>
+                        </span>
+                        <span className="rounded-md bg-brand-500/10 px-2 py-0.5 text-[10px] font-semibold text-brand-400">Open</span>
+                      </Link>
+                    ))}
+                  </div>
+                );
+              })()}
               {searchResults.length > 0 ? (
                 searchResults.map((item) => (
                   <Link
@@ -573,7 +607,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   </Link>
                 ))
               ) : (
-                <div className="p-6 text-center text-sm text-slate-400">No results for &ldquo;{searchQuery}&rdquo;.</div>
+                searchCatalog(searchQuery, 1).length === 0 && (
+                  <div className="p-6 text-center text-sm text-slate-400">No results for &ldquo;{searchQuery}&rdquo;.</div>
+                )
               )}
             </div>
           </div>

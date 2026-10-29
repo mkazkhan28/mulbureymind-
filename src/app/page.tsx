@@ -21,6 +21,8 @@ import {
 } from "lucide-react";
 import { BDS_SUBJECTS, BDS_MCQS, MEMBERSHIP_PLANS } from "@/lib/bds-content";
 import { Reveal, CountUp } from "@/components/Reveal";
+import { StudyPanel, ContinueReading } from "@/components/Motivation";
+import AreaTiles from "@/components/AreaTiles";
 
 const SUBJECT_TONE: Record<string, { text: string; bg: string; glow: string; bar: string }> = {
   anat: { text: "text-amber-400", bg: "bg-amber-500/10", glow: "group-hover:shadow-amber-500/20", bar: "from-amber-400 to-amber-600" },
@@ -113,6 +115,35 @@ export default function HomePage() {
           <div className="animate-slide-in-right [animation-delay:200ms]">
             <HeroPreview />
           </div>
+        </div>
+      </section>
+
+      {/* ============================ YOUR STUDY TODAY ============================ */}
+      <section className="relative mx-auto max-w-7xl space-y-10 px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wider text-brand-400">Your study today</p>
+              <h2 className="mt-1 text-2xl font-bold tracking-tight text-ink sm:text-3xl">Keep your streak alive</h2>
+            </div>
+            <Link href="/subjects/anatomy" className="btn-ghost !py-2 !text-sm">
+              All Anatomy lectures <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <StudyPanel />
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-ink">Continue where you left off</h3>
+          <ContinueReading />
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex items-end justify-between gap-3">
+            <h3 className="text-lg font-semibold text-ink">Jump into Anatomy</h3>
+            <span className="text-sm text-slate-400">Tap an area to see its lectures</span>
+          </div>
+          <AreaTiles />
         </div>
       </section>
 

@@ -6,8 +6,8 @@ import type { Config } from "tailwindcss";
  * Every colour below points at a CSS variable defined in src/app/globals.css.
  * The light theme (default) and the dark theme (html.dark) each set their own
  * values, so one class name renders differently in each theme:
- *   light → Soft White surfaces, Cobalt Blue (brand) + Emerald (accent)
- *   dark  → Obsidian / Graphite surfaces, Emerald (brand) + Cobalt Blue (accent)
+ *   light → mint-white surfaces, navy text, mint (brand) + navy (accent), amber for rewards
+ *   dark  → deep navy surfaces, glowing mint (brand) + sky blue (accent)
  * `indigo` and `blue` are aliases of `brand`; `violet` and `purple` alias `accent`.
  */
 const SHADES = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"];
@@ -102,6 +102,14 @@ const config: Config = {
         "spin-slow": {
           to: { transform: "rotate(360deg)" },
         },
+        confetti: {
+          "0%": { transform: "translate(0, 0) rotate(0deg)", opacity: "1" },
+          "100%": { transform: "translate(var(--drift, 0px), 280px) rotate(540deg)", opacity: "0" },
+        },
+        "pop-in": {
+          "0%": { transform: "scale(0.9)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
       },
       animation: {
         float: "float 4s ease-in-out infinite",
@@ -114,6 +122,8 @@ const config: Config = {
         "gradient-pan": "gradient-pan 8s ease infinite",
         marquee: "marquee 40s linear infinite",
         "spin-slow": "spin-slow 24s linear infinite",
+        confetti: "confetti 1.8s cubic-bezier(0.2, 0.7, 0.4, 1) forwards",
+        "pop-in": "pop-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both",
       },
     },
   },
