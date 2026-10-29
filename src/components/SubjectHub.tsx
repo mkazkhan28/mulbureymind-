@@ -38,6 +38,7 @@ import { useProgress } from "@/lib/progress";
 import { lecturesInArea } from "@/lib/catalog";
 import { ContinueReading } from "@/components/Motivation";
 import { Reveal } from "@/components/Reveal";
+import { SubjectArt, AreaArt, areaIcon } from "@/components/Illustrations";
 
 export const AREA_ICONS = { Sprout, Microscope, Brain, ScanFace, Bone, HeartPulse } as const;
 
@@ -84,7 +85,7 @@ export function SubjectNav({ subject, structure, current }: { subject: Subject; 
     <nav aria-label={`${subject.name} contents`} className="space-y-5">
       <div>
         <Link href={base} className={`mb-2 flex items-center gap-2 px-2.5 text-xs font-semibold uppercase tracking-wider ${current ? "text-slate-500 hover:text-ink" : tone.text}`}>
-          <span>{subject.icon}</span> {structure.shortName} — contents
+          <SubjectArt id={subject.id} className="h-5 w-5" /> {structure.shortName} — contents
         </Link>
         <div className="space-y-0.5">
           {item(`${base}/textbooks`, "Textbooks", Library, "textbooks", String(booksFor(structure).length))}
@@ -98,7 +99,7 @@ export function SubjectNav({ subject, structure, current }: { subject: Subject; 
       <div>
         <div className="mb-2 px-2.5 text-xs font-semibold uppercase tracking-wider text-slate-500">Subjects</div>
         <div className="space-y-0.5">
-          {structure.areas.map((a) => item(`${base}/${a.slug}`, a.title, AREA_ICONS[a.icon], a.slug))}
+          {structure.areas.map((a) => item(`${base}/${a.slug}`, a.title, areaIcon(a.slug), a.slug))}
         </div>
       </div>
       <div className="space-y-0.5 border-t border-line pt-4">
@@ -127,7 +128,7 @@ export function SubjectHub({ subject, structure }: { subject: Subject; structure
         <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl animate-rise">
             <div className="flex items-center gap-3">
-              <span className={`flex h-14 w-14 items-center justify-center rounded-2xl text-3xl ${tone.bg} ring-1 ${tone.ring}`}>{subject.icon}</span>
+              <span className={`flex h-20 w-20 items-center justify-center rounded-3xl ${tone.bg} ring-1 ${tone.ring}`}><SubjectArt id={subject.id} className="h-16 w-16 drop-shadow-sm" /></span>
               <span className={`rounded-full ${tone.bg} px-3 py-1 text-xs font-semibold ${tone.text}`}>{subject.code}</span>
             </div>
             <h1 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-4xl">{subject.name}</h1>
@@ -246,14 +247,13 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
       </>
     );
   } else if (area) {
-    const Icon = AREA_ICONS[area.icon];
     title = area.title;
     intro = area.summary;
     body = (
       <div className="space-y-8">
         <div className="rounded-2xl border border-line bg-surface p-5 shadow-soft">
           <h3 className="flex items-center gap-2 text-sm font-semibold text-ink">
-            <Icon className={`h-4 w-4 ${tone.text}`} /> Topics covered
+            <AreaArt slug={area.slug} className="h-6 w-6" /> Topics covered
           </h3>
           <ul className="mt-3 flex flex-wrap gap-2">
             {area.topics.map((t) => (
@@ -375,7 +375,6 @@ export const AREA_STYLE: Record<string, { grad: string; chip: string; icon: stri
 export const DEFAULT_AREA_STYLE = { grad: "from-brand-500 to-accent-600", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" };
 
 function AreaCard({ area, href, ppts, lectureIds }: { area: SubjectArea; href: string; ppts: number; lectureIds: string[]; tone?: typeof DEFAULT_TONE }) {
-  const Icon = AREA_ICONS[area.icon];
   const st = AREA_STYLE[area.slug] ?? DEFAULT_AREA_STYLE;
   const progress = useProgress();
   const opened = progress ? lectureIds.filter((id) => progress.opened[id]).length : 0;
@@ -387,11 +386,9 @@ function AreaCard({ area, href, ppts, lectureIds }: { area: SubjectArea; href: s
     >
       <div className={`relative h-28 overflow-hidden bg-gradient-to-br ${st.grad}`}>
         <div className="absolute inset-0 opacity-25 [background-image:radial-gradient(white_1.2px,transparent_1.2px)] [background-size:16px_16px]" />
-        <Icon className="absolute -bottom-5 -right-3 h-32 w-32 text-white/25 transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
-        <span className="absolute left-4 top-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/90 shadow-md backdrop-blur transition-transform duration-300 group-hover:scale-110">
-          <Icon className={`h-6 w-6 ${st.icon}`} />
-        </span>
-        <span className="absolute right-4 top-4 rounded-full bg-black/25 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur">
+        <div className="absolute -bottom-10 right-2 h-36 w-36 rounded-full bg-white/25 blur-xl" />
+        <AreaArt slug={area.slug} className="absolute -bottom-2 right-3 h-28 w-28 drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
+        <span className="absolute left-4 top-4 rounded-full bg-black/25 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur">
           {ppts ? `${ppts} lecture${ppts === 1 ? "" : "s"}` : "Coming soon"}
         </span>
       </div>

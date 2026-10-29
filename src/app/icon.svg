@@ -1,18 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="HMHDental">
   <defs>
-    <linearGradient id="hmh-g" x1="8" y1="10" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#16C47F"/>
-      <stop offset="0.55" stop-color="#1F9FB8"/>
-      <stop offset="1" stop-color="#2F6BFF"/>
+    <linearGradient id="hmh-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4a7fc9"/>
+      <stop offset="0.6" stop-color="#2e5a99"/>
+      <stop offset="1" stop-color="#1e3a66"/>
     </linearGradient>
+    <linearGradient id="hmh-tooth" x1="0.25" y1="0" x2="0.75" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.7" stop-color="#f1f5fb"/>
+      <stop offset="1" stop-color="#d4e0f2"/>
+    </linearGradient>
+    <linearGradient id="hmh-band" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e86a92"/>
+      <stop offset="1" stop-color="#f2b63d"/>
+    </linearGradient>
+    <radialGradient id="hmh-gloss" cx="0.3" cy="0.15" r="0.7">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <g stroke="url(#hmh-g)" stroke-linecap="round" stroke-linejoin="round">
-    <!-- tooth -->
-    <path stroke-width="3.6" d="M22.5 43 C20.5 35 15.5 31 15.5 21.5 C15.5 13.5 21 9.5 26.5 10.3 C29.3 10.7 30.6 12.3 32 12.3 C33.4 12.3 34.7 10.7 37.5 10.3 C43 9.5 48.5 13.5 48.5 21.5 C48.5 31 43.5 35 41.5 43"/>
-    <!-- H -->
-    <path stroke-width="4.2" d="M27 19 V34 M37 19 V34 M27 26.5 H37"/>
-    <!-- open book -->
-    <path stroke-width="3.2" d="M32 54 C26.5 49.5 18 48.5 10.5 49.5 V31.5 M32 54 C37.5 49.5 46 48.5 53.5 49.5 V31.5"/>
-    <path stroke-width="3.2" d="M5.5 35 V53.5 C14 52.5 24 53.5 32 58 C40 53.5 50 52.5 58.5 53.5 V35"/>
-  </g>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#hmh-bg)"/>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#hmh-gloss)"/>
+  <!-- molar -->
+  <path d="M16 23.5 C15.5 15 22.5 11 27.5 14.2 C30 12 34 12 36.5 14.2 C41.5 11 48.5 15 48 23.5 C47.6 30 45.5 34 44 38 C43 45 42 52 39.2 53.5 C36.8 54.7 35.4 51.5 34.8 47.5 C34.2 43.8 33.4 41.5 32 41.5 C30.6 41.5 29.8 43.8 29.2 47.5 C28.6 51.5 27.2 54.7 24.8 53.5 C22 52 21 45 20 38 C18.5 34 16.4 30 16 23.5 Z" fill="url(#hmh-tooth)"/>
+  <!-- H formed in the crown -->
+  <path d="M25.5 21 V33 M38.5 21 V33 M25.5 27 H38.5" stroke="#2e5a99" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+  <!-- smile band (pink → yellow) -->
+  <path d="M20.5 37 C27 39.6 37 39.6 43.5 37" stroke="url(#hmh-band)" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <path d="M19.5 20 C20 17 22.5 15.6 25 16.4" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none"/>
 </svg>

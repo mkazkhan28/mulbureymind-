@@ -17,6 +17,7 @@ import {
   Lock,
   ArrowRight
 } from "lucide-react";
+import { SubjectArt } from "@/components/Illustrations";
 
 export default function SubjectsPage() {
   const [selectedYear, setSelectedYear] = useState("bds-1");
@@ -196,7 +197,7 @@ export default function SubjectsPage() {
                         {/* Top Row: Icon, Code & Title */}
                         <div className="flex items-start gap-3">
                           <span className="text-3xl p-2 bg-slate-900/80 border border-slate-700/80 rounded-xl shrink-0 shadow">
-                            {subj.icon}
+                            <SubjectArt id={subj.id} className="h-10 w-10" />
                           </span>
                           <div>
                             <span className={`text-[10px] font-bold tracking-wider uppercase ${theme.text}`}>

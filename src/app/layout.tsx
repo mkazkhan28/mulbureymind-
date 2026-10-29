@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Space_Grotesk, Sora } from "next/font/google";
+import { Bricolage_Grotesque, Sora } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 import { ThemeProvider, themeInitScript } from "@/context/ThemeContext";
 
-/* Brand typefaces (HMHDental brand board): Space Grotesk for headings, Sora for body text */
-const spaceGrotesk = Space_Grotesk({
+/* Brand typefaces: Bricolage Grotesque (bold, characterful) for titles, Sora for body text */
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
+  weight: ["600", "700", "800"],
   variable: "--font-display",
   display: "swap",
 });
@@ -51,7 +52,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
-        className={`${spaceGrotesk.variable} ${sora.variable} ${geistMono.variable} font-sans antialiased min-h-screen bg-canvas text-ink`}
+        className={`${display.variable} ${sora.variable} ${geistMono.variable} font-sans antialiased min-h-screen bg-canvas text-ink`}
       >
         <ThemeProvider>
           <AppShell>{children}</AppShell>

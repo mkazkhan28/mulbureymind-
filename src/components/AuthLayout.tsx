@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Award, Layers, ListChecks, Moon, Presentation, Sun } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
+import { SubjectArt } from "@/components/Illustrations";
 
 const SLIDES = [
   { icon: ListChecks, title: "3,700+ MCQs with explanations", text: "Tutor mode, timed exams and full mock papers for all six subjects." },
@@ -40,9 +41,8 @@ export default function AuthLayout({
         <div className="relative flex items-center justify-between">
           <Link href="/" className="group flex items-center gap-2.5">
             <img src="/logo-icon.svg" alt="HMHDental logo" className="h-11 w-11 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105" />
-            <span className="font-display text-lg tracking-tight text-ink">
-              <span className="font-bold">HMH</span>
-              <span className="font-medium">Dental</span>
+            <span className="font-display text-2xl font-extrabold tracking-[-0.03em] text-ink">
+              HMH<span className="bg-gradient-to-r from-brand-500 via-accent-500 to-amber-500 bg-clip-text text-transparent">Dental</span>
             </span>
           </Link>
           <div className="flex items-center gap-2">
@@ -79,12 +79,12 @@ export default function AuthLayout({
         {/* orbiting rings with tooth / molecule glyphs */}
         <div className="pointer-events-none absolute right-[-120px] top-1/2 h-[520px] w-[520px] -translate-y-1/2">
           <div className="absolute inset-0 rounded-full border border-white/15 animate-spin-slow">
-            <span className="absolute -top-5 left-1/2 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-2xl bg-white/15 text-xl backdrop-blur">🦷</span>
-            <span className="absolute -bottom-5 left-1/2 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-2xl bg-white/15 text-xl backdrop-blur">🧬</span>
+            <span className="absolute -top-5 left-1/2 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-2xl bg-white/90 shadow-md backdrop-blur"><SubjectArt id="oral-bio" className="h-8 w-8" /></span>
+            <span className="absolute -bottom-5 left-1/2 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-2xl bg-white/90 shadow-md backdrop-blur"><SubjectArt id="biochem" className="h-8 w-8" /></span>
           </div>
           <div className="absolute inset-16 rounded-full border border-dashed border-white/20 animate-spin-slow [animation-direction:reverse] [animation-duration:32s]">
-            <span className="absolute -left-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-2xl bg-white/15 text-xl backdrop-blur">💊</span>
-            <span className="absolute -right-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-2xl bg-white/15 text-xl backdrop-blur">🔬</span>
+            <span className="absolute -left-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-2xl bg-white/90 shadow-md backdrop-blur"><SubjectArt id="pharm" className="h-8 w-8" /></span>
+            <span className="absolute -right-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-2xl bg-white/90 shadow-md backdrop-blur"><SubjectArt id="path" className="h-8 w-8" /></span>
           </div>
           <div className="absolute inset-32 rounded-full border border-white/10" />
         </div>

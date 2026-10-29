@@ -43,6 +43,7 @@ import { BOOKS_DATA } from "@/lib/books";
 import { searchCatalog } from "@/lib/catalog";
 import { BDS_RESOURCES, BDS_SUBJECTS, BDS_FLASHCARD_DECKS } from "@/lib/bds-content";
 import { useTheme } from "@/context/ThemeContext";
+import { SubjectArt, areaIcon } from "@/components/Illustrations";
 
 /* Routes that render full-screen without the sidebar / top bar */
 const BARE_ROUTES = ["/login", "/signup", "/forgot-password", "/read/"];
@@ -90,7 +91,7 @@ function subjectLinks(s: (typeof BDS_SUBJECTS)[number]): SubjectLink[] {
         indent: true,
       })),
       { label: "Subjects", heading: true },
-      ...structure.areas.map((a) => ({ href: `${base}/${a.slug}`, label: a.title, icon: AREA_ICONS[a.icon], indent: true })),
+      ...structure.areas.map((a) => ({ href: `${base}/${a.slug}`, label: a.title, icon: areaIcon(a.slug), indent: true })),
       { label: "Practice", heading: true },
       { href: `/practice?subject=${s.id}`, label: "MCQs", icon: ListChecks, meta: s.mcqCount.toLocaleString(), indent: true },
       { href: `/past-papers`, label: "Past papers", icon: Award, meta: s.pastPapersCount ? `${s.pastPapersCount} yrs` : "", indent: true },
@@ -159,7 +160,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       subtitle: `${s.code} • MCQs, notes, PPTs & topics`,
       href: `/subjects/${s.slug}`,
       category: "Subject",
-      icon: s.icon,
+      icon: s.id,
     })),
     { title: "MCQ Practice Simulator", subtitle: "Tutor mode, timed exam, and mock annual papers", href: "/practice", category: "Practice", icon: "⚡" },
     { title: "DUHS Past Papers (2015–2024)", subtitle: "DIKIOHS, DDC & DIDC annual questions with solutions", href: "/past-papers", category: "Past papers", icon: "📜" },
@@ -233,7 +234,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 title={s.name}
                 className={`flex h-10 items-center justify-center rounded-xl text-lg transition hover:bg-slate-800 ${onSubject ? `${tone.bg} ring-1 ${tone.ring}` : ""}`}
               >
-                {s.icon}
+                <SubjectArt id={s.id} className="h-8 w-8" />
               </Link>
             );
           }
@@ -245,8 +246,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 aria-expanded={open}
                 className={`group flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left text-sm transition hover:bg-slate-800 ${onSubject ? "font-semibold text-ink" : "text-slate-200"}`}
               >
-                <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-sm ${tone.bg} ring-1 ${tone.ring} transition-transform duration-200 group-hover:scale-110`}>
-                  {s.icon}
+                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${tone.bg} ring-1 ${tone.ring} transition-transform duration-200 group-hover:scale-110`}>
+                  <SubjectArt id={s.id} className="h-7 w-7" />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate leading-tight">{s.name}</span>
@@ -343,11 +344,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <img src="/logo-icon.svg" alt="HMHDental logo" className="h-full w-full" />
       </span>
       <span className="flex min-w-0 flex-col">
-        <span className={`truncate font-display tracking-tight text-ink ${small ? "text-base" : "text-lg"} leading-tight`}>
-          <span className="font-bold">HMH</span>
-          <span className="font-medium">Dental</span>
+        <span className={`truncate font-display font-extrabold tracking-[-0.03em] text-ink ${small ? "text-lg" : "text-[1.4rem]"} leading-none`}>
+          HMH<span className="bg-gradient-to-r from-brand-500 via-accent-500 to-amber-500 bg-clip-text text-transparent">Dental</span>
         </span>
-        <span className="truncate text-[10px] font-semibold uppercase tracking-wider text-brand-400">DUHS · BDS 1st Year</span>
+        <span className="mt-1 truncate text-[10px] font-bold uppercase tracking-[0.14em] text-cocoa-500">DUHS · BDS 1st Year</span>
       </span>
     </Link>
   );
@@ -597,7 +597,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     className="group flex items-center justify-between rounded-xl p-2.5 transition hover:bg-slate-800"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-xl">{item.icon}</span>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-800">{item.category === "Subject" ? <SubjectArt id={item.icon} className="h-8 w-8" /> : <span className="text-lg">{item.icon}</span>}</span>
                       <div>
                         <div className="text-sm font-semibold text-ink group-hover:text-brand-400">{item.title}</div>
                         <div className="text-xs text-slate-400">{item.subtitle}</div>

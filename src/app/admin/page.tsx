@@ -32,6 +32,7 @@ import {
   Check,
   X
 } from "lucide-react";
+import { SubjectArt } from "@/components/Illustrations";
 
 export default function AdminDashboardPage() {
   const [activeTab, setActiveTab] = useState<
@@ -713,7 +714,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                 {subjectsList.map((s) => (
                   <div key={s.id} className="p-4 rounded-2xl border border-line flex items-center justify-between gap-4 bg-surface shadow-sm">
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl p-2 bg-surface-2 border border-line rounded-xl">{s.icon}</span>
+                      <span className="text-3xl p-2 bg-surface-2 border border-line rounded-xl"><SubjectArt id={s.id} className="h-9 w-9" /></span>
                       <div>
                         <div className="font-bold text-ink text-sm">{s.name}</div>
                         <div className="text-[11px] text-slate-400">{s.code} • {s.description.slice(0, 50)}...</div>

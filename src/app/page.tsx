@@ -23,6 +23,7 @@ import { BDS_SUBJECTS, BDS_MCQS, MEMBERSHIP_PLANS } from "@/lib/bds-content";
 import { Reveal, CountUp } from "@/components/Reveal";
 import { StudyPanel, ContinueReading } from "@/components/Motivation";
 import AreaTiles from "@/components/AreaTiles";
+import { SubjectArt } from "@/components/Illustrations";
 
 const SUBJECT_TONE: Record<string, { text: string; bg: string; glow: string; bar: string }> = {
   anat: { text: "text-amber-400", bg: "bg-amber-500/10", glow: "group-hover:shadow-amber-500/20", bar: "from-amber-400 to-amber-600" },
@@ -182,8 +183,8 @@ export default function HomePage() {
                 <div className={`group relative h-full overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl ${tone.glow}`}>
                   <div className={`absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r ${tone.bar} transition-transform duration-500 group-hover:scale-x-100`} />
                   <div className="flex items-start justify-between">
-                    <span className={`flex h-12 w-12 items-center justify-center rounded-2xl text-2xl ${tone.bg} transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110`}>
-                      {s.icon}
+                    <span className={`flex h-16 w-16 items-center justify-center rounded-2xl ${tone.bg} transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110`}>
+                      <SubjectArt id={s.id} className="h-14 w-14" />
                     </span>
                     <span className={`rounded-full ${tone.bg} px-2.5 py-1 text-[11px] font-semibold ${tone.text}`}>{s.code}</span>
                   </div>
@@ -370,7 +371,7 @@ function HeroPreview() {
       <div className="relative rounded-3xl border border-line bg-surface p-5 shadow-lift sm:p-6">
         <div className="flex items-center justify-between text-xs">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-1 font-semibold text-amber-400">
-            💀 Anatomy · Q 12 / 40
+            <SubjectArt id="anat" className="h-4 w-4" /> Anatomy · Q 12 / 40
           </span>
           <span className="inline-flex items-center gap-1 text-slate-400">
             <Clock className="h-3.5 w-3.5" /> 08:42

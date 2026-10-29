@@ -4,7 +4,8 @@ import Link from "next/link";
 import { SUBJECT_STRUCTURES } from "@/lib/subject-structure";
 import { lecturesInArea } from "@/lib/catalog";
 import { useProgress } from "@/lib/progress";
-import { AREA_ICONS, AREA_STYLE, DEFAULT_AREA_STYLE } from "@/components/SubjectHub";
+import { AreaArt } from "@/components/Illustrations";
+import { AREA_STYLE, DEFAULT_AREA_STYLE } from "@/components/SubjectHub";
 
 /** Colourful quick-launch tiles for a subject's areas (used on the home page). */
 export default function AreaTiles({ subjectSlug = "anatomy" }: { subjectSlug?: string }) {
@@ -14,7 +15,6 @@ export default function AreaTiles({ subjectSlug = "anatomy" }: { subjectSlug?: s
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
       {st.areas.map((a, i) => {
-        const Icon = AREA_ICONS[a.icon];
         const style = AREA_STYLE[a.slug] ?? DEFAULT_AREA_STYLE;
         const ids = lecturesInArea(subjectSlug, a.slug);
         const opened = progress ? ids.filter((id) => progress.opened[id]).length : 0;
@@ -27,10 +27,8 @@ export default function AreaTiles({ subjectSlug = "anatomy" }: { subjectSlug?: s
             style={{ animationDelay: `${i * 60}ms` }}
           >
             <div className="absolute inset-0 opacity-20 [background-image:radial-gradient(white_1.2px,transparent_1.2px)] [background-size:14px_14px]" />
-            <Icon className="absolute -bottom-6 -right-6 h-32 w-32 text-white/20 transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110" />
-            <span className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-white/90 shadow">
-              <Icon className={`h-5 w-5 ${style.icon}`} />
-            </span>
+            <div className="absolute -right-6 -top-6 h-32 w-32 rounded-full bg-white/25 blur-xl" />
+            <AreaArt slug={a.slug} className="relative ml-auto h-20 w-20 drop-shadow-[0_8px_12px_rgba(0,0,0,0.28)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
             <div className="relative">
               <div className="font-display text-lg font-bold leading-tight">{a.title}</div>
               <div className="mt-0.5 text-xs text-white/85">{ids.length} lectures</div>

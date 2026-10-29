@@ -19,6 +19,7 @@ import {
   ArrowLeft,
   Sparkles
 } from "lucide-react";
+import { SubjectArt } from "@/components/Illustrations";
 
 export default function SubjectDetailPage() {
   const params = useParams();
@@ -129,7 +130,7 @@ export default function SubjectDetailPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               <span className="text-5xl p-4 bg-slate-950/80 border border-slate-800 rounded-3xl shadow-inner">
-                {subject.icon}
+                <SubjectArt id={subject.id} className="h-14 w-14" />
               </span>
               <div>
                 <span className={`text-xs font-bold tracking-wider uppercase px-3 py-0.5 rounded-full border ${style.badge}`}>

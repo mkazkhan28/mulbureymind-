@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Flame
 } from "lucide-react";
+import { SubjectArt } from "@/components/Illustrations";
 
 export default function StudentDashboardPage() {
   const firstYearSubjects = BDS_SUBJECTS.filter((s) => s.yearId === "bds-1");
@@ -244,7 +245,7 @@ export default function StudentDashboardPage() {
                 >
                   <div className="space-y-2.5">
                     <div className="flex items-center justify-between">
-                      <span className="text-3xl p-1.5 rounded-xl bg-slate-950/80 border border-slate-800">{subj.icon}</span>
+                      <span className="text-3xl p-1.5 rounded-xl bg-slate-950/80 border border-slate-800"><SubjectArt id={subj.id} className="h-9 w-9" /></span>
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${style.badge}`}>
                         {subj.code}
                       </span>

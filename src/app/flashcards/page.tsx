@@ -11,6 +11,7 @@ import {
   Search,
   Zap
 } from "lucide-react";
+import { SubjectArt } from "@/components/Illustrations";
 
 export default function FlashcardsLibraryPage() {
   const [selectedSubject, setSelectedSubject] = useState("all");
@@ -144,7 +145,7 @@ export default function FlashcardsLibraryPage() {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-3xl p-2 rounded-2xl bg-slate-950/80 border border-slate-800 shadow-inner">
-                      {subject?.icon || "🦷"}
+                      <SubjectArt id={subject?.id ?? "oral-bio"} className="h-9 w-9" />
                     </span>
                     <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-slate-950/90 text-slate-300 border border-slate-800">
                       {deck.cardCount} Cards
