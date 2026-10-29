@@ -51,6 +51,8 @@ import {
 import { driveFileId, drivePreviewUrl } from "@/lib/drive";
 
 type PdfJs = typeof import("pdfjs-dist");
+/** Anything the reader can open: a textbook or a lecture PDF. */
+export type ReaderDoc = Pick<BookItem, "id" | "title" | "edition" | "authors" | "driveId" | "pdfUrl">;
 type OutlineItem = { title: string; dest: unknown; items: OutlineItem[] };
 type PendingSelection = { page: number; rects: PageRect[]; quote: string; x: number; y: number };
 
@@ -80,7 +82,7 @@ function loadPdfJs() {
   return pdfjsPromise;
 }
 
-export default function BookReader({ book }: { book: BookItem }) {
+export default function BookReader({ book, backHref = "/books", backLabel = "Back to textbooks" }: { book: ReaderDoc; backHref?: string; backLabel?: string }) {
   const source = book.pdfUrl || (book.driveId && !book.driveId.startsWith("PASTE_") ? `/api/books/${book.id}/pdf` : "");
 
   const [pdfjs, setPdfjs] = useState<PdfJs | null>(null);
@@ -332,7 +334,7 @@ export default function BookReader({ book }: { book: BookItem }) {
           focus ? "h-12" : "h-14"
         }`}
       >
-        <Link href={`/books`} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-300 transition hover:bg-slate-800 hover:text-ink" title="Back to textbooks">
+        <Link href={backHref} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-300 transition hover:bg-slate-800 hover:text-ink" title={backLabel} aria-label={backLabel}>
           <ArrowLeft className="h-4 w-4" />
         </Link>
         <ToolButton label="Contents" pressed={contentsOpen} onClick={() => { setFocus(false); setShowContents((v) => !v); }} icon={PanelLeft} />
@@ -421,7 +423,7 @@ export default function BookReader({ book }: { book: BookItem }) {
             if (openAnn) setOpenAnn(null);
           }}
         >
-          {status === "missing" && <MissingState book={book} />}
+          {status === "missing" && <MissingState book={book} backHref={backHref} />}
           {status === "error" && <ErrorState book={book} />}
           {status === "loading" && (
             <div className="flex h-full flex-col items-center justify-center gap-3 text-sm text-slate-400">
@@ -874,22 +876,22 @@ function OutlineList({ items, doc, onGo, depth = 0 }: { items: OutlineItem[]; do
   );
 }
 
-function MissingState({ book }: { book: BookItem }) {
+function MissingState({ book, backHref }: { book: ReaderDoc; backHref: string }) {
   return (
     <div className="mx-auto mt-16 max-w-md rounded-2xl border border-line bg-surface p-8 text-center shadow-soft">
       <NotebookPen className="mx-auto h-8 w-8 text-brand-400" />
       <h2 className="mt-3 text-lg font-semibold">PDF coming soon</h2>
       <p className="mt-2 text-sm text-slate-400">
-        {book.title} ({book.edition}) will be readable here, with highlights and notes, as soon as the PDF is added.
+        {book.title}{book.edition ? ` (${book.edition})` : ""} will be readable here, with highlights and notes, as soon as the PDF is added.
       </p>
-      <Link href="/books" className="btn-ghost mt-5">
-        Back to textbooks
+      <Link href={backHref} className="btn-ghost mt-5">
+        Go back
       </Link>
     </div>
   );
 }
 
-function ErrorState({ book }: { book: BookItem }) {
+function ErrorState({ book }: { book: ReaderDoc }) {
   return (
     <div className="mx-auto mt-16 max-w-md rounded-2xl border border-line bg-surface p-8 text-center shadow-soft">
       <h2 className="text-lg font-semibold">Couldn&apos;t open this book</h2>

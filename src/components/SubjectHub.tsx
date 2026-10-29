@@ -444,46 +444,78 @@ function FileList({
         ].filter((g) => g.files.length)
       : [{ files }];
 
+  // Within a group, split by topic (keeping the original lecture order)
+  const byTopic = (list: StudyFile[]) => {
+    const out: { topic?: string; files: StudyFile[] }[] = [];
+    for (const f of list) {
+      const last = out[out.length - 1];
+      if (last && last.topic === f.topic) last.files.push(f);
+      else out.push({ topic: f.topic, files: [f] });
+    }
+    return out;
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {groups.map((g, gi) => (
-        <div key={gi} className="space-y-2">
+        <div key={gi} className="space-y-4">
           {g.title && <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500">{g.title}</h3>}
-          <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
-            {g.files.map((f) => (
-              <li key={f.id} className="flex items-center gap-3 px-4 py-3">
-                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold ${f.type === "PDF" ? "bg-rose-500/10 text-rose-400" : "bg-amber-500/10 text-amber-400"}`}>
-                  {f.type ?? "PPT"}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-medium text-ink">{f.title}</div>
-                  {f.by && <div className="truncate text-xs text-slate-500">{f.by}</div>}
-                </div>
-                {f.isPremium ? (
-                  <Link href="/pricing" className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-400">
-                    <Lock className="h-3.5 w-3.5" /> Unlock
-                  </Link>
-                ) : f.drive ? (
-                  <div className="flex items-center gap-1">
-                    <button onClick={() => setViewing(f)} className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-400 transition hover:bg-brand-500/20">
-                      <Eye className="h-3.5 w-3.5" /> View
-                    </button>
-                    <a
-                      href={driveDownloadUrl(driveFileId(f.drive))}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-800 hover:text-ink"
-                      title="Download"
-                    >
-                      <DownloadCloud className="h-4 w-4" />
-                    </a>
-                  </div>
-                ) : (
-                  <span className="text-xs text-slate-500">Coming soon</span>
-                )}
-              </li>
-            ))}
-          </ul>
+          {byTopic(g.files).map((t, ti) => (
+            <div key={ti} className="space-y-2">
+              {t.topic && (
+                <h4 className="flex items-center gap-2 text-sm font-semibold text-ink">
+                  {t.topic}
+                  <span className="rounded-full bg-slate-850 px-2 py-0.5 text-[11px] font-medium text-slate-400">
+                    {t.files.length} lecture{t.files.length === 1 ? "" : "s"}
+                  </span>
+                </h4>
+              )}
+              <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
+                {t.files.map((f) => (
+                  <li key={f.id} className="flex items-center gap-3 px-4 py-3 transition hover:bg-slate-850/60">
+                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold ${f.type === "PDF" ? "bg-rose-500/10 text-rose-400" : "bg-amber-500/10 text-amber-400"}`}>
+                      {f.type === "PDF" ? "PDF" : "PPT"}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-medium leading-snug text-ink">{f.title}</div>
+                      <div className="truncate text-xs text-slate-500">{[f.pages ? `${f.pages} slides` : "", f.by].filter(Boolean).join(" · ")}</div>
+                    </div>
+                    {f.isPremium ? (
+                      <Link href="/pricing" className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-400">
+                        <Lock className="h-3.5 w-3.5" /> Unlock
+                      </Link>
+                    ) : f.pdf ? (
+                      <div className="flex shrink-0 items-center gap-1">
+                        <Link href={`/read/${f.id}`} className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-400 transition hover:bg-brand-500/20">
+                          <Eye className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Read &amp; take notes</span><span className="sm:hidden">Read</span>
+                        </Link>
+                        <a href={f.pdf} download className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-800 hover:text-ink" title="Download PDF">
+                          <DownloadCloud className="h-4 w-4" />
+                        </a>
+                      </div>
+                    ) : f.drive ? (
+                      <div className="flex shrink-0 items-center gap-1">
+                        <button onClick={() => setViewing(f)} className="inline-flex items-center gap-1.5 rounded-lg bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-400 transition hover:bg-brand-500/20">
+                          <Eye className="h-3.5 w-3.5" /> View
+                        </button>
+                        <a
+                          href={driveDownloadUrl(driveFileId(f.drive))}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-800 hover:text-ink"
+                          title="Download"
+                        >
+                          <DownloadCloud className="h-4 w-4" />
+                        </a>
+                      </div>
+                    ) : (
+                      <span className="text-xs text-slate-500">Coming soon</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       ))}
       {viewing?.drive && <DriveViewer title={viewing.title} subtitle={viewing.by} drive={viewing.drive} onClose={() => setViewing(null)} />}

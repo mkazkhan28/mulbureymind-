@@ -16,6 +16,12 @@ export interface StudyFile {
   title: string;
   /** Google Drive link or file ID */
   drive?: string;
+  /** PDF hosted with the site (e.g. "/files/anatomy/...pdf"). Opens in the in-site reader with highlights & notes. */
+  pdf?: string;
+  /** Number of slides/pages, shown in lists */
+  pages?: number;
+  /** Topic heading inside an area, e.g. "Bones" */
+  topic?: string;
   type?: "PPTX" | "PDF" | "DOCX";
   /** Slug of the area this file belongs to (e.g. "embryology") */
   area?: string;
@@ -71,7 +77,18 @@ export const SUBJECT_STRUCTURES: Record<string, SubjectStructure> = {
     ],
     ppts: {
       combined: [
-        // { id: "anat-c-1", title: "Development of the Face", drive: "<drive link>", type: "PPTX", area: "embryology" },
+        // General Anatomy — DUHS lecture slides (converted to PDF so they open in the reader)
+        { id: "anat-ga-01", title: "Terminologies: Anatomical Positions, Planes & Terms of Position", pdf: "/files/anatomy/general-anatomy/01-terminologies-positions-planes.pdf", pages: 25, type: "PPTX", area: "general-anatomy", topic: "Introduction" },
+        { id: "anat-ga-02", title: "Terms of Movement", pdf: "/files/anatomy/general-anatomy/02-terms-of-movement.pdf", pages: 24, type: "PPTX", area: "general-anatomy", topic: "Introduction" },
+        { id: "anat-ga-03", title: "Bones: Divisions & Functions of the Skeletal System", pdf: "/files/anatomy/general-anatomy/03-bones-divisions-functions.pdf", pages: 27, type: "PPTX", area: "general-anatomy", topic: "Bones" },
+        { id: "anat-ga-04", title: "Classification & Histology of Bone", pdf: "/files/anatomy/general-anatomy/04-bone-classification-histology.pdf", pages: 29, type: "PPTX", area: "general-anatomy", topic: "Bones", by: "Dr. Sara Moeen" },
+        { id: "anat-ga-05", title: "Bone Tissue & the Skeletal System", pdf: "/files/anatomy/general-anatomy/05-bone-tissue-skeletal-system.pdf", pages: 42, type: "PPTX", area: "general-anatomy", topic: "Bones" },
+        { id: "anat-ga-06", title: "Bone Development (Ossification) & Blood Supply", pdf: "/files/anatomy/general-anatomy/06-bone-ossification-blood-supply.pdf", pages: 25, type: "PPTX", area: "general-anatomy", topic: "Bones" },
+        { id: "anat-ga-07", title: "Cartilage", pdf: "/files/anatomy/general-anatomy/07-cartilage.pdf", pages: 66, type: "PPTX", area: "general-anatomy", topic: "Cartilage" },
+        { id: "anat-ga-08", title: "General Concepts of Joints", pdf: "/files/anatomy/general-anatomy/08-joints-general-concepts.pdf", pages: 24, type: "PPTX", area: "general-anatomy", topic: "Joints" },
+        { id: "anat-ga-09", title: "General Concepts of Muscles", pdf: "/files/anatomy/general-anatomy/09-muscles-general-concepts.pdf", pages: 28, type: "PPTX", area: "general-anatomy", topic: "Muscles" },
+        { id: "anat-ga-10", title: "Smooth & Cardiac Muscle", pdf: "/files/anatomy/general-anatomy/10-smooth-cardiac-muscle.pdf", pages: 36, type: "PPTX", area: "general-anatomy", topic: "Muscles" },
+        { id: "anat-ga-11", title: "Physiology of Smooth Muscle", pdf: "/files/anatomy/general-anatomy/11-smooth-muscle-physiology.pdf", pages: 65, type: "PPTX", area: "general-anatomy", topic: "Muscles" },
       ],
       ddc: [
         // { id: "anat-d-1", title: "Epithelium", drive: "<drive link>", type: "PPTX", area: "histology", by: "DDC Anatomy Dept." },
@@ -123,6 +140,14 @@ export const SUBJECT_STRUCTURES: Record<string, SubjectStructure> = {
     ],
   },
 };
+
+/** Finds a study file (lecture, outline) by id across all subjects — used by the reader. */
+export function findStudyFile(id: string): { file: StudyFile; subjectSlug: string } | undefined {
+  for (const st of Object.values(SUBJECT_STRUCTURES)) {
+    for (const f of [...st.courseOutline, ...st.ppts.combined, ...st.ppts.ddc]) if (f.id === id) return { file: f, subjectSlug: st.subjectSlug };
+  }
+  return undefined;
+}
 
 export const getSubjectStructure = (slug?: string) => (slug ? SUBJECT_STRUCTURES[slug] : undefined);
 
