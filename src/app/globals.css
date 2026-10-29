@@ -3,13 +3,12 @@
 @tailwind utilities;
 
 /* =============================================================================
-   HMHDental colour tokens (generated) — "Fresh mint & navy"
-   Light (default): mint-white canvas, navy text, mint brand, navy accent, sunny yellow (amber) rewards.
-   Dark (html.dark): deep navy canvas, glowing mint brand, sky-blue accent.
-   Components use the same class names in both themes; only these values change.
+   HMHDental colour tokens (generated) — blue · pink · yellow · warm grey · brown
+   Light (default): warm grey canvas, espresso-brown text, blue brand, pink accent, yellow (amber) rewards.
+   Dark (html.dark): warm charcoal-brown canvas, glowing blue brand, pink accent.
    ============================================================================= */
 :root {
-  --c-shadow: 15 31 61;
+  --c-shadow: 42 37 34;
   color-scheme: light;
   --c-amber-50: 69 26 3;
   --c-amber-100: 120 53 15;
@@ -88,6 +87,17 @@
   --c-emerald-800: 6 95 70;
   --c-emerald-900: 209 250 229;
   --c-emerald-950: 236 253 245;
+  --c-cocoa-50: 40 26 21;
+  --c-cocoa-100: 74 50 41;
+  --c-cocoa-200: 88 59 47;
+  --c-cocoa-300: 88 59 47;
+  --c-cocoa-400: 108 72 54;
+  --c-cocoa-500: 160 111 80;
+  --c-cocoa-600: 134 90 65;
+  --c-cocoa-700: 108 72 54;
+  --c-cocoa-800: 88 59 47;
+  --c-cocoa-900: 241 232 223;
+  --c-cocoa-950: 250 246 242;
   --c-stone-50: 12 10 9;
   --c-stone-100: 28 25 23;
   --c-stone-200: 41 37 36;
@@ -99,46 +109,46 @@
   --c-stone-800: 41 37 36;
   --c-stone-900: 245 245 244;
   --c-stone-950: 250 250 249;
-  --c-brand-50: 3 44 37;
-  --c-brand-100: 14 77 64;
-  --c-brand-200: 13 94 77;
-  --c-brand-300: 13 94 77;
-  --c-brand-400: 11 119 95;
-  --c-brand-500: 20 184 140;
-  --c-brand-600: 11 149 116;
-  --c-brand-700: 11 119 95;
-  --c-brand-800: 13 94 77;
-  --c-brand-900: 209 250 236;
-  --c-brand-950: 236 253 247;
-  --c-accent-50: 11 21 46;
-  --c-accent-100: 19 35 74;
-  --c-accent-200: 23 42 90;
-  --c-accent-300: 23 42 90;
-  --c-accent-400: 29 52 112;
-  --c-accent-500: 53 87 168;
-  --c-accent-600: 38 67 138;
-  --c-accent-700: 29 52 112;
-  --c-accent-800: 23 42 90;
-  --c-accent-900: 217 227 245;
-  --c-accent-950: 238 243 251;
-  --c-slate-50: 15 31 61;
-  --c-slate-100: 20 33 57;
-  --c-slate-200: 30 44 69;
-  --c-slate-300: 46 61 87;
-  --c-slate-400: 68 84 110;
-  --c-slate-500: 91 107 130;
-  --c-slate-600: 148 166 181;
-  --c-slate-700: 211 229 222;
-  --c-slate-800: 229 242 236;
-  --c-slate-850: 238 247 243;
+  --c-brand-50: 19 31 51;
+  --c-brand-100: 30 52 84;
+  --c-brand-200: 33 61 102;
+  --c-brand-300: 33 61 102;
+  --c-brand-400: 38 73 124;
+  --c-brand-500: 59 111 182;
+  --c-brand-600: 46 90 153;
+  --c-brand-700: 38 73 124;
+  --c-brand-800: 33 61 102;
+  --c-brand-900: 217 230 247;
+  --c-brand-950: 238 244 252;
+  --c-accent-50: 63 14 33;
+  --c-accent-100: 107 33 61;
+  --c-accent-200: 129 36 69;
+  --c-accent-300: 129 36 69;
+  --c-accent-400: 156 40 80;
+  --c-accent-500: 217 74 120;
+  --c-accent-600: 189 52 97;
+  --c-accent-700: 156 40 80;
+  --c-accent-800: 129 36 69;
+  --c-accent-900: 251 224 234;
+  --c-accent-950: 253 240 245;
+  --c-slate-50: 34 29 26;
+  --c-slate-100: 42 37 34;
+  --c-slate-200: 58 51 46;
+  --c-slate-300: 77 69 64;
+  --c-slate-400: 101 92 85;
+  --c-slate-500: 123 113 106;
+  --c-slate-600: 166 156 148;
+  --c-slate-700: 224 217 210;
+  --c-slate-800: 238 232 226;
+  --c-slate-850: 243 238 233;
   --c-slate-900: 255 255 255;
-  --c-slate-950: 244 251 248;
-  --c-canvas: 244 251 248;
+  --c-slate-950: 247 244 241;
+  --c-canvas: 247 244 241;
   --c-surface: 255 255 255;
-  --c-surface-2: 238 247 243;
-  --c-ink: 15 31 61;
-  --c-muted: 91 107 130;
-  --c-line: 220 235 228;
+  --c-surface-2: 241 236 231;
+  --c-ink: 42 37 34;
+  --c-muted: 110 101 94;
+  --c-line: 230 223 216;
 }
 
 html.dark {
@@ -221,6 +231,17 @@ html.dark {
   --c-emerald-800: 6 95 70;
   --c-emerald-900: 6 78 59;
   --c-emerald-950: 2 44 34;
+  --c-cocoa-50: 250 246 242;
+  --c-cocoa-100: 241 232 223;
+  --c-cocoa-200: 226 207 190;
+  --c-cocoa-300: 207 175 149;
+  --c-cocoa-400: 184 139 108;
+  --c-cocoa-500: 160 111 80;
+  --c-cocoa-600: 134 90 65;
+  --c-cocoa-700: 108 72 54;
+  --c-cocoa-800: 88 59 47;
+  --c-cocoa-900: 74 50 41;
+  --c-cocoa-950: 40 26 21;
   --c-stone-50: 250 250 249;
   --c-stone-100: 245 245 244;
   --c-stone-200: 231 229 228;
@@ -232,46 +253,46 @@ html.dark {
   --c-stone-800: 41 37 36;
   --c-stone-900: 28 25 23;
   --c-stone-950: 12 10 9;
-  --c-brand-50: 236 253 247;
-  --c-brand-100: 209 250 236;
-  --c-brand-200: 166 242 217;
-  --c-brand-300: 110 228 192;
-  --c-brand-400: 52 208 163;
-  --c-brand-500: 20 184 140;
-  --c-brand-600: 11 149 116;
-  --c-brand-700: 11 119 95;
-  --c-brand-800: 13 94 77;
-  --c-brand-900: 14 77 64;
-  --c-brand-950: 3 44 37;
-  --c-accent-50: 238 247 255;
-  --c-accent-100: 216 236 255;
-  --c-accent-200: 182 220 255;
-  --c-accent-300: 132 196 255;
-  --c-accent-400: 85 168 251;
-  --c-accent-500: 58 140 240;
-  --c-accent-600: 42 112 214;
-  --c-accent-700: 35 90 175;
-  --c-accent-800: 32 76 140;
-  --c-accent-900: 31 65 111;
-  --c-accent-950: 20 40 70;
-  --c-slate-50: 245 248 252;
-  --c-slate-100: 232 238 246;
-  --c-slate-200: 212 222 235;
-  --c-slate-300: 180 195 217;
-  --c-slate-400: 141 162 192;
-  --c-slate-500: 94 118 153;
-  --c-slate-600: 58 84 121;
-  --c-slate-700: 38 63 99;
-  --c-slate-800: 26 48 80;
-  --c-slate-850: 20 39 68;
-  --c-slate-900: 16 32 57;
-  --c-slate-950: 10 22 40;
-  --c-canvas: 10 22 40;
-  --c-surface: 16 32 57;
-  --c-surface-2: 22 41 74;
-  --c-ink: 234 246 242;
-  --c-muted: 159 178 204;
-  --c-line: 31 53 86;
+  --c-brand-50: 238 244 252;
+  --c-brand-100: 217 230 247;
+  --c-brand-200: 182 206 239;
+  --c-brand-300: 136 174 227;
+  --c-brand-400: 91 139 211;
+  --c-brand-500: 59 111 182;
+  --c-brand-600: 46 90 153;
+  --c-brand-700: 38 73 124;
+  --c-brand-800: 33 61 102;
+  --c-brand-900: 30 52 84;
+  --c-brand-950: 19 31 51;
+  --c-accent-50: 253 240 245;
+  --c-accent-100: 251 224 234;
+  --c-accent-200: 247 193 213;
+  --c-accent-300: 241 149 183;
+  --c-accent-400: 232 106 146;
+  --c-accent-500: 217 74 120;
+  --c-accent-600: 189 52 97;
+  --c-accent-700: 156 40 80;
+  --c-accent-800: 129 36 69;
+  --c-accent-900: 107 33 61;
+  --c-accent-950: 63 14 33;
+  --c-slate-50: 250 247 244;
+  --c-slate-100: 241 236 231;
+  --c-slate-200: 222 214 207;
+  --c-slate-300: 194 184 175;
+  --c-slate-400: 163 151 141;
+  --c-slate-500: 125 114 105;
+  --c-slate-600: 90 81 74;
+  --c-slate-700: 67 59 54;
+  --c-slate-800: 51 45 41;
+  --c-slate-850: 43 38 34;
+  --c-slate-900: 35 31 28;
+  --c-slate-950: 26 22 20;
+  --c-canvas: 26 22 20;
+  --c-surface: 35 31 28;
+  --c-surface-2: 43 38 34;
+  --c-ink: 243 238 233;
+  --c-muted: 176 165 155;
+  --c-line: 58 51 46;
 }
 
 
@@ -348,7 +369,7 @@ html.dark {
     border-color: rgb(var(--c-brand-500) / 0.4);
   }
 
-  /* Primary call-to-action gradient (mint→navy in light, mint→sky in dark) */
+  /* Primary call-to-action gradient (blue→pink in both themes) */
   .btn-brand {
     @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white
       bg-gradient-to-r from-brand-600 to-accent-600 shadow-lg shadow-brand-600/25

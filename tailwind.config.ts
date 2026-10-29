@@ -6,8 +6,8 @@ import type { Config } from "tailwindcss";
  * Every colour below points at a CSS variable defined in src/app/globals.css.
  * The light theme (default) and the dark theme (html.dark) each set their own
  * values, so one class name renders differently in each theme:
- *   light → mint-white surfaces, navy text, mint (brand) + navy (accent), amber for rewards
- *   dark  → deep navy surfaces, glowing mint (brand) + sky blue (accent)
+ *   light → warm grey surfaces, espresso text, blue (brand) + pink (accent), amber/yellow rewards, cocoa (brown)
+ *   dark  → warm charcoal-brown surfaces, glowing blue (brand) + pink (accent)
  * `indigo` and `blue` are aliases of `brand`; `violet` and `purple` alias `accent`.
  */
 const SHADES = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"];
@@ -48,6 +48,7 @@ const config: Config = {
         teal: scale("teal"),
         emerald: scale("emerald"),
         stone: scale("stone"),
+        cocoa: scale("cocoa"),
       },
       fontFamily: {
         sans: ["var(--font-body)", "ui-sans-serif", "system-ui", "sans-serif"],
