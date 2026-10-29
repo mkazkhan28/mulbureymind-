@@ -22,6 +22,8 @@ export interface StudyFile {
   pages?: number;
   /** Topic heading inside an area, e.g. "Bones" */
   topic?: string;
+  /** Other areas this file is also listed in (e.g. development lectures shown in Head & Neck too) */
+  alsoIn?: string[];
   type?: "PPTX" | "PDF" | "DOCX";
   /** Slug of the area this file belongs to (e.g. "embryology") */
   area?: string;
@@ -135,10 +137,32 @@ export const SUBJECT_STRUCTURES: Record<string, SubjectStructure> = {
         { id: "anat-hn-16", title: "Gross Anatomy & Histology of the Eye", pdf: "/files/anatomy/head-and-neck/16-eye-gross-and-histology.pdf", pages: 72, type: "PPTX", area: "head-and-neck", topic: "Eye & Orbit" },
         { id: "anat-hn-17", title: "Anatomy of the Ear", pdf: "/files/anatomy/head-and-neck/17-ear-anatomy.pdf", pages: 92, type: "PPTX", area: "head-and-neck", topic: "Ear" },
         { id: "anat-hn-18", title: "Internal Ear", pdf: "/files/anatomy/head-and-neck/18-internal-ear.pdf", pages: 25, type: "PPTX", area: "head-and-neck", topic: "Ear" },
-        { id: "anat-hn-19", title: "Derivatives of Pharyngeal Arches & Pouches", pdf: "/files/anatomy/head-and-neck/19-pharyngeal-arches-pouches.pdf", pages: 39, type: "PPTX", area: "head-and-neck", topic: "Development" },
-        { id: "anat-hn-20", title: "Development of the Eye", pdf: "/files/anatomy/head-and-neck/20-development-of-eye.pdf", pages: 31, type: "PPTX", area: "head-and-neck", topic: "Development" },
-        { id: "anat-hn-21", title: "Development of the Nose & Nasal Cavity", pdf: "/files/anatomy/head-and-neck/21-development-of-nose.pdf", pages: 26, type: "PPTX", area: "head-and-neck", topic: "Development" },
         { id: "anat-hn-22", title: "Pituitary Gland: Gross Anatomy & Development", pdf: "/files/anatomy/head-and-neck/22-pituitary-gross-development.pdf", pages: 29, type: "PPTX", area: "head-and-neck", topic: "Pituitary" },
+        // Embryology — lecture slides (converted to PDF so they open in the reader)
+        { id: "anat-emb-01", title: "Female Reproductive System", pdf: "/files/anatomy/embryology/01-female-reproductive-system.pdf", pages: 19, type: "PPTX", area: "embryology", topic: "Reproductive System & Cycles" },
+        { id: "anat-emb-02", title: "Menstrual Cycle", pdf: "/files/anatomy/embryology/02-menstrual-cycle.pdf", pages: 21, type: "PPTX", area: "embryology", topic: "Reproductive System & Cycles" },
+        { id: "anat-emb-03", title: "Ovarian Cycle", pdf: "/files/anatomy/embryology/03-ovarian-cycle.pdf", pages: 17, type: "PPTX", area: "embryology", topic: "Reproductive System & Cycles" },
+        { id: "anat-emb-04", title: "Gametogenesis: Spermatogenesis & Spermiogenesis", pdf: "/files/anatomy/embryology/04-spermatogenesis-spermiogenesis.pdf", pages: 23, type: "PPTX", area: "embryology", topic: "Gametogenesis & Fertilisation" },
+        { id: "anat-emb-05", title: "Oogenesis & Comparison of Gametes", pdf: "/files/anatomy/embryology/05-oogenesis-comparison-of-gametes.pdf", pages: 20, type: "PPTX", area: "embryology", topic: "Gametogenesis & Fertilisation" },
+        { id: "anat-emb-06", title: "Fertilisation", pdf: "/files/anatomy/embryology/06-fertilization.pdf", pages: 25, type: "PPTX", area: "embryology", topic: "Gametogenesis & Fertilisation" },
+        { id: "anat-emb-07", title: "First Week of Development", pdf: "/files/anatomy/embryology/07-first-week.pdf", pages: 20, type: "PPTX", area: "embryology", topic: "Gametogenesis & Fertilisation" },
+        { id: "anat-emb-08", title: "Second Week of Development", pdf: "/files/anatomy/embryology/08-second-week.pdf", pages: 26, type: "PPTX", area: "embryology", topic: "Weeks 2–4" },
+        { id: "anat-emb-09", title: "Third Week I: Gastrulation & Primitive Streak", pdf: "/files/anatomy/embryology/09-third-week-gastrulation.pdf", pages: 29, type: "PPTX", area: "embryology", topic: "Weeks 2–4" },
+        { id: "anat-emb-10", title: "Third Week II: Neurulation & Somites", pdf: "/files/anatomy/embryology/10-third-week-neurulation-somites.pdf", pages: 29, type: "PPTX", area: "embryology", topic: "Weeks 2–4" },
+        { id: "anat-emb-11", title: "Human Embryology: Weeks 1–4", pdf: "/files/anatomy/embryology/11-weeks-1-to-4.pdf", pages: 40, type: "PPTX", area: "embryology", topic: "Weeks 2–4" },
+        { id: "anat-emb-12", title: "Fetal Period (9th Week to Birth)", pdf: "/files/anatomy/embryology/12-fetal-period.pdf", pages: 29, type: "PPTX", area: "embryology", topic: "Fetal Period & Placenta" },
+        { id: "anat-emb-13", title: "Placenta & Fetal Membranes", pdf: "/files/anatomy/embryology/13-placenta-fetal-membranes.pdf", pages: 54, type: "PPTX", area: "embryology", topic: "Fetal Period & Placenta", by: "Dr. Sahar Mubeen" },
+        { id: "anat-emb-14", title: "Head & Neck Embryology", pdf: "/files/anatomy/embryology/14-head-and-neck-embryology.pdf", pages: 56, type: "PPTX", area: "embryology", topic: "Head & Neck Development", alsoIn: ["head-and-neck"] },
+        { id: "anat-emb-15", title: "Development of the Pharyngeal Apparatus", pdf: "/files/anatomy/embryology/15-pharyngeal-apparatus.pdf", pages: 31, type: "PPTX", area: "embryology", topic: "Head & Neck Development", alsoIn: ["head-and-neck"] },
+        { id: "anat-hn-19", title: "Derivatives of Pharyngeal Arches & Pouches", pdf: "/files/anatomy/head-and-neck/19-pharyngeal-arches-pouches.pdf", pages: 39, type: "PPTX", area: "embryology", topic: "Head & Neck Development", alsoIn: ["head-and-neck"] },
+        { id: "anat-emb-16", title: "Development of the Face & Palate", pdf: "/files/anatomy/embryology/16-face-and-palate.pdf", pages: 23, type: "PPTX", area: "embryology", topic: "Head & Neck Development", alsoIn: ["head-and-neck"], by: "Umm-e-Ayman Akbar" },
+        { id: "anat-emb-17", title: "Development of the Face, Nose & Palate", pdf: "/files/anatomy/embryology/17-face-nose-and-palate.pdf", pages: 43, type: "PPTX", area: "embryology", topic: "Head & Neck Development", alsoIn: ["head-and-neck"] },
+        { id: "anat-hn-21", title: "Development of the Nose & Nasal Cavity", pdf: "/files/anatomy/head-and-neck/21-development-of-nose.pdf", pages: 26, type: "PPTX", area: "embryology", topic: "Head & Neck Development", alsoIn: ["head-and-neck"] },
+        { id: "anat-hn-20", title: "Development of the Eye", pdf: "/files/anatomy/head-and-neck/20-development-of-eye.pdf", pages: 31, type: "PPTX", area: "embryology", topic: "Head & Neck Development", alsoIn: ["head-and-neck"] },
+        { id: "anat-emb-18", title: "Development of the Ear", pdf: "/files/anatomy/embryology/18-development-of-ear.pdf", pages: 8, type: "PPTX", area: "embryology", topic: "Head & Neck Development", alsoIn: ["head-and-neck"] },
+        { id: "anat-emb-19", title: "Development of the Thyroid & Parathyroid Glands", pdf: "/files/anatomy/embryology/19-thyroid-parathyroid.pdf", pages: 12, type: "PPTX", area: "embryology", topic: "Head & Neck Development", alsoIn: ["head-and-neck"] },
+        { id: "anat-emb-20", title: "Nervous System Development", pdf: "/files/anatomy/embryology/20-nervous-system-development.pdf", pages: 15, type: "PPTX", area: "embryology", topic: "Nervous System Development" },
+        { id: "anat-emb-21", title: "Clinical Correlates in Embryology", pdf: "/files/anatomy/embryology/21-clinical-correlates.pdf", pages: 15, type: "PPTX", area: "embryology", topic: "Clinical Correlates" },
       ],
       ddc: [
         // { id: "anat-d-1", title: "Epithelium", drive: "<drive link>", type: "PPTX", area: "histology", by: "DDC Anatomy Dept." },

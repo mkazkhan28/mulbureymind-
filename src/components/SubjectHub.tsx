@@ -46,7 +46,9 @@ const DEFAULT_TONE = { text: "text-brand-400", hover: "group-hover:text-brand-40
 
 const booksFor = (s: SubjectStructure) => BOOKS_DATA.filter((b) => b.subjectId === s.bookSubjectId);
 const pptCount = (s: SubjectStructure, area?: string) =>
-  PPT_GROUPS.reduce((n, g) => n + s.ppts[g.key].filter((f) => !area || f.area === area).length, 0);
+  PPT_GROUPS.reduce((n, g) => n + s.ppts[g.key].filter((f) => !area || inArea(f, area)).length, 0);
+/** A file belongs to an area if it's filed there or linked there via alsoIn. */
+const inArea = (f: StudyFile, area: string) => f.area === area || !!f.alsoIn?.includes(area);
 
 /* ======================================================================== */
 /* Title list — the subject's table of contents                            */
@@ -259,7 +261,7 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
             <h3 className="flex items-center gap-2 font-semibold text-ink">
               <FolderOpen className="h-4 w-4 text-brand-400" /> {g.short} PPTs
             </h3>
-            <FileList files={structure.ppts[g.key].filter((f) => f.area === area.slug)} empty={`No ${g.short} slides for ${area.title} yet.`} />
+            <FileList files={structure.ppts[g.key].filter((f) => inArea(f, area.slug))} empty={`No ${g.short} slides for ${area.title} yet.`} areas={structure.areas} currentArea={area.slug} />
           </div>
         ))}
         <Link href={`/practice?subject=${subject.id}`} className="btn-ghost">
@@ -427,11 +429,14 @@ function FileList({
   empty,
   areas,
   groupByArea = false,
+  currentArea,
 }: {
   files: StudyFile[];
   empty: string;
   areas?: SubjectArea[];
   groupByArea?: boolean;
+  /** On an area page: files filed under another area get a "From …" label */
+  currentArea?: string;
 }) {
   const [viewing, setViewing] = useState<StudyFile | null>(null);
   if (!files.length) return <EmptyState text={empty} />;
@@ -477,7 +482,14 @@ function FileList({
                       {f.type === "PDF" ? "PDF" : "PPT"}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <div className="text-sm font-medium leading-snug text-ink">{f.title}</div>
+                      <div className="text-sm font-medium leading-snug text-ink">
+                        {f.title}
+                        {currentArea && f.area && f.area !== currentArea && (
+                          <span className="ml-2 inline-block rounded-full bg-brand-500/10 px-2 py-0.5 align-middle text-[10px] font-semibold text-brand-400">
+                            From {areas?.find((a) => a.slug === f.area)?.title ?? f.area}
+                          </span>
+                        )}
+                      </div>
                       <div className="truncate text-xs text-slate-500">{[f.pages ? `${f.pages} slides` : "", f.by].filter(Boolean).join(" · ")}</div>
                     </div>
                     {f.isPremium ? (
