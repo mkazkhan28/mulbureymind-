@@ -3,13 +3,12 @@
 @tailwind utilities;
 
 /* =============================================================================
-   HMHDental colour tokens (generated) — blue · pink · yellow · warm grey · brown
-   Light (default): warm grey canvas, espresso-brown text, blue brand, pink accent, yellow (amber) rewards.
-   Dark (html.dark): warm charcoal-brown canvas, glowing blue brand, pink accent.
+   HMHDental colour tokens (generated)
+   Light (default): crisp white canvas, near-black text, violet brand, black accent.
+   Dark (html.dark): midnight-blue canvas, electric-cyan brand, electric-blue accent.
    ============================================================================= */
 :root {
-  --c-shadow: 42 37 34;
-  color-scheme: light;
+  --c-shadow: 24 16 48;
   --c-amber-50: 69 26 3;
   --c-amber-100: 120 53 15;
   --c-amber-200: 146 64 14;
@@ -109,51 +108,50 @@
   --c-stone-800: 41 37 36;
   --c-stone-900: 245 245 244;
   --c-stone-950: 250 250 249;
-  --c-brand-50: 19 31 51;
-  --c-brand-100: 30 52 84;
-  --c-brand-200: 33 61 102;
-  --c-brand-300: 33 61 102;
-  --c-brand-400: 38 73 124;
-  --c-brand-500: 59 111 182;
-  --c-brand-600: 46 90 153;
-  --c-brand-700: 38 73 124;
-  --c-brand-800: 33 61 102;
-  --c-brand-900: 217 230 247;
-  --c-brand-950: 238 244 252;
-  --c-accent-50: 63 14 33;
-  --c-accent-100: 107 33 61;
-  --c-accent-200: 129 36 69;
-  --c-accent-300: 129 36 69;
-  --c-accent-400: 156 40 80;
-  --c-accent-500: 217 74 120;
-  --c-accent-600: 189 52 97;
-  --c-accent-700: 156 40 80;
-  --c-accent-800: 129 36 69;
-  --c-accent-900: 251 224 234;
-  --c-accent-950: 253 240 245;
-  --c-slate-50: 34 29 26;
-  --c-slate-100: 42 37 34;
-  --c-slate-200: 58 51 46;
-  --c-slate-300: 77 69 64;
-  --c-slate-400: 101 92 85;
-  --c-slate-500: 123 113 106;
-  --c-slate-600: 166 156 148;
-  --c-slate-700: 224 217 210;
-  --c-slate-800: 238 232 226;
-  --c-slate-850: 243 238 233;
+  --c-brand-50: 46 16 101;
+  --c-brand-100: 76 29 149;
+  --c-brand-200: 91 33 182;
+  --c-brand-300: 91 33 182;
+  --c-brand-400: 109 40 217;
+  --c-brand-500: 139 92 246;
+  --c-brand-600: 124 58 237;
+  --c-brand-700: 109 40 217;
+  --c-brand-800: 91 33 182;
+  --c-brand-900: 237 233 254;
+  --c-brand-950: 245 243 255;
+  --c-accent-50: 6 6 7;
+  --c-accent-100: 12 12 14;
+  --c-accent-200: 17 17 19;
+  --c-accent-300: 17 17 19;
+  --c-accent-400: 24 24 27;
+  --c-accent-500: 63 63 70;
+  --c-accent-600: 39 39 42;
+  --c-accent-700: 24 24 27;
+  --c-accent-800: 17 17 19;
+  --c-accent-900: 231 231 234;
+  --c-accent-950: 246 246 247;
+  --c-slate-50: 9 9 11;
+  --c-slate-100: 17 17 19;
+  --c-slate-200: 39 39 42;
+  --c-slate-300: 63 63 70;
+  --c-slate-400: 82 82 91;
+  --c-slate-500: 113 113 122;
+  --c-slate-600: 161 161 170;
+  --c-slate-700: 228 228 231;
+  --c-slate-800: 239 239 241;
+  --c-slate-850: 244 244 245;
   --c-slate-900: 255 255 255;
-  --c-slate-950: 247 244 241;
-  --c-canvas: 247 244 241;
+  --c-slate-950: 250 250 250;
+  --c-canvas: 250 250 250;
   --c-surface: 255 255 255;
-  --c-surface-2: 241 236 231;
-  --c-ink: 42 37 34;
-  --c-muted: 110 101 94;
-  --c-line: 230 223 216;
+  --c-surface-2: 244 244 245;
+  --c-ink: 9 9 11;
+  --c-muted: 91 91 102;
+  --c-line: 230 230 234;
 }
 
 html.dark {
-  --c-shadow: 0 0 0;
-  color-scheme: dark;
+  --c-shadow: 0 4 16;
   --c-amber-50: 255 251 235;
   --c-amber-100: 254 243 199;
   --c-amber-200: 253 230 138;
@@ -253,46 +251,46 @@ html.dark {
   --c-stone-800: 41 37 36;
   --c-stone-900: 28 25 23;
   --c-stone-950: 12 10 9;
-  --c-brand-50: 238 244 252;
-  --c-brand-100: 217 230 247;
-  --c-brand-200: 182 206 239;
-  --c-brand-300: 136 174 227;
-  --c-brand-400: 91 139 211;
-  --c-brand-500: 59 111 182;
-  --c-brand-600: 46 90 153;
-  --c-brand-700: 38 73 124;
-  --c-brand-800: 33 61 102;
-  --c-brand-900: 30 52 84;
-  --c-brand-950: 19 31 51;
-  --c-accent-50: 253 240 245;
-  --c-accent-100: 251 224 234;
-  --c-accent-200: 247 193 213;
-  --c-accent-300: 241 149 183;
-  --c-accent-400: 232 106 146;
-  --c-accent-500: 217 74 120;
-  --c-accent-600: 189 52 97;
-  --c-accent-700: 156 40 80;
-  --c-accent-800: 129 36 69;
-  --c-accent-900: 107 33 61;
-  --c-accent-950: 63 14 33;
-  --c-slate-50: 250 247 244;
-  --c-slate-100: 241 236 231;
-  --c-slate-200: 222 214 207;
-  --c-slate-300: 194 184 175;
-  --c-slate-400: 163 151 141;
-  --c-slate-500: 125 114 105;
-  --c-slate-600: 90 81 74;
-  --c-slate-700: 67 59 54;
-  --c-slate-800: 51 45 41;
-  --c-slate-850: 43 38 34;
-  --c-slate-900: 35 31 28;
-  --c-slate-950: 26 22 20;
-  --c-canvas: 26 22 20;
-  --c-surface: 35 31 28;
-  --c-surface-2: 43 38 34;
-  --c-ink: 243 238 233;
-  --c-muted: 176 165 155;
-  --c-line: 58 51 46;
+  --c-brand-50: 236 254 255;
+  --c-brand-100: 207 250 254;
+  --c-brand-200: 165 248 255;
+  --c-brand-300: 103 240 255;
+  --c-brand-400: 34 228 255;
+  --c-brand-500: 0 209 245;
+  --c-brand-600: 0 168 209;
+  --c-brand-700: 2 132 168;
+  --c-brand-800: 10 106 136;
+  --c-brand-900: 14 85 112;
+  --c-brand-950: 4 48 63;
+  --c-accent-50: 238 244 255;
+  --c-accent-100: 219 230 255;
+  --c-accent-200: 191 209 255;
+  --c-accent-300: 147 178 255;
+  --c-accent-400: 91 140 255;
+  --c-accent-500: 59 109 255;
+  --c-accent-600: 42 82 240;
+  --c-accent-700: 36 65 201;
+  --c-accent-800: 34 56 158;
+  --c-accent-900: 33 51 124;
+  --c-accent-950: 20 29 72;
+  --c-slate-50: 244 247 255;
+  --c-slate-100: 230 236 250;
+  --c-slate-200: 205 214 238;
+  --c-slate-300: 169 182 216;
+  --c-slate-400: 131 146 187;
+  --c-slate-500: 95 110 152;
+  --c-slate-600: 67 80 121;
+  --c-slate-700: 46 58 96;
+  --c-slate-800: 31 42 77;
+  --c-slate-850: 26 36 69;
+  --c-slate-900: 19 28 58;
+  --c-slate-950: 11 18 41;
+  --c-canvas: 11 18 41;
+  --c-surface: 17 26 54;
+  --c-surface-2: 24 34 63;
+  --c-ink: 238 243 255;
+  --c-muted: 154 168 204;
+  --c-line: 38 50 90;
 }
 
 

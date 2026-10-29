@@ -254,7 +254,7 @@ function Badges({ p }: { p: Progress | null }) {
 
 function Confetti() {
   const pieces = Array.from({ length: 28 }, (_, i) => i);
-  const colors = ["#f2b63d", "#3b6fb6", "#e86a92", "#a06f50", "#a69c94"];
+  const colors = ["#8b5cf6", "#22e4ff", "#3b6dff", "#18181b", "#f2b63d"];
   return (
     <div className="pointer-events-none absolute inset-x-0 -top-4 z-20 h-0 overflow-visible" aria-hidden="true">
       {pieces.map((i) => (

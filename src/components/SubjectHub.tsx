@@ -44,7 +44,7 @@ export const AREA_ICONS = { Sprout, Microscope, Brain, ScanFace, Bone, HeartPuls
 
 /* Subject accent (text-*-400 reads well in both themes) */
 const TONE: Record<string, { text: string; bg: string; ring: string; bar: string }> = {
-  anat: { text: "text-amber-400", hover: "group-hover:text-amber-400", bg: "bg-amber-500/10", ring: "ring-amber-500/30", bar: "from-amber-400 to-amber-600" },
+  anat: { text: "text-brand-400", hover: "group-hover:text-brand-400", bg: "bg-brand-500/10", ring: "ring-brand-500/30", bar: "from-brand-400 to-accent-500" },
 };
 const DEFAULT_TONE = { text: "text-brand-400", hover: "group-hover:text-brand-400", bg: "bg-brand-500/10", ring: "ring-brand-500/30", bar: "from-brand-400 to-brand-600" };
 
@@ -120,7 +120,7 @@ export function SubjectHub({ subject, structure }: { subject: Subject; structure
 
   return (
     <div className="relative">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-amber-500/10 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-gradient-to-b from-brand-500/10 to-transparent" />
       <div className="relative mx-auto max-w-6xl space-y-12 px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <Breadcrumb items={[{ href: "/subjects", label: "Subjects" }, { label: subject.name }]} />
 
@@ -365,12 +365,12 @@ function MaterialCard({ href, icon: Icon, title, text, meta }: { href: string; i
 export const AREA_STYLE: Record<string, { grad: string; chip: string; icon: string; bar: string }> = {
   // 500–700 shades look the same in light and dark themes, so tiles stay bright in both.
   // One area per colour of the palette: pink · yellow · blue · brown · grey · blue→pink
-  embryology: { grad: "from-pink-500 to-accent-600", chip: "bg-pink-500/15 text-pink-400", icon: "text-pink-600", bar: "from-pink-500 to-accent-500" },
+  embryology: { grad: "from-pink-500 to-brand-600", chip: "bg-pink-500/15 text-pink-400", icon: "text-pink-600", bar: "from-pink-500 to-brand-500" },
   histology: { grad: "from-amber-500 to-amber-600", chip: "bg-amber-500/15 text-amber-400", icon: "text-amber-600", bar: "from-amber-500 to-amber-600" },
   neuroanatomy: { grad: "from-brand-500 to-brand-700", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-brand-600" },
-  "head-and-neck": { grad: "from-cocoa-500 to-cocoa-700", chip: "bg-cocoa-500/15 text-cocoa-400", icon: "text-cocoa-600", bar: "from-cocoa-500 to-cocoa-600" },
-  "general-anatomy": { grad: "from-stone-500 to-stone-700", chip: "bg-stone-500/15 text-stone-400", icon: "text-stone-600", bar: "from-stone-500 to-stone-600" },
-  "thorax-and-abdomen": { grad: "from-brand-600 to-accent-500", chip: "bg-accent-500/15 text-accent-400", icon: "text-accent-600", bar: "from-brand-500 to-accent-500" },
+  "head-and-neck": { grad: "from-accent-500 to-accent-700", chip: "bg-accent-500/15 text-accent-400", icon: "text-accent-600", bar: "from-accent-500 to-accent-600" },
+  "general-anatomy": { grad: "from-sky-500 to-sky-700", chip: "bg-sky-500/15 text-sky-400", icon: "text-sky-600", bar: "from-sky-500 to-sky-600" },
+  "thorax-and-abdomen": { grad: "from-brand-600 to-accent-600", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" },
 };
 export const DEFAULT_AREA_STYLE = { grad: "from-brand-500 to-accent-600", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" };
 
@@ -562,7 +562,7 @@ function FileList({
                             {pct >= 95 ? "Finished ✓" : "In progress"}
                           </span>
                         ) : null}
-                        <span className="pointer-events-none absolute bottom-2.5 left-1/2 flex -translate-x-1/2 translate-y-2 items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#2a2522] opacity-0 shadow-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                        <span className="pointer-events-none absolute bottom-2.5 left-1/2 flex -translate-x-1/2 translate-y-2 items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#09090b] opacity-0 shadow-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                           <Eye className="h-3.5 w-3.5" /> {f.isPremium ? "Unlock" : seen ? "Continue" : "Open"}
                         </span>
                       </div>

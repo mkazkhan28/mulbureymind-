@@ -42,7 +42,7 @@ export default function AuthLayout({
           <Link href="/" className="group flex items-center gap-2.5">
             <img src="/logo-icon.svg" alt="HMHDental logo" className="h-11 w-11 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105" />
             <span className="font-display text-2xl font-extrabold tracking-[-0.03em] text-ink">
-              HMH<span className="bg-gradient-to-r from-brand-500 via-accent-500 to-amber-500 bg-clip-text text-transparent">Dental</span>
+              HMH<span className="bg-gradient-to-r from-brand-500 to-accent-500 bg-clip-text text-transparent">Dental</span>
             </span>
           </Link>
           <div className="flex items-center gap-2">

@@ -50,7 +50,7 @@ const BARE_ROUTES = ["/login", "/signup", "/forgot-password", "/read/"];
 
 /* Subject accent colours — 400-level text reads well in both themes */
 const SUBJECT_TONE: Record<string, { text: string; bg: string; ring: string }> = {
-  anat: { text: "text-amber-400", bg: "bg-amber-500/10", ring: "ring-amber-500/30" },
+  anat: { text: "text-brand-400", bg: "bg-brand-500/10", ring: "ring-brand-500/30" },
   phys: { text: "text-rose-400", bg: "bg-rose-500/10", ring: "ring-rose-500/30" },
   "oral-bio": { text: "text-cyan-400", bg: "bg-cyan-500/10", ring: "ring-cyan-500/30" },
   biochem: { text: "text-violet-400", bg: "bg-violet-500/10", ring: "ring-violet-500/30" },
@@ -345,9 +345,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       </span>
       <span className="flex min-w-0 flex-col">
         <span className={`truncate font-display font-extrabold tracking-[-0.03em] text-ink ${small ? "text-lg" : "text-[1.4rem]"} leading-none`}>
-          HMH<span className="bg-gradient-to-r from-brand-500 via-accent-500 to-amber-500 bg-clip-text text-transparent">Dental</span>
+          HMH<span className="bg-gradient-to-r from-brand-500 to-accent-500 bg-clip-text text-transparent">Dental</span>
         </span>
-        <span className="mt-1 truncate text-[10px] font-bold uppercase tracking-[0.14em] text-cocoa-500">DUHS · BDS 1st Year</span>
+        <span className="mt-1 truncate text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">DUHS · BDS 1st Year</span>
       </span>
     </Link>
   );
