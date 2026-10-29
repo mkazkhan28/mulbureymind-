@@ -18,6 +18,7 @@ import {
   Copy,
   Check
 } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
@@ -80,24 +81,17 @@ function CheckoutContent() {
   return (
     <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-14 relative overflow-hidden">
       {/* Decorative ambient background glows */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-1/3 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {!isSuccess ? (
           <div className="space-y-8">
-            <div className="text-center space-y-2">
-              <span className="text-xs font-bold text-cyan-300 uppercase tracking-widest bg-cyan-950/70 px-3.5 py-1 rounded-full border border-cyan-800/60 shadow-sm">
-                DUHS Student Gateway Checkout
-              </span>
-              <h1 className="text-2xl sm:text-4xl font-extrabold text-ink tracking-tight">
-                Complete Your DUHS 1st Year Membership
-              </h1>
-              <p className="text-xs sm:text-sm text-slate-300">
-                Instant access to verified DUHS BCQs, interactive quizzes, and clinical notes.
-              </p>
-            </div>
+            <PageHeader
+              eyebrow="Checkout"
+              title="Complete your membership"
+              intro="Choose a payment method below. Your plan activates once the payment is confirmed."
+              className="!pb-2"
+            />
 
             {/* Test Mode Notification */}
             <div className="bg-indigo-950/60 border border-indigo-700/60 rounded-2xl p-4 flex items-start gap-3 text-xs text-indigo-200 shadow-xl">
@@ -116,9 +110,9 @@ function CheckoutContent() {
               <div className="md:col-span-7 space-y-6">
                 
                 {/* Student Info Card */}
-                <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-slate-800 shadow-xl space-y-4">
+                <div className="bg-surface p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
                   <h2 className="text-sm font-bold text-ink uppercase tracking-wider flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-md bg-indigo-600 text-white flex items-center justify-center text-xs">1</span>
+                    <span className="w-5 h-5 rounded-md bg-primary text-on-primary flex items-center justify-center text-xs">1</span>
                     Student Identification
                   </h2>
                   <div className="space-y-3.5 text-xs">
@@ -167,9 +161,9 @@ function CheckoutContent() {
                 </div>
 
                 {/* Payment Methods Card */}
-                <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-slate-800 shadow-xl space-y-4">
+                <div className="bg-surface p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
                   <h2 className="text-sm font-bold text-ink uppercase tracking-wider flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-md bg-indigo-600 text-white flex items-center justify-center text-xs">2</span>
+                    <span className="w-5 h-5 rounded-md bg-primary text-on-primary flex items-center justify-center text-xs">2</span>
                     Select Payment Gateway
                   </h2>
 
@@ -297,7 +291,7 @@ function CheckoutContent() {
 
               {/* Right Column: Order Summary */}
               <div className="md:col-span-5 space-y-4">
-                <div className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-3xl border border-slate-800 shadow-xl space-y-4">
+                <div className="bg-surface p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
                   <h2 className="text-sm font-bold text-ink uppercase tracking-wider">
                     Order Summary
                   </h2>
@@ -344,7 +338,7 @@ function CheckoutContent() {
                   <button
                     type="submit"
                     disabled={isProcessing}
-                    className="w-full py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white rounded-xl font-bold text-xs shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
+                    className="w-full py-4 bg-primary hover:bg-primary-hover text-on-primary rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
                   >
                     {isProcessing ? (
                       <span>Verifying with {paymentMethod.toUpperCase()}...</span>
@@ -367,7 +361,7 @@ function CheckoutContent() {
           </div>
         ) : (
           /* SUCCESS CONFIRMATION SCREEN */
-          <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-800 p-8 sm:p-12 shadow-2xl text-center space-y-6 max-w-xl mx-auto animate-fadeIn">
+          <div className="bg-surface rounded-2xl border border-slate-800 p-8 sm:p-12 text-center space-y-6 max-w-xl mx-auto animate-fadeIn">
             <div className="w-18 h-18 rounded-2xl bg-emerald-950/80 border border-emerald-700/60 flex items-center justify-center mx-auto text-emerald-400 shadow-xl shadow-emerald-950/30">
               <CheckCircle2 className="w-9 h-9" />
             </div>
@@ -377,7 +371,7 @@ function CheckoutContent() {
                 Payment Verified & Activated
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-ink">
-                Welcome to DUHS BDS Study Hub!
+                Welcome to HMHDental!
               </h2>
               <p className="text-xs text-slate-300">
                 Your subscription to <strong className="text-ink">{currentPlan.name}</strong> is now live on your account.
@@ -406,7 +400,7 @@ function CheckoutContent() {
             <div className="pt-2">
               <Link
                 href="/dashboard"
-                className="w-full py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white rounded-xl font-bold text-xs shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2"
+                className="w-full py-4 bg-primary hover:bg-primary-hover text-on-primary rounded-xl font-bold text-xs transition flex items-center justify-center gap-2"
               >
                 <span>Go to My Student Dashboard</span>
                 <ArrowRight className="w-4 h-4" />

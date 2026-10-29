@@ -11,7 +11,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 text-slate-800 shadow-xs">
       {/* Top announcement banner focused on DUHS in crisp clean blue/grey */}
       <div className="bg-gradient-to-r from-blue-50 via-slate-50 to-blue-50 text-slate-700 text-xs py-1.5 px-4 text-center font-medium flex items-center justify-center gap-2 border-b border-blue-100">
-        <span className="inline-flex items-center rounded-full bg-blue-600 text-white px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase shadow-xs">
+        <span className="inline-flex items-center rounded-full bg-primary text-on-primary px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase shadow-xs">
           DUHS Karachi
         </span>
         <span className="text-slate-700">
@@ -88,7 +88,7 @@ export default function Navbar() {
             </Link>
             <Link
               href="/signup"
-              className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md shadow-blue-600/25 transition flex items-center gap-1.5 hover:shadow-lg"
+              className="px-4 py-2 text-sm font-semibold text-on-primary bg-primary hover:bg-primary-hover rounded-lg shadow-md shadow-blue-600/25 transition flex items-center gap-1.5 hover:shadow-lg"
             >
               <span>Get Started</span>
               <Sparkles className="w-3.5 h-3.5 text-blue-200" />
@@ -170,7 +170,7 @@ export default function Navbar() {
             <Link
               href="/signup"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm"
+              className="w-full text-center py-2.5 text-sm font-semibold text-on-primary bg-primary hover:bg-primary-hover rounded-lg shadow-sm"
             >
               Create Student Account
             </Link>

@@ -15,6 +15,7 @@ import {
   ChevronUp,
   ArrowRight
 } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 export default function PastPapersPage() {
   const [selectedSubject, setSelectedSubject] = useState("all");
@@ -68,28 +69,19 @@ export default function PastPapersPage() {
   return (
     <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
       {/* Decorative ambient background glows */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 left-10 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-950/60 border border-indigo-700/60 text-indigo-300 text-xs font-semibold shadow-sm">
-            <Award className="w-3.5 h-3.5 text-indigo-400" />
-            <span>DUHS Karachi BDS 1st Year Archive</span>
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-ink tracking-tight">
-            DUHS Past-Paper BCQs (2015–2024)
-          </h1>
-          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
-            Verified past examination questions and modular assessment tests from Dow University of Health Sciences (DIKIOHS, DDC & DIDC) with textbook-referenced solutions.
-          </p>
-        </div>
+        <PageHeader
+          eyebrow="Past papers"
+          title="DUHS past-paper questions"
+          lead="See what has been asked before."
+          intro="Past examination questions from DIKIOHS, DDC and DIDC with explanations. Filter by subject or search by keyword or year."
+        />
 
         {/* Filter & Search Bar */}
-        <div className="bg-slate-900/80 backdrop-blur-xl p-5 sm:p-6 rounded-3xl border border-slate-800/80 shadow-2xl space-y-4">
+        <div className="bg-surface p-5 sm:p-6 rounded-2xl border border-line space-y-4">
           <div className="flex flex-col sm:flex-row items-center gap-4">
             {/* Search Input */}
             <div className="relative flex-1 w-full">
@@ -121,7 +113,7 @@ export default function PastPapersPage() {
           </div>
 
           {/* Quick College & Module Tags */}
-          <div className="flex items-center gap-2 pt-3 border-t border-slate-800/80 overflow-x-auto text-xs text-slate-400">
+          <div className="flex items-center gap-2 pt-3 border-t border-line overflow-x-auto text-xs text-slate-400">
             <span className="font-semibold text-slate-300 shrink-0">DUHS Colleges:</span>
             <span className="px-2.5 py-1 bg-slate-950/60 border border-slate-800 rounded-lg text-slate-300 font-medium shrink-0">
               DIKIOHS (Ojha Campus)
@@ -141,7 +133,7 @@ export default function PastPapersPage() {
         {/* MCQs List */}
         <div className="space-y-4">
           {filteredMCQs.length === 0 ? (
-            <div className="bg-slate-900/80 backdrop-blur-xl p-12 rounded-3xl border border-slate-800/80 text-center space-y-3">
+            <div className="bg-surface p-12 rounded-2xl border border-line text-center space-y-3">
               <Search className="w-8 h-8 text-slate-500 mx-auto" />
               <h3 className="text-base font-bold text-ink">No questions found matching your filter</h3>
               <p className="text-xs text-slate-400">Try adjusting your search keywords or select "All 6 Core 1st Year Subjects".</p>
@@ -154,7 +146,7 @@ export default function PastPapersPage() {
               return (
                 <div
                   key={q.id}
-                  className="bg-slate-900/80 backdrop-blur-xl p-5 sm:p-6 rounded-2xl border border-slate-800/80 hover:border-slate-700/80 shadow-xl transition space-y-4"
+                  className="bg-surface p-5 sm:p-6 rounded-2xl border border-line hover:border-slate-700/80 shadow-xl transition space-y-4"
                 >
                   {/* Top Meta info */}
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
@@ -237,7 +229,7 @@ export default function PastPapersPage() {
         </div>
 
         {/* Bottom Banner */}
-        <div className="bg-gradient-to-r from-blue-950/80 via-indigo-950/80 to-purple-950/80 backdrop-blur-xl border border-indigo-800/60 p-6 sm:p-8 rounded-3xl shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        <div className="bg-gradient-to-r from-blue-950/80 via-indigo-950/80 to-purple-950/80 border border-indigo-800/60 p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div className="space-y-1 max-w-xl">
             <h3 className="text-lg sm:text-xl font-extrabold text-ink">
               Want to take these under official exam conditions?
@@ -248,7 +240,7 @@ export default function PastPapersPage() {
           </div>
           <Link
             href="/practice"
-            className="px-6 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg shadow-indigo-600/30 shrink-0"
+            className="px-6 py-3.5 bg-primary hover:bg-primary-hover text-on-primary rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0"
           >
             <span>Launch Exam Simulator</span>
             <ArrowRight className="w-4 h-4" />

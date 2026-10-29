@@ -554,7 +554,7 @@ function FileList({
                             <Lock className="h-3 w-3" /> Pass
                           </span>
                         ) : progress && !seen ? (
-                          <span className="absolute right-2.5 top-2.5 rounded-full bg-brand-500 px-2 py-0.5 text-[11px] font-bold text-white shadow">New</span>
+                          <span className="absolute right-2.5 top-2.5 rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-on-primary shadow">New</span>
                         ) : seen ? (
                           <span className="absolute right-2.5 top-2.5 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-bold text-brand-700">
                             {pct >= 95 ? "Finished ✓" : "In progress"}

@@ -6,7 +6,8 @@ import { useParams } from "next/navigation";
 import {
   BDS_SUBJECTS,
   BDS_TOPICS,
-  BDS_RESOURCES
+  BDS_RESOURCES,
+  BDS_MCQS
 } from "@/lib/bds-content";
 import { getSubjectStructure } from "@/lib/subject-structure";
 import { SubjectHub } from "@/components/SubjectHub";
@@ -20,6 +21,7 @@ import {
   Sparkles
 } from "lucide-react";
 import { SubjectArt } from "@/components/Illustrations";
+import { subjectStats } from "@/lib/stats";
 
 export default function SubjectDetailPage() {
   const params = useParams();
@@ -29,13 +31,13 @@ export default function SubjectDetailPage() {
   if (!subject) {
     return (
       <div className="min-h-screen bg-canvas flex items-center justify-center p-4">
-        <div className="bg-slate-900/80 backdrop-blur-xl p-8 rounded-3xl border border-slate-800 text-center max-w-md space-y-4 shadow-2xl">
+        <div className="bg-surface p-8 rounded-2xl border border-slate-800 text-center max-w-md space-y-4">
           <BookOpen className="w-10 h-10 text-slate-500 mx-auto" />
           <h2 className="text-xl font-bold text-ink">Subject Not Found</h2>
           <p className="text-xs text-slate-400">The requested DUHS BDS subject could not be located.</p>
           <Link
             href="/subjects"
-            className="inline-block px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl text-xs font-semibold hover:from-blue-500 hover:to-indigo-500 transition shadow-lg shadow-indigo-600/20"
+            className="inline-block px-5 py-2.5 bg-primary hover:bg-primary-hover text-on-primary rounded-xl text-xs font-semibold hover:from-blue-500 hover:to-indigo-500 transition"
           >
             Back to All Subjects
           </Link>
@@ -109,8 +111,6 @@ export default function SubjectDetailPage() {
   return (
     <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
       {/* Decorative ambient background glows */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
         
@@ -126,10 +126,10 @@ export default function SubjectDetailPage() {
         </div>
 
         {/* Subject Banner Card */}
-        <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-800/80 p-6 sm:p-10 shadow-2xl space-y-6">
+        <div className="bg-surface rounded-2xl border border-line p-6 sm:p-10 space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
-              <span className="text-5xl p-4 bg-slate-950/80 border border-slate-800 rounded-3xl shadow-inner">
+              <span className="text-5xl p-4 bg-slate-950/80 border border-slate-800 rounded-2xl shadow-inner">
                 <SubjectArt id={subject.id} className="h-14 w-14" />
               </span>
               <div>
@@ -145,7 +145,7 @@ export default function SubjectDetailPage() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 href={`/practice?subject=${subject.id}`}
-                className="px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg shadow-indigo-600/25"
+                className="px-5 py-3 bg-primary hover:bg-primary-hover text-on-primary rounded-xl text-xs font-bold transition flex items-center gap-2"
               >
                 <FileText className="w-4 h-4" />
                 <span>Start Practice Quiz</span>
@@ -165,22 +165,22 @@ export default function SubjectDetailPage() {
           </p>
 
           {/* Quick Stats Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-5 border-t border-slate-800/80">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-5 border-t border-line">
             <div className="p-4 bg-slate-950/80 border border-slate-850 rounded-2xl">
-              <div className="text-xs text-slate-400 font-medium">DUHS BCQs in Bank</div>
-              <div className="text-xl font-extrabold text-ink mt-1">{subject.mcqCount}+ Questions</div>
+              <div className="text-xs text-slate-400 font-medium">Practice MCQs</div>
+              <div className="text-xl font-extrabold text-ink mt-1">{subjectStats(subject.id).mcqs}</div>
             </div>
             <div className="p-4 bg-slate-950/80 border border-slate-850 rounded-2xl">
-              <div className="text-xs text-slate-400 font-medium">Digital Flashcards</div>
-              <div className={`text-xl font-extrabold mt-1 ${style.accentText}`}>{subject.flashcardCount} Cards</div>
+              <div className="text-xs text-slate-400 font-medium">Flashcard decks</div>
+              <div className={`text-xl font-extrabold mt-1 ${style.accentText}`}>{subjectStats(subject.id).decks}</div>
             </div>
             <div className="p-4 bg-slate-950/80 border border-slate-850 rounded-2xl">
-              <div className="text-xs text-slate-400 font-medium">Past Papers Included</div>
-              <div className="text-xl font-extrabold text-ink mt-1">{subject.pastPapersCount} Years</div>
+              <div className="text-xs text-slate-400 font-medium">Textbooks</div>
+              <div className="text-xl font-extrabold text-ink mt-1">{subjectStats(subject.id).books}</div>
             </div>
             <div className="p-4 bg-slate-950/80 border border-slate-850 rounded-2xl">
-              <div className="text-xs text-slate-400 font-medium">Modular Topics</div>
-              <div className="text-xl font-extrabold text-ink mt-1">{topics.length} High-Yield Modules</div>
+              <div className="text-xs text-slate-400 font-medium">Topics</div>
+              <div className="text-xl font-extrabold text-ink mt-1">{topics.length}</div>
             </div>
           </div>
         </div>
@@ -200,7 +200,7 @@ export default function SubjectDetailPage() {
             {topics.map((top) => (
               <div
                 key={top.id}
-                className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800/80 p-5 sm:p-6 hover:border-slate-700/80 hover:shadow-2xl transition flex flex-col justify-between group"
+                className="bg-surface rounded-2xl border border-line p-5 sm:p-6 hover:border-slate-700/80 hover:shadow-2xl transition flex flex-col justify-between group"
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-2">
@@ -219,9 +219,9 @@ export default function SubjectDetailPage() {
                   </p>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between">
+                <div className="pt-4 mt-4 border-t border-line flex items-center justify-between">
                   <span className="text-[11px] text-slate-400 font-medium">
-                    {top.mcqCount} BCQs • {top.flashcardCount} Flashcards
+                    {BDS_MCQS.filter((q) => q.topicId === top.id).length} MCQs
                   </span>
                   <Link
                     href={`/practice?subject=${subject.id}`}
@@ -246,7 +246,7 @@ export default function SubjectDetailPage() {
               {resources.map((res) => (
                 <div
                   key={res.id}
-                  className="bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800/80 p-5 flex items-start justify-between gap-4 hover:border-slate-700/80 shadow-xl transition group"
+                  className="bg-surface rounded-2xl border border-line p-5 flex items-start justify-between gap-4 hover:border-slate-700/80 shadow-xl transition group"
                 >
                   <div className="flex items-start gap-3">
                     <span className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-cyan-400 font-bold text-xs uppercase">

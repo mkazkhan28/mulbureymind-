@@ -34,13 +34,13 @@ export default function FlashcardStudyPage() {
   if (!deck && cards.length === 0) {
     return (
       <div className="min-h-screen bg-canvas flex items-center justify-center p-4">
-        <div className="bg-slate-900/80 backdrop-blur-xl p-8 rounded-3xl border border-slate-800 text-center max-w-md space-y-4 shadow-2xl">
+        <div className="bg-surface p-8 rounded-2xl border border-slate-800 text-center max-w-md space-y-4">
           <Layers className="w-10 h-10 text-slate-500 mx-auto" />
           <h2 className="text-xl font-bold text-ink">Deck Not Found</h2>
           <p className="text-xs text-slate-400">The requested DUHS flashcard deck could not be found.</p>
           <Link
             href="/flashcards"
-            className="inline-block px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl text-xs font-semibold hover:from-blue-500 hover:to-indigo-500 transition shadow-lg shadow-indigo-600/20"
+            className="inline-block px-5 py-2.5 bg-primary hover:bg-primary-hover text-on-primary rounded-xl text-xs font-semibold hover:from-blue-500 hover:to-indigo-500 transition"
           >
             Back to Flashcard Library
           </Link>
@@ -77,8 +77,6 @@ export default function FlashcardStudyPage() {
   return (
     <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
       {/* Decorative ambient background glows */}
-      <div className="absolute top-10 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 relative z-10">
         
@@ -116,12 +114,12 @@ export default function FlashcardStudyPage() {
             <div className="perspective-1000">
               <div
                 onClick={() => setIsFlipped(!isFlipped)}
-                className={`relative w-full min-h-[360px] rounded-3xl cursor-pointer select-none transition-transform duration-700 transform-style-3d shadow-2xl ${
+                className={`relative w-full min-h-[360px] rounded-2xl cursor-pointer select-none transition-transform duration-700 transform-style-3d ${
                   isFlipped ? "rotate-y-180" : ""
                 }`}
               >
                 {/* FRONT FACE (Question / Prompt) */}
-                <div className="absolute inset-0 backface-hidden bg-slate-900/90 backdrop-blur-xl border-2 border-slate-800 rounded-3xl p-7 sm:p-8 flex flex-col justify-between hover:border-slate-700 transition">
+                <div className="absolute inset-0 backface-hidden bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-7 sm:p-8 flex flex-col justify-between hover:border-slate-700 transition">
                   <div className="flex items-center justify-between text-xs border-b border-slate-800 pb-3">
                     <span className="font-bold text-cyan-300 uppercase tracking-wider bg-cyan-950/60 px-3 py-0.5 rounded-full border border-cyan-800/60">
                       DUHS Concept Prompt
@@ -144,7 +142,7 @@ export default function FlashcardStudyPage() {
                 </div>
 
                 {/* BACK FACE (Answer & Clinical Pearl) */}
-                <div className="absolute inset-0 backface-hidden rotate-y-180 bg-slate-950 text-ink rounded-3xl p-7 sm:p-8 flex flex-col justify-between border-2 border-indigo-500/80 shadow-2xl shadow-indigo-500/20">
+                <div className="absolute inset-0 backface-hidden rotate-y-180 bg-slate-950 text-ink rounded-2xl p-7 sm:p-8 flex flex-col justify-between border-2 border-indigo-500/80 shadow-indigo-500/20">
                   <div className="flex items-center justify-between text-xs border-b border-slate-850 pb-3">
                     <span className="font-bold text-indigo-300 uppercase tracking-wider bg-indigo-950/60 px-3 py-0.5 rounded-full border border-indigo-700/60">
                       Answer & High-Yield Concept
@@ -198,7 +196,7 @@ export default function FlashcardStudyPage() {
             ) : (
               <button
                 onClick={() => setIsFlipped(true)}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white rounded-xl font-bold text-xs sm:text-sm shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-4 bg-primary hover:bg-primary-hover text-on-primary rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <RotateCw className="w-4 h-4" />
                 <span>Show Answer (Flip Card)</span>
@@ -207,8 +205,8 @@ export default function FlashcardStudyPage() {
           </div>
         ) : (
           /* COMPLETION SUMMARY SCREEN */
-          <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-800/80 p-8 sm:p-12 shadow-2xl text-center space-y-6 animate-fadeIn">
-            <div className="w-16 h-16 rounded-2xl bg-indigo-950/80 border border-indigo-700/60 flex items-center justify-center mx-auto text-indigo-400 shadow-xl shadow-indigo-600/20">
+          <div className="bg-surface rounded-2xl border border-line p-8 sm:p-12 text-center space-y-6 animate-fadeIn">
+            <div className="w-16 h-16 rounded-2xl bg-indigo-950/80 border border-indigo-700/60 flex items-center justify-center mx-auto text-indigo-400">
               <Award className="w-8 h-8" />
             </div>
 
@@ -235,7 +233,7 @@ export default function FlashcardStudyPage() {
             <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
               <button
                 onClick={handleRestart}
-                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-indigo-600/20 transition flex items-center gap-1.5 cursor-pointer"
+                className="px-6 py-3 bg-primary hover:bg-primary-hover text-on-primary rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Study Deck Again</span>

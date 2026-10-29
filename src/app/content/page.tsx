@@ -504,11 +504,12 @@ export default function ContentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex-1">
-              <h1 className="text-xl font-extrabold text-ink">
-                📄 Past Papers &amp; Topic Questions
+              <p className="eyebrow">Content library</p>
+              <h1 className="mt-1 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-[1.75rem]">
+                Past papers and topic questions
               </h1>
-              <p className="text-slate-400 text-xs mt-0.5">
-                DUHS BDS 1st Year — Verified past papers &amp; topic-wise question sets (2015–2024)
+              <p className="mt-1 text-sm text-muted">
+                DUHS BDS 1st Year past papers and topic-wise question sets in one place.
               </p>
             </div>
             {/* Search */}

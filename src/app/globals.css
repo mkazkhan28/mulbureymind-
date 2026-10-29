@@ -4,7 +4,8 @@
 
 /* =============================================================================
    HMHDental colour tokens (generated)
-   Light (default): #F8FAFC canvas, white cards, #0891B2 cyan primary, slate text.
+   Light (default): #F8FAFC canvas, white cards, slate text. Cyan #0891B2 (brand-600) for highlights,
+   icons and progress; buttons and link text use #0E7490 so white/cyan text passes WCAG AA (5.4:1).
    Dark (html.dark): #0B1220 midnight canvas, #111C2E cards, #22D3EE electric-cyan primary.
    ============================================================================= */
 :root {
@@ -150,8 +151,8 @@
   --c-ink: 15 23 42;
   --c-muted: 71 85 105;
   --c-line: 226 232 240;
-  --c-primary: 8 145 178;
-  --c-primary-hover: 14 116 144;
+  --c-primary: 14 116 144;
+  --c-primary-hover: 21 94 117;
   --c-on-primary: 255 255 255;
   --c-soft: 236 254 255;
 }
@@ -463,7 +464,7 @@ html.dark {
 
   /* Resource card used for subjects, MCQ sets, notes, PPTs, flashcards, papers */
   .resource-card {
-    @apply relative flex h-full flex-col rounded-2xl border border-line bg-surface p-5 transition-all duration-200
+    @apply relative flex h-full min-w-0 flex-col rounded-2xl border border-line bg-surface p-5 transition-all duration-200
       hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lift
       focus-within:border-primary/50;
   }

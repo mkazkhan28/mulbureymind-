@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   Save
 } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 export default function ProfilePage() {
   const [name, setName] = useState("Dr. Ayesha Khan");
@@ -29,23 +30,16 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-14 relative overflow-hidden">
       {/* Decorative ambient background glows */}
-      <div className="absolute top-0 left-1/3 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
         
         {/* Header */}
-        <div className="space-y-1">
-          <span className="text-xs font-bold text-cyan-300 uppercase tracking-widest bg-cyan-950/70 px-3.5 py-1 rounded-full border border-cyan-800/60 shadow-sm inline-block">
-            Student Identity & Security
-          </span>
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-ink tracking-tight mt-2">
-            Student Profile & Academic Settings
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Manage your personal academic details, Dow Dental College affiliation, and contact information.
-          </p>
-        </div>
+        <PageHeader
+          eyebrow="Account"
+          title="Profile and settings"
+          intro="Manage your personal details, college and contact information."
+          className="!pb-2"
+        />
 
         {savedSuccess && (
           <div className="p-4 bg-emerald-950/70 border border-emerald-700/60 rounded-2xl text-xs font-semibold text-emerald-200 flex items-center gap-2 animate-fadeIn shadow-lg">
@@ -55,7 +49,7 @@ export default function ProfilePage() {
         )}
 
         {/* Profile Card */}
-        <form onSubmit={handleSave} className="bg-slate-900/80 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl space-y-6">
+        <form onSubmit={handleSave} className="bg-surface p-6 sm:p-8 rounded-2xl border border-slate-800 space-y-6">
           <div className="space-y-4 text-xs">
             <h2 className="text-sm font-bold text-ink uppercase tracking-wider flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400" />
@@ -157,7 +151,7 @@ export default function ProfilePage() {
 
             <button
               type="submit"
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white rounded-xl font-bold text-xs shadow-lg shadow-indigo-600/30 transition flex items-center gap-1.5 cursor-pointer"
+              className="px-6 py-3 bg-primary hover:bg-primary-hover text-on-primary rounded-xl font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
             >
               <Save className="w-3.5 h-3.5" />
               <span>Save Changes</span>

@@ -809,7 +809,7 @@ function ToolButton({
     >
       <Icon className="h-4 w-4" />
       {badge ? (
-        <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand-600 px-1 text-[9px] font-bold text-white">{badge}</span>
+        <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[9px] font-bold text-on-primary">{badge}</span>
       ) : null}
     </button>
   );

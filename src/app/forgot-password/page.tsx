@@ -26,7 +26,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-6 bg-slate-900 p-8 sm:p-10 rounded-3xl border border-slate-800 shadow-xl">
+      <div className="max-w-md w-full space-y-6 bg-slate-900 p-8 sm:p-10 rounded-2xl border border-slate-800 shadow-xl">
         
         {/* Back Link */}
         <div>
@@ -71,7 +71,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow-md shadow-blue-600/25 transition flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full py-3 bg-primary hover:bg-primary-hover text-on-primary rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 disabled:opacity-60"
             >
               {isLoading ? "Generating Link..." : "Send Password Reset Link"}
               <ArrowRight className="w-3.5 h-3.5" />

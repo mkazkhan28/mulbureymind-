@@ -6,6 +6,7 @@ import {
   ShieldCheck,
   DownloadCloud
 } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 export default function SubscriptionPage() {
   const currentSubscription = {
@@ -34,17 +35,15 @@ export default function SubscriptionPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Header */}
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-ink">
-            Subscription & Payment History
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Review your active DUHS membership plan and download official payment receipts.
-          </p>
-        </div>
+        <PageHeader
+          eyebrow="Plan status"
+          title="Subscription and payments"
+          intro="Review your active membership plan and download your payment receipts."
+          className="!pb-2"
+        />
 
         {/* Active Membership Card */}
-        <div className="bg-slate-900 rounded-3xl border border-slate-800 p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 sm:p-8 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-blue-500/10 text-blue-400 rounded-2xl border border-blue-500/30">
@@ -89,7 +88,7 @@ export default function SubscriptionPage() {
         </div>
 
         {/* Transactions Table */}
-        <div className="bg-slate-900 rounded-3xl border border-slate-800 p-6 sm:p-8 shadow-sm space-y-4">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 sm:p-8 shadow-sm space-y-4">
           <h2 className="text-base font-bold text-ink">
             Payment Receipts & Invoices
           </h2>

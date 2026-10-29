@@ -9,6 +9,7 @@ import {
   Clock,
   Sparkles
 } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 export default function ContactPage() {
   const [name, setName] = useState("");
@@ -34,24 +35,18 @@ export default function ContactPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Header */}
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-            <span>DUHS Academic & Student Support</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">
-            Contact & Academic Support
-          </h1>
-          <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto">
-            Have questions about your DUHS BDS 1st Year access, want to report a BCQ discrepancy, or need batch discounts? We are here to help.
-          </p>
-        </div>
+        <PageHeader
+          eyebrow="Help & support"
+          title="Contact and support"
+          lead="We're here to help."
+          intro="Questions about your access, a mistake in an MCQ, or group discounts — get in touch below."
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Direct channels */}
           <div className="md:col-span-5 space-y-4">
-            <div className="bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-sm space-y-6 text-slate-200">
+            <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-sm space-y-6 text-slate-200">
               <h2 className="text-sm font-bold text-ink uppercase tracking-wider">
                 Support Channels
               </h2>
@@ -91,7 +86,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="bg-slate-900 text-ink p-6 rounded-3xl space-y-2 text-xs shadow-md">
+            <div className="bg-slate-900 text-ink p-6 rounded-2xl space-y-2 text-xs shadow-md">
               <div className="font-bold text-sm text-blue-400">
                 Are you a Class Representative (CR/GR)?
               </div>
@@ -103,7 +98,7 @@ export default function ContactPage() {
 
           {/* Right Column: Contact Form */}
           <div className="md:col-span-7">
-            <div className="bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-sm text-slate-200">
+            <div className="bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-800 shadow-sm text-slate-200">
               {!isSent ? (
                 <form onSubmit={handleSubmit} className="space-y-4 text-xs">
                   <h2 className="text-sm font-bold text-ink uppercase tracking-wider mb-2">
@@ -185,7 +180,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={isSending}
-                    className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow-md shadow-blue-600/25 transition flex items-center justify-center gap-2 disabled:opacity-60"
+                    className="w-full py-3 bg-primary hover:bg-primary-hover text-on-primary rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 disabled:opacity-60"
                   >
                     {isSending ? "Sending..." : "Submit Inquiry"}
                     <Send className="w-3.5 h-3.5" />

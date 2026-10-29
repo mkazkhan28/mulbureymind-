@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 import { BOOKS_DATA, type BookItem } from "@/lib/books";
+import PageHeader from "@/components/PageHeader";
 
 const SUBJECT_FILTER_LIST = [
   { id: "all", name: "All Subjects" },
@@ -45,27 +46,16 @@ export default function BooksLibraryPage() {
   return (
     <div className="min-h-screen bg-canvas text-slate-100 pb-24">
       {/* ── Page Hero Banner ── */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-surface via-surface to-canvas border-b border-slate-800/80 px-4 sm:px-6 lg:px-8 py-12">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="relative overflow-hidden bg-gradient-to-b from-surface via-surface to-canvas border-b border-line px-4 sm:px-6 lg:px-8 py-12">
 
-        <div className="max-w-7xl mx-auto space-y-6 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-950/70 border border-violet-700/50 text-violet-300 text-xs font-bold tracking-wide">
-            <Sparkles className="w-3.5 h-3.5 text-violet-400" />
-            Curated Academic Reference Vault
-          </div>
-
-          <div className="max-w-3xl space-y-3">
-            <h1 className="text-3xl sm:text-5xl font-black text-ink tracking-tight">
-              Standard BDS Textbooks{" "}
-              <span className="bg-gradient-to-r from-purple-400 via-violet-300 to-blue-400 bg-clip-text text-transparent">
-                &amp; Digital Atlases
-              </span>
-            </h1>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Official reference volumes, illustrated atlases, and high-yield handbooks recommended by Dow University of Health Sciences (DIKIOHS, DDC &amp; DIDC) faculty for BDS 1st Year.
-            </p>
-          </div>
+        <div className="max-w-content mx-auto space-y-6 relative z-10">
+          <PageHeader
+            eyebrow="Textbooks"
+            title="Recommended textbooks"
+            lead="The standard references for BDS 1st Year."
+            intro="Reference books and handbooks for each subject. Open a book to read it in the site with highlights and notes."
+            className="!pb-0"
+          />
 
           {/* Search & Subject Bar */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-2">
@@ -94,7 +84,7 @@ export default function BooksLibraryPage() {
                 onClick={() => setSelectedSubject(subj.id)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border shrink-0 ${
                   selectedSubject === subj.id
-                    ? "bg-violet-600 text-white border-violet-500 shadow-md shadow-violet-600/30"
+                    ? "bg-primary text-on-primary border-primary"
                     : "bg-slate-900/70 border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60"
                 }`}
               >
@@ -108,7 +98,7 @@ export default function BooksLibraryPage() {
       {/* ── Main Books Catalog ── */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-14">
         {subjectsWithBooks.length === 0 ? (
-          <div className="text-center py-20 bg-slate-900/40 rounded-3xl border border-slate-800 p-8 space-y-3">
+          <div className="text-center py-20 bg-slate-900/40 rounded-2xl border border-slate-800 p-8 space-y-3">
             <BookOpen className="w-12 h-12 text-slate-600 mx-auto" />
             <h3 className="text-lg font-bold text-ink">No textbooks found</h3>
             <p className="text-xs text-slate-400 max-w-sm mx-auto">
@@ -119,7 +109,7 @@ export default function BooksLibraryPage() {
           subjectsWithBooks.map((group) => (
             <section key={group.id} className="space-y-6">
               {/* Category Subtitle */}
-              <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
+              <div className="flex items-center justify-between border-b border-line pb-3">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-violet-500 shadow-sm shadow-violet-500/50" />
                   <h2 className="text-xl sm:text-2xl font-black text-ink tracking-tight">
@@ -142,7 +132,7 @@ export default function BooksLibraryPage() {
                   return (
                     <div
                       key={book.id}
-                      className={`relative flex flex-col justify-between rounded-3xl p-6 bg-gradient-to-br ${book.coverGradient} border border-slate-800/90 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-violet-900/10 group`}
+                      className={`relative flex flex-col justify-between rounded-2xl p-6 bg-gradient-to-br ${book.coverGradient} border border-slate-800/90 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-violet-900/10 group`}
                     >
                       <div className="space-y-4">
                         {/* Top Badges */}
@@ -182,7 +172,7 @@ export default function BooksLibraryPage() {
                           {book.topicsCovered.map((topic, i) => (
                             <span
                               key={i}
-                              className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-slate-900/80 border border-slate-800 text-slate-400"
+                              className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-surface border border-slate-800 text-slate-400"
                             >
                               {topic}
                             </span>
@@ -191,7 +181,7 @@ export default function BooksLibraryPage() {
                       </div>
 
                       {/* Action Button */}
-                      <div className="pt-6 border-t border-slate-800/80 mt-6 flex items-center gap-2">
+                      <div className="pt-6 border-t border-line mt-6 flex items-center gap-2">
                         {isPlaceholder ? (
                           <div className="w-full py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-center text-xs font-semibold text-slate-500">
                             PDF coming soon
@@ -200,7 +190,7 @@ export default function BooksLibraryPage() {
                           <>
                             <Link
                               href={`/read/${book.id}`}
-                              className="flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs shadow-md shadow-violet-600/30 transition flex items-center justify-center gap-2 group-hover:shadow-lg"
+                              className="flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition flex items-center justify-center gap-2 group-hover:shadow-lg"
                             >
                               <Eye className="w-4 h-4" />
                               <span>Read &amp; take notes</span>
@@ -210,14 +200,14 @@ export default function BooksLibraryPage() {
                               href={getDriveDirectUrl(book.driveId)}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-ink transition"
+                              className="p-2.5 rounded-xl bg-surface hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-ink transition"
                               title="Open Original in Google Drive"
                             >
                               <ExternalLink className="w-4 h-4" />
                             </a>
                             <a
                               href={getDriveDownloadUrl(book.driveId)}
-                              className="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-ink transition"
+                              className="p-2.5 rounded-xl bg-surface hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-ink transition"
                               title="Direct Download"
                             >
                               <Download className="w-4 h-4" />

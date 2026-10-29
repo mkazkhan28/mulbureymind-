@@ -4,12 +4,13 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { MEMBERSHIP_PLANS } from "@/lib/bds-content";
 import { Sparkles, ShieldCheck, Check, HelpCircle, Zap, Crown, Clock, Infinity } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 const planGradients = [
   { card: "from-slate-900 to-slate-900/80", button: "bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200", border: "border-slate-800", icon: <Clock className="w-5 h-5 text-slate-400" /> },
-  { card: "from-blue-950/80 to-indigo-950/60", button: "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/20", border: "border-blue-800/60", icon: <Zap className="w-5 h-5 text-blue-400" /> },
-  { card: "from-violet-950/80 to-purple-950/60", button: "bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg shadow-violet-500/30", border: "border-violet-600/60 ring-2 ring-violet-500/20", icon: <Crown className="w-5 h-5 text-violet-400" /> },
-  { card: "from-indigo-950/80 to-blue-950/60", button: "bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white shadow-lg shadow-indigo-500/20", border: "border-indigo-700/60", icon: <Infinity className="w-5 h-5 text-indigo-400" /> },
+  { card: "from-blue-950/80 to-indigo-950/60", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-blue-800/60", icon: <Zap className="w-5 h-5 text-blue-400" /> },
+  { card: "from-violet-950/80 to-purple-950/60", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-violet-600/60 ring-2 ring-violet-500/20", icon: <Crown className="w-5 h-5 text-violet-400" /> },
+  { card: "from-indigo-950/80 to-blue-950/60", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-indigo-700/60", icon: <Infinity className="w-5 h-5 text-indigo-400" /> },
 ];
 
 const faqs = [
@@ -17,7 +18,7 @@ const faqs = [
   { q: "Does the plan include all 6 subjects?", a: "Yes! All paid plans grant 100% access to all 6 BDS 1st Year subjects: Anatomy, Physiology, Oral Biology, Biochemistry, Pharmacology & Pathology." },
   { q: "What about BDS 2nd, 3rd, and Final Year?", a: "Those modules are pending and will unlock in upcoming sessions. Current focus is 100% dedicated to DUHS BDS 1st Year professional exam mastery." },
   { q: "Can I use HMHDental on my smartphone?", a: "Yes! 100% mobile-friendly for Android, iPhone, iPad, and laptops with fast load times." },
-  { q: "Are questions verified for DUHS Karachi?", a: "Yes. BCQs are verified from DUHS past papers 2015–2024 (DIKIOHS, DDC & DIDC) with referenced textbook rationales." },
+  { q: "Are questions verified for DUHS Karachi?", a: "Questions are taken from DUHS past papers (DIKIOHS, DDC & DIDC) and each comes with a textbook-referenced explanation." },
   { q: "Can I upgrade my plan later?", a: "Yes — upgrade at any time without losing saved progress, quiz attempts, or bookmarked questions." },
 ];
 
@@ -27,25 +28,16 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-canvas text-slate-100 py-10 sm:py-16 relative overflow-hidden">
       {/* Ambient glows */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20 relative z-10">
 
         {/* ── Header ── */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-950/60 border border-violet-700/50 text-violet-300 text-xs font-bold shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-violet-400" />
-            Transparent PKR Pricing — No Hidden Fees
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-ink tracking-tight">
-            Choose Your Study Plan
-          </h1>
-          <p className="text-slate-300 text-base leading-relaxed">
-            Affordable pricing for DUHS Karachi dental students. Instant activation with JazzCash, Easypaisa, or bank transfer.
-          </p>
-        </div>
+        <PageHeader
+          eyebrow="Pricing"
+          title="Choose your study plan"
+          lead="Simple plans in PKR. No hidden fees."
+          intro="Start free, then upgrade with JazzCash, Easypaisa or bank transfer when you're ready."
+        />
 
         {/* ── Pricing Cards ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch">
@@ -54,11 +46,11 @@ export default function PricingPage() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex flex-col rounded-3xl p-7 bg-gradient-to-br ${style.card} border ${style.border} transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl`}
+                className={`relative flex flex-col rounded-2xl p-7 bg-gradient-to-br ${style.card} border ${style.border} transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl`}
               >
                 {/* Popular badge */}
                 {plan.badge && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-5 py-1 rounded-full bg-gradient-to-r from-violet-600 to-purple-600 text-white text-[10px] font-extrabold tracking-wide whitespace-nowrap shadow-lg shadow-violet-500/40">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-5 py-1 rounded-full bg-primary hover:bg-primary-hover text-on-primary text-[10px] font-extrabold tracking-wide whitespace-nowrap">
                     {plan.badge}
                   </div>
                 )}
@@ -126,7 +118,7 @@ export default function PricingPage() {
         </div>
 
         {/* ── Comparison Table ── */}
-        <div className="overflow-x-auto rounded-3xl border border-slate-800 bg-slate-900/50 backdrop-blur-sm">
+        <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/50 backdrop-blur-sm">
           <table className="w-full text-sm min-w-[600px]">
             <thead>
               <tr className="border-b border-slate-800">
@@ -147,7 +139,7 @@ export default function PricingPage() {
                 ["Full MCQ practice library", false, true, true, true],
                 ["Timed mock examination mode", false, true, true, true],
                 ["3D Flashcard decks", "Sample", true, true, true],
-                ["DUHS Past papers 2015–2024", false, true, true, true],
+                ["DUHS past papers", false, true, true, true],
                 ["Weak-topic analytics", false, true, true, true],
                 ["Lecture slides & PDF notes", false, false, true, true],
                 ["Priority WhatsApp support", false, false, true, true],

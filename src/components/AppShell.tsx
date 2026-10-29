@@ -463,7 +463,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             {/* Plan status chip */}
             <Link
               href="/subscription"
-              className="hidden items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-400 transition hover:bg-emerald-500/15 sm:flex"
+              className="hidden items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-400 transition hover:bg-emerald-500/15 xl:flex"
               title="Your plan status"
             >
               <span className="relative flex h-2 w-2">
@@ -475,7 +475,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
             <div className="hidden sm:block">{ThemeSwitch({ compact: true })}</div>
 
-            <Link href="/login" className="hidden rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 transition hover:text-ink md:block">
+            <Link href="/login" className="hidden rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 transition hover:text-ink xl:block">
               Log in
             </Link>
             <Link href="/signup" className="btn-brand !px-4 !py-2">

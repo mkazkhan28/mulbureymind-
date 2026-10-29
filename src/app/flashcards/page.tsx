@@ -12,6 +12,7 @@ import {
   Zap
 } from "lucide-react";
 import { SubjectArt } from "@/components/Illustrations";
+import PageHeader from "@/components/PageHeader";
 
 export default function FlashcardsLibraryPage() {
   const [selectedSubject, setSelectedSubject] = useState("all");
@@ -83,27 +84,19 @@ export default function FlashcardsLibraryPage() {
   return (
     <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
       {/* Decorative ambient background glows */}
-      <div className="absolute top-0 left-1/3 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
         
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/60 border border-cyan-800/60 text-cyan-300 text-xs font-semibold shadow-sm">
-            <Zap className="w-3.5 h-3.5 text-cyan-400" />
-            <span>DUHS Active-Recall Flashcards</span>
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-ink tracking-tight">
-            Flashcard Library for DUHS BDS 1st Year
-          </h1>
-          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-            Master high-yield cranial nerves, oral histological structures, dental therapeutics, and metabolic enzymes through active spaced repetition.
-          </p>
-        </div>
+        <PageHeader
+          eyebrow="Flashcards"
+          title="Flashcard library"
+          lead="Recall it, flip it, remember it."
+          intro="Active-recall decks for cranial nerves, oral histology, dental therapeutics and metabolic enzymes. Pick a deck to start."
+        />
 
         {/* Filter bar */}
-        <div className="bg-slate-900/80 backdrop-blur-xl p-5 sm:p-6 rounded-3xl border border-slate-800/80 shadow-2xl flex flex-col sm:flex-row items-center gap-4">
+        <div className="bg-surface p-5 sm:p-6 rounded-2xl border border-line flex flex-col sm:flex-row items-center gap-4">
           <div className="relative flex-1 w-full">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
@@ -140,7 +133,7 @@ export default function FlashcardsLibraryPage() {
             return (
               <div
                 key={deck.id}
-                className={`bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-800/80 p-6 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group ${style.glow}`}
+                className={`bg-surface rounded-2xl border border-line p-6 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group ${style.glow}`}
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -165,14 +158,14 @@ export default function FlashcardsLibraryPage() {
                   </div>
                 </div>
 
-                <div className="pt-5 mt-5 border-t border-slate-800/80 flex items-center justify-between">
+                <div className="pt-5 mt-5 border-t border-line flex items-center justify-between">
                   <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                     Spaced Recall
                   </span>
                   <Link
                     href={`/flashcards/${deck.id}`}
-                    className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-md shadow-indigo-600/25"
+                    className="px-4 py-2 bg-primary hover:bg-primary-hover text-on-primary rounded-xl text-xs font-bold transition flex items-center gap-1"
                   >
                     <span>Study Deck</span>
                     <ChevronRight className="w-3.5 h-3.5" />

@@ -54,7 +54,7 @@ export default function TopicDetailPage() {
           <p className="text-xs text-slate-400">The requested topic could not be found.</p>
           <Link
             href="/subjects"
-            className="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold shadow-md shadow-blue-950/50 transition"
+            className="inline-block px-4 py-2 bg-primary hover:bg-primary-hover text-on-primary rounded-lg text-xs font-semibold transition"
           >
             Back to Subjects
           </Link>
@@ -83,7 +83,7 @@ export default function TopicDetailPage() {
         </div>
 
         {/* Topic Header Card */}
-        <div className="bg-surface-2 rounded-3xl border border-line p-6 sm:p-8 shadow-sm space-y-4 text-slate-200">
+        <div className="bg-surface-2 rounded-2xl border border-line p-6 sm:p-8 shadow-sm space-y-4 text-slate-200">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
@@ -105,7 +105,7 @@ export default function TopicDetailPage() {
             <div className="flex items-center gap-2">
               <Link
                 href={`/practice?topic=${topic.id}`}
-                className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-semibold transition flex items-center gap-1.5 shadow-md shadow-blue-950/50"
+                className="px-4 py-2.5 bg-primary hover:bg-primary-hover text-on-primary rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
               >
                 <FileText className="w-4 h-4" />
                 <span>Practice MCQs</span>
@@ -126,12 +126,9 @@ export default function TopicDetailPage() {
 
           <div className="flex items-center gap-6 pt-3 border-t border-line text-xs text-slate-400">
             <span>
-              <strong className="text-ink">{topic.mcqCount}</strong> Questions in database
+              <strong className="text-ink">{BDS_MCQS.filter((q) => q.topicId === topic.id).length}</strong> practice questions
             </span>
-            <span>
-              <strong className="text-ink">{topic.flashcardCount}</strong> Flashcards
-            </span>
-            <span>Updated for 2024–2025 BDS Syllabi</span>
+
           </div>
         </div>
 
@@ -236,7 +233,7 @@ export default function TopicDetailPage() {
               </p>
               <Link
                 href={`/practice?subject=${subject.id}`}
-                className="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold shadow-md shadow-blue-950/50 transition"
+                className="inline-block px-4 py-2 bg-primary hover:bg-primary-hover text-on-primary rounded-lg text-xs font-semibold transition"
               >
                 Practice All {subject.name} MCQs
               </Link>

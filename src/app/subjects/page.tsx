@@ -18,6 +18,8 @@ import {
   ArrowRight
 } from "lucide-react";
 import { SubjectArt } from "@/components/Illustrations";
+import PageHeader from "@/components/PageHeader";
+import { subjectStats } from "@/lib/stats";
 
 export default function SubjectsPage() {
   const [selectedYear, setSelectedYear] = useState("bds-1");
@@ -78,21 +80,15 @@ export default function SubjectsPage() {
       <div className="max-w-7xl mx-auto space-y-10">
         
         {/* Header */}
-        <div className="space-y-4 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>DUHS BDS 1st Year Modular Directory</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">
-            Browse DUHS 1st Year Subjects & Modules
-          </h1>
-          <p className="text-slate-300 text-sm sm:text-base">
-            6 core modules customized for Dow University dental students (DIKIOHS, DDC & DIDC) with chapter breakdowns, BCQs, and flashcards.
-          </p>
-        </div>
+        <PageHeader
+          eyebrow="Subjects"
+          title="Browse BDS subjects"
+          lead="Every subject, organised the way your syllabus is."
+          intro="Choose a year and a subject to see its topics, lectures, textbooks, MCQs and flashcards."
+        />
 
         {/* Academic Year Tabs */}
-        <div className="flex items-center justify-center gap-2.5 overflow-x-auto pb-2">
+        <div className="flex flex-wrap items-center gap-2.5 pb-2">
           {BDS_YEARS.map((year) => {
             const isSelected = selectedYear === year.id;
             return (
@@ -101,8 +97,8 @@ export default function SubjectsPage() {
                 onClick={() => setSelectedYear(year.id)}
                 className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition shrink-0 flex items-center gap-2 ${
                   isSelected
-                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-indigo-600/30"
-                    : "bg-slate-900/80 text-slate-300 border border-slate-800 hover:bg-slate-800 hover:text-white"
+                    ? "bg-primary hover:bg-primary-hover text-on-primary"
+                    : "bg-surface text-slate-300 border border-slate-800 hover:bg-slate-800 hover:text-ink"
                 }`}
               >
                 <span>{year.name}</span>
@@ -123,7 +119,7 @@ export default function SubjectsPage() {
 
         {/* If selected year is Pending, show stylish pending notice */}
         {!activeYearObj?.isActive ? (
-          <div className="bg-surface/90 backdrop-blur-xl rounded-3xl border border-slate-800 p-8 sm:p-12 text-center max-w-xl mx-auto space-y-5 animate-fadeIn shadow-2xl">
+          <div className="bg-surface/90 rounded-2xl border border-slate-800 p-8 sm:p-12 text-center max-w-xl mx-auto space-y-5 animate-fadeIn">
             <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto text-amber-400">
               <Lock className="w-7 h-7" />
             </div>
@@ -154,7 +150,7 @@ export default function SubjectsPage() {
                 setSelectedYear("bds-1");
                 setSearchQuery("");
               }}
-              className="px-6 py-2.5 text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl transition shadow-lg shadow-indigo-600/30 inline-flex items-center gap-2"
+              className="px-6 py-2.5 text-xs font-bold bg-primary hover:bg-primary-hover text-on-primary rounded-xl transition inline-flex items-center gap-2"
             >
               <span>Switch to BDS 1st Year (Active)</span>
               <ArrowRight className="w-4 h-4" />
@@ -178,7 +174,7 @@ export default function SubjectsPage() {
 
             {/* Subjects Grid */}
             {filteredSubjects.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredSubjects.map((subj) => {
                   const subjectTopics = BDS_TOPICS.filter((t) => t.subjectId === subj.id);
                   const theme = subjectThemes[subj.id] || {
@@ -196,7 +192,7 @@ export default function SubjectsPage() {
                       <div className="space-y-4">
                         {/* Top Row: Icon, Code & Title */}
                         <div className="flex items-start gap-3">
-                          <span className="text-3xl p-2 bg-slate-900/80 border border-slate-700/80 rounded-xl shrink-0 shadow">
+                          <span className="text-3xl p-2 bg-surface border border-slate-700/80 rounded-xl shrink-0 shadow">
                             <SubjectArt id={subj.id} className="h-10 w-10" />
                           </span>
                           <div>
@@ -223,7 +219,7 @@ export default function SubjectsPage() {
                               <Link
                                 key={top.id}
                                 href={`/subjects/${subj.slug}/${top.slug}`}
-                                className="text-[11px] px-2 py-0.5 bg-slate-900/80 hover:bg-slate-800 hover:text-ink border border-slate-700/80 rounded-md text-slate-300 transition flex items-center gap-1 font-medium"
+                                className="text-[11px] px-2 py-0.5 bg-surface hover:bg-slate-800 hover:text-ink border border-slate-700/80 rounded-md text-slate-300 transition flex items-center gap-1 font-medium"
                               >
                                 <span>{top.name}</span>
                               </Link>
@@ -232,24 +228,24 @@ export default function SubjectsPage() {
                         </div>
 
                         {/* Stats */}
-                        <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
-                          <div className="p-2 bg-slate-900/80 border border-slate-800 rounded-lg">
-                            <div className="text-sm font-bold text-ink">{subj.mcqCount}+</div>
-                            <div className="text-[10px] text-slate-400">BCQs</div>
+                        <div className="grid grid-cols-3 gap-2 pt-2 border-t border-line text-center">
+                          <div className="p-2 bg-surface border border-slate-800 rounded-lg">
+                            <div className="text-sm font-bold text-ink">{subjectStats(subj.id).lectures}</div>
+                            <div className="text-[10px] text-slate-400">Lectures</div>
                           </div>
-                          <div className="p-2 bg-slate-900/80 border border-slate-800 rounded-lg">
-                            <div className={`text-sm font-bold ${theme.text}`}>{subj.flashcardCount}</div>
-                            <div className="text-[10px] text-slate-400">Cards</div>
+                          <div className="p-2 bg-surface border border-slate-800 rounded-lg">
+                            <div className={`text-sm font-bold ${theme.text}`}>{subjectStats(subj.id).books}</div>
+                            <div className="text-[10px] text-slate-400">Textbooks</div>
                           </div>
-                          <div className="p-2 bg-slate-900/80 border border-slate-800 rounded-lg">
-                            <div className="text-sm font-bold text-ink">{subj.pastPapersCount} Yrs</div>
-                            <div className="text-[10px] text-slate-400">Papers</div>
+                          <div className="p-2 bg-surface border border-slate-800 rounded-lg">
+                            <div className="text-sm font-bold text-ink">{subjectStats(subj.id).mcqs}</div>
+                            <div className="text-[10px] text-slate-400">MCQs</div>
                           </div>
                         </div>
                       </div>
 
                       {/* Actions */}
-                      <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                      <div className="pt-4 mt-4 border-t border-line flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center gap-1.5">
                           <Link
                             href={`/practice?subject=${subj.id}`}
@@ -292,7 +288,7 @@ export default function SubjectsPage() {
                 </p>
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="px-4 py-2 text-xs font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition shadow-md"
+                  className="px-4 py-2 text-xs font-semibold bg-primary text-on-primary rounded-lg hover:bg-indigo-500 transition shadow-md"
                 >
                   Clear Search
                 </button>

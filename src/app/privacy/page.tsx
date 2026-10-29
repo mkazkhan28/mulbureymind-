@@ -18,11 +18,11 @@ export default function PrivacyPolicyPage() {
           </p>
         </div>
 
-        <div className="bg-surface-2 rounded-3xl border border-line p-8 sm:p-10 shadow-sm space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
+        <div className="bg-surface-2 rounded-2xl border border-line p-8 sm:p-10 shadow-sm space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
           <section className="space-y-2">
             <h2 className="font-bold text-base text-ink">1. Information We Collect</h2>
             <p>
-              When you create an account on BDS Study Hub, we collect standard registration information including your name, email address, dental college, academic year, and phone number.
+              When you create an account on HMHDental, we collect standard registration information including your name, email address, dental college, academic year, and phone number.
             </p>
           </section>
 

@@ -21,6 +21,7 @@ import {
   Eye,
   Maximize2
 } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 export default function ResourcesPage() {
   const [selectedSubject, setSelectedSubject] = useState("all");
@@ -93,27 +94,19 @@ export default function ResourcesPage() {
         />
       </Suspense>
       {/* Decorative ambient background glows */}
-      <div className="absolute top-0 right-1/3 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
         
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-950/60 border border-blue-700/60 text-blue-300 text-xs font-semibold shadow-sm">
-            <FileText className="w-3.5 h-3.5 text-blue-400" />
-            <span>DUHS Academic Downloads</span>
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-ink tracking-tight">
-            PDF Notes, Slides & Viva Guides
-          </h1>
-          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-            High-yield revision summaries, histology slide atlases, tooth carving charts, and pharmacology formulations for DUHS BDS 1st Year.
-          </p>
-        </div>
+        <PageHeader
+          eyebrow="Notes & PPTs"
+          title="Lecture notes and slides"
+          lead="Revise from clear, organised study material."
+          intro="PDF notes, slide decks and viva guides for each BDS 1st Year subject. Open a file to read it, or download it where your plan allows."
+        />
 
         {/* Membership Access Switcher (Testing & Demo) */}
-        <div className="bg-slate-900/80 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <div className="bg-surface p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2.5">
             <ShieldCheck className="w-4 h-4 text-cyan-400" />
             <span className="font-semibold text-slate-300">Simulated Access Tier:</span>
@@ -139,7 +132,7 @@ export default function ResourcesPage() {
         )}
 
         {/* Filter bar */}
-        <div className="bg-slate-900/80 backdrop-blur-xl p-5 sm:p-6 rounded-3xl border border-slate-800/80 shadow-2xl flex flex-col md:flex-row items-center gap-4">
+        <div className="bg-surface p-5 sm:p-6 rounded-2xl border border-line flex flex-col md:flex-row items-center gap-4">
           <div className="relative flex-1 w-full">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
@@ -186,7 +179,7 @@ export default function ResourcesPage() {
             return (
               <div
                 key={res.id}
-                className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-800/80 p-6 sm:p-7 shadow-xl hover:shadow-2xl hover:border-slate-700/80 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 group"
+                className="bg-surface rounded-2xl border border-line p-6 sm:p-7 shadow-xl hover:shadow-2xl hover:border-slate-700/80 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 group"
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-3">
@@ -227,7 +220,7 @@ export default function ResourcesPage() {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                <div className="pt-4 border-t border-line flex items-center justify-between">
                   <span className="text-[11px] text-slate-400 font-medium">
                     {res.fileSize} • {res.author}
                   </span>
@@ -236,7 +229,7 @@ export default function ResourcesPage() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setViewing(res)}
-                        className="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md cursor-pointer bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white"
+                        className="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md cursor-pointer bg-primary hover:bg-primary-hover text-on-primary"
                       >
                         <Eye className="w-3.5 h-3.5" />
                         <span>View</span>
@@ -257,8 +250,8 @@ export default function ResourcesPage() {
                     onClick={() => handleResourceAction(res)}
                     className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md cursor-pointer ${
                       isLocked
-                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-indigo-600/25"
-                        : "bg-slate-950/80 hover:bg-slate-800 border border-slate-700 text-white"
+                        ? "bg-primary hover:bg-primary-hover text-on-primary shadow-indigo-600/25"
+                        : "bg-slate-950/80 hover:bg-slate-800 border border-slate-700 text-ink"
                     }`}
                   >
                     {isLocked ? (
@@ -281,7 +274,7 @@ export default function ResourcesPage() {
         </div>
 
         {/* Security & Storage Notice */}
-        <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl p-6 border border-slate-800 text-xs text-slate-300 flex items-start gap-3 shadow-xl">
+        <div className="bg-surface rounded-2xl p-6 border border-slate-800 text-xs text-slate-300 flex items-start gap-3 shadow-xl">
           <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <span className="font-bold text-ink">
@@ -300,7 +293,7 @@ export default function ResourcesPage() {
             onClick={() => setViewing(null)}
           >
             <div
-              className="bg-surface rounded-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-line"
+              className="bg-surface rounded-2xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden border border-line"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-line">
@@ -345,7 +338,7 @@ export default function ResourcesPage() {
         {/* UPGRADE PAYWALL MODAL */}
         {lockedModalOpen && (
           <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="bg-slate-900 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-5 text-center animate-fadeIn relative border border-slate-800">
+            <div className="bg-slate-900 rounded-2xl max-w-md w-full p-6 sm:p-8 space-y-5 text-center animate-fadeIn relative border border-slate-800">
               <button
                 onClick={() => setLockedModalOpen(false)}
                 className="absolute top-5 right-5 p-1 text-slate-400 hover:text-ink rounded-lg transition cursor-pointer"
@@ -353,7 +346,7 @@ export default function ResourcesPage() {
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="w-16 h-16 rounded-2xl bg-indigo-950/80 border border-indigo-700/60 flex items-center justify-center text-indigo-400 mx-auto shadow-xl shadow-indigo-600/20">
+              <div className="w-16 h-16 rounded-2xl bg-indigo-950/80 border border-indigo-700/60 flex items-center justify-center text-indigo-400 mx-auto">
                 <Lock className="w-8 h-8" />
               </div>
 
@@ -388,7 +381,7 @@ export default function ResourcesPage() {
               <div className="pt-2 flex flex-col gap-2">
                 <Link
                   href="/pricing"
-                  className="w-full py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white rounded-xl font-bold text-xs shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-primary hover:bg-primary-hover text-on-primary rounded-xl font-bold text-xs transition flex items-center justify-center gap-2"
                 >
                   <span>View Membership Passes (from PKR 1,299)</span>
                   <ArrowRight className="w-4 h-4" />

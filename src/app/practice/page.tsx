@@ -24,6 +24,7 @@ import {
   ChevronRight,
   Check
 } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
 
 export default function PracticeQuizPage() {
   // Quiz configuration
@@ -163,27 +164,18 @@ export default function PracticeQuizPage() {
         />
       </Suspense>
       {/* Decorative ambient background glows */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-1/3 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* PRE-QUIZ SETUP SCREEN */}
         {!quizStarted && !quizCompleted && (
-          <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-800/80 p-6 sm:p-10 shadow-2xl space-y-8">
-            <div className="text-center space-y-3 max-w-xl mx-auto">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-300 uppercase tracking-widest bg-cyan-950/60 px-3.5 py-1 rounded-full border border-cyan-800/60 shadow-sm">
-                <Target className="w-3.5 h-3.5 text-cyan-400" />
-                DUHS Modular BCQ Simulator
-              </span>
-              <h1 className="text-2xl sm:text-4xl font-extrabold text-ink tracking-tight">
-                BDS 1st Year Examination Center
-              </h1>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Practice verified high-yield past paper questions tailored for Dow University dental students (DIKIOHS, DDC & DIDC) with textbook rationales.
-              </p>
-            </div>
+          <div className="bg-surface rounded-2xl border border-line p-6 sm:p-10 space-y-8">
+            <PageHeader
+              eyebrow="MCQ practice"
+              title="Test your knowledge. Strengthen your concepts."
+              intro="Choose a subject and a mode, practice exam-style questions, and review the explanation for every answer."
+              className="!pb-0"
+            />
 
             <div className="space-y-6 max-w-lg mx-auto">
               {/* Subject Select */}
@@ -238,7 +230,7 @@ export default function PracticeQuizPage() {
                     onClick={() => setExamMode("exam")}
                     className={`p-4 rounded-xl border text-left transition relative overflow-hidden group ${
                       examMode === "exam"
-                        ? "border-indigo-500/80 bg-indigo-950/40 shadow-lg shadow-indigo-500/10 ring-1 ring-indigo-500"
+                        ? "border-indigo-500/80 bg-indigo-950/40 ring-1 ring-indigo-500"
                         : "border-slate-800 bg-slate-950/50 hover:bg-slate-900/60 hover:border-slate-700"
                     }`}
                   >
@@ -277,7 +269,7 @@ export default function PracticeQuizPage() {
               <div className="pt-2">
                 <button
                   onClick={handleStartQuiz}
-                  className="w-full py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white rounded-xl font-bold text-sm shadow-xl shadow-indigo-600/30 transition flex items-center justify-center gap-2 group cursor-pointer"
+                  className="w-full py-4 bg-primary hover:bg-primary-hover text-on-primary rounded-xl font-bold text-sm transition flex items-center justify-center gap-2 group cursor-pointer"
                 >
                   <span>Start Examination Now</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
@@ -300,12 +292,12 @@ export default function PracticeQuizPage() {
         {quizStarted && !quizCompleted && currentQ && (
           <div className="space-y-6">
             {/* Top Toolbar */}
-            <div className="bg-slate-900/80 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-xl flex items-center justify-between gap-4">
+            <div className="bg-surface p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-xl flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="text-xs sm:text-sm font-bold text-ink">
-                  Question {currentIndex + 1} of {questions.length}
+                <span className="font-display text-base font-extrabold text-ink sm:text-lg">
+                  Question {currentIndex + 1} <span className="font-semibold text-muted">of {questions.length}</span>
                 </span>
-                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-indigo-950/70 text-indigo-300 border border-indigo-700/60 font-semibold shadow-sm">
+                <span className="chip">
                   {currentQ.yearSource}
                 </span>
               </div>
@@ -353,8 +345,8 @@ export default function PracticeQuizPage() {
             </div>
 
             {/* Question Stem Card */}
-            <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-800/80 p-6 sm:p-8 shadow-2xl space-y-6">
-              <p className="text-base sm:text-lg font-semibold text-ink leading-relaxed">
+            <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8 space-y-6">
+              <p className="text-lg sm:text-xl font-semibold text-ink leading-relaxed">
                 {currentQ.question}
               </p>
 
@@ -365,17 +357,17 @@ export default function PracticeQuizPage() {
                   const isCorrect = optIdx === currentQ.correctIndex;
                   const showFeedback = examMode === "tutor" && showInstantFeedback[currentIndex];
 
-                  let btnStyle = "border-slate-800 bg-slate-950/50 hover:border-indigo-500/50 hover:bg-slate-900/70 text-slate-200";
+                  let btnStyle = "border-line bg-canvas hover:border-primary/50 hover:bg-soft/60 text-slate-200";
                   if (isSelected && !showFeedback) {
-                    btnStyle = "border-indigo-500 bg-indigo-950/40 text-ink font-semibold ring-1 ring-indigo-500 shadow-md shadow-indigo-500/10";
+                    btnStyle = "border-primary bg-soft text-ink font-semibold ring-1 ring-primary";
                   }
                   if (showFeedback) {
                     if (isCorrect) {
-                      btnStyle = "border-emerald-500/80 bg-emerald-950/40 text-emerald-200 font-semibold ring-1 ring-emerald-500 shadow-md shadow-emerald-500/10";
+                      btnStyle = "border-emerald-500 bg-emerald-500/10 text-ink font-semibold ring-1 ring-emerald-500";
                     } else if (isSelected && !isCorrect) {
-                      btnStyle = "border-rose-500/80 bg-rose-950/40 text-rose-200 ring-1 ring-rose-500";
+                      btnStyle = "border-rose-500 bg-rose-500/10 text-ink ring-1 ring-rose-500";
                     } else {
-                      btnStyle = "border-slate-850 opacity-40 text-slate-500";
+                      btnStyle = "border-line opacity-50 text-muted";
                     }
                   }
 
@@ -383,23 +375,28 @@ export default function PracticeQuizPage() {
                     <button
                       key={optIdx}
                       onClick={() => handleSelectOption(optIdx)}
-                      className={`w-full text-left p-4 rounded-xl border text-xs sm:text-sm transition flex items-start gap-3.5 cursor-pointer ${btnStyle}`}
+                      aria-pressed={isSelected}
+                      className={`w-full text-left px-4 py-3.5 min-h-[52px] rounded-xl border text-sm sm:text-[15px] transition flex items-start gap-3.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${btnStyle}`}
                     >
                       <span className={`w-6 h-6 rounded-lg border flex items-center justify-center shrink-0 text-xs font-bold mt-0.5 transition ${
                         showFeedback && isCorrect
-                          ? "bg-emerald-500 text-slate-950 border-emerald-400 font-extrabold"
+                          ? "bg-emerald-500 text-white border-emerald-500 font-extrabold"
                           : isSelected
-                          ? "bg-indigo-600 text-white border-indigo-500 font-bold"
-                          : "border-slate-700 bg-slate-900 text-slate-400"
+                          ? "bg-primary text-on-primary border-primary font-bold"
+                          : "border-line bg-surface-2 text-muted"
                       }`}>
                         {String.fromCharCode(65 + optIdx)}
                       </span>
                       <span className="flex-1 leading-snug">{opt}</span>
                       {showFeedback && isCorrect && (
-                        <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                        <span className="flex shrink-0 items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                          <CheckCircle2 className="w-5 h-5" /> Correct
+                        </span>
                       )}
                       {showFeedback && isSelected && !isCorrect && (
-                        <XCircle className="w-5 h-5 text-rose-400 shrink-0" />
+                        <span className="flex shrink-0 items-center gap-1 text-xs font-bold text-rose-600 dark:text-rose-400">
+                          <XCircle className="w-5 h-5" /> Your answer
+                        </span>
                       )}
                     </button>
                   );
@@ -408,21 +405,21 @@ export default function PracticeQuizPage() {
 
               {/* Tutor Mode Immediate Feedback */}
               {examMode === "tutor" && showInstantFeedback[currentIndex] && (
-                <div className="p-4 sm:p-5 bg-slate-950/90 border border-cyan-800/60 rounded-2xl text-xs sm:text-sm space-y-2 animate-fadeIn shadow-lg">
-                  <div className="font-bold text-cyan-300 flex items-center gap-2">
-                    <HelpCircle className="w-4 h-4 text-cyan-400" />
-                    <span>DUHS Clinical Rationale & Reference:</span>
-                  </div>
+                <section aria-live="polite" className="p-4 sm:p-5 bg-soft border border-primary/25 rounded-2xl text-sm space-y-2 animate-fadeIn">
+                  <h3 className="font-bold text-primary flex items-center gap-2 text-sm">
+                    <HelpCircle className="w-4 h-4" />
+                    <span>Explanation</span>
+                  </h3>
                   <p className="leading-relaxed text-slate-300">{currentQ.explanation}</p>
-                </div>
+                </section>
               )}
 
               {/* Navigation Controls */}
-              <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between">
+              <div className="pt-5 border-t border-line flex items-center justify-between gap-3">
                 <button
                   disabled={currentIndex === 0}
                   onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
-                  className="px-4 py-2.5 rounded-xl text-xs font-semibold border border-slate-800 bg-slate-950/70 text-slate-300 hover:text-ink hover:bg-slate-900 disabled:opacity-30 disabled:hover:bg-slate-950/70 flex items-center gap-1.5 transition"
+                  className="btn-secondary"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>Previous</span>
@@ -431,7 +428,7 @@ export default function PracticeQuizPage() {
                 {currentIndex < questions.length - 1 ? (
                   <button
                     onClick={() => setCurrentIndex((prev) => prev + 1)}
-                    className="px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white transition flex items-center gap-1.5 shadow-lg shadow-indigo-600/20"
+                    className="btn-primary"
                   >
                     <span>Next Question</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -439,7 +436,7 @@ export default function PracticeQuizPage() {
                 ) : (
                   <button
                     onClick={() => setQuizCompleted(true)}
-                    className="px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white transition flex items-center gap-1.5 shadow-lg shadow-violet-600/25"
+                    className="btn-primary"
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Finish & See Result</span>
@@ -449,7 +446,7 @@ export default function PracticeQuizPage() {
             </div>
 
             {/* Question Quick Jump Board */}
-            <div className="bg-slate-900/80 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-xl space-y-3">
+            <div className="rounded-2xl border border-line bg-surface p-4 sm:p-5 space-y-3">
               <div className="flex items-center justify-between text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-cyan-400" />
@@ -468,13 +465,15 @@ export default function PracticeQuizPage() {
                   let pillStyle = "bg-slate-950/70 text-slate-400 border border-slate-800 hover:border-slate-700 hover:text-ink";
                   if (isAnswered) pillStyle = "bg-indigo-950/70 text-indigo-300 border border-indigo-700/60 font-semibold";
                   if (isFlagged) pillStyle = "bg-amber-950/70 text-amber-300 border border-amber-600/70 font-bold";
-                  if (isCurrent) pillStyle = "bg-gradient-to-r from-blue-600 to-violet-600 text-white font-extrabold shadow-md shadow-indigo-600/30 border-transparent ring-2 ring-indigo-400";
+                  if (isCurrent) pillStyle = "bg-primary text-on-primary font-extrabold border-transparent ring-2 ring-primary/40";
 
                   return (
                     <button
                       key={idx}
                       onClick={() => setCurrentIndex(idx)}
-                      className={`w-8 h-8 rounded-lg text-xs transition flex items-center justify-center cursor-pointer ${pillStyle}`}
+                      aria-label={`Go to question ${idx + 1}${isAnswered ? ", answered" : ""}${isFlagged ? ", flagged" : ""}`}
+                      aria-current={isCurrent ? "step" : undefined}
+                      className={`w-9 h-9 rounded-lg text-xs transition flex items-center justify-center cursor-pointer ${pillStyle}`}
                     >
                       {idx + 1}
                     </button>
@@ -491,8 +490,8 @@ export default function PracticeQuizPage() {
             {(() => {
               const score = calculateScore();
               return (
-                <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-800/80 p-8 sm:p-12 shadow-2xl text-center space-y-6 relative overflow-hidden">
-                  <div className="w-18 h-18 rounded-2xl bg-indigo-950/80 border border-indigo-700/60 flex items-center justify-center mx-auto text-indigo-400 shadow-xl shadow-indigo-600/20">
+                <div className="bg-surface rounded-2xl border border-line p-8 sm:p-12 text-center space-y-6 relative overflow-hidden">
+                  <div className="w-18 h-18 rounded-2xl bg-indigo-950/80 border border-indigo-700/60 flex items-center justify-center mx-auto text-indigo-400">
                     <Award className="w-9 h-9" />
                   </div>
 
@@ -568,7 +567,7 @@ export default function PracticeQuizPage() {
                   <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
                     <button
                       onClick={handleStartQuiz}
-                      className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold transition flex items-center gap-2 shadow-lg shadow-indigo-600/25 cursor-pointer"
+                      className="px-6 py-3 rounded-xl bg-primary hover:bg-primary-hover text-on-primary text-xs font-bold transition flex items-center gap-2 cursor-pointer"
                     >
                       <RotateCcw className="w-3.5 h-3.5" />
                       <span>Retake Examination</span>
@@ -596,7 +595,7 @@ export default function PracticeQuizPage() {
                   return (
                     <div
                       key={q.id}
-                      className={`p-6 rounded-2xl border bg-slate-900/80 backdrop-blur-xl shadow-xl space-y-3 ${
+                      className={`p-6 rounded-2xl border bg-surface shadow-xl space-y-3 ${
                         isCorrect ? "border-emerald-700/50" : "border-rose-700/50"
                       }`}
                     >

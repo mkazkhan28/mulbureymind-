@@ -14,11 +14,11 @@ export default function TermsAndRefundPage() {
             Terms of Service & Refund Policy
           </h1>
           <p className="text-xs text-slate-400">
-            Please read these terms carefully before subscribing to any BDS Study Hub membership.
+            Please read these terms carefully before subscribing to any HMHDental membership.
           </p>
         </div>
 
-        <div className="bg-surface-2 rounded-3xl border border-line p-8 sm:p-10 shadow-sm space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
+        <div className="bg-surface-2 rounded-2xl border border-line p-8 sm:p-10 shadow-sm space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
           
           {/* Medical Disclaimer Banner */}
           <div className="p-4 bg-surface border border-blue-900/60 rounded-2xl text-xs text-slate-200 space-y-1">
@@ -27,7 +27,7 @@ export default function TermsAndRefundPage() {
               <span>Medical & Educational Disclaimer</span>
             </div>
             <p className="leading-relaxed text-slate-300">
-              BDS Study Hub is an educational revision aid designed to prepare students for theoretical dental examinations. The content does not constitute clinical dental advice or replace hospital patient treatment protocols.
+              HMHDental is an educational revision aid designed to prepare students for theoretical dental examinations. The content does not constitute clinical dental advice or replace hospital patient treatment protocols.
             </p>
           </div>
 
