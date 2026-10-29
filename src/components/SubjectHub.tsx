@@ -128,7 +128,7 @@ export function SubjectHub({ subject, structure }: { subject: Subject; structure
         <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl animate-rise">
             <div className="flex items-center gap-3">
-              <span className={`flex h-20 w-20 items-center justify-center rounded-3xl ${tone.bg} ring-1 ${tone.ring}`}><SubjectArt id={subject.id} className="h-16 w-16 drop-shadow-sm" /></span>
+              <span className={`flex h-20 w-20 items-center justify-center rounded-2xl ${tone.bg} ring-1 ${tone.ring}`}><SubjectArt id={subject.id} className="h-16 w-16 drop-shadow-sm" /></span>
               <span className={`rounded-full ${tone.bg} px-3 py-1 text-xs font-semibold ${tone.text}`}>{subject.code}</span>
             </div>
             <h1 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-4xl">{subject.name}</h1>
@@ -365,14 +365,14 @@ function MaterialCard({ href, icon: Icon, title, text, meta }: { href: string; i
 export const AREA_STYLE: Record<string, { grad: string; chip: string; icon: string; bar: string }> = {
   // 500–700 shades look the same in light and dark themes, so tiles stay bright in both.
   // One area per colour of the palette: pink · yellow · blue · brown · grey · blue→pink
-  embryology: { grad: "from-pink-500 to-brand-600", chip: "bg-pink-500/15 text-pink-400", icon: "text-pink-600", bar: "from-pink-500 to-brand-500" },
-  histology: { grad: "from-amber-500 to-amber-600", chip: "bg-amber-500/15 text-amber-400", icon: "text-amber-600", bar: "from-amber-500 to-amber-600" },
-  neuroanatomy: { grad: "from-brand-500 to-brand-700", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-brand-600" },
-  "head-and-neck": { grad: "from-accent-500 to-accent-700", chip: "bg-accent-500/15 text-accent-400", icon: "text-accent-600", bar: "from-accent-500 to-accent-600" },
-  "general-anatomy": { grad: "from-sky-500 to-sky-700", chip: "bg-sky-500/15 text-sky-400", icon: "text-sky-600", bar: "from-sky-500 to-sky-600" },
-  "thorax-and-abdomen": { grad: "from-brand-600 to-accent-600", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" },
+  embryology: { grad: "from-pink-500/15 to-brand-500/10", chip: "bg-pink-500/10 text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
+  histology: { grad: "from-amber-500/15 to-brand-500/10", chip: "bg-amber-500/10 text-amber-400", icon: "text-amber-600", bar: "from-brand-500 to-brand-600" },
+  neuroanatomy: { grad: "from-brand-500/20 to-accent-500/10", chip: "bg-brand-500/10 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-brand-600" },
+  "head-and-neck": { grad: "from-stone-500/15 to-brand-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
+  "general-anatomy": { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-400", icon: "text-sky-600", bar: "from-brand-500 to-brand-600" },
+  "thorax-and-abdomen": { grad: "from-rose-500/15 to-brand-500/10", chip: "bg-rose-500/10 text-rose-400", icon: "text-rose-600", bar: "from-brand-500 to-brand-600" },
 };
-export const DEFAULT_AREA_STYLE = { grad: "from-brand-500 to-accent-600", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" };
+export const DEFAULT_AREA_STYLE = { grad: "from-brand-500/15 to-accent-500/10", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" };
 
 function AreaCard({ area, href, ppts, lectureIds }: { area: SubjectArea; href: string; ppts: number; lectureIds: string[]; tone?: typeof DEFAULT_TONE }) {
   const st = AREA_STYLE[area.slug] ?? DEFAULT_AREA_STYLE;
@@ -382,13 +382,11 @@ function AreaCard({ area, href, ppts, lectureIds }: { area: SubjectArea; href: s
   return (
     <Link
       href={href}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lift"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lift"
     >
-      <div className={`relative h-28 overflow-hidden bg-gradient-to-br ${st.grad}`}>
-        <div className="absolute inset-0 opacity-25 [background-image:radial-gradient(white_1.2px,transparent_1.2px)] [background-size:16px_16px]" />
-        <div className="absolute -bottom-10 right-2 h-36 w-36 rounded-full bg-white/25 blur-xl" />
-        <AreaArt slug={area.slug} className="absolute -bottom-2 right-3 h-28 w-28 drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110" />
-        <span className="absolute left-4 top-4 rounded-full bg-black/25 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur">
+      <div className={`relative h-28 overflow-hidden border-b border-line bg-gradient-to-br ${st.grad}`}>
+        <AreaArt slug={area.slug} className="absolute -bottom-2 right-3 h-28 w-28 drop-shadow-[0_6px_10px_rgba(0,0,0,0.18)] transition-transform duration-300 group-hover:scale-105" />
+        <span className="absolute left-4 top-4 rounded-full border border-line bg-surface/90 px-2.5 py-1 text-xs font-semibold text-ink backdrop-blur">
           {ppts ? `${ppts} lecture${ppts === 1 ? "" : "s"}` : "Coming soon"}
         </span>
       </div>

@@ -144,7 +144,7 @@ export default function PricingPage() {
             <tbody className="divide-y divide-slate-800/60">
               {[
                 ["Sample MCQs (all 6 subjects)", true, true, true, true],
-                ["Full BCQ practice library (3,700+)", false, true, true, true],
+                ["Full MCQ practice library", false, true, true, true],
                 ["Timed mock examination mode", false, true, true, true],
                 ["3D Flashcard decks", "Sample", true, true, true],
                 ["DUHS Past papers 2015–2024", false, true, true, true],

@@ -1,19 +1,19 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Bricolage_Grotesque, Sora } from "next/font/google";
+import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 import { ThemeProvider, themeInitScript } from "@/context/ThemeContext";
 
-/* Brand typefaces: Bricolage Grotesque (bold, characterful) for titles, Sora for body text */
-const display = Bricolage_Grotesque({
+/* Brand typefaces: Manrope for headings, Inter for body text */
+const display = Manrope({
   subsets: ["latin"],
   weight: ["600", "700", "800"],
   variable: "--font-display",
   display: "swap",
 });
 
-const sora = Sora({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -30,8 +30,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1229" },
+    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b1220" },
   ],
 };
 
@@ -52,7 +52,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
-        className={`${display.variable} ${sora.variable} ${geistMono.variable} font-sans antialiased min-h-screen bg-canvas text-ink`}
+        className={`${display.variable} ${inter.variable} ${geistMono.variable} font-sans antialiased min-h-screen bg-canvas text-ink`}
       >
         <ThemeProvider>
           <AppShell>{children}</AppShell>

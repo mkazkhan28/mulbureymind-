@@ -20,9 +20,10 @@ const ThemeContext = createContext<ThemeContextType>({
 
 /**
  * Runs before React hydrates (injected in layout.tsx) so the saved theme is
- * applied on first paint — no flash of the wrong theme. Light is the default.
+ * applied on first paint — no flash of the wrong theme. First visit follows the
+ * device's light/dark preference; after that the student's own choice is remembered.
  */
-export const themeInitScript = `(function(){try{var t=localStorage.getItem("${STORAGE_KEY}");var r=document.documentElement;if(t==="dark"){r.classList.add("dark");r.classList.remove("light");}else{r.classList.add("light");r.classList.remove("dark");}}catch(e){}})();`;
+export const themeInitScript = `(function(){try{var t=localStorage.getItem("${STORAGE_KEY}");if(t!=="dark"&&t!=="light"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}var r=document.documentElement;if(t==="dark"){r.classList.add("dark");r.classList.remove("light");}else{r.classList.add("light");r.classList.remove("dark");}}catch(e){}})();`;
 
 function applyTheme(t: ThemeMode) {
   const root = document.documentElement;

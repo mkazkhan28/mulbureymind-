@@ -959,7 +959,7 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     description: "Perfect for month-by-month exam prep.",
     features: [
       "Full access to all 6 BDS 1st Year subjects",
-      "Over 3,700+ past paper & practice MCQs",
+      "All past-paper & practice MCQs",
       "Timed examination mock mode",
       "Complete textbook-cited clinical explanations",
       "All active recall digital flashcard decks",
@@ -995,7 +995,7 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     description: "Complete, unrestricted access until your final university professional examination.",
     features: [
       "Everything in 6-Month Pass",
-      "10+ Years of verified past papers (UHS, NUMS, KMU, DUHS)",
+      "All DUHS past-paper questions",
       "Downloadable high-yield PDF summaries & slide atlases",
       "Bookmark difficult questions for revision",
       "Detailed weak-topic analytics across all 6 subjects",

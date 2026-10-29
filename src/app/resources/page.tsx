@@ -377,7 +377,7 @@ export default function ResourcesPage() {
                 </div>
                 <div className="flex items-center gap-2 text-slate-300">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Over 3,700+ verified DUHS past paper questions</span>
+                  <span>DUHS past-paper questions with explanations</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-300">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />

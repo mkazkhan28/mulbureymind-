@@ -44,20 +44,17 @@ import { searchCatalog } from "@/lib/catalog";
 import { BDS_RESOURCES, BDS_SUBJECTS, BDS_FLASHCARD_DECKS } from "@/lib/bds-content";
 import { useTheme } from "@/context/ThemeContext";
 import { SubjectArt, areaIcon } from "@/components/Illustrations";
+import { subjectStats } from "@/lib/stats";
 
 /* Routes that render full-screen without the sidebar / top bar */
 const BARE_ROUTES = ["/login", "/signup", "/forgot-password", "/read/"];
 
-/* Subject accent colours — 400-level text reads well in both themes */
-const SUBJECT_TONE: Record<string, { text: string; bg: string; ring: string }> = {
-  anat: { text: "text-brand-400", bg: "bg-brand-500/10", ring: "ring-brand-500/30" },
-  phys: { text: "text-rose-400", bg: "bg-rose-500/10", ring: "ring-rose-500/30" },
-  "oral-bio": { text: "text-cyan-400", bg: "bg-cyan-500/10", ring: "ring-cyan-500/30" },
-  biochem: { text: "text-violet-400", bg: "bg-violet-500/10", ring: "ring-violet-500/30" },
-  pharm: { text: "text-emerald-400", bg: "bg-emerald-500/10", ring: "ring-emerald-500/30" },
-  path: { text: "text-sky-400", bg: "bg-sky-500/10", ring: "ring-sky-500/30" },
-};
-const DEFAULT_TONE = { text: "text-brand-400", bg: "bg-brand-500/10", ring: "ring-brand-500/30" };
+/* One restrained accent for every subject — the illustrations carry the variety */
+const SUBJECT_TONE: Record<string, { text: string; bg: string; ring: string }> = {};
+const DEFAULT_TONE = { text: "text-primary", bg: "bg-soft", ring: "ring-primary/25" };
+
+/* Icons for non-subject search results */
+const SEARCH_ICONS: Record<string, React.ElementType> = { practice: ListChecks, papers: Award, cards: Layers, notes: Presentation, library: Library, pricing: CreditCard, status: ShieldCheck };
 
 /* Top bar navigation */
 const TOP_NAV = [
@@ -73,6 +70,7 @@ type SubjectLink = { href?: string; label: string; icon?: React.ElementType; met
 const AREA_ICONS = { Sprout, Microscope, Brain, ScanFace, Bone, HeartPulse } as const;
 
 function subjectLinks(s: (typeof BDS_SUBJECTS)[number]): SubjectLink[] {
+  const st = subjectStats(s.id);
   const structure = getSubjectStructure(s.slug);
   if (structure) {
     // Structured subject: Textbooks · Course outline · PPTs (Combined | DDC) · areas
@@ -93,18 +91,18 @@ function subjectLinks(s: (typeof BDS_SUBJECTS)[number]): SubjectLink[] {
       { label: "Subjects", heading: true },
       ...structure.areas.map((a) => ({ href: `${base}/${a.slug}`, label: a.title, icon: areaIcon(a.slug), indent: true })),
       { label: "Practice", heading: true },
-      { href: `/practice?subject=${s.id}`, label: "MCQs", icon: ListChecks, meta: s.mcqCount.toLocaleString(), indent: true },
-      { href: `/past-papers`, label: "Past papers", icon: Award, meta: s.pastPapersCount ? `${s.pastPapersCount} yrs` : "", indent: true },
+      { href: `/practice?subject=${s.id}`, label: "MCQs", icon: ListChecks, meta: st.mcqs ? String(st.mcqs) : "", indent: true },
+      { href: `/past-papers`, label: "Past papers", icon: Award, meta: st.pastPaperMcqs ? String(st.pastPaperMcqs) : "", indent: true },
     ];
   }
   const notes = BDS_RESOURCES.filter((r) => r.subjectId === s.id).length;
   const decks = BDS_FLASHCARD_DECKS.filter((d) => d.subjectId === s.id).length;
   return [
-    { href: `/practice?subject=${s.id}`, label: "MCQs", icon: ListChecks, meta: s.mcqCount.toLocaleString() },
+    { href: `/practice?subject=${s.id}`, label: "MCQs", icon: ListChecks, meta: st.mcqs ? String(st.mcqs) : "" },
     { href: `/resources?subject=${s.id}`, label: "Notes & PPTs", icon: Presentation, meta: notes ? String(notes) : "" },
     { href: `/flashcards`, label: "Flashcards", icon: Layers, meta: decks ? `${decks} decks` : "" },
-    { href: `/past-papers`, label: "Past papers", icon: Award, meta: s.pastPapersCount ? `${s.pastPapersCount} yrs` : "" },
-    { href: `/subjects/${s.slug}`, label: "Topics", icon: BookOpen, meta: s.topicsCount ? String(s.topicsCount) : "" },
+    { href: `/past-papers`, label: "Past papers", icon: Award, meta: st.pastPaperMcqs ? String(st.pastPaperMcqs) : "" },
+    { href: `/subjects/${s.slug}`, label: "Topics", icon: BookOpen, meta: st.topics ? String(st.topics) : "" },
   ];
 }
 
@@ -162,13 +160,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       category: "Subject",
       icon: s.id,
     })),
-    { title: "MCQ Practice Simulator", subtitle: "Tutor mode, timed exam, and mock annual papers", href: "/practice", category: "Practice", icon: "⚡" },
-    { title: "DUHS Past Papers (2015–2024)", subtitle: "DIKIOHS, DDC & DIDC annual questions with solutions", href: "/past-papers", category: "Past papers", icon: "📜" },
-    { title: "Flashcards", subtitle: "Oral histology, cranial nerves, dental pharmacology", href: "/flashcards", category: "Flashcards", icon: "🗂️" },
-    { title: "Lecture notes & PPT slides", subtitle: "High-yield PDFs and slide decks", href: "/resources", category: "Notes & PPTs", icon: "📑" },
-    { title: "Content library", subtitle: "Every paper and question set in one place", href: "/content", category: "Content", icon: "📚" },
-    { title: "Pricing & plans", subtitle: "Free starter and full session passes", href: "/pricing", category: "Pricing", icon: "💎" },
-    { title: "My plan status", subtitle: "Active plan, renewal date and receipts", href: "/subscription", category: "Status", icon: "✅" },
+    { title: "MCQ practice", subtitle: "Tutor mode and timed exam mode with explanations", href: "/practice", category: "Practice", icon: "practice" },
+    { title: "DUHS past papers", subtitle: "Past-paper questions with explanations", href: "/past-papers", category: "Past papers", icon: "papers" },
+    { title: "Flashcards", subtitle: "Active-recall decks for each subject", href: "/flashcards", category: "Flashcards", icon: "cards" },
+    { title: "Lecture notes & PPT slides", subtitle: "PDF notes and lecture slide decks", href: "/resources", category: "Notes & PPTs", icon: "notes" },
+    { title: "Content library", subtitle: "Every paper and question set in one place", href: "/content", category: "Content", icon: "library" },
+    { title: "Pricing & plans", subtitle: "Free starter and full session passes", href: "/pricing", category: "Pricing", icon: "pricing" },
+    { title: "My plan status", subtitle: "Active plan, renewal date and receipts", href: "/subscription", category: "Status", icon: "status" },
   ].filter((item) => {
     const q = searchQuery.toLowerCase();
     return item.title.toLowerCase().includes(q) || item.subtitle.toLowerCase().includes(q) || item.category.toLowerCase().includes(q);
@@ -294,7 +292,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <div className="space-y-1">
         {!collapsed && <SectionLabel>Study tools</SectionLabel>}
         {NavItem({ href: "/practice", label: "MCQ practice", icon: Zap, collapsed: collapsed, badge: <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-400">LIVE</span> })}
-        {NavItem({ href: "/past-papers", label: "Past papers", icon: Award, collapsed: collapsed, badge: <span className="text-[10px] text-slate-500">2015–24</span> })}
+        {NavItem({ href: "/past-papers", label: "Past papers", icon: Award, collapsed: collapsed })}
         {NavItem({ href: "/flashcards", label: "Flashcards", icon: Layers, collapsed: collapsed })}
         {NavItem({ href: "/resources", label: "Notes & PPTs", icon: Presentation, collapsed: collapsed })}
         {NavItem({ href: "/books", label: "Textbooks", icon: Library, collapsed: collapsed })}
@@ -345,7 +343,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       </span>
       <span className="flex min-w-0 flex-col">
         <span className={`truncate font-display font-extrabold tracking-[-0.03em] text-ink ${small ? "text-lg" : "text-[1.4rem]"} leading-none`}>
-          HMH<span className="bg-gradient-to-r from-brand-500 to-accent-500 bg-clip-text text-transparent">Dental</span>
+          HMH<span className="text-primary">Dental</span>
         </span>
         <span className="mt-1 truncate text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">DUHS · BDS 1st Year</span>
       </span>
@@ -491,8 +489,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <main className="w-full flex-1">{children}</main>
 
         {/* ============================ FOOTER ============================ */}
-        <footer className="mt-auto border-t border-line bg-surface px-6 py-12 lg:px-8">
-          <div className="mx-auto mb-8 grid max-w-7xl grid-cols-1 gap-8 text-sm sm:grid-cols-2 md:grid-cols-4">
+        <footer className="mt-auto border-t border-line bg-canvas-2 px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto mb-8 grid max-w-content grid-cols-1 gap-8 text-sm sm:grid-cols-2 md:grid-cols-4">
             <div className="space-y-3">
               {Brand({ small: true })}
               <p className="text-xs leading-relaxed text-slate-400">
@@ -510,7 +508,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               title="Study"
               links={[
                 { href: "/practice", label: "MCQ practice" },
-                { href: "/past-papers", label: "Past papers (2015–2024)" },
+                { href: "/past-papers", label: "Past papers" },
+                { href: "/books", label: "Textbooks" },
                 { href: "/flashcards", label: "Flashcards" },
                 { href: "/resources", label: "Notes & PPTs" },
                 { href: "/pricing", label: "Pricing" },
@@ -526,10 +525,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               ]}
             />
           </div>
-          <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-line pt-6 text-xs text-slate-400 sm:flex-row">
+          <div className="mx-auto flex max-w-content flex-col items-center justify-between gap-3 border-t border-line pt-6 text-xs text-slate-400 sm:flex-row">
             <p>© {new Date().getFullYear()} HMHDental. Made for Dow University dental students.</p>
             <p className="flex items-center gap-1.5">
-              Made with <Heart className="h-3.5 w-3.5 fill-current text-rose-500" /> for future dental surgeons
+              Built for future dental surgeons
             </p>
           </div>
         </footer>
@@ -597,7 +596,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     className="group flex items-center justify-between rounded-xl p-2.5 transition hover:bg-slate-800"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-800">{item.category === "Subject" ? <SubjectArt id={item.icon} className="h-8 w-8" /> : <span className="text-lg">{item.icon}</span>}</span>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-soft text-primary">{item.category === "Subject" ? <SubjectArt id={item.icon} className="h-8 w-8" /> : (() => { const I = SEARCH_ICONS[item.icon] ?? BookOpen; return <I className="h-5 w-5" />; })()}</span>
                       <div>
                         <div className="text-sm font-semibold text-ink group-hover:text-brand-400">{item.title}</div>
                         <div className="text-xs text-slate-400">{item.subtitle}</div>
