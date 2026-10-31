@@ -7,30 +7,76 @@ import {
   Award,
   BookOpenCheck,
   Check,
+  ChevronDown,
   Clock,
-  FileText,
+  CreditCard,
   Flame,
   Highlighter,
   Layers,
   Library,
   ListChecks,
+  PlayCircle,
   Presentation,
+  Smartphone,
+  Sparkles,
   Target,
-  Timer,
+  UserPlus,
   GraduationCap,
 } from "lucide-react";
 import { BDS_SUBJECTS, BDS_MCQS, MEMBERSHIP_PLANS } from "@/lib/bds-content";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion";
-import { StudyPanel, ContinueReading } from "@/components/Motivation";
+import { Reveal, Stagger, StaggerItem, m, AnimatePresence, EASE } from "@/components/motion";
 import AreaTiles from "@/components/AreaTiles";
 import { SubjectArt } from "@/components/Illustrations";
 import { SectionHeader } from "@/components/PageHeader";
 import { siteStats, subjectStats, count } from "@/lib/stats";
+import { useProgress } from "@/lib/progress";
+import { catalogById } from "@/lib/catalog";
 
+const FREE_PLAN = MEMBERSHIP_PLANS.find((p) => p.pricePKR === 0);
 
 export default function HomePage() {
   const subjects = BDS_SUBJECTS.filter((s) => s.yearId === "bds-1");
   const stats = siteStats();
+
+  const faqs: { q: string; a: React.ReactNode }[] = [
+    {
+      q: "Is HMHDental free?",
+      a: (
+        <>
+          Yes, there is a free plan and you don&apos;t need a card to sign up.
+          {FREE_PLAN && (
+            <>
+              {" "}
+              It includes:
+              <ul className="mt-2 space-y-1">
+                {FREE_PLAN.features.map((f) => (
+                  <li key={f} className="flex gap-2">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> {f}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </>
+      ),
+    },
+    {
+      q: "Which syllabus does it follow?",
+      a: "It is built for DUHS BDS 1st Year and follows the DIKIOHS, DDC and DIDC teaching. Lectures are grouped by subject and chapter the way they are taught.",
+    },
+    {
+      q: "How do I pay for a plan?",
+      a: "Plans can be paid with JazzCash, Easypaisa or bank transfer from the checkout page. Your plan activates once the payment is confirmed.",
+    },
+    {
+      q: "Can I use it on my phone?",
+      a: "Yes. The site works in your phone's browser — lectures and textbooks open in the built-in reader, and MCQs and flashcards are designed for small screens.",
+    },
+    {
+      q: "Where are my progress, bookmarks and notes saved?",
+      a: "On this device, in your browser. Your reading position, streak, bookmarks, highlights and notes stay here between visits. Clearing your browser data removes them.",
+    },
+  ];
 
   return (
     <div className="relative">
@@ -53,22 +99,29 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="hero-in mt-5 max-w-xl text-lg leading-relaxed text-muted" style={{ "--i": 5 } as React.CSSProperties}>
-              Your BDS resources, practice questions, and revision tools — organized in one place.
+              Your BDS lectures, textbooks, practice questions and revision tools — organised by subject and chapter, in one place.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/resources" className="btn-primary btn-sheen hero-in group !px-6 !text-[15px]" style={{ "--i": 6 } as React.CSSProperties}>
-                Explore Study Resources
+              <Link href="/signup" className="btn-primary btn-sheen hero-in group !px-6 !text-[15px]" style={{ "--i": 6 } as React.CSSProperties}>
+                Start free
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
-              <Link href="/practice" className="btn-secondary hero-in !px-6 !text-[15px]" style={{ "--i": 7 } as React.CSSProperties}>
-                <ListChecks className="h-4 w-4" />
-                Start MCQ Practice
+              <Link href="/subjects" className="btn-secondary hero-in !px-6 !text-[15px]" style={{ "--i": 7 } as React.CSSProperties}>
+                Browse subjects
               </Link>
             </div>
+            <ul className="hero-in mt-4 flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-muted" style={{ "--i": 7 } as React.CSSProperties}>
+              <li className="flex items-center gap-1.5">
+                <Check className="h-4 w-4 text-primary" /> Free plan, no card needed
+              </li>
+              <li className="flex items-center gap-1.5">
+                <Smartphone className="h-4 w-4 text-primary" /> Works on your phone
+              </li>
+            </ul>
 
             {/* Real content counts only */}
-            <dl className="hero-in mt-10 grid max-w-lg grid-cols-3 divide-x divide-line rounded-2xl border border-line bg-surface/80 backdrop-blur" style={{ "--i": 8 } as React.CSSProperties}>
+            <dl className="hero-in mt-9 grid max-w-lg grid-cols-3 divide-x divide-line rounded-2xl border border-line bg-surface/80 backdrop-blur" style={{ "--i": 8 } as React.CSSProperties}>
               {[
                 { v: stats.lectures, l: "Lecture PDFs" },
                 { v: stats.books, l: "Textbooks" },
@@ -88,26 +141,41 @@ export default function HomePage() {
         </div>
       </section>
 
+      <WelcomeBack />
+
       <div className="mx-auto max-w-content space-y-20 px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        {/* ============================ CONTINUE ============================ */}
-        <section aria-labelledby="continue">
-          <SectionHeader
-            id="continue"
-            title="Pick up where you left off"
-            intro="Your streak, today's goal and the lectures you opened most recently."
-          />
-          <div className="space-y-5">
-            <StudyPanel />
-            <ContinueReading />
-          </div>
+        {/* ============================ HOW IT WORKS ============================ */}
+        <section aria-labelledby="how">
+          <SectionHeader id="how" title="How it works" intro="From sign-up to your first revision session in a couple of minutes." />
+          <Stagger as="ol" className="grid gap-4 md:grid-cols-3">
+            {[
+              { icon: UserPlus, t: "Create a free account", d: "Pick your college and year. No card, no payment details." },
+              { icon: Presentation, t: "Open a chapter", d: "Each chapter puts its lectures, textbook and MCQs on one page. We remember the page you stopped on." },
+              { icon: ListChecks, t: "Practise and revise", d: "Answer MCQs with explanations, flip flashcards and keep a daily streak going." },
+            ].map((s, i) => (
+              <StaggerItem key={s.t} as="li" className="relative rounded-2xl border border-line bg-surface p-6">
+                <span className="absolute right-5 top-4 font-display text-5xl font-extrabold text-primary/10" aria-hidden>
+                  {i + 1}
+                </span>
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-soft text-primary">
+                  <s.icon className="h-5 w-5" />
+                </span>
+                <h3 className="card-title mt-4">
+                  <span className="sr-only">Step {i + 1}: </span>
+                  {s.t}
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">{s.d}</p>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </section>
 
-        {/* ============================ 1. FEATURED RESOURCES ============================ */}
+        {/* ============================ FEATURED RESOURCES ============================ */}
         <section aria-labelledby="featured">
           <SectionHeader
             id="featured"
-            title="Featured study resources"
-            intro={`The complete Anatomy lecture library — ${stats.lectures} lecture PDFs arranged by area, readable right in your browser.`}
+            title="Featured: the Anatomy lecture library"
+            intro={`${stats.lectures} lecture PDFs arranged by area, readable right in your browser with highlights and notes.`}
             action={
               <Link href="/subjects/anatomy" className="btn-secondary !min-h-[40px] !py-2">
                 Open Anatomy <ArrowRight className="h-4 w-4" />
@@ -117,7 +185,7 @@ export default function HomePage() {
           <AreaTiles />
         </section>
 
-        {/* ============================ 2. SUBJECTS ============================ */}
+        {/* ============================ SUBJECTS ============================ */}
         <section aria-labelledby="subjects">
           <SectionHeader
             id="subjects"
@@ -147,7 +215,7 @@ export default function HomePage() {
                     </div>
                     <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted">{s.description}</p>
                     <div className="mt-4 flex flex-wrap gap-1.5">
-                      {meta.length ? meta.map((m) => <span key={m} className="chip">{m}</span>) : <span className="chip">Content being added</span>}
+                      {meta.length ? meta.map((x) => <span key={x} className="chip">{x}</span>) : <span className="chip">Content being added</span>}
                     </div>
                     <div className="mt-auto flex items-center gap-4 border-t border-line pt-4 text-sm">
                       <Link href={`/subjects/${s.slug}`} className="link inline-flex items-center gap-1 after:absolute after:inset-0 after:content-['']">
@@ -164,18 +232,16 @@ export default function HomePage() {
           </Stagger>
         </section>
 
-        {/* ============================ 3. MCQ PRACTICE ============================ */}
+        {/* ============================ MCQ PRACTICE ============================ */}
         <Reveal as="section" className="card-glow relative grid gap-10 overflow-hidden rounded-2xl border border-line bg-surface p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-500/10 blur-3xl" />
           <div>
             <p className="eyebrow">MCQ practice</p>
             <h2 id="mcq" className="section-title mt-3">Test your knowledge. Strengthen your concepts.</h2>
-            <p className="section-intro">
-              Choose a subject, practice exam-style questions, and review the explanation for every answer.
-            </p>
+            <p className="section-intro">Choose a subject, answer exam-style questions from past papers, and read the explanation for every answer.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/practice" className="btn-primary">
-                Start MCQ Practice <ArrowRight className="h-4 w-4" />
+                Try a practice set <ArrowRight className="h-4 w-4" />
               </Link>
               <Link href="/past-papers" className="btn-secondary">
                 Browse past papers
@@ -185,112 +251,111 @@ export default function HomePage() {
           <ul className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
             {[
               { icon: BookOpenCheck, t: "Tutor mode", d: "See the answer and explanation straight after each question." },
-              { icon: Timer, t: "Timed test", d: "Practise under time pressure with a running clock." },
-              { icon: Target, t: "Mock exam", d: "Sit a full simulated paper and review your score at the end." },
-            ].map((m) => (
-              <li key={m.t} className="flex gap-3.5 rounded-xl border border-line bg-canvas p-4">
+              { icon: Clock, t: "Timed test", d: "One minute per question, with a running clock and mark-for-review." },
+              { icon: Target, t: "Mock exam", d: "A 20-question paper, then a full review of every answer." },
+            ].map((x) => (
+              <li key={x.t} className="flex gap-3.5 rounded-xl border border-line bg-canvas p-4">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-soft text-primary">
-                  <m.icon className="h-5 w-5" />
+                  <x.icon className="h-5 w-5" />
                 </span>
                 <div>
-                  <h3 className="card-title">{m.t}</h3>
-                  <p className="mt-0.5 text-sm leading-relaxed text-muted">{m.d}</p>
+                  <h3 className="card-title">{x.t}</h3>
+                  <p className="mt-0.5 text-sm leading-relaxed text-muted">{x.d}</p>
                 </div>
               </li>
             ))}
           </ul>
         </Reveal>
 
-        {/* ============================ 4. REVISION TOOLS ============================ */}
-        <section aria-labelledby="revision">
-          <SectionHeader id="revision" title="Flashcards and revision tools" intro="Small tools that make daily revision easier to start and easier to keep up." />
+        {/* ============================ WHAT'S INSIDE ============================ */}
+        <section aria-labelledby="inside">
+          <SectionHeader id="inside" title="Everything else you revise from" intro="Revision tools and study materials, sorted by type." />
           <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <ToolCard
-              icon={Layers}
-              title="Flashcards"
-              text="Flip-card decks for active recall — cranial nerves, histology, enzymes and dental pharmacology."
-              meta={count(stats.decks, "deck")}
-              href="/flashcards"
-              action="View Flashcards"
-            />
+            <ToolCard icon={Layers} title="Flashcards" text="Flip-card decks for active recall, with a ‘revise the missed cards’ round." meta={count(stats.decks, "deck")} href="/flashcards" action="View flashcards" />
             <ToolCard
               icon={Highlighter}
               title="Reader with highlights & notes"
               text="Open any lecture or textbook in the site, highlight in four colours, add notes and export them."
               meta="Lectures & textbooks"
-              href="/subjects/anatomy/ppts-combined"
+              href="/subjects/anatomy"
               action="Open a lecture"
             />
-            <ToolCard
-              icon={Flame}
-              title="Streak, goal & exam countdown"
-              text="Set a daily lecture goal, keep your streak and see how many days are left before your exam."
-              meta="Saved on this device"
-              href="/dashboard"
-              action="Go to dashboard"
-            />
-          </Stagger>
-        </section>
-
-        {/* ============================ 5. PAPERS & MATERIALS ============================ */}
-        <section aria-labelledby="materials">
-          <SectionHeader id="materials" title="Past papers and lecture materials" intro="Everything you revise from, sorted by type." />
-          <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <ToolCard icon={Flame} title="Streak, goal & exam countdown" text="Set a daily lecture goal, keep your streak and see the days left before your exam." meta="Saved on this device" href="/dashboard" action="Go to dashboard" />
             <ToolCard icon={Award} title="Past papers" text="DUHS past-paper questions with explanations, filterable by subject." href="/past-papers" action="Browse papers" />
             <ToolCard icon={Presentation} title="Notes & PPTs" text="Lecture slides and PDF notes for each subject." meta={count(stats.lectures + stats.notes, "file")} href="/resources" action="Open resources" />
             <ToolCard icon={Library} title="Textbooks" text="Recommended textbooks, readable inside the site." meta={count(stats.books, "book")} href="/books" action="View textbooks" />
-            <ToolCard icon={FileText} title="Content library" text="Every paper and question set in one place." href="/content" action="Open library" />
           </Stagger>
         </section>
 
-        {/* ============================ 6. PRICING ============================ */}
+        {/* ============================ PRICING ============================ */}
         <section aria-labelledby="pricing">
           <SectionHeader
             id="pricing"
-            title="Membership and pricing"
-            intro="Start free. Upgrade with JazzCash, Easypaisa or bank transfer when you're ready."
+            title="Start free. Upgrade when you're ready."
+            intro="Pay with JazzCash, Easypaisa or bank transfer. Your plan activates once the payment is confirmed."
             action={
               <Link href="/pricing" className="link inline-flex items-center gap-1 text-sm">
-                Compare plans <ArrowRight className="h-4 w-4" />
+                Compare all features <ArrowRight className="h-4 w-4" />
               </Link>
             }
           />
           <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {MEMBERSHIP_PLANS.map((p) => (
-              <StaggerItem
-                key={p.id}
-                className={`relative flex h-full flex-col rounded-2xl border bg-surface p-6 transition-transform duration-300 hover:-translate-y-0.5 ${
-                  p.isPopular ? "card-glow border-primary/60 ring-1 ring-primary/30" : "border-line"
-                }`}
-              >
-                {p.badge && <span className="chip-pro absolute -top-2.5 left-6 border border-primary/30 bg-surface">{p.badge}</span>}
-                <h3 className="card-title">{p.name}</h3>
-                <div className="mt-3 flex items-baseline gap-1.5">
-                  <span className="font-display text-3xl font-extrabold tracking-tight text-ink">
-                    {p.pricePKR === 0 ? "Free" : `Rs ${p.pricePKR.toLocaleString()}`}
-                  </span>
-                  <span className="text-xs text-muted">{p.periodText}</span>
-                </div>
-                <ul className="mt-5 flex-1 space-y-2 text-sm">
-                  {p.features.slice(0, 4).map((f) => (
-                    <li key={f} className="flex gap-2 text-slate-300">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link href={p.pricePKR === 0 ? "/signup" : `/checkout?plan=${p.id}`} className={`mt-6 w-full ${p.isPopular ? "btn-primary" : "btn-secondary"}`}>
-                  {p.pricePKR === 0 ? "Start free" : "Choose plan"}
-                </Link>
-              </StaggerItem>
-            ))}
+            {MEMBERSHIP_PLANS.map((p) => {
+              const perMonth = p.durationMonths > 1 ? Math.round(p.pricePKR / p.durationMonths) : 0;
+              return (
+                <StaggerItem
+                  key={p.id}
+                  className={`relative flex h-full flex-col rounded-2xl border bg-surface p-6 transition-transform duration-300 hover:-translate-y-0.5 ${
+                    p.isPopular ? "card-glow border-primary/60 ring-1 ring-primary/30" : "border-line"
+                  }`}
+                >
+                  {p.badge && <span className="chip-pro absolute -top-2.5 left-6 border border-primary/30 bg-surface">{p.badge}</span>}
+                  <h3 className="card-title">{p.name}</h3>
+                  <div className="mt-3 flex items-baseline gap-1.5">
+                    <span className="font-display text-3xl font-extrabold tracking-tight text-ink">{p.pricePKR === 0 ? "Free" : `Rs ${p.pricePKR.toLocaleString()}`}</span>
+                    <span className="text-xs text-muted">{p.periodText}</span>
+                  </div>
+                  <p className="mt-1 h-4 text-xs text-muted">{perMonth ? `About Rs ${perMonth.toLocaleString()} a month` : ""}</p>
+                  <ul className="mt-4 flex-1 space-y-2 text-sm">
+                    {p.features.slice(0, 4).map((f) => (
+                      <li key={f} className="flex gap-2 text-slate-300">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={p.pricePKR === 0 ? "/signup" : `/checkout?plan=${p.id}`} className={`mt-6 w-full ${p.isPopular ? "btn-primary" : "btn-secondary"}`}>
+                    {p.pricePKR === 0 ? "Start free" : "Choose plan"}
+                  </Link>
+                </StaggerItem>
+              );
+            })}
           </Stagger>
+          <p className="mt-4 flex items-center justify-center gap-2 text-center text-xs text-muted">
+            <CreditCard className="h-3.5 w-3.5" /> JazzCash · Easypaisa · Bank transfer
+          </p>
+        </section>
+
+        {/* ============================ FAQ ============================ */}
+        <section aria-labelledby="faq" className="mx-auto max-w-3xl">
+          <SectionHeader id="faq" title="Questions students ask" />
+          <div className="divide-y divide-line rounded-2xl border border-line bg-surface">
+            {faqs.map((f, i) => (
+              <Faq key={f.q} q={f.q} a={f.a} defaultOpen={i === 0} />
+            ))}
+          </div>
+          <p className="mt-4 text-center text-sm text-muted">
+            Something else?{" "}
+            <Link href="/contact" className="link">
+              Contact us
+            </Link>
+          </p>
         </section>
 
         {/* ============================ CTA ============================ */}
         <Reveal as="section" className="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-br from-soft via-surface to-surface px-6 py-12 text-center sm:px-12">
           <GraduationCap className="mx-auto h-10 w-10 text-primary" />
           <h2 className="section-title mt-4">Ready for your next study session?</h2>
-          <p className="mx-auto mt-2 max-w-xl text-muted">Create a free account to save your plan, then pick up any lecture or question set.</p>
+          <p className="mx-auto mt-2 max-w-xl text-muted">Create a free account, open a chapter, and we&apos;ll keep your place for next time.</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link href="/signup" className="btn-primary !px-6">
               Create free account <ArrowRight className="h-4 w-4" />
@@ -301,6 +366,72 @@ export default function HomePage() {
           </div>
         </Reveal>
       </div>
+    </div>
+  );
+}
+
+/* For returning students: a slim bar under the hero to jump back into the last lecture */
+function WelcomeBack() {
+  const progress = useProgress();
+  if (!progress) return null;
+  const last = Object.entries(progress.opened)
+    .sort((a, b) => b[1].at - a[1].at)
+    .map(([id, o]) => ({ item: catalogById.get(id), o }))
+    .find((x) => x.item);
+  if (!last?.item) return null;
+  return (
+    <m.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: EASE }} className="border-b border-line bg-soft/60">
+      <div className="mx-auto flex max-w-content flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 sm:px-6 lg:px-8">
+        <Sparkles className="h-4 w-4 shrink-0 text-primary" />
+        <p className="min-w-0 flex-1 text-sm text-ink">
+          <span className="font-semibold">Welcome back.</span> <span className="text-muted">Continue</span>{" "}
+          <span className="font-semibold">{last.item.title}</span>
+          <span className="text-muted"> · page {last.o.page}</span>
+        </p>
+        <div className="flex gap-2">
+          <Link href={last.item.href} className="btn-primary !min-h-[36px] !px-4 !py-1.5 text-sm">
+            <PlayCircle className="h-4 w-4" /> Resume
+          </Link>
+          <Link href="/dashboard" className="btn-secondary !min-h-[36px] !px-4 !py-1.5 text-sm">
+            Dashboard
+          </Link>
+        </div>
+      </div>
+    </m.div>
+  );
+}
+
+function Faq({ q, a, defaultOpen = false }: { q: string; a: React.ReactNode; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen);
+  const id = "faq-" + q.toLowerCase().replace(/[^a-z]+/g, "-");
+  return (
+    <div>
+      <h3>
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={id}
+          onClick={() => setOpen((o) => !o)}
+          className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-semibold text-ink transition-colors hover:text-primary sm:px-6"
+        >
+          {q}
+          <ChevronDown className={`h-5 w-5 shrink-0 text-muted transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+        </button>
+      </h3>
+      <AnimatePresence initial={false}>
+        {open && (
+          <m.div
+            id={id}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: EASE }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 pb-5 text-sm leading-relaxed text-muted sm:px-6">{a}</div>
+          </m.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

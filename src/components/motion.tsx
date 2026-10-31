@@ -46,7 +46,7 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
 /* ------------------------------------------------------------------ */
 /* Scroll reveals                                                      */
 /* ------------------------------------------------------------------ */
-type Tag = "div" | "section" | "article" | "li" | "ul" | "header" | "span";
+type Tag = "div" | "section" | "article" | "li" | "ul" | "ol" | "header" | "span";
 const VIEWPORT = { once: true, amount: 0.15, margin: "0px 0px -60px 0px" } as const;
 
 /** Fades content up as it scrolls into view. `delay` is in ms (kept for older call sites). */
