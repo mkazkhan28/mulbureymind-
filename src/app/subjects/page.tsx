@@ -2,301 +2,163 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  BDS_SUBJECTS,
-  BDS_YEARS,
-  BDS_TOPICS
-} from "@/lib/bds-content";
-import {
-  BookOpen,
-  ChevronRight,
-  Layers,
-  FileText,
-  Search,
-  Sparkles,
-  Lock,
-  ArrowRight
-} from "lucide-react";
-import { SubjectArt } from "@/components/Illustrations";
+import { ArrowRight, Layers, ListChecks, Lock, Presentation, Search } from "lucide-react";
+import { BDS_SUBJECTS, BDS_YEARS, BDS_TOPICS } from "@/lib/bds-content";
+import { getSubjectStructure } from "@/lib/subject-structure";
+import { SubjectArt, areaIcon } from "@/components/Illustrations";
 import PageHeader from "@/components/PageHeader";
-import { subjectStats } from "@/lib/stats";
+import { subjectStats, count } from "@/lib/stats";
+import { Stagger, StaggerItem, m, SPRING } from "@/components/motion";
+import { useProgress } from "@/lib/progress";
+import { lecturesInArea, catalogById } from "@/lib/catalog";
 
+/** "My Subjects": every subject of the year with its chapters one click away. */
 export default function SubjectsPage() {
   const [selectedYear, setSelectedYear] = useState("bds-1");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [query, setQuery] = useState("");
+  const progress = useProgress();
+  const year = BDS_YEARS.find((y) => y.id === selectedYear);
+  const q = query.trim().toLowerCase();
 
-  const activeYearObj = BDS_YEARS.find((y) => y.id === selectedYear);
-
-  const filteredSubjects = BDS_SUBJECTS.filter((subject) => {
-    const matchesYear = subject.yearId === selectedYear;
-    const matchesSearch =
-      subject.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      subject.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      subject.code.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesYear && matchesSearch;
+  const subjects = BDS_SUBJECTS.filter((s) => s.yearId === selectedYear).map((s) => {
+    const structure = getSubjectStructure(s.slug);
+    const chapters = structure
+      ? structure.areas.map((a) => ({
+          key: a.slug,
+          title: a.title,
+          href: `/subjects/${s.slug}/${a.slug}`,
+          icon: areaIcon(a.slug),
+          meta: count(lecturesInArea(s.slug, a.slug).length, "lecture"),
+          words: `${a.title} ${a.topics.join(" ")} ${lecturesInArea(s.slug, a.slug)
+            .map((id) => catalogById.get(id)?.title ?? "")
+            .join(" ")}`,
+        }))
+      : BDS_TOPICS.filter((t) => t.subjectId === s.id).map((t) => ({ key: t.slug, title: t.name, href: `/subjects/${s.slug}/${t.slug}`, icon: null, meta: "", words: `${t.name} ${t.description}` }));
+    const subjectMatch = !q || `${s.name} ${s.code} ${s.description}`.toLowerCase().includes(q);
+    const shown = subjectMatch ? chapters : chapters.filter((c) => c.words.toLowerCase().includes(q));
+    return { s, structure, chapters: shown, visible: subjectMatch || shown.length > 0 };
   });
-
-  const subjectThemes: Record<string, { gradient: string; border: string; badge: string; text: string }> = {
-    anat: {
-      gradient: "from-amber-500/15 via-surface to-canvas",
-      border: "border-amber-500/30 hover:border-amber-400",
-      badge: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-      text: "text-amber-400"
-    },
-    phys: {
-      gradient: "from-rose-500/15 via-surface to-canvas",
-      border: "border-rose-500/30 hover:border-rose-400",
-      badge: "bg-rose-500/15 text-rose-300 border-rose-500/30",
-      text: "text-rose-400"
-    },
-    "oral-bio": {
-      gradient: "from-cyan-500/15 via-surface to-canvas",
-      border: "border-cyan-500/30 hover:border-cyan-400",
-      badge: "bg-cyan-500/15 text-cyan-300 border-cyan-500/30",
-      text: "text-cyan-400"
-    },
-    biochem: {
-      gradient: "from-violet-500/15 via-surface to-canvas",
-      border: "border-violet-500/30 hover:border-violet-400",
-      badge: "bg-violet-500/15 text-violet-300 border-violet-500/30",
-      text: "text-violet-400"
-    },
-    pharm: {
-      gradient: "from-emerald-500/15 via-surface to-canvas",
-      border: "border-emerald-500/30 hover:border-emerald-400",
-      badge: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-      text: "text-emerald-400"
-    },
-    path: {
-      gradient: "from-blue-500/15 via-surface to-canvas",
-      border: "border-blue-500/30 hover:border-blue-400",
-      badge: "bg-blue-500/15 text-blue-300 border-blue-500/30",
-      text: "text-sky-400"
-    }
-  };
+  const visible = subjects.filter((x) => x.visible);
 
   return (
-    <div className="min-h-screen py-10 sm:py-14 px-4 sm:px-6 lg:px-8 space-y-10">
-      <div className="max-w-7xl mx-auto space-y-10">
-        
-        {/* Header */}
-        <PageHeader
-          eyebrow="Subjects"
-          title="Browse BDS subjects"
-          lead="Every subject, organised the way your syllabus is."
-          intro="Choose a year and a subject to see its topics, lectures, textbooks, MCQs and flashcards."
-        />
+    <div className="mx-auto max-w-content px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <PageHeader
+        eyebrow="My subjects"
+        title="Your subjects and chapters"
+        intro="Every subject of your year with its chapters listed — open any chapter to get its lectures, notes and MCQs."
+      />
 
-        {/* Academic Year Tabs */}
-        <div className="flex flex-wrap items-center gap-2.5 pb-2">
-          {BDS_YEARS.map((year) => {
-            const isSelected = selectedYear === year.id;
+      {/* Year + filter */}
+      <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div role="tablist" aria-label="BDS year" className="inline-flex flex-wrap gap-1 rounded-xl border border-line bg-surface-2 p-1">
+          {BDS_YEARS.map((y) => {
+            const active = y.id === selectedYear;
             return (
               <button
-                key={year.id}
-                onClick={() => setSelectedYear(year.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition shrink-0 flex items-center gap-2 ${
-                  isSelected
-                    ? "bg-primary hover:bg-primary-hover text-on-primary"
-                    : "bg-surface text-slate-300 border border-slate-800 hover:bg-slate-800 hover:text-ink"
-                }`}
+                key={y.id}
+                role="tab"
+                aria-selected={active}
+                onClick={() => setSelectedYear(y.id)}
+                className={`relative flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors ${active ? "text-ink" : "text-muted hover:text-ink"}`}
               >
-                <span>{year.name}</span>
-                {year.isActive ? (
-                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-1.5 py-0.5 rounded border border-emerald-500/30">
-                    Active
-                  </span>
-                ) : (
-                  <span className="text-[10px] bg-amber-500/20 text-amber-300 font-medium px-1.5 py-0.5 rounded border border-amber-500/30 flex items-center gap-0.5">
-                    <Lock className="w-2.5 h-2.5" />
-                    <span>Pending</span>
-                  </span>
-                )}
+                {active && <m.span layoutId="year-tab" transition={SPRING} className="absolute inset-0 rounded-lg bg-surface shadow-soft ring-1 ring-primary/20" />}
+                <span className="relative">{y.name.replace(/\s*\((Active|Pending)\)/, "")}</span>
+                {!y.isActive && <Lock className="relative h-3.5 w-3.5" aria-label="coming soon" />}
               </button>
             );
           })}
         </div>
-
-        {/* If selected year is Pending, show stylish pending notice */}
-        {!activeYearObj?.isActive ? (
-          <div className="bg-surface/90 rounded-2xl border border-slate-800 p-8 sm:p-12 text-center max-w-xl mx-auto space-y-5 animate-fadeIn">
-            <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto text-amber-400">
-              <Lock className="w-7 h-7" />
-            </div>
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-amber-300 uppercase tracking-wider bg-amber-500/15 px-3 py-1 rounded-full border border-amber-500/30">
-                Curriculum Module Pending
-              </span>
-              <h2 className="text-xl sm:text-2xl font-bold text-ink mt-2">
-                {activeYearObj?.name} Content In Progress
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md mx-auto">
-                {activeYearObj?.description} Our academic team is currently curating past papers and textbook rationales for this year.
-              </p>
-            </div>
-
-            <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl text-xs text-slate-300 text-left space-y-2">
-              <div className="font-bold text-ink flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-                <span>Currently Active & Unrestricted:</span>
-              </div>
-              <p className="text-slate-400">
-                <strong className="text-ink">BDS 1st Year</strong> is 100% active right now with 6 comprehensive core subjects: Anatomy, Physiology, Oral Biology, Biochemistry, Pharmacology, and Pathology.
-              </p>
-            </div>
-
-            <button
-              onClick={() => {
-                setSelectedYear("bds-1");
-                setSearchQuery("");
-              }}
-              className="px-6 py-2.5 text-xs font-bold bg-primary hover:bg-primary-hover text-on-primary rounded-xl transition inline-flex items-center gap-2"
-            >
-              <span>Switch to BDS 1st Year (Active)</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        ) : (
-          <>
-            {/* Search Bar */}
-            <div className="max-w-md mx-auto">
-              <div className="relative">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  placeholder="Search by subject name or code (e.g. Oral Biology)..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-800 bg-surface/90 text-ink placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 shadow-sm"
-                />
-              </div>
-            </div>
-
-            {/* Subjects Grid */}
-            {filteredSubjects.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredSubjects.map((subj) => {
-                  const subjectTopics = BDS_TOPICS.filter((t) => t.subjectId === subj.id);
-                  const theme = subjectThemes[subj.id] || {
-                    gradient: "from-indigo-500/15 via-surface to-canvas",
-                    border: "border-slate-800 hover:border-indigo-500",
-                    badge: "bg-indigo-500/15 text-indigo-300 border-indigo-500/30",
-                    text: "text-indigo-400"
-                  };
-
-                  return (
-                    <div
-                      key={subj.id}
-                      className={`rounded-2xl border p-6 bg-gradient-to-br ${theme.gradient} ${theme.border} shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between`}
-                    >
-                      <div className="space-y-4">
-                        {/* Top Row: Icon, Code & Title */}
-                        <div className="flex items-start gap-3">
-                          <span className="text-3xl p-2 bg-surface border border-slate-700/80 rounded-xl shrink-0 shadow">
-                            <SubjectArt id={subj.id} className="h-10 w-10" />
-                          </span>
-                          <div>
-                            <span className={`text-[10px] font-bold tracking-wider uppercase ${theme.text}`}>
-                              {subj.code}
-                            </span>
-                            <h2 className="text-lg font-bold text-ink leading-snug">
-                              {subj.name}
-                            </h2>
-                          </div>
-                        </div>
-
-                        <p className="text-xs text-slate-300 leading-relaxed">
-                          {subj.description}
-                        </p>
-
-                        {/* High-yield topics pill list */}
-                        <div>
-                          <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                            High-Yield Topics:
-                          </div>
-                          <div className="flex flex-wrap gap-1.5">
-                            {subjectTopics.map((top) => (
-                              <Link
-                                key={top.id}
-                                href={`/subjects/${subj.slug}/${top.slug}`}
-                                className="text-[11px] px-2 py-0.5 bg-surface hover:bg-slate-800 hover:text-ink border border-slate-700/80 rounded-md text-slate-300 transition flex items-center gap-1 font-medium"
-                              >
-                                <span>{top.name}</span>
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Stats */}
-                        <div className="grid grid-cols-3 gap-2 pt-2 border-t border-line text-center">
-                          <div className="p-2 bg-surface border border-slate-800 rounded-lg">
-                            <div className="text-sm font-bold text-ink">{subjectStats(subj.id).lectures}</div>
-                            <div className="text-[10px] text-slate-400">Lectures</div>
-                          </div>
-                          <div className="p-2 bg-surface border border-slate-800 rounded-lg">
-                            <div className={`text-sm font-bold ${theme.text}`}>{subjectStats(subj.id).books}</div>
-                            <div className="text-[10px] text-slate-400">Textbooks</div>
-                          </div>
-                          <div className="p-2 bg-surface border border-slate-800 rounded-lg">
-                            <div className="text-sm font-bold text-ink">{subjectStats(subj.id).mcqs}</div>
-                            <div className="text-[10px] text-slate-400">MCQs</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Actions */}
-                      <div className="pt-4 mt-4 border-t border-line flex flex-wrap items-center justify-between gap-2">
-                        <div className="flex items-center gap-1.5">
-                          <Link
-                            href={`/practice?subject=${subj.id}`}
-                            className="px-2.5 py-1 text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-ink border border-slate-800 rounded-lg transition flex items-center gap-1"
-                          >
-                            <FileText className="w-3 h-3 text-cyan-400" />
-                            <span>Quiz</span>
-                          </Link>
-                          <Link
-                            href={`/flashcards?subject=${subj.id}`}
-                            className="px-2.5 py-1 text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-ink border border-slate-800 rounded-lg transition flex items-center gap-1"
-                          >
-                            <Layers className="w-3 h-3 text-rose-400" />
-                            <span>Cards</span>
-                          </Link>
-                        </div>
-
-                        <Link
-                          href={`/subjects/${subj.slug}`}
-                          className={`px-3 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 ${theme.text} rounded-lg border border-slate-700 transition flex items-center gap-1 group`}
-                        >
-                          <span>Explore</span>
-                          <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition" />
-                        </Link>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="bg-surface/90 rounded-2xl border border-slate-800 p-12 text-center max-w-lg mx-auto space-y-4">
-                <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-slate-400">
-                  <BookOpen className="w-6 h-6" />
-                </div>
-                <h3 className="font-bold text-lg text-ink">
-                  No matching subjects found
-                </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Try searching for another subject like Anatomy, Physiology, Oral Biology, Biochemistry, Pharmacology, or Pathology.
-                </p>
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="px-4 py-2 text-xs font-semibold bg-primary text-on-primary rounded-lg hover:bg-indigo-500 transition shadow-md"
-                >
-                  Clear Search
-                </button>
-              </div>
-            )}
-          </>
-        )}
+        <label className="relative w-full lg:w-80">
+          <span className="sr-only">Filter subjects and chapters</span>
+          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Filter subjects or chapters…" className="field !py-2.5 pl-10" />
+        </label>
       </div>
+
+      {!year?.isActive ? (
+        <div className="rounded-2xl border border-dashed border-line bg-surface/60 p-10 text-center">
+          <Lock className="mx-auto h-8 w-8 text-muted" />
+          <h2 className="card-title mt-3">{year?.name.replace(/\s*\(.*\)/, "")} is coming soon</h2>
+          <p className="mx-auto mt-1 max-w-md text-sm text-muted">{year?.description}. Content for this year is being prepared.</p>
+          <button onClick={() => setSelectedYear("bds-1")} className="btn-secondary mt-5">
+            Back to BDS 1st Year
+          </button>
+        </div>
+      ) : visible.length === 0 ? (
+        <p className="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-muted">No subject or chapter matches “{query}”.</p>
+      ) : (
+        <Stagger key={selectedYear + q} immediate className="grid gap-5 lg:grid-cols-2">
+          {visible.map(({ s, structure, chapters }) => {
+            const st = subjectStats(s.id);
+            const ids = structure ? [...new Set(structure.areas.flatMap((a) => lecturesInArea(s.slug, a.slug)))] : [];
+            const opened = progress ? ids.filter((id) => progress.opened[id]).length : 0;
+            return (
+              <StaggerItem key={s.id} as="article" className="card-glow flex flex-col rounded-2xl border border-line bg-surface p-5 transition-transform duration-300 sm:p-6">
+                <div className="flex items-start gap-4">
+                  <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-soft">
+                    <SubjectArt id={s.id} className="h-12 w-12" />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[11px] font-bold tracking-wide text-primary">{s.code}</span>
+                    <h2 className="font-display text-xl font-bold leading-tight text-ink">
+                      <Link href={`/subjects/${s.slug}`} className="hover:text-primary">
+                        {s.name}
+                      </Link>
+                    </h2>
+                    <p className="mt-1 line-clamp-2 text-sm text-muted">{s.description}</p>
+                  </div>
+                </div>
+
+                {/* resource availability */}
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {st.lectures > 0 && (
+                    <span className="chip">
+                      <Presentation className="h-3 w-3" /> {count(st.lectures, "lecture")}
+                    </span>
+                  )}
+                  {st.books > 0 && <span className="chip">{count(st.books, "textbook")}</span>}
+                  <span className="chip">
+                    <ListChecks className="h-3 w-3" /> {st.mcqs ? count(st.mcqs, "MCQ") : "MCQs soon"}
+                  </span>
+                  {st.decks > 0 && (
+                    <span className="chip">
+                      <Layers className="h-3 w-3" /> {count(st.decks, "flashcard deck")}
+                    </span>
+                  )}
+                  {ids.length > 0 && progress && <span className="chip-pro">{opened}/{ids.length} opened</span>}
+                </div>
+
+                {/* chapters, direct links */}
+                <div className="mt-5 border-t border-line pt-4">
+                  <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted">
+                    {chapters.length} chapter{chapters.length === 1 ? "" : "s"}
+                  </h3>
+                  <ul className="grid grid-cols-1 gap-1 sm:grid-cols-2">
+                    {chapters.map((c) => (
+                      <li key={c.key} className="min-w-0">
+                        <Link href={c.href} className="group flex items-center gap-2.5 rounded-lg px-2 py-2 text-sm text-slate-300 transition hover:bg-soft hover:text-primary">
+                          {c.icon ? <c.icon className="h-5 w-5 shrink-0" /> : <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />}
+                          <span className="min-w-0 flex-1 truncate">{c.title}</span>
+                          {c.meta && <span className="shrink-0 text-[11px] text-muted">{c.meta}</span>}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="mt-auto flex flex-wrap gap-2 pt-5">
+                  <Link href={`/subjects/${s.slug}`} className="btn-primary !min-h-[40px] !py-2">
+                    Open subject <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link href={`/practice?subject=${s.id}`} className="btn-secondary !min-h-[40px] !py-2">
+                    Practice MCQs
+                  </Link>
+                </div>
+              </StaggerItem>
+            );
+          })}
+        </Stagger>
+      )}
     </div>
   );
 }

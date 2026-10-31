@@ -39,6 +39,7 @@ import { lecturesInArea } from "@/lib/catalog";
 import { ContinueReading } from "@/components/Motivation";
 import { Reveal, Stagger, StaggerItem, ProgressBar, m, SPRING } from "@/components/motion";
 import { SubjectArt, AreaArt, areaIcon } from "@/components/Illustrations";
+import { BookmarkButton } from "@/components/ui";
 
 export const AREA_ICONS = { Sprout, Microscope, Brain, ScanFace, Bone, HeartPulse } as const;
 
@@ -569,7 +570,10 @@ function FileList({
                       </div>
 
                       <div className="flex flex-1 flex-col p-3.5">
-                        <h5 className="line-clamp-2 text-[15px] font-semibold leading-snug text-ink">{f.title}</h5>
+                        <div className="flex items-start gap-2">
+                          <h5 className="line-clamp-2 flex-1 text-[15px] font-semibold leading-snug text-ink">{f.title}</h5>
+                          {f.pdf && <BookmarkButton id={f.id} title={f.title} />}
+                        </div>
                         <div className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
                           {f.by && <span className="truncate">{f.by}</span>}
                           {from && <span className="rounded-full bg-brand-500/10 px-2 py-0.5 text-[10px] font-semibold text-brand-400">From {from}</span>}
