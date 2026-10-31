@@ -299,8 +299,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
         className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-line bg-surface text-slate-300 transition hover:border-primary/50 hover:text-primary"
       >
-        <Sun className={`absolute h-4 w-4 transition-all duration-500 ${theme === "dark" ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"}`} />
-        <Moon className={`absolute h-4 w-4 transition-all duration-500 ${theme === "dark" ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"}`} />
+        <Sun className={`absolute h-4 w-4 transition duration-500 ${theme === "dark" ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"}`} />
+        <Moon className={`absolute h-4 w-4 transition duration-500 ${theme === "dark" ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"}`} />
       </button>
     ) : (
       <div className="relative grid grid-cols-2 rounded-xl border border-line bg-slate-850 p-1 text-xs font-semibold" role="radiogroup" aria-label="Theme">

@@ -531,7 +531,7 @@ export default function ContentPage() {
               <button
                 key={s.id}
                 onClick={() => setActiveSubject(s.id)}
-                className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all ${
+                className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition ${
                   activeSubject === s.id
                     ? `${s.badge} ${s.color}`
                     : "bg-transparent border-slate-800 text-slate-500 hover:text-slate-300"
@@ -545,7 +545,7 @@ export default function ContentPage() {
               <button
                 key={t.id}
                 onClick={() => setActiveType(t.id)}
-                className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition ${
                   activeType === t.id
                     ? "bg-indigo-950/60 border-indigo-600/50 text-indigo-300"
                     : "bg-transparent border-slate-800 text-slate-500 hover:text-slate-300"
@@ -743,7 +743,7 @@ function FileCard({
   const placeholder = isPlaceholder(file.driveId);
 
   return (
-    <div className={`relative p-4 rounded-2xl border transition-all duration-200 flex flex-col gap-3 ${
+    <div className={`relative p-4 rounded-2xl border transition duration-200 flex flex-col gap-3 ${
       file.premium
         ? "bg-slate-900/40 border-slate-800 hover:border-slate-700"
         : "bg-slate-900/70 border-slate-700 hover:border-slate-500 hover:-translate-y-0.5"

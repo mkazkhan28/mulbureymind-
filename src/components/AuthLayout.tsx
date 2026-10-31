@@ -55,8 +55,8 @@ export default function AuthLayout({
               aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
               className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl border border-line bg-surface text-slate-300 transition hover:text-brand-400"
             >
-              <Sun className={`absolute h-4 w-4 transition-all duration-500 ${theme === "dark" ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"}`} />
-              <Moon className={`absolute h-4 w-4 transition-all duration-500 ${theme === "dark" ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"}`} />
+              <Sun className={`absolute h-4 w-4 transition duration-500 ${theme === "dark" ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"}`} />
+              <Moon className={`absolute h-4 w-4 transition duration-500 ${theme === "dark" ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"}`} />
             </button>
           </div>
         </div>
@@ -104,7 +104,7 @@ export default function AuthLayout({
             {SLIDES.map((s, i) => (
               <div
                 key={s.title}
-                className={`absolute inset-0 rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-md transition-all duration-700 ${
+                className={`absolute inset-0 rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-md transition duration-700 ${
                   i === slide ? "translate-y-0 opacity-100" : i === (slide + SLIDES.length - 1) % SLIDES.length ? "-translate-y-4 opacity-0" : "translate-y-4 opacity-0"
                 }`}
                 aria-hidden={i !== slide}

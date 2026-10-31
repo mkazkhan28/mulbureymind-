@@ -71,11 +71,11 @@ export default function StudentDashboardPage() {
         {/* Continue studying */}
         <div className="hero-in" style={{ "--i": 1 } as React.CSSProperties}>
           {!progress ? (
-            <Skeleton className="h-full min-h-[220px]" />
+            <Skeleton className="h-full min-h-[268px]" />
           ) : last ? (
             <Link
               href={last.item.href}
-              className="card-glow group relative flex h-full min-h-[220px] flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-transform duration-300 hover:-translate-y-0.5"
+              className="card-glow group relative flex h-full min-h-[268px] flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-transform duration-300 hover:-translate-y-0.5"
             >
               <div className="relative h-28 overflow-hidden bg-surface-2 sm:h-32">
                 {last.item.thumb && (
@@ -103,7 +103,7 @@ export default function StudentDashboardPage() {
               </div>
             </Link>
           ) : (
-            <div className="flex h-full min-h-[220px] flex-col justify-between rounded-2xl border border-line bg-gradient-to-br from-soft to-surface p-6">
+            <div className="flex h-full min-h-[268px] flex-col justify-between rounded-2xl border border-line bg-gradient-to-br from-soft to-surface p-6">
               <div>
                 <span className="chip-pro">Start here</span>
                 <h2 className="card-title mt-3 text-lg">Open your first lecture</h2>

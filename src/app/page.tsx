@@ -22,6 +22,7 @@ import {
   Target,
   UserPlus,
   GraduationCap,
+  X,
 } from "lucide-react";
 import { BDS_SUBJECTS, BDS_MCQS, MEMBERSHIP_PLANS } from "@/lib/bds-content";
 import { Reveal, Stagger, StaggerItem, m, AnimatePresence, EASE } from "@/components/motion";
@@ -35,6 +36,14 @@ import { catalogById } from "@/lib/catalog";
 const FREE_PLAN = MEMBERSHIP_PLANS.find((p) => p.pricePKR === 0);
 
 export default function HomePage() {
+  const heroRef = React.useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => el.toggleAttribute("data-offscreen", !e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const subjects = BDS_SUBJECTS.filter((s) => s.yearId === "bds-1");
   const stats = siteStats();
 
@@ -81,7 +90,7 @@ export default function HomePage() {
   return (
     <div className="relative">
       {/* ============================ HERO ============================ */}
-      <section className="relative overflow-hidden border-b border-line">
+      <section ref={heroRef} className="relative overflow-hidden border-b border-line">
         <HeroBackdrop />
 
         <div className="relative mx-auto grid max-w-content items-center gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:px-8 lg:py-20">
@@ -370,34 +379,61 @@ export default function HomePage() {
   );
 }
 
-/* For returning students: a slim bar under the hero to jump back into the last lecture */
+/* For returning students: a small floating card to jump back into the last lecture.
+   It floats over the page instead of being inserted into it, so nothing below moves. */
 function WelcomeBack() {
   const progress = useProgress();
-  if (!progress) return null;
-  const last = Object.entries(progress.opened)
-    .sort((a, b) => b[1].at - a[1].at)
-    .map(([id, o]) => ({ item: catalogById.get(id), o }))
-    .find((x) => x.item);
-  if (!last?.item) return null;
+  const [hidden, setHidden] = useState(true);
+  useEffect(() => {
+    try {
+      setHidden(sessionStorage.getItem("hmh-welcome-dismissed") === "1");
+    } catch {
+      setHidden(false);
+    }
+  }, []);
+  const last = progress
+    ? Object.entries(progress.opened)
+        .sort((a, b) => b[1].at - a[1].at)
+        .map(([id, o]) => ({ item: catalogById.get(id), o }))
+        .find((x) => x.item)
+    : undefined;
+  const dismiss = () => {
+    setHidden(true);
+    try {
+      sessionStorage.setItem("hmh-welcome-dismissed", "1");
+    } catch {}
+  };
   return (
-    <m.div initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: EASE }} className="border-b border-line bg-soft/60">
-      <div className="mx-auto flex max-w-content flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 sm:px-6 lg:px-8">
-        <Sparkles className="h-4 w-4 shrink-0 text-primary" />
-        <p className="min-w-0 flex-1 text-sm text-ink">
-          <span className="font-semibold">Welcome back.</span> <span className="text-muted">Continue</span>{" "}
-          <span className="font-semibold">{last.item.title}</span>
-          <span className="text-muted"> · page {last.o.page}</span>
-        </p>
-        <div className="flex gap-2">
-          <Link href={last.item.href} className="btn-primary !min-h-[36px] !px-4 !py-1.5 text-sm">
-            <PlayCircle className="h-4 w-4" /> Resume
-          </Link>
-          <Link href="/dashboard" className="btn-secondary !min-h-[36px] !px-4 !py-1.5 text-sm">
-            Dashboard
-          </Link>
-        </div>
-      </div>
-    </m.div>
+    <AnimatePresence>
+      {!hidden && last?.item && (
+        <m.aside
+          aria-label="Continue where you left off"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease: EASE, delay: 0.6 } }}
+          exit={{ opacity: 0, y: 16, transition: { duration: 0.2, ease: EASE } }}
+          className="fixed inset-x-4 bottom-20 z-40 rounded-2xl border border-line bg-elevated p-4 shadow-lift sm:inset-x-auto sm:right-6 sm:w-[22rem] lg:bottom-6"
+        >
+          <button onClick={dismiss} aria-label="Dismiss" className="absolute right-2 top-2 rounded-lg p-1.5 text-muted hover:bg-surface-2 hover:text-ink">
+            <X className="h-4 w-4" />
+          </button>
+          <p className="flex items-center gap-1.5 text-xs font-semibold text-primary">
+            <Sparkles className="h-3.5 w-3.5" /> Welcome back
+          </p>
+          <p className="mt-1 pr-6 text-sm text-ink">
+            <span className="font-semibold">{last.item.title}</span>
+            <span className="text-muted"> · page {last.o.page}</span>
+          </p>
+          <div className="mt-3 flex gap-2">
+            <Link href={last.item.href} className="btn-primary !min-h-[36px] flex-1 !py-1.5 text-sm">
+              <PlayCircle className="h-4 w-4" /> Resume
+            </Link>
+            <Link href="/dashboard" className="btn-secondary !min-h-[36px] !px-4 !py-1.5 text-sm">
+              Dashboard
+            </Link>
+          </div>
+        </m.aside>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -496,17 +532,36 @@ function HeroPreview() {
   const mcq = BDS_MCQS[0];
   const [step, setStep] = useState(0); // 0 reading, 1 answered, 2 explained
 
+  const cardRef = React.useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
       setStep(2);
       return;
     }
-    const id = window.setInterval(() => setStep((s) => (s + 1) % 3), 2400);
-    return () => window.clearInterval(id);
+    // Only loop while the card is on screen and the tab is visible
+    let visible = true;
+    let id = 0;
+    const sync = () => {
+      window.clearInterval(id);
+      if (visible && document.visibilityState === "visible") id = window.setInterval(() => setStep((s) => (s + 1) % 3), 2400);
+    };
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      sync();
+    });
+    if (cardRef.current) io.observe(cardRef.current);
+    document.addEventListener("visibilitychange", sync);
+    sync();
+    return () => {
+      window.clearInterval(id);
+      io.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+    };
   }, []);
 
   return (
-    <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+    <div ref={cardRef} className="relative mx-auto w-full max-w-md lg:max-w-none">
       <div className="relative rounded-2xl border border-line bg-surface p-5 shadow-lift sm:p-6">
         <div className="flex items-center justify-between text-xs">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-soft px-2.5 py-1 font-semibold text-primary">
@@ -527,12 +582,12 @@ function HeroPreview() {
               <div
                 role="listitem"
                 key={o}
-                className={`flex items-center gap-3 rounded-xl border px-3.5 py-2.5 text-sm transition-all duration-500 ${
+                className={`flex items-center gap-3 rounded-xl border px-3.5 py-2.5 text-sm transition duration-500 ${
                   picked ? "border-emerald-500/50 bg-emerald-500/10 text-ink" : "border-line bg-canvas text-slate-300"
                 }`}
               >
                 <span
-                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-xs font-bold transition-all duration-500 ${
+                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg text-xs font-bold transition duration-500 ${
                     picked ? "bg-emerald-500 text-white" : "bg-surface-2 text-muted"
                   }`}
                 >
@@ -545,8 +600,9 @@ function HeroPreview() {
           })}
         </div>
 
-        <div className={`grid transition-all duration-500 ${step === 2 ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
-          <div className="overflow-hidden">
+        {/* space is always reserved; only opacity/transform animate, so the card never changes height */}
+        <div className={`mt-4 transition-[opacity,transform] duration-500 ${step === 2 ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"}`} aria-hidden={step !== 2}>
+          <div>
             <div className="flex gap-2.5 rounded-xl border border-primary/25 bg-soft p-3 text-xs leading-relaxed text-slate-300">
               <BookOpenCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
               <span className="line-clamp-3">{mcq.explanation}</span>

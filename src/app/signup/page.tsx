@@ -112,7 +112,7 @@ export default function SignupPage() {
           <div className="-mt-1 flex items-center gap-3 animate-fadeIn">
             <div className="flex flex-1 gap-1">
               {[0, 1, 2, 3].map((i) => (
-                <span key={i} className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${i < strength.score ? strength.color : "bg-slate-800"}`} />
+                <span key={i} className={`h-1.5 flex-1 rounded-full transition duration-500 ${i < strength.score ? strength.color : "bg-slate-800"}`} />
               ))}
             </div>
             <span className="w-16 text-right text-xs font-medium text-slate-400">{strength.label}</span>

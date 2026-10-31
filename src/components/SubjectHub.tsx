@@ -327,27 +327,28 @@ function AreaPage({ subject, structure, area }: { subject: Subject; structure: S
               </p>
               <h1 className="page-title hero-in mt-1.5" style={{ "--i": 2 } as React.CSSProperties}>{area.title}</h1>
               <p className="page-intro hero-in mt-2" style={{ "--i": 3 } as React.CSSProperties}>{area.summary}</p>
-              {progress && ids.length > 0 && (
-                <div className="hero-in mt-3 flex max-w-sm items-center gap-2" style={{ "--i": 4 } as React.CSSProperties}>
+              {ids.length > 0 && (
+                // always rendered (hidden until progress loads) so the header keeps its height
+                <div className={`hero-in mt-3 flex max-w-sm items-center gap-2 ${progress ? "" : "invisible"}`} style={{ "--i": 4 } as React.CSSProperties} aria-hidden={!progress}>
                   <ProgressBar pct={(opened / ids.length) * 100} className="flex-1" />
                   <span className="text-xs tabular-nums text-muted">{opened}/{ids.length} opened</span>
                 </div>
               )}
             </div>
           </div>
-          <div className="hero-in flex shrink-0 flex-wrap gap-2" style={{ "--i": 4 } as React.CSSProperties}>
-            {resume && (
-              <Link href={`/read/${resume}`} className="btn-primary">
-                <Eye className="h-4 w-4" /> Continue
+          <div className="hero-in grid shrink-0 grid-cols-3 gap-2 sm:flex sm:flex-wrap" style={{ "--i": 4 } as React.CSSProperties}>
+            {(resume || ids[0]) && (
+              <Link href={`/read/${resume ?? ids[0]}`} className="btn-primary min-w-0 justify-center !gap-1.5 !px-2.5 sm:min-w-[8.5rem] sm:!px-5">
+                <Eye className="h-4 w-4 shrink-0" /> <span className="truncate">{resume ? "Continue" : "Start"}</span>
               </Link>
             )}
             {book[0] && (
-              <Link href={`/read/${book[0].id}`} className="btn-secondary" title={book[0].title}>
-                <Library className="h-4 w-4" /> Textbook
+              <Link href={`/read/${book[0].id}`} className="btn-secondary min-w-0 justify-center !gap-1.5 !px-2.5 sm:!px-5" title={book[0].title}>
+                <Library className="h-4 w-4 shrink-0" /> Textbook
               </Link>
             )}
-            <Link href={`/practice?subject=${subject.id}`} className="btn-secondary">
-              <ListChecks className="h-4 w-4" /> MCQs
+            <Link href={`/practice?subject=${subject.id}`} className="btn-secondary min-w-0 justify-center !gap-1.5 !px-2.5 sm:!px-5">
+              <ListChecks className="h-4 w-4 shrink-0" /> MCQs
             </Link>
           </div>
         </header>
@@ -458,7 +459,7 @@ function MaterialCard({ href, icon: Icon, title, text, meta }: { href: string; i
   return (
     <Link
       href={href}
-      className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-5 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-brand-500/40"
+      className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-5 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-brand-500/40"
     >
       <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500/10 text-brand-400 transition-transform group-hover:scale-110">
         <Icon className="h-5 w-5" />
@@ -676,7 +677,7 @@ function FileList({
                             {pct >= 95 ? "Finished ✓" : "In progress"}
                           </span>
                         ) : null}
-                        <span className="pointer-events-none absolute bottom-2.5 left-1/2 flex -translate-x-1/2 translate-y-2 items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#09090b] opacity-0 shadow-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                        <span className="pointer-events-none absolute bottom-2.5 left-1/2 flex -translate-x-1/2 translate-y-2 items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#09090b] opacity-0 shadow-lg transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                           <Eye className="h-3.5 w-3.5" /> {f.isPremium ? "Unlock" : seen ? "Continue" : "Open"}
                         </span>
                       </div>

@@ -46,7 +46,7 @@ export default function PricingPage() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex flex-col rounded-2xl p-7 bg-gradient-to-br ${style.card} border ${style.border} transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl`}
+                className={`relative flex flex-col rounded-2xl p-7 bg-gradient-to-br ${style.card} border ${style.border} transition duration-300 hover:-translate-y-1 hover:shadow-2xl`}
               >
                 {/* Popular badge */}
                 {plan.badge && (
@@ -93,7 +93,7 @@ export default function PricingPage() {
                 {/* CTA */}
                 <Link
                   href={plan.pricePKR === 0 ? "/signup" : `/checkout?plan=${plan.slug}`}
-                  className={`w-full py-3 rounded-xl text-center text-xs font-bold transition-all duration-300 ${style.button}`}
+                  className={`w-full py-3 rounded-xl text-center text-xs font-bold transition duration-300 ${style.button}`}
                 >
                   {plan.pricePKR === 0 ? "Get Started Free →" : `Choose ${plan.name} →`}
                 </Link>
@@ -174,7 +174,7 @@ export default function PricingPage() {
           {faqs.map((faq, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden transition-all"
+              className="rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden transition"
             >
               <button
                 className="w-full flex items-center justify-between px-6 py-4 text-left"

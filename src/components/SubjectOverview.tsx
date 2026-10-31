@@ -104,6 +104,10 @@ export default function SubjectOverview({ subject, structure }: { subject: Subje
     })
     .filter((x) => x.match);
 
+  const firstLecture = useMemo(() => {
+    const id = chapters.flatMap((c) => c.lectureIds)[0];
+    return id ? catalogById.get(id) ?? null : null;
+  }, [chapters]);
   const lastInSubject = useMemo(() => {
     if (!progress) return null;
     const mine = new Set(chapters.flatMap((c) => c.lectureIds));
@@ -163,13 +167,15 @@ export default function SubjectOverview({ subject, structure }: { subject: Subje
             </div>
           </div>
         </div>
+        {/* Same buttons before and after progress loads, so the header never jumps:
+            "Start reading" becomes "Continue" once we know the last lecture opened. */}
         <div className="hero-in flex shrink-0 flex-wrap gap-2" style={{ "--i": 5 } as React.CSSProperties}>
-          {lastInSubject && (
-            <Link href={lastInSubject.href} className="btn-primary">
-              <PlayCircle className="h-4 w-4" /> Continue
+          {(lastInSubject || firstLecture) && (
+            <Link href={(lastInSubject ?? firstLecture)!.href} className="btn-primary min-w-[10rem] justify-center">
+              <PlayCircle className="h-4 w-4" /> {lastInSubject ? "Continue" : "Start reading"}
             </Link>
           )}
-          <Link href={`/practice?subject=${subject.id}`} className={lastInSubject ? "btn-secondary" : "btn-primary"}>
+          <Link href={`/practice?subject=${subject.id}`} className={lastInSubject || firstLecture ? "btn-secondary" : "btn-primary"}>
             <ListChecks className="h-4 w-4" /> Practice MCQs
           </Link>
         </div>

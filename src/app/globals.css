@@ -567,6 +567,8 @@ html.dark .text-shimmer {
   filter: blur(90px);
   will-change: transform;
 }
+/* looping hero decoration stops while the hero is scrolled out of view */
+[data-offscreen] .orb, [data-offscreen] .float-dot, [data-offscreen] .text-shimmer { animation-play-state: paused; }
 .orb-a { animation: orb-float 22s ease-in-out infinite; }
 .orb-b { animation: orb-float 26s ease-in-out -9s infinite reverse; }
 @keyframes orb-float {

@@ -133,7 +133,7 @@ export default function FlashcardsLibraryPage() {
             return (
               <div
                 key={deck.id}
-                className={`bg-surface rounded-2xl border border-line p-6 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group ${style.glow}`}
+                className={`bg-surface rounded-2xl border border-line p-6 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition duration-300 flex flex-col justify-between group ${style.glow}`}
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">

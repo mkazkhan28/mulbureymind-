@@ -132,7 +132,7 @@ export default function BooksLibraryPage() {
                   return (
                     <div
                       key={book.id}
-                      className={`relative flex flex-col justify-between rounded-2xl p-6 bg-gradient-to-br ${book.coverGradient} border border-slate-800/90 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-violet-900/10 group`}
+                      className={`relative flex flex-col justify-between rounded-2xl p-6 bg-gradient-to-br ${book.coverGradient} border border-slate-800/90 hover:border-slate-700 transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-violet-900/10 group`}
                     >
                       <div className="space-y-4">
                         {/* Top Badges */}

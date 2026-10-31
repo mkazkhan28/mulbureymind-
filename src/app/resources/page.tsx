@@ -179,7 +179,7 @@ export default function ResourcesPage() {
             return (
               <div
                 key={res.id}
-                className="bg-surface rounded-2xl border border-line p-6 sm:p-7 shadow-xl hover:shadow-2xl hover:border-slate-700/80 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 group"
+                className="bg-surface rounded-2xl border border-line p-6 sm:p-7 shadow-xl hover:shadow-2xl hover:border-slate-700/80 hover:-translate-y-1 transition duration-300 flex flex-col justify-between space-y-4 group"
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-3">
