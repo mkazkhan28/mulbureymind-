@@ -1,4 +1,7 @@
 import React from "react";
+import { Reveal } from "@/components/motion";
+
+const at = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 /**
  * Shared page heading: eyebrow → H1 → lead line → short intro → actions.
@@ -24,13 +27,14 @@ export default function PageHeader({
   return (
     <header className={`flex flex-col gap-6 pb-8 lg:flex-row lg:items-end lg:justify-between ${className}`}>
       <div className="min-w-0 max-w-3xl">
-        {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h1 className={`page-title ${eyebrow ? "mt-3" : ""}`}>{title}</h1>
-        {lead && <p className="page-lead mt-3">{lead}</p>}
-        {intro && <p className="page-intro mt-2">{intro}</p>}
-        {actions && <div className="mt-6 flex flex-wrap gap-3">{actions}</div>}
+        {/* CSS entrance (plays before JavaScript loads, so the title is never hidden) */}
+        {eyebrow && <p className="eyebrow hero-in" style={at(0)}>{eyebrow}</p>}
+        <h1 className={`page-title hero-in ${eyebrow ? "mt-3" : ""}`} style={at(1)}>{title}</h1>
+        {lead && <p className="page-lead hero-in mt-3" style={at(2)}>{lead}</p>}
+        {intro && <p className="page-intro hero-in mt-2" style={at(3)}>{intro}</p>}
+        {actions && <div className="hero-in mt-6 flex flex-wrap gap-3" style={at(4)}>{actions}</div>}
       </div>
-      {aside && <div className="shrink-0">{aside}</div>}
+      {aside && <div className="hero-in shrink-0" style={at(3)}>{aside}</div>}
     </header>
   );
 }
@@ -38,12 +42,12 @@ export default function PageHeader({
 /** H2 section heading with optional one-line intro and right-side action */
 export function SectionHeader({ title, intro, action, id }: { title: React.ReactNode; intro?: React.ReactNode; action?: React.ReactNode; id?: string }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+    <Reveal y={12} className="mb-6 flex flex-wrap items-end justify-between gap-3">
       <div className="min-w-0">
         <h2 id={id} className="section-title">{title}</h2>
         {intro && <p className="section-intro">{intro}</p>}
       </div>
       {action}
-    </div>
+    </Reveal>
   );
 }

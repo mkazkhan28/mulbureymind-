@@ -319,16 +319,13 @@ html.dark {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Smooth colour change when the theme toggles (disabled during first paint) */
-  html.theme-ready body,
-  html.theme-ready body * {
-    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
-    transition-duration: 0.25s;
-    transition-timing-function: ease;
-  }
-  html.theme-ready body *[class*="animate-"],
-  html.theme-ready body *[class*="transition-transform"] {
-    transition-property: transform, opacity, background-color, border-color, color, box-shadow;
+  /* Smooth colour change only while the theme is switching (class added for ~350ms by ThemeContext),
+     so it never overrides the transform transitions used by hover and press effects. */
+  html.theme-switching body,
+  html.theme-switching body * {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow !important;
+    transition-duration: 0.3s !important;
+    transition-timing-function: ease !important;
   }
 
   h1, h2, h3, h4 {
@@ -493,6 +490,127 @@ html.dark {
 
 @keyframes hmh-spin { to { transform: rotate(360deg); } }
 
+/* =============================================================================
+   Motion — CSS layer (runs before JavaScript; transform/opacity only)
+   The JS layer lives in src/components/motion.tsx (Motion for React).
+   ============================================================================= */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Hero: masked line-by-line word reveal */
+.hero-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em; /* keeps descenders visible inside the mask */
+  margin-bottom: -0.08em;
+}
+.hero-word {
+  display: inline-block;
+  animation: hero-word 0.9s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 60ms);
+}
+@keyframes hero-word {
+  from { opacity: 0; transform: translateY(105%); }
+  to { opacity: 1; transform: none; }
+}
+.hero-in {
+  animation: hero-in 0.8s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
+}
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.hero-in-right {
+  animation: hero-in-right 1s var(--ease-out) 0.25s both;
+}
+@keyframes hero-in-right {
+  from { opacity: 0; transform: translateX(24px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Animated cyan gradient accent text */
+.text-shimmer {
+  background-image: linear-gradient(100deg, rgb(var(--c-brand-600)) 0%, rgb(var(--c-brand-400)) 30%, rgb(var(--c-accent-500)) 50%, rgb(var(--c-brand-400)) 70%, rgb(var(--c-brand-600)) 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hero-word 0.9s var(--ease-out) both, shimmer-pan 7s linear 1s infinite;
+  animation-delay: calc(var(--i, 0) * 70ms + 60ms), 1.2s;
+}
+html.dark .text-shimmer {
+  background-image: linear-gradient(100deg, rgb(var(--c-brand-500)) 0%, rgb(var(--c-brand-200)) 30%, rgb(var(--c-accent-400)) 50%, rgb(var(--c-brand-200)) 70%, rgb(var(--c-brand-500)) 100%);
+}
+@keyframes shimmer-pan {
+  from { background-position: 0% 50%; }
+  to { background-position: -220% 50%; }
+}
+
+/* Floating background elements */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  will-change: transform;
+}
+.orb-a { animation: orb-float 22s ease-in-out infinite; }
+.orb-b { animation: orb-float 26s ease-in-out -9s infinite reverse; }
+@keyframes orb-float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(40px, -30px, 0) scale(1.08); }
+}
+.float-dot {
+  position: absolute;
+  border-radius: 9999px;
+  background: rgb(var(--c-primary) / 0.55);
+  box-shadow: 0 0 12px rgb(var(--c-primary) / 0.6);
+  animation: dot-float 11s ease-in-out infinite;
+}
+@keyframes dot-float {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.35; }
+  50% { transform: translate3d(0, -18px, 0); opacity: 0.9; }
+}
+
+/* Buttons: soft lift on hover, press on active, light sheen on the hero CTA */
+.btn-primary, .btn-brand, .btn-secondary, .btn-ghost {
+  transition-property: transform, background-color, border-color, color, box-shadow;
+  transition-timing-function: var(--ease-out);
+}
+@media (hover: hover) {
+  .btn-primary:hover, .btn-brand:hover { transform: translateY(-1px); box-shadow: 0 8px 24px -8px rgb(var(--c-primary) / 0.55); }
+  .btn-secondary:hover, .btn-ghost:hover { transform: translateY(-1px); }
+}
+.btn-primary:active, .btn-brand:active, .btn-secondary:active, .btn-ghost:active { transform: translateY(0) scale(0.97); }
+.btn-sheen { overflow: hidden; }
+.btn-sheen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .btn-sheen:hover::before { transform: translateX(120%); transition: transform 0.8s var(--ease-out); }
+}
+
+/* Cards: subtle lift (resource-card) + cyan glow for important cards */
+.resource-card { transition-timing-function: var(--ease-out); transition-duration: 0.3s; }
+.card-glow { transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out); }
+@media (hover: hover) {
+  .card-glow:hover {
+    border-color: rgb(var(--c-primary) / 0.5);
+    box-shadow: 0 0 0 1px rgb(var(--c-primary) / 0.15), 0 18px 48px -18px rgb(var(--c-primary) / 0.45);
+  }
+}
+html.dark .card-glow:hover {
+  box-shadow: 0 0 0 1px rgb(var(--c-primary) / 0.25), 0 18px 56px -16px rgb(var(--c-primary) / 0.35);
+}
+
+
+
 /* Scroll-reveal (see src/components/Reveal.tsx) */
 .reveal {
   opacity: 0;
@@ -586,4 +704,6 @@ html.dark {
     opacity: 1;
     transform: none;
   }
+  .hero-word, .hero-in, .hero-in-right, .text-shimmer { animation: none !important; opacity: 1; transform: none; }
+  .text-shimmer { background-position: 30% 50%; }
 }

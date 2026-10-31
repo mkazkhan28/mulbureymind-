@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
+import { MotionProvider } from "@/components/motion";
 import { ThemeProvider, themeInitScript } from "@/context/ThemeContext";
 
 /* Brand typefaces: Manrope for headings, Inter for body text */
@@ -55,7 +56,9 @@ export default function RootLayout({
         className={`${display.variable} ${inter.variable} ${geistMono.variable} font-sans antialiased min-h-screen bg-canvas text-ink`}
       >
         <ThemeProvider>
-          <AppShell>{children}</AppShell>
+          <MotionProvider>
+            <AppShell>{children}</AppShell>
+          </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

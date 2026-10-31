@@ -37,7 +37,7 @@ import DriveViewer from "@/components/DriveViewer";
 import { useProgress } from "@/lib/progress";
 import { lecturesInArea } from "@/lib/catalog";
 import { ContinueReading } from "@/components/Motivation";
-import { Reveal } from "@/components/Reveal";
+import { Reveal, Stagger, StaggerItem, ProgressBar, m, SPRING } from "@/components/motion";
 import { SubjectArt, AreaArt, areaIcon } from "@/components/Illustrations";
 
 export const AREA_ICONS = { Sprout, Microscope, Brain, ScanFace, Bone, HeartPulse } as const;
@@ -150,13 +150,13 @@ export function SubjectHub({ subject, structure }: { subject: Subject; structure
         {/* Areas */}
         <section className="space-y-4">
           <SectionTitle eyebrow={`${structure.shortName} subjects`} title={`${structure.areas.length} areas of the syllabus`} />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {structure.areas.map((a, i) => (
-              <Reveal key={a.slug} delay={(i % 3) * 80}>
+          <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {structure.areas.map((a) => (
+              <StaggerItem key={a.slug} className="h-full">
                 <AreaCard area={a} href={`${base}/${a.slug}`} ppts={pptCount(structure, a.slug)} lectureIds={lecturesInArea(subject.slug, a.slug)} />
-              </Reveal>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </section>
 
         {/* Study materials */}
@@ -382,7 +382,7 @@ function AreaCard({ area, href, ppts, lectureIds }: { area: SubjectArea; href: s
   return (
     <Link
       href={href}
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lift"
+      className="card-glow group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-transform duration-300 hover:-translate-y-1"
     >
       <div className={`relative h-28 overflow-hidden border-b border-line bg-gradient-to-br ${st.grad}`}>
         <AreaArt slug={area.slug} className="absolute -bottom-2 right-3 h-28 w-28 drop-shadow-[0_6px_10px_rgba(0,0,0,0.18)] transition-transform duration-300 group-hover:scale-105" />
@@ -398,9 +398,7 @@ function AreaCard({ area, href, ppts, lectureIds }: { area: SubjectArea; href: s
             <span className="text-slate-500">{progress ? `${opened} of ${lectureIds.length} opened` : `${lectureIds.length} lectures`}</span>
             <span className={`rounded-full px-2 py-0.5 font-semibold ${st.chip}`}>{pct}%</span>
           </div>
-          <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-slate-800">
-            <div className={`h-full rounded-full bg-gradient-to-r ${st.bar} transition-all duration-700`} style={{ width: `${pct}%` }} />
-          </div>
+          <ProgressBar pct={pct} className="mt-1.5 !h-2" barClassName={`bg-gradient-to-r ${st.bar}`} />
         </div>
       </div>
     </Link>
@@ -414,11 +412,15 @@ function GroupTabs({ base, current, structure }: { base: string; current: Colleg
         <Link
           key={g.key}
           href={`${base}/${g.slug}`}
-          className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
-            g.key === current ? "bg-surface text-ink shadow-soft" : "text-slate-400 hover:text-ink"
-          }`}
+          aria-current={g.key === current ? "page" : undefined}
+          className={`relative rounded-lg px-4 py-2 text-sm font-medium transition-colors ${g.key === current ? "text-ink" : "text-slate-400 hover:text-ink"}`}
         >
-          {g.short} <span className="ml-1 text-xs text-slate-500">{structure.ppts[g.key].length}</span>
+          {g.key === current && (
+            <m.span layoutId="ppt-group-tab" transition={SPRING} className="absolute inset-0 rounded-lg bg-surface shadow-soft ring-1 ring-primary/20" />
+          )}
+          <span className="relative">
+            {g.short} <span className="ml-1 text-xs text-slate-500">{structure.ppts[g.key].length}</span>
+          </span>
         </Link>
       ))}
     </div>
@@ -511,16 +513,17 @@ function FileList({
                   </span>
                 </h4>
               )}
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              <Stagger className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3" gap={0.04}>
                 {t.files.map((f) => {
                   const seen = progress?.opened[f.id];
                   const pct = seen && f.pages ? Math.min(100, Math.round((seen.page / f.pages) * 100)) : 0;
                   const from = currentArea && f.area && f.area !== currentArea ? areas?.find((a) => a.slug === f.area)?.title ?? f.area : null;
                   const canRead = !f.isPremium && !!f.pdf;
                   return (
-                    <article
+                    <StaggerItem
+                      as="article"
                       key={f.id}
-                      className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-brand-500/40 hover:shadow-lift"
+                      className="card-glow group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-soft transition-transform duration-300 hover:-translate-y-1"
                     >
                       {/* whole card opens the lecture */}
                       {canRead ? (
@@ -572,9 +575,7 @@ function FileList({
                           {from && <span className="rounded-full bg-brand-500/10 px-2 py-0.5 text-[10px] font-semibold text-brand-400">From {from}</span>}
                         </div>
                         <div className="mt-auto flex items-center gap-2 pt-3">
-                          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-800">
-                            <div className="h-full rounded-full bg-gradient-to-r from-brand-500 to-accent-500 transition-all duration-700" style={{ width: `${pct}%` }} />
-                          </div>
+                          <ProgressBar pct={pct} className="flex-1" barClassName="bg-gradient-to-r from-brand-500 to-accent-500" />
                           {f.pdf && !f.isPremium && (
                             <a
                               href={f.pdf}
@@ -588,10 +589,10 @@ function FileList({
                           )}
                         </div>
                       </div>
-                    </article>
+                    </StaggerItem>
                   );
                 })}
-              </div>
+              </Stagger>
             </section>
           ))}
         </div>

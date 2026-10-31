@@ -9,6 +9,7 @@ import PageHeader, { SectionHeader } from "@/components/PageHeader";
 import { StudyPanel, ContinueReading } from "@/components/Motivation";
 import { useProgress } from "@/lib/progress";
 import { subjectStats, count } from "@/lib/stats";
+import { Stagger, StaggerItem } from "@/components/motion";
 
 /**
  * Student dashboard — shows only real data:
@@ -51,12 +52,12 @@ export default function StudentDashboardPage() {
 
       <div className="space-y-16">
         {/* Quick actions */}
-        <section aria-label="Quick actions" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Stagger as="section" immediate className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {quickActions.map((a) => (
+            <StaggerItem key={a.label}>
             <Link
-              key={a.label}
               href={a.href}
-              className="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lift"
+              className="card-glow group flex h-full items-center gap-3 rounded-2xl border border-line bg-surface p-4 transition-transform duration-300 hover:-translate-y-0.5"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-soft text-primary">
                 <a.icon className="h-5 w-5" />
@@ -66,8 +67,9 @@ export default function StudentDashboardPage() {
                 <span className="block truncate text-xs text-muted">{a.text}</span>
               </span>
             </Link>
+            </StaggerItem>
           ))}
-        </section>
+        </Stagger>
 
         {/* Progress (real, stored on this device) */}
         <section aria-labelledby="progress">
@@ -92,12 +94,13 @@ export default function StudentDashboardPage() {
               </Link>
             }
           />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {firstYearSubjects.map((s) => {
               const st = subjectStats(s.id);
               const meta = [count(st.lectures, "lecture"), count(st.books, "textbook"), count(st.mcqs, "MCQ")].filter(Boolean);
               return (
-                <Link key={s.id} href={`/subjects/${s.slug}`} className="resource-card group !flex-row items-center gap-4 !p-4">
+                <StaggerItem key={s.id}>
+                <Link href={`/subjects/${s.slug}`} className="resource-card card-glow group !flex-row items-center gap-4 !p-4">
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-soft">
                     <SubjectArt id={s.id} className="h-10 w-10" />
                   </span>
@@ -108,9 +111,10 @@ export default function StudentDashboardPage() {
                   </span>
                   <ArrowRight className="h-4 w-4 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-primary" />
                 </Link>
+                </StaggerItem>
               );
             })}
-          </div>
+          </Stagger>
         </section>
 
         {/* Handouts */}
@@ -126,9 +130,9 @@ export default function StudentDashboardPage() {
             }
           />
           {BDS_RESOURCES.length ? (
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <Stagger className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {BDS_RESOURCES.slice(0, 6).map((res) => (
-                <div key={res.id} className="flex items-start justify-between gap-3 rounded-2xl border border-line bg-surface p-4">
+                <StaggerItem key={res.id} className="flex items-start justify-between gap-3 rounded-2xl border border-line bg-surface p-4">
                   <div className="min-w-0 space-y-1.5">
                     <div className="flex items-center gap-1.5">
                       <span className="chip">{res.type}</span>
@@ -147,9 +151,9 @@ export default function StudentDashboardPage() {
                   >
                     <Download className="h-4 w-4" />
                   </Link>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           ) : (
             <div className="flex items-center gap-3 rounded-2xl border border-dashed border-line p-5 text-sm text-muted">
               <BookOpen className="h-5 w-5 text-primary" /> Handouts will appear here once they're added to the library.

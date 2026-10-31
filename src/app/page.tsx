@@ -20,7 +20,7 @@ import {
   GraduationCap,
 } from "lucide-react";
 import { BDS_SUBJECTS, BDS_MCQS, MEMBERSHIP_PLANS } from "@/lib/bds-content";
-import { Reveal } from "@/components/Reveal";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion";
 import { StudyPanel, ContinueReading } from "@/components/Motivation";
 import AreaTiles from "@/components/AreaTiles";
 import { SubjectArt } from "@/components/Illustrations";
@@ -36,34 +36,39 @@ export default function HomePage() {
     <div className="relative">
       {/* ============================ HERO ============================ */}
       <section className="relative overflow-hidden border-b border-line">
-        <div className="pointer-events-none absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_at_top,black_25%,transparent_70%)]" />
-        <div className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-brand-500/10 blur-[120px]" />
+        <HeroBackdrop />
 
         <div className="relative mx-auto grid max-w-content items-center gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:px-8 lg:py-20">
           <div>
-            <p className="eyebrow animate-rise">DUHS · BDS 1st Year · 2025–26</p>
-            <h1 className="mt-4 font-display text-[2.6rem] font-extrabold leading-[1.04] tracking-[-0.035em] text-ink sm:text-6xl animate-rise [animation-delay:60ms]">
-              Study smarter.
-              <br />
-              <span className="text-primary">Score higher.</span>
+            <p className="eyebrow hero-in" style={{ "--i": 0 } as React.CSSProperties}>
+              DUHS · BDS 1st Year · 2025–26
+            </p>
+            {/* Staggered word reveal — CSS keyframes, so it plays before JavaScript loads (no hidden LCP text) */}
+            <h1 className="mt-4 font-display text-[2.6rem] font-extrabold leading-[1.08] tracking-[-0.035em] text-ink sm:text-6xl">
+              <span className="hero-line">
+                <HeroWord i={1}>Study</HeroWord> <HeroWord i={2}>smarter.</HeroWord>
+              </span>
+              <span className="hero-line">
+                <HeroWord i={3} className="text-shimmer">Score</HeroWord> <HeroWord i={4} className="text-shimmer">higher.</HeroWord>
+              </span>
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted animate-rise [animation-delay:120ms]">
+            <p className="hero-in mt-5 max-w-xl text-lg leading-relaxed text-muted" style={{ "--i": 5 } as React.CSSProperties}>
               Your BDS resources, practice questions, and revision tools — organized in one place.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3 animate-rise [animation-delay:180ms]">
-              <Link href="/resources" className="btn-primary group !px-6 !text-[15px]">
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/resources" className="btn-primary btn-sheen hero-in group !px-6 !text-[15px]" style={{ "--i": 6 } as React.CSSProperties}>
                 Explore Study Resources
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
-              <Link href="/practice" className="btn-secondary !px-6 !text-[15px]">
+              <Link href="/practice" className="btn-secondary hero-in !px-6 !text-[15px]" style={{ "--i": 7 } as React.CSSProperties}>
                 <ListChecks className="h-4 w-4" />
                 Start MCQ Practice
               </Link>
             </div>
 
             {/* Real content counts only */}
-            <dl className="mt-10 grid max-w-lg grid-cols-3 divide-x divide-line rounded-2xl border border-line bg-surface/80 backdrop-blur animate-rise [animation-delay:240ms]">
+            <dl className="hero-in mt-10 grid max-w-lg grid-cols-3 divide-x divide-line rounded-2xl border border-line bg-surface/80 backdrop-blur" style={{ "--i": 8 } as React.CSSProperties}>
               {[
                 { v: stats.lectures, l: "Lecture PDFs" },
                 { v: stats.books, l: "Textbooks" },
@@ -77,7 +82,7 @@ export default function HomePage() {
             </dl>
           </div>
 
-          <div className="animate-slide-in-right [animation-delay:150ms]">
+          <div className="hero-in-right">
             <HeroPreview />
           </div>
         </div>
@@ -124,13 +129,13 @@ export default function HomePage() {
               </Link>
             }
           />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {subjects.map((s, i) => {
+          <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {subjects.map((s) => {
               const st = subjectStats(s.id);
               const meta = [count(st.lectures, "lecture"), count(st.books, "textbook"), count(st.mcqs, "MCQ")].filter(Boolean);
               return (
-                <Reveal key={s.id} delay={(i % 3) * 70}>
-                  <article className="resource-card group">
+                <StaggerItem key={s.id}>
+                  <article className="resource-card card-glow group">
                     <div className="flex items-start gap-4">
                       <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-soft">
                         <SubjectArt id={s.id} className="h-11 w-11" />
@@ -153,14 +158,15 @@ export default function HomePage() {
                       </Link>
                     </div>
                   </article>
-                </Reveal>
+                </StaggerItem>
               );
             })}
-          </div>
+          </Stagger>
         </section>
 
         {/* ============================ 3. MCQ PRACTICE ============================ */}
-        <section aria-labelledby="mcq" className="grid gap-10 rounded-2xl border border-line bg-surface p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+        <Reveal as="section" className="card-glow relative grid gap-10 overflow-hidden rounded-2xl border border-line bg-surface p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+          <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-500/10 blur-3xl" />
           <div>
             <p className="eyebrow">MCQ practice</p>
             <h2 id="mcq" className="section-title mt-3">Test your knowledge. Strengthen your concepts.</h2>
@@ -193,12 +199,12 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
-        </section>
+        </Reveal>
 
         {/* ============================ 4. REVISION TOOLS ============================ */}
         <section aria-labelledby="revision">
           <SectionHeader id="revision" title="Flashcards and revision tools" intro="Small tools that make daily revision easier to start and easier to keep up." />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <ToolCard
               icon={Layers}
               title="Flashcards"
@@ -223,18 +229,18 @@ export default function HomePage() {
               href="/dashboard"
               action="Go to dashboard"
             />
-          </div>
+          </Stagger>
         </section>
 
         {/* ============================ 5. PAPERS & MATERIALS ============================ */}
         <section aria-labelledby="materials">
           <SectionHeader id="materials" title="Past papers and lecture materials" intro="Everything you revise from, sorted by type." />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <ToolCard icon={Award} title="Past papers" text="DUHS past-paper questions with explanations, filterable by subject." href="/past-papers" action="Browse papers" />
             <ToolCard icon={Presentation} title="Notes & PPTs" text="Lecture slides and PDF notes for each subject." meta={count(stats.lectures + stats.notes, "file")} href="/resources" action="Open resources" />
             <ToolCard icon={Library} title="Textbooks" text="Recommended textbooks, readable inside the site." meta={count(stats.books, "book")} href="/books" action="View textbooks" />
             <ToolCard icon={FileText} title="Content library" text="Every paper and question set in one place." href="/content" action="Open library" />
-          </div>
+          </Stagger>
         </section>
 
         {/* ============================ 6. PRICING ============================ */}
@@ -249,12 +255,12 @@ export default function HomePage() {
               </Link>
             }
           />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {MEMBERSHIP_PLANS.map((p) => (
-              <div
+              <StaggerItem
                 key={p.id}
-                className={`relative flex h-full flex-col rounded-2xl border bg-surface p-6 ${
-                  p.isPopular ? "border-primary/60 ring-1 ring-primary/30" : "border-line"
+                className={`relative flex h-full flex-col rounded-2xl border bg-surface p-6 transition-transform duration-300 hover:-translate-y-0.5 ${
+                  p.isPopular ? "card-glow border-primary/60 ring-1 ring-primary/30" : "border-line"
                 }`}
               >
                 {p.badge && <span className="chip-pro absolute -top-2.5 left-6 border border-primary/30 bg-surface">{p.badge}</span>}
@@ -275,13 +281,13 @@ export default function HomePage() {
                 <Link href={p.pricePKR === 0 ? "/signup" : `/checkout?plan=${p.id}`} className={`mt-6 w-full ${p.isPopular ? "btn-primary" : "btn-secondary"}`}>
                   {p.pricePKR === 0 ? "Start free" : "Choose plan"}
                 </Link>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </section>
 
         {/* ============================ CTA ============================ */}
-        <section className="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-br from-soft via-surface to-surface px-6 py-12 text-center sm:px-12">
+        <Reveal as="section" className="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-br from-soft via-surface to-surface px-6 py-12 text-center sm:px-12">
           <GraduationCap className="mx-auto h-10 w-10 text-primary" />
           <h2 className="section-title mt-4">Ready for your next study session?</h2>
           <p className="mx-auto mt-2 max-w-xl text-muted">Create a free account to save your plan, then pick up any lecture or question set.</p>
@@ -293,8 +299,31 @@ export default function HomePage() {
               Browse subjects
             </Link>
           </div>
-        </section>
+        </Reveal>
       </div>
+    </div>
+  );
+}
+
+function HeroWord({ i, children, className = "" }: { i: number; children: React.ReactNode; className?: string }) {
+  return (
+    <span className={`hero-word ${className}`} style={{ "--i": i } as React.CSSProperties}>
+      {children}
+    </span>
+  );
+}
+
+/* Soft, slow-moving glow orbs and a faint grid behind the hero (transform-only CSS animation) */
+function HeroBackdrop() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_at_top,black_25%,transparent_70%)]" />
+      <div className="orb left-1/2 top-[-12rem] h-[26rem] w-[44rem] -translate-x-1/2 bg-brand-500/15" />
+      <div className="orb orb-a -left-24 top-24 h-72 w-72 bg-brand-400/15" />
+      <div className="orb orb-b right-[-6rem] top-40 h-80 w-80 bg-accent-500/10" />
+      <span className="float-dot left-[12%] top-[22%] h-2 w-2 [animation-delay:-2s]" />
+      <span className="float-dot left-[46%] top-[78%] h-1.5 w-1.5 [animation-delay:-5s]" />
+      <span className="float-dot right-[8%] top-[14%] h-2.5 w-2.5 [animation-delay:-8s]" />
     </div>
   );
 }
@@ -315,7 +344,7 @@ function ToolCard({
   action: string;
 }) {
   return (
-    <article className="resource-card group">
+    <StaggerItem as="article" className="resource-card card-glow group">
       <div className="flex items-center justify-between gap-3">
         <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-soft text-primary">
           <Icon className="h-5 w-5" />
@@ -327,7 +356,7 @@ function ToolCard({
       <Link href={href} className="link mt-4 inline-flex items-center gap-1 text-sm after:absolute after:inset-0 after:content-['']">
         {action} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
       </Link>
-    </article>
+    </StaggerItem>
   );
 }
 

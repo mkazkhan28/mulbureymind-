@@ -27,6 +27,7 @@ import {
   type Progress,
 } from "@/lib/progress";
 import { catalogById } from "@/lib/catalog";
+import { m, AnimatedNumber, Stagger, StaggerItem, ProgressBar, EASE } from "@/components/motion";
 
 /* ======================================================================== */
 /* Study panel: streak · daily goal · exam countdown · tip · badges          */
@@ -53,7 +54,7 @@ export function StudyPanel({ compact = false }: { compact?: boolean }) {
   return (
     <div className="relative space-y-4">
       {party && <Confetti />}
-      <div className={`grid gap-4 ${compact ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-2 xl:grid-cols-4"}`}>
+      <Stagger className={`grid gap-4 ${compact ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-2 xl:grid-cols-4"}`}>
         {/* Streak */}
         <Tile tone="amber">
           <div className="flex items-center justify-between">
@@ -63,7 +64,7 @@ export function StudyPanel({ compact = false }: { compact?: boolean }) {
             </span>
           </div>
           <div className="mt-2 flex items-baseline gap-1.5">
-            <span className="font-display text-4xl font-bold text-ink">{p ? streak : "–"}</span>
+            <span className="font-display text-4xl font-bold text-ink">{p ? <AnimatedNumber value={streak} /> : "–"}</span>
             <span className="text-sm text-slate-400">day{streak === 1 ? "" : "s"}</span>
           </div>
           <WeekDots p={p} />
@@ -97,7 +98,7 @@ export function StudyPanel({ compact = false }: { compact?: boolean }) {
             <Ring value={today} max={goal} />
             <div>
               <div className="font-display text-2xl font-bold text-ink">
-                {p ? Math.min(today, goal) : "–"}
+                {p ? <AnimatedNumber value={Math.min(today, goal)} /> : "–"}
                 <span className="text-base font-medium text-slate-400"> / {goal}</span>
               </div>
               <p className="text-xs text-slate-400">{done ? "Goal reached — brilliant!" : "lectures opened today"}</p>
@@ -120,7 +121,7 @@ export function StudyPanel({ compact = false }: { compact?: boolean }) {
           </div>
           {left !== null && left >= 0 ? (
             <div className="mt-2 flex items-baseline gap-1.5">
-              <span className="font-display text-4xl font-bold text-ink">{left}</span>
+              <span className="font-display text-4xl font-bold text-ink"><AnimatedNumber value={left} /></span>
               <span className="text-sm text-slate-400">day{left === 1 ? "" : "s"} to go</span>
             </div>
           ) : (
@@ -148,7 +149,7 @@ export function StudyPanel({ compact = false }: { compact?: boolean }) {
           </div>
           <p className="mt-3 text-[15px] leading-relaxed text-ink">{tipOfTheDay()}</p>
         </Tile>
-      </div>
+      </Stagger>
 
       {!compact && <Badges p={p} />}
     </div>
@@ -163,9 +164,9 @@ function Tile({ children, tone }: { children: React.ReactNode; tone: "amber" | "
     sky: "from-sky-500/10",
   }[tone];
   return (
-    <div className={`relative overflow-hidden rounded-2xl border border-line bg-gradient-to-br ${glow} to-transparent bg-surface p-5 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift`}>
+    <StaggerItem className={`card-glow relative overflow-hidden rounded-2xl border border-line bg-gradient-to-br ${glow} to-transparent bg-surface p-5 shadow-soft transition-transform duration-300 hover:-translate-y-0.5`}>
       {children}
-    </div>
+    </StaggerItem>
   );
 }
 
@@ -182,11 +183,21 @@ function WeekDots({ p }: { p: Progress | null }) {
   }, []);
   return (
     <div className="mt-3 flex gap-1.5">
-      {days.map((d) => {
+      {days.map((d, i) => {
         const on = !!p?.days.includes(d.key);
         return (
           <div key={d.key} className="flex flex-col items-center gap-1">
-            <span className={`h-2.5 w-6 rounded-full transition-colors ${on ? "bg-amber-500" : "bg-slate-800"}`} />
+            <span className="relative h-2.5 w-6 overflow-hidden rounded-full bg-slate-800">
+              {on && (
+                <m.span
+                  className="absolute inset-0 origin-left rounded-full bg-amber-500"
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, ease: EASE, delay: 0.25 + i * 0.06 }}
+                />
+              )}
+            </span>
             <span className="text-[10px] text-slate-500">{d.label}</span>
           </div>
         );
@@ -202,7 +213,7 @@ function Ring({ value, max }: { value: number; max: number }) {
   return (
     <svg width="64" height="64" viewBox="0 0 64 64" className="shrink-0 -rotate-90" aria-hidden="true">
       <circle cx="32" cy="32" r={r} fill="none" strokeWidth="7" className="stroke-slate-800" />
-      <circle
+      <m.circle
         cx="32"
         cy="32"
         r={r}
@@ -210,8 +221,10 @@ function Ring({ value, max }: { value: number; max: number }) {
         strokeWidth="7"
         strokeLinecap="round"
         strokeDasharray={c}
-        strokeDashoffset={c * (1 - pct)}
-        className={`transition-[stroke-dashoffset] duration-700 ${pct >= 1 ? "stroke-amber-500" : "stroke-brand-500"}`}
+        initial={{ strokeDashoffset: c }}
+        animate={{ strokeDashoffset: c * (1 - pct) }}
+        transition={{ duration: 0.9, ease: EASE }}
+        className={pct >= 1 ? "stroke-amber-500" : "stroke-primary"}
       />
     </svg>
   );
@@ -254,7 +267,7 @@ function Badges({ p }: { p: Progress | null }) {
 
 function Confetti() {
   const pieces = Array.from({ length: 28 }, (_, i) => i);
-  const colors = ["#8b5cf6", "#22e4ff", "#3b6dff", "#18181b", "#f2b63d"];
+  const colors = ["#22d3ee", "#0891b2", "#3b82f6", "#67e8f9", "#f2b63d"];
   return (
     <div className="pointer-events-none absolute inset-x-0 -top-4 z-20 h-0 overflow-visible" aria-hidden="true">
       {pieces.map((i) => (
@@ -300,14 +313,14 @@ export function ContinueReading({ subjectSlug, limit = 4 }: { subjectSlug?: stri
     );
   }
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    <Stagger className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {recent.map(({ item, o }) => {
         const pct = item!.pages ? Math.min(100, Math.round((o.page / item!.pages) * 100)) : 0;
         return (
+          <StaggerItem key={item!.id}>
           <Link
-            key={item!.id}
             href={item!.href}
-            className="group flex overflow-hidden rounded-2xl border border-line bg-surface shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-brand-500/40 hover:shadow-lift"
+            className="card-glow group flex h-full overflow-hidden rounded-2xl border border-line bg-surface shadow-soft transition-transform duration-300 hover:-translate-y-1"
           >
             <div className="relative w-28 shrink-0 overflow-hidden bg-slate-850">
               {item!.thumb ? (
@@ -329,14 +342,13 @@ export function ContinueReading({ subjectSlug, limit = 4 }: { subjectSlug?: stri
                   <span>Page {o.page}{item!.pages ? ` of ${item!.pages}` : ""}</span>
                   <span className="font-semibold text-brand-400 opacity-0 transition group-hover:opacity-100">Continue →</span>
                 </div>
-                <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-800">
-                  <div className="h-full rounded-full bg-gradient-to-r from-brand-500 to-accent-500" style={{ width: `${pct}%` }} />
-                </div>
+                <ProgressBar pct={pct} className="mt-1" barClassName="bg-gradient-to-r from-brand-500 to-accent-500" />
               </div>
             </div>
           </Link>
+          </StaggerItem>
         );
       })}
-    </div>
+    </Stagger>
   );
 }

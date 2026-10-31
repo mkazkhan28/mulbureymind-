@@ -45,6 +45,7 @@ import { BDS_RESOURCES, BDS_SUBJECTS, BDS_FLASHCARD_DECKS } from "@/lib/bds-cont
 import { useTheme } from "@/context/ThemeContext";
 import { SubjectArt, areaIcon } from "@/components/Illustrations";
 import { subjectStats } from "@/lib/stats";
+import { m, PageTransition, SPRING, EASE } from "@/components/motion";
 
 /* Routes that render full-screen without the sidebar / top bar */
 const BARE_ROUTES = ["/login", "/signup", "/forgot-password", "/read/"];
@@ -375,14 +376,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* ============================ MOBILE DRAWER ============================ */}
       <div className={`fixed inset-0 z-50 lg:hidden ${mobileMenuOpen ? "" : "pointer-events-none"}`} aria-hidden={!mobileMenuOpen}>
-        <div
-          className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${mobileMenuOpen ? "opacity-100" : "opacity-0"}`}
+        <m.div
+          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          initial={false}
+          animate={{ opacity: mobileMenuOpen ? 1 : 0 }}
+          transition={{ duration: 0.25, ease: EASE }}
           onClick={() => setMobileMenuOpen(false)}
         />
-        <div
-          className={`absolute inset-y-0 left-0 flex w-80 max-w-[85vw] flex-col bg-surface shadow-2xl transition-transform duration-300 ease-out ${
-            mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+        <m.div
+          className="absolute inset-y-0 left-0 flex w-80 max-w-[85vw] flex-col bg-surface shadow-2xl"
+          initial={false}
+          animate={{ x: mobileMenuOpen ? 0 : "-100%" }}
+          transition={{ type: "spring", stiffness: 380, damping: 38 }}
         >
           <div className="flex h-16 items-center justify-between border-b border-line px-4">
             {Brand({ small: true })}
@@ -401,7 +406,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <div className="border-t border-line p-3">
             {ThemeSwitch({})}
           </div>
-        </div>
+        </m.div>
       </div>
 
       {/* ============================ MAIN COLUMN ============================ */}
@@ -433,11 +438,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   className={`group relative rounded-lg px-3.5 py-2 text-sm font-medium transition ${active ? "text-ink" : "text-slate-400 hover:text-ink"}`}
                 >
                   {n.label}
-                  <span
-                    className={`absolute inset-x-3.5 -bottom-[13px] h-0.5 origin-left rounded-full bg-gradient-to-r from-brand-500 to-accent-500 transition-transform duration-300 ${
-                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                    }`}
-                  />
+                  {active ? (
+                    <m.span
+                      layoutId="top-nav-underline"
+                      transition={SPRING}
+                      className="absolute inset-x-3.5 -bottom-[13px] h-0.5 rounded-full bg-primary shadow-[0_0_10px_rgb(var(--c-primary)/0.6)]"
+                    />
+                  ) : (
+                    <span className="absolute inset-x-3.5 -bottom-[13px] h-0.5 origin-left scale-x-0 rounded-full bg-primary/40 transition-transform duration-300 group-hover:scale-x-100" />
+                  )}
                 </Link>
               );
             })}
@@ -486,7 +495,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        <main className="w-full flex-1">{children}</main>
+        <main className="w-full flex-1">
+          <PageTransition key={pathname} routeKey={pathname}>
+            {children}
+          </PageTransition>
+        </main>
 
         {/* ============================ FOOTER ============================ */}
         <footer className="mt-auto border-t border-line bg-canvas-2 px-4 py-12 sm:px-6 lg:px-8">

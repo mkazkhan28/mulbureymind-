@@ -17,6 +17,7 @@ import {
   RotateCcw,
   Sparkles
 } from "lucide-react";
+import { m, AnimatePresence, ProgressBar, EASE } from "@/components/motion";
 
 export default function FlashcardStudyPage() {
   const params = useParams();
@@ -102,21 +103,36 @@ export default function FlashcardStudyPage() {
                 <span>Card <strong className="text-ink">{currentIndex + 1}</strong> of {cards.length}</span>
                 <span className="text-cyan-400 font-bold">{Math.round(((currentIndex + 1) / (cards.length || 1)) * 100)}%</span>
               </div>
-              <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
-                <div
-                  className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 transition-all duration-300 rounded-full"
-                  style={{ width: `${((currentIndex + 1) / (cards.length || 1)) * 100}%` }}
-                />
-              </div>
+              <ProgressBar pct={((currentIndex + 1) / (cards.length || 1)) * 100} className="!h-2" barClassName="bg-gradient-to-r from-brand-500 to-accent-500" />
             </div>
 
             {/* Interactive 3D Flashcard Container */}
-            <div className="perspective-1000">
-              <div
+            <AnimatePresence mode="wait" initial={false}>
+            <m.div
+              key={currentIndex}
+              className="perspective-1000"
+              initial={{ opacity: 0, y: 14, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+              transition={{ duration: 0.25, ease: EASE }}
+            >
+              <m.div
+                role="button"
+                tabIndex={0}
+                aria-pressed={isFlipped}
+                aria-label={isFlipped ? "Show the question" : "Show the answer"}
                 onClick={() => setIsFlipped(!isFlipped)}
-                className={`relative w-full min-h-[360px] rounded-2xl cursor-pointer select-none transition-transform duration-700 transform-style-3d ${
-                  isFlipped ? "rotate-y-180" : ""
-                }`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setIsFlipped(!isFlipped);
+                  }
+                }}
+                initial={false}
+                animate={{ rotateY: isFlipped ? 180 : 0 }}
+                whileHover={{ y: -3 }}
+                transition={{ type: "spring", stiffness: 170, damping: 22, mass: 0.9 }}
+                className="relative w-full min-h-[360px] rounded-2xl cursor-pointer select-none transform-style-3d focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 {/* FRONT FACE (Question / Prompt) */}
                 <div className="absolute inset-0 backface-hidden bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-7 sm:p-8 flex flex-col justify-between hover:border-slate-700 transition">
@@ -142,7 +158,7 @@ export default function FlashcardStudyPage() {
                 </div>
 
                 {/* BACK FACE (Answer & Clinical Pearl) */}
-                <div className="absolute inset-0 backface-hidden rotate-y-180 bg-slate-950 text-ink rounded-2xl p-7 sm:p-8 flex flex-col justify-between border-2 border-indigo-500/80 shadow-indigo-500/20">
+                <div className="absolute inset-0 backface-hidden rotate-y-180 bg-slate-950 text-ink rounded-2xl p-7 sm:p-8 flex flex-col justify-between border-2 border-primary/70 shadow-[0_0_40px_-12px_rgb(var(--c-primary)/0.5)]">
                   <div className="flex items-center justify-between text-xs border-b border-slate-850 pb-3">
                     <span className="font-bold text-indigo-300 uppercase tracking-wider bg-indigo-950/60 px-3 py-0.5 rounded-full border border-indigo-700/60">
                       Answer & High-Yield Concept
@@ -172,8 +188,9 @@ export default function FlashcardStudyPage() {
                     Mark below whether you knew this card or need to revise it.
                   </div>
                 </div>
-              </div>
-            </div>
+              </m.div>
+            </m.div>
+            </AnimatePresence>
 
             {/* Response Buttons */}
             {isFlipped ? (

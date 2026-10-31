@@ -25,6 +25,7 @@ import {
   Check
 } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
+import { m, AnimatePresence, EASE, ProgressBar, CountUp } from "@/components/motion";
 
 export default function PracticeQuizPage() {
   // Quiz configuration
@@ -344,8 +345,25 @@ export default function PracticeQuizPage() {
               </div>
             </div>
 
+            {/* Animated progress through the paper */}
+            <ProgressBar
+              pct={(Object.keys(userAnswers).length / questions.length) * 100}
+              className="!h-1"
+              barClassName="bg-gradient-to-r from-brand-500 to-accent-500"
+            />
+
             {/* Question Stem Card */}
             <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8 space-y-6">
+              {/* question + options slide in each time the question changes */}
+              <AnimatePresence mode="wait" initial={false}>
+              <m.div
+                key={currentIndex}
+                className="space-y-6"
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -24 }}
+                transition={{ duration: 0.25, ease: EASE }}
+              >
               <p className="text-lg sm:text-xl font-semibold text-ink leading-relaxed">
                 {currentQ.question}
               </p>
@@ -371,16 +389,28 @@ export default function PracticeQuizPage() {
                     }
                   }
 
+                  // feedback motion: wrong pick shakes, right answer gives a soft pop
+                  const fx =
+                    showFeedback && isSelected && !isCorrect
+                      ? { x: [0, -7, 7, -5, 5, -2, 0], scale: 1 }
+                      : showFeedback && isCorrect
+                      ? { x: 0, scale: [1, 1.025, 1] }
+                      : { x: 0, scale: isSelected ? 1.01 : 1 };
                   return (
-                    <button
+                    <m.button
                       key={optIdx}
                       onClick={() => handleSelectOption(optIdx)}
                       aria-pressed={isSelected}
+                      animate={fx}
+                      whileTap={showFeedback ? undefined : { scale: 0.985 }}
+                      transition={{ duration: showFeedback ? 0.45 : 0.2, ease: EASE }}
                       className={`w-full text-left px-4 py-3.5 min-h-[52px] rounded-xl border text-sm sm:text-[15px] transition flex items-start gap-3.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${btnStyle}`}
                     >
                       <span className={`w-6 h-6 rounded-lg border flex items-center justify-center shrink-0 text-xs font-bold mt-0.5 transition ${
                         showFeedback && isCorrect
                           ? "bg-emerald-500 text-white border-emerald-500 font-extrabold"
+                          : showFeedback && isSelected
+                          ? "bg-rose-500 text-white border-rose-500 font-bold"
                           : isSelected
                           ? "bg-primary text-on-primary border-primary font-bold"
                           : "border-line bg-surface-2 text-muted"
@@ -398,21 +428,33 @@ export default function PracticeQuizPage() {
                           <XCircle className="w-5 h-5" /> Your answer
                         </span>
                       )}
-                    </button>
+                    </m.button>
                   );
                 })}
               </div>
 
               {/* Tutor Mode Immediate Feedback */}
+              <AnimatePresence initial={false}>
               {examMode === "tutor" && showInstantFeedback[currentIndex] && (
-                <section aria-live="polite" className="p-4 sm:p-5 bg-soft border border-primary/25 rounded-2xl text-sm space-y-2 animate-fadeIn">
+                <m.section
+                  key="explanation"
+                  aria-live="polite"
+                  className="p-4 sm:p-5 bg-soft border border-primary/25 rounded-2xl text-sm space-y-2 origin-top"
+                  initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3, ease: EASE, delay: 0.15 }}
+                >
                   <h3 className="font-bold text-primary flex items-center gap-2 text-sm">
                     <HelpCircle className="w-4 h-4" />
                     <span>Explanation</span>
                   </h3>
                   <p className="leading-relaxed text-slate-300">{currentQ.explanation}</p>
-                </section>
+                </m.section>
               )}
+              </AnimatePresence>
+              </m.div>
+              </AnimatePresence>
 
               {/* Navigation Controls */}
               <div className="pt-5 border-t border-line flex items-center justify-between gap-3">
@@ -521,7 +563,7 @@ export default function PracticeQuizPage() {
                           score.passed ? "text-cyan-400" : "text-rose-400"
                         }`}
                       >
-                        {score.percentage}%
+                        <CountUp to={score.percentage} suffix="%" />
                       </div>
                       <div className="text-[11px] text-slate-400 font-medium">Final Score</div>
                     </div>

@@ -25,8 +25,13 @@ const ThemeContext = createContext<ThemeContextType>({
  */
 export const themeInitScript = `(function(){try{var t=localStorage.getItem("${STORAGE_KEY}");if(t!=="dark"&&t!=="light"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}var r=document.documentElement;if(t==="dark"){r.classList.add("dark");r.classList.remove("light");}else{r.classList.add("light");r.classList.remove("dark");}}catch(e){}})();`;
 
+let switchTimer: number | undefined;
 function applyTheme(t: ThemeMode) {
   const root = document.documentElement;
+  // cross-fade colours only during the switch itself
+  root.classList.add("theme-switching");
+  window.clearTimeout(switchTimer);
+  switchTimer = window.setTimeout(() => root.classList.remove("theme-switching"), 350);
   root.classList.toggle("dark", t === "dark");
   root.classList.toggle("light", t === "light");
 }
