@@ -5,6 +5,7 @@ import Link from "next/link";
 import BookReader from "@/components/BookReader";
 import { BOOKS_DATA } from "@/lib/books";
 import { findStudyFile, getSubjectStructure } from "@/lib/subject-structure";
+import { lectureNav } from "@/lib/lecture-nav";
 
 export default function ReadPage() {
   const params = useParams();
@@ -33,6 +34,7 @@ export default function ReadPage() {
         }}
         backHref={backHref}
         backLabel={`Back to ${area?.title ?? structure?.shortName ?? "subject"}`}
+        nav={lectureNav(file.id)}
       />
     );
   }

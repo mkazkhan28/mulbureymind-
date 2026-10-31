@@ -3,11 +3,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import {
-  BDS_SUBJECTS,
-  BDS_TOPICS,
-  BDS_MCQS
-} from "@/lib/bds-content";
+import { BDS_SUBJECTS, BDS_TOPICS, BDS_MCQS, BDS_RESOURCES, BDS_FLASHCARD_DECKS } from "@/lib/bds-content";
+import { Breadcrumb } from "@/components/SubjectOverview";
+import { SubjectArt } from "@/components/Illustrations";
 import { getSubjectStructure, CORE_SECTIONS } from "@/lib/subject-structure";
 import { SubjectSection } from "@/components/SubjectHub";
 import {
@@ -18,7 +16,10 @@ import {
   Sparkles,
   Layers,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight,
+  ListChecks
 } from "lucide-react";
 
 export default function TopicDetailPage() {
@@ -65,82 +66,73 @@ export default function TopicDetailPage() {
 
   const topicMCQs = BDS_MCQS.filter((q) => q.topicId === topic.id);
 
-  return (
-    <div className="min-h-screen bg-surface text-slate-200 py-10 sm:py-16">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        
-        {/* Breadcrumb Navigation */}
-        <div className="flex items-center gap-2 text-xs text-slate-400">
-          <Link href="/subjects" className="hover:text-ink transition">
-            Subjects
-          </Link>
-          <span>/</span>
-          <Link href={`/subjects/${subject.slug}`} className="hover:text-ink transition">
-            {subject.name}
-          </Link>
-          <span>/</span>
-          <span className="font-semibold text-ink">{topic.name}</span>
-        </div>
+  const chapters = BDS_TOPICS.filter((t) => t.subjectId === subject.id);
+  const idx = chapters.findIndex((t) => t.id === topic.id);
+  const prev = chapters[idx - 1];
+  const next = chapters[idx + 1];
+  const notes = BDS_RESOURCES.filter((r) => r.subjectId === subject.id);
+  const decks = BDS_FLASHCARD_DECKS.filter((d) => d.subjectId === subject.id);
 
-        {/* Topic Header Card */}
-        <div className="bg-surface-2 rounded-2xl border border-line p-6 sm:p-8 shadow-sm space-y-4 text-slate-200">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-teal-400 uppercase tracking-wider">
-                  {subject.name}
-                </span>
+  return (
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+      <div className="space-y-8">
+        <Breadcrumb items={[{ href: "/subjects", label: "My Subjects" }, { href: `/subjects/${subject.slug}`, label: subject.name }, { label: topic.name }]} />
+
+        {/* Chapter header */}
+        <header className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div className="flex min-w-0 items-start gap-4">
+            <span className="hero-in flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-soft" style={{ "--i": 0 } as React.CSSProperties}>
+              <SubjectArt id={subject.id} className="h-12 w-12" />
+            </span>
+            <div className="min-w-0">
+              <p className="eyebrow hero-in flex flex-wrap items-center gap-2" style={{ "--i": 1 } as React.CSSProperties}>
+                {subject.name} · Chapter {idx + 1} of {chapters.length}
                 {topic.highYield && (
-                  <span className="text-[10px] bg-amber-950/60 border border-amber-800/80 text-amber-300 font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-amber-400" />
-                    <span>High-Yield Dental Exam Topic</span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-bold normal-case tracking-normal text-amber-600 dark:text-amber-400">
+                    <Sparkles className="h-3 w-3" /> High-yield
                   </span>
                 )}
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-ink">
-                {topic.name}
-              </h1>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Link
-                href={`/practice?topic=${topic.id}`}
-                className="px-4 py-2.5 bg-primary hover:bg-primary-hover text-on-primary rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
-              >
-                <FileText className="w-4 h-4" />
-                <span>Practice MCQs</span>
-              </Link>
-              <Link
-                href={`/flashcards?subject=${subject.id}`}
-                className="px-4 py-2.5 bg-surface hover:bg-surface-2 text-slate-200 border border-line rounded-xl text-xs font-semibold transition flex items-center gap-1.5"
-              >
-                <Layers className="w-4 h-4" />
-                <span>Flashcards</span>
-              </Link>
+              </p>
+              <h1 className="page-title hero-in mt-1.5" style={{ "--i": 2 } as React.CSSProperties}>{topic.name}</h1>
+              <p className="page-intro hero-in mt-2" style={{ "--i": 3 } as React.CSSProperties}>{topic.description}</p>
             </div>
           </div>
-
-          <p className="text-sm text-slate-300 leading-relaxed">
-            {topic.description}
-          </p>
-
-          <div className="flex items-center gap-6 pt-3 border-t border-line text-xs text-slate-400">
-            <span>
-              <strong className="text-ink">{BDS_MCQS.filter((q) => q.topicId === topic.id).length}</strong> practice questions
-            </span>
-
+          <div className="hero-in flex shrink-0 flex-wrap gap-2" style={{ "--i": 4 } as React.CSSProperties}>
+            <Link href={`/practice?subject=${subject.id}`} className="btn-primary">
+              <ListChecks className="h-4 w-4" /> Practice MCQs
+            </Link>
+            {decks[0] && (
+              <Link href={`/flashcards/${decks[0].id}`} className="btn-secondary">
+                <Layers className="h-4 w-4" /> Flashcards
+              </Link>
+            )}
           </div>
-        </div>
+        </header>
 
-        {/* High-Yield Past-Paper Questions for this Topic */}
-        <div className="space-y-4">
+        {/* Resources for this chapter, no extra menus */}
+        <section aria-label="Resources" className="grid gap-3 sm:grid-cols-3">
+          <a href="#questions" className="card-glow rounded-2xl border border-line bg-surface p-4 transition-transform hover:-translate-y-0.5">
+            <ListChecks className="h-5 w-5 text-primary" />
+            <div className="card-title mt-2">Questions</div>
+            <div className="text-sm text-muted">{topicMCQs.length ? `${topicMCQs.length} with explanations` : "Coming soon"}</div>
+          </a>
+          <Link href={`/resources?subject=${subject.id}`} className="card-glow rounded-2xl border border-line bg-surface p-4 transition-transform hover:-translate-y-0.5">
+            <FileText className="h-5 w-5 text-primary" />
+            <div className="card-title mt-2">Notes &amp; PPTs</div>
+            <div className="text-sm text-muted">{notes.length ? `${notes.length} for ${subject.name}` : "Coming soon"}</div>
+          </Link>
+          <Link href={decks[0] ? `/flashcards/${decks[0].id}` : "/flashcards"} className="card-glow rounded-2xl border border-line bg-surface p-4 transition-transform hover:-translate-y-0.5">
+            <Layers className="h-5 w-5 text-primary" />
+            <div className="card-title mt-2">Flashcards</div>
+            <div className="text-sm text-muted">{decks.length ? decks.map((d) => d.title).join(", ") : "Coming soon"}</div>
+          </Link>
+        </section>
+
+        {/* Questions for this chapter */}
+        <div id="questions" className="scroll-mt-24 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-ink">
-              Past Paper & Practice Questions for this Topic
-            </h2>
-            <span className="text-xs text-slate-400 font-medium">
-              Showing high-yield questions
-            </span>
+            <h2 className="section-title">Questions for this chapter</h2>
+            <span className="text-xs font-medium text-muted">Reveal each answer when you&apos;re ready</span>
           </div>
 
           {topicMCQs.length > 0 ? (
@@ -150,7 +142,7 @@ export default function TopicDetailPage() {
                 return (
                   <div
                     key={q.id}
-                    className="bg-surface-2 rounded-2xl border border-line p-5 shadow-sm space-y-4 text-slate-200"
+                    className="rounded-2xl border border-line bg-surface p-5 space-y-4 text-slate-200"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-center gap-2">
@@ -179,7 +171,7 @@ export default function TopicDetailPage() {
                             key={optIdx}
                             className={`p-2.5 rounded-lg border transition ${
                               isExpanded && isCorrect
-                                ? "bg-emerald-950/60 border-emerald-700/80 font-medium text-emerald-200"
+                                ? "bg-emerald-500/10 border-emerald-500 font-medium text-ink"
                                 : "bg-surface border-line text-slate-300"
                             }`}
                           >
@@ -196,7 +188,7 @@ export default function TopicDetailPage() {
                     <div className="pt-2 flex items-center justify-between">
                       <button
                         onClick={() => toggleExpand(q.id)}
-                        className="text-xs font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1 transition"
+                        className="link flex items-center gap-1 text-xs"
                       >
                         <HelpCircle className="w-3.5 h-3.5" />
                         <span>{isExpanded ? "Hide Answer & Explanation" : "Reveal Answer & Explanation"}</span>
@@ -210,7 +202,7 @@ export default function TopicDetailPage() {
 
                     {/* Expanded Explanation box */}
                     {isExpanded && (
-                      <div className="p-4 bg-surface border border-blue-900/60 rounded-xl text-xs text-slate-300 space-y-1.5 animate-fadeIn">
+                      <div className="p-4 bg-soft border border-primary/25 rounded-xl text-sm text-slate-300 space-y-1.5 animate-fadeIn">
                         <div className="font-semibold text-ink flex items-center gap-1.5">
                           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                           <span>
@@ -241,6 +233,29 @@ export default function TopicDetailPage() {
           )}
         </div>
 
+        {/* previous / next chapter */}
+        <nav aria-label="Chapters" className="grid gap-3 border-t border-line pt-6 sm:grid-cols-2">
+          {prev ? (
+            <Link href={`/subjects/${subject.slug}/${prev.slug}`} className="card-glow group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4">
+              <ChevronLeft className="h-5 w-5 text-muted group-hover:text-primary" />
+              <span className="min-w-0">
+                <span className="block text-xs text-muted">Previous chapter</span>
+                <span className="block truncate font-semibold text-ink group-hover:text-primary">{prev.name}</span>
+              </span>
+            </Link>
+          ) : (
+            <span />
+          )}
+          {next && (
+            <Link href={`/subjects/${subject.slug}/${next.slug}`} className="card-glow group flex items-center justify-end gap-3 rounded-2xl border border-line bg-surface p-4 text-right">
+              <span className="min-w-0">
+                <span className="block text-xs text-muted">Next chapter</span>
+                <span className="block truncate font-semibold text-ink group-hover:text-primary">{next.name}</span>
+              </span>
+              <ChevronRight className="h-5 w-5 text-muted group-hover:text-primary" />
+            </Link>
+          )}
+        </nav>
       </div>
     </div>
   );

@@ -50,10 +50,14 @@ import {
 } from "@/lib/annotations";
 import { driveFileId, drivePreviewUrl } from "@/lib/drive";
 import { recordOpen } from "@/lib/progress";
+import { BookmarkButton } from "@/components/ui";
 
 type PdfJs = typeof import("pdfjs-dist");
 /** Anything the reader can open: a textbook or a lecture PDF. */
 export type ReaderDoc = Pick<BookItem, "id" | "title" | "edition" | "authors" | "driveId" | "pdfUrl">;
+type NavLink = { href: string; title: string };
+/** Previous / next lecture in the same chapter, plus related reading shown at the end */
+export type ReaderNav = { prev?: NavLink; next?: NavLink; chapter?: NavLink; related?: (NavLink & { sub?: string })[] };
 type OutlineItem = { title: string; dest: unknown; items: OutlineItem[] };
 type PendingSelection = { page: number; rects: PageRect[]; quote: string; x: number; y: number };
 
@@ -83,7 +87,7 @@ function loadPdfJs() {
   return pdfjsPromise;
 }
 
-export default function BookReader({ book, backHref = "/books", backLabel = "Back to textbooks" }: { book: ReaderDoc; backHref?: string; backLabel?: string }) {
+export default function BookReader({ book, backHref = "/books", backLabel = "Back to textbooks", nav }: { book: ReaderDoc; backHref?: string; backLabel?: string; nav?: ReaderNav }) {
   const source = book.pdfUrl || (book.driveId && !book.driveId.startsWith("PASTE_") ? `/api/books/${book.id}/pdf` : "");
 
   const [pdfjs, setPdfjs] = useState<PdfJs | null>(null);
@@ -347,6 +351,25 @@ export default function BookReader({ book, backHref = "/books", backLabel = "Bac
           <div className="truncate text-xs text-slate-400">{[book.edition, book.authors].filter(Boolean).join(" · ")}</div>
         </div>
         <div className="flex-1 sm:hidden" />
+        <BookmarkButton id={book.id} title={book.title} />
+        {nav && (nav.prev || nav.next) && (
+          <div className="hidden items-center gap-0.5 rounded-xl border border-line bg-canvas px-1 py-0.5 lg:flex">
+            {nav.prev ? (
+              <Link href={nav.prev.href} title={`Previous lecture: ${nav.prev.title}`} aria-label={`Previous lecture: ${nav.prev.title}`} className="flex h-8 items-center gap-1 rounded-md px-2 text-xs font-semibold text-slate-300 hover:bg-slate-800 hover:text-ink">
+                <ChevronLeft className="h-3.5 w-3.5" /> Prev
+              </Link>
+            ) : (
+              <span className="flex h-8 items-center px-2 text-xs text-slate-600">Prev</span>
+            )}
+            {nav.next ? (
+              <Link href={nav.next.href} title={`Next lecture: ${nav.next.title}`} aria-label={`Next lecture: ${nav.next.title}`} className="flex h-8 items-center gap-1 rounded-md px-2 text-xs font-semibold text-primary hover:bg-soft">
+                Next <ChevronRight className="h-3.5 w-3.5" />
+              </Link>
+            ) : (
+              <span className="flex h-8 items-center px-2 text-xs text-slate-600">Next</span>
+            )}
+          </div>
+        )}
 
         {doc && (
           <div className="flex items-center gap-0.5 rounded-xl border border-line bg-canvas px-1 py-0.5">
@@ -454,6 +477,7 @@ export default function BookReader({ book, backHref = "/books", backLabel = "Bac
                   }}
                 />
               ))}
+              {nav && <EndOfLecture nav={nav} />}
             </div>
           )}
         </div>
@@ -877,6 +901,52 @@ function OutlineList({ items, doc, onGo, depth = 0 }: { items: OutlineItem[]; do
         </li>
       ))}
     </ul>
+  );
+}
+
+/** Shown after the last page: what to read next, without going back to a menu */
+function EndOfLecture({ nav }: { nav: ReaderNav }) {
+  return (
+    <section aria-label="Up next" className="w-full max-w-3xl rounded-2xl border border-line bg-surface p-5 sm:p-6">
+      <p className="text-xs font-bold uppercase tracking-wider text-primary">End of lecture</p>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        {nav.prev && (
+          <Link href={nav.prev.href} className="group rounded-xl border border-line p-4 transition hover:border-primary/40">
+            <span className="flex items-center gap-1 text-xs text-slate-400"><ChevronLeft className="h-3.5 w-3.5" /> Previous lecture</span>
+            <span className="mt-1 block font-semibold text-ink group-hover:text-primary">{nav.prev.title}</span>
+          </Link>
+        )}
+        {nav.next ? (
+          <Link href={nav.next.href} className={`group rounded-xl border border-primary/40 bg-soft p-4 text-right transition hover:border-primary ${nav.prev ? "" : "sm:col-start-2"}`}>
+            <span className="flex items-center justify-end gap-1 text-xs text-primary">Next lecture <ChevronRight className="h-3.5 w-3.5" /></span>
+            <span className="mt-1 block font-semibold text-ink">{nav.next.title}</span>
+          </Link>
+        ) : (
+          nav.chapter && (
+            <Link href={nav.chapter.href} className="group rounded-xl border border-line p-4 text-right transition hover:border-primary/40">
+              <span className="text-xs text-slate-400">That was the last lecture in this chapter</span>
+              <span className="mt-1 block font-semibold text-ink group-hover:text-primary">Back to {nav.chapter.title}</span>
+            </Link>
+          )
+        )}
+      </div>
+      {nav.related && nav.related.length > 0 && (
+        <div className="mt-5 border-t border-line pt-4">
+          <h3 className="text-sm font-semibold text-ink">Related reading</h3>
+          <ul className="mt-2 space-y-1">
+            {nav.related.map((r) => (
+              <li key={r.href}>
+                <Link href={r.href} className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-slate-300 hover:bg-slate-850 hover:text-primary">
+                  <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+                  <span className="truncate">{r.title}</span>
+                  {r.sub && <span className="ml-auto shrink-0 text-xs text-slate-500">{r.sub}</span>}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
   );
 }
 

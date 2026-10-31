@@ -7,7 +7,10 @@ import {
   BookOpen,
   Bone,
   Brain,
+  ChevronLeft,
   ChevronRight,
+  Search,
+  X,
   DownloadCloud,
   Eye,
   FileText,
@@ -40,6 +43,8 @@ import { ContinueReading } from "@/components/Motivation";
 import { Reveal, Stagger, StaggerItem, ProgressBar, m, SPRING } from "@/components/motion";
 import { SubjectArt, AreaArt, areaIcon } from "@/components/Illustrations";
 import { BookmarkButton } from "@/components/ui";
+import { Breadcrumb } from "@/components/SubjectOverview";
+import { subjectStats } from "@/lib/stats";
 
 export const AREA_ICONS = { Sprout, Microscope, Brain, ScanFace, Bone, HeartPulse } as const;
 
@@ -98,13 +103,13 @@ export function SubjectNav({ subject, structure, current }: { subject: Subject; 
         </div>
       </div>
       <div>
-        <div className="mb-2 px-2.5 text-xs font-semibold uppercase tracking-wider text-slate-500">Subjects</div>
+        <div className="mb-2 px-2.5 text-xs font-semibold uppercase tracking-wider text-slate-500">Chapters</div>
         <div className="space-y-0.5">
           {structure.areas.map((a) => item(`${base}/${a.slug}`, a.title, areaIcon(a.slug), a.slug))}
         </div>
       </div>
       <div className="space-y-0.5 border-t border-line pt-4">
-        {item(`/practice?subject=${subject.id}`, "Practice MCQs", ListChecks, "__mcq", subject.mcqCount.toLocaleString())}
+        {item(`/practice?subject=${subject.id}`, "Practice MCQs", ListChecks, "__mcq", String(subjectStats(subject.id).mcqs || ""))}
         {item(`/past-papers`, "Past papers", Award, "__pp")}
       </div>
     </nav>
@@ -248,43 +253,7 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
       </>
     );
   } else if (area) {
-    title = area.title;
-    intro = area.summary;
-    body = (
-      <div className="space-y-8">
-        <div className="rounded-2xl border border-line bg-surface p-5 shadow-soft">
-          <h3 className="flex items-center gap-2 text-sm font-semibold text-ink">
-            <AreaArt slug={area.slug} className="h-6 w-6" /> Topics covered
-          </h3>
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {area.topics.map((t) => (
-              <li key={t} className="rounded-lg bg-slate-850 px-3 py-1.5 text-sm text-slate-300">
-                {t}
-              </li>
-            ))}
-          </ul>
-        </div>
-        {booksFor(structure).some((b) => b.area === area.slug) && (
-          <div className="space-y-3">
-            <h3 className="flex items-center gap-2 font-semibold text-ink">
-              <Library className="h-4 w-4 text-brand-400" /> Textbook
-            </h3>
-            <BookList books={booksFor(structure).filter((b) => b.area === area.slug)} />
-          </div>
-        )}
-        {PPT_GROUPS.map((g) => (
-          <div key={g.key} className="space-y-3">
-            <h3 className="flex items-center gap-2 font-semibold text-ink">
-              <FolderOpen className="h-4 w-4 text-brand-400" /> {g.short} PPTs
-            </h3>
-            <FileList files={areaFiles(structure.ppts[g.key], area.slug)} empty={`No ${g.short} slides for ${area.title} yet.`} areas={structure.areas} currentArea={area.slug} />
-          </div>
-        ))}
-        <Link href={`/practice?subject=${subject.id}`} className="btn-ghost">
-          <ListChecks className="h-4 w-4" /> Practice {structure.shortName} MCQs
-        </Link>
-      </div>
-    );
+    return <AreaPage subject={subject} structure={structure} area={area} />;
   } else {
     title = "Not found";
     intro = "This section doesn't exist.";
@@ -298,10 +267,10 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
         </div>
       </aside>
       <div className="min-w-0 space-y-6">
-        <Breadcrumb items={[{ href: "/subjects", label: "Subjects" }, { href: base, label: structure.shortName }, { label: title }]} />
-        <header className="animate-rise">
-          <h1 className="text-3xl font-bold tracking-tight text-ink">{title}</h1>
-          <p className="mt-2 max-w-2xl text-slate-400">{intro}</p>
+        <Breadcrumb items={[{ href: "/subjects", label: "My Subjects" }, { href: base, label: subject.name }, { label: title }]} />
+        <header>
+          <h1 className="page-title hero-in" style={{ "--i": 0 } as React.CSSProperties}>{title}</h1>
+          <p className="page-intro hero-in mt-2" style={{ "--i": 1 } as React.CSSProperties}>{intro}</p>
         </header>
         {/* Mobile: contents as a horizontal strip */}
         <MobileContents subject={subject} structure={structure} current={section} />
@@ -312,27 +281,170 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
 }
 
 /* ======================================================================== */
-/* Building blocks                                                          */
+/* Chapter page (/subjects/anatomy/<area>): search, lectures, prev/next      */
 /* ======================================================================== */
-function Breadcrumb({ items }: { items: { href?: string; label: string }[] }) {
+function AreaPage({ subject, structure, area }: { subject: Subject; structure: SubjectStructure; area: SubjectStructure["areas"][number] }) {
+  const base = `/subjects/${subject.slug}`;
+  const [q, setQ] = useState("");
+  const progress = useProgress();
+  const idx = structure.areas.findIndex((a) => a.slug === area.slug);
+  const prev = structure.areas[idx - 1];
+  const next = structure.areas[idx + 1];
+  const book = booksFor(structure).filter((b) => b.area === area.slug);
+  const ql = q.trim().toLowerCase();
+  const match = (f: StudyFile) => !ql || `${f.title} ${f.topic ?? ""} ${f.linkTopic ?? ""} ${f.by ?? ""}`.toLowerCase().includes(ql);
+  const groups = PPT_GROUPS.map((g) => ({ g, files: areaFiles(structure.ppts[g.key], area.slug) }));
+  const shown = groups.map(({ g, files }) => ({ g, files: files.filter(match) }));
+  const total = groups.reduce((n, x) => n + x.files.length, 0);
+  const found = shown.reduce((n, x) => n + x.files.length, 0);
+  const lectureTopics = [...new Set(groups.flatMap((x) => x.files.map((f) => f.topic).filter(Boolean) as string[]))];
+  const ids = [...new Set(lecturesInArea(subject.slug, area.slug))];
+  const opened = progress ? ids.filter((id) => progress.opened[id]).length : 0;
+  const resume = progress
+    ? ids
+        .filter((id) => progress.opened[id])
+        .sort((a, b) => progress.opened[b].at - progress.opened[a].at)[0]
+    : undefined;
+
   return (
-    <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-sm text-slate-400">
-      {items.map((it, i) => (
-        <React.Fragment key={i}>
-          {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-slate-600" />}
-          {it.href ? (
-            <Link href={it.href} className="transition hover:text-ink">
-              {it.label}
+    <div className="mx-auto grid max-w-content gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[240px_1fr] lg:px-8 lg:py-10">
+      <aside className="hidden lg:block">
+        <div className="sticky top-24">
+          <SubjectNav subject={subject} structure={structure} current={area.slug} />
+        </div>
+      </aside>
+      <div className="min-w-0">
+        <Breadcrumb items={[{ href: "/subjects", label: "My Subjects" }, { href: base, label: subject.name }, { label: area.title }]} />
+
+        <header className="mt-5 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div className="flex min-w-0 items-start gap-4">
+            <span className="hero-in flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-soft" style={{ "--i": 0 } as React.CSSProperties}>
+              <AreaArt slug={area.slug} className="h-12 w-12" />
+            </span>
+            <div className="min-w-0">
+              <p className="eyebrow hero-in" style={{ "--i": 1 } as React.CSSProperties}>
+                {structure.shortName} · Chapter {idx + 1} of {structure.areas.length}
+              </p>
+              <h1 className="page-title hero-in mt-1.5" style={{ "--i": 2 } as React.CSSProperties}>{area.title}</h1>
+              <p className="page-intro hero-in mt-2" style={{ "--i": 3 } as React.CSSProperties}>{area.summary}</p>
+              {progress && ids.length > 0 && (
+                <div className="hero-in mt-3 flex max-w-sm items-center gap-2" style={{ "--i": 4 } as React.CSSProperties}>
+                  <ProgressBar pct={(opened / ids.length) * 100} className="flex-1" />
+                  <span className="text-xs tabular-nums text-muted">{opened}/{ids.length} opened</span>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="hero-in flex shrink-0 flex-wrap gap-2" style={{ "--i": 4 } as React.CSSProperties}>
+            {resume && (
+              <Link href={`/read/${resume}`} className="btn-primary">
+                <Eye className="h-4 w-4" /> Continue
+              </Link>
+            )}
+            {book[0] && (
+              <Link href={`/read/${book[0].id}`} className="btn-secondary" title={book[0].title}>
+                <Library className="h-4 w-4" /> Textbook
+              </Link>
+            )}
+            <Link href={`/practice?subject=${subject.id}`} className="btn-secondary">
+              <ListChecks className="h-4 w-4" /> MCQs
+            </Link>
+          </div>
+        </header>
+
+        <div className="mt-5 lg:hidden">
+          <MobileContents subject={subject} structure={structure} current={area.slug} />
+        </div>
+
+        {/* chapter search + topic quick filters */}
+        <div className="sticky top-16 z-20 -mx-4 mt-6 border-b border-line bg-canvas/90 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:mx-0 lg:rounded-2xl lg:border lg:px-4">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center">
+            <label className="relative flex-1">
+              <span className="sr-only">Search lectures in {area.title}</span>
+              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={`Search ${total} lectures in ${area.title}…`} className="field !py-2.5 pl-10 pr-9" />
+              {q && (
+                <button onClick={() => setQ("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-muted hover:text-ink" aria-label="Clear search">
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </label>
+            {ql && <span className="text-sm text-muted">{found} of {total} lectures</span>}
+          </div>
+          {lectureTopics.length > 1 && (
+            <div className="mt-3 flex gap-1.5 overflow-x-auto pb-0.5" aria-label="Topics">
+              {lectureTopics.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setQ(q.toLowerCase() === t.toLowerCase() ? "" : t)}
+                  aria-pressed={q.toLowerCase() === t.toLowerCase()}
+                  className={`shrink-0 rounded-full border px-3 py-1 text-xs font-semibold transition ${
+                    q.toLowerCase() === t.toLowerCase() ? "border-primary bg-soft text-primary" : "border-line bg-surface text-muted hover:border-primary/40 hover:text-ink"
+                  }`}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-8 space-y-10">
+          {!ql && book.length > 0 && (
+            <section aria-labelledby="book" className="space-y-3">
+              <h2 id="book" className="flex items-center gap-2 font-display text-lg font-bold text-ink">
+                <Library className="h-5 w-5 text-primary" /> Textbook
+              </h2>
+              <BookList books={book} />
+            </section>
+          )}
+          {shown.map(({ g, files }) =>
+            ql && files.length === 0 ? null : (
+              <section key={g.key} aria-label={`${g.short} lectures`} className="space-y-3">
+                <h2 className="flex items-center gap-2 font-display text-lg font-bold text-ink">
+                  <FolderOpen className="h-5 w-5 text-primary" /> {g.short} lectures
+                  <span className="rounded-full bg-surface-2 px-2 py-0.5 text-xs font-semibold text-muted">{files.length}</span>
+                </h2>
+                <FileList files={files} empty={`No ${g.short} slides for ${area.title} yet.`} areas={structure.areas} currentArea={area.slug} />
+              </section>
+            )
+          )}
+          {ql && found === 0 && <p className="rounded-2xl border border-dashed border-line p-8 text-center text-sm text-muted">No lecture in {area.title} matches “{q}”.</p>}
+        </div>
+
+        {/* previous / next chapter */}
+        <nav aria-label="Chapters" className="mt-12 grid gap-3 border-t border-line pt-6 sm:grid-cols-2">
+          {prev ? (
+            <Link href={`${base}/${prev.slug}`} className="card-glow group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4">
+              <ChevronLeft className="h-5 w-5 text-muted group-hover:text-primary" />
+              <AreaArt slug={prev.slug} className="h-9 w-9" />
+              <span className="min-w-0">
+                <span className="block text-xs text-muted">Previous chapter</span>
+                <span className="block truncate font-semibold text-ink group-hover:text-primary">{prev.title}</span>
+              </span>
             </Link>
           ) : (
-            <span className="font-medium text-ink">{it.label}</span>
+            <span />
           )}
-        </React.Fragment>
-      ))}
-    </nav>
+          {next && (
+            <Link href={`${base}/${next.slug}`} className="card-glow group flex items-center justify-end gap-3 rounded-2xl border border-line bg-surface p-4 text-right">
+              <span className="min-w-0">
+                <span className="block text-xs text-muted">Next chapter</span>
+                <span className="block truncate font-semibold text-ink group-hover:text-primary">{next.title}</span>
+              </span>
+              <AreaArt slug={next.slug} className="h-9 w-9" />
+              <ChevronRight className="h-5 w-5 text-muted group-hover:text-primary" />
+            </Link>
+          )}
+        </nav>
+      </div>
+    </div>
   );
 }
 
+/* ======================================================================== */
+/* Building blocks                                                          */
+/* ======================================================================== */
 function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div>
