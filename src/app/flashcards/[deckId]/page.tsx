@@ -1,23 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import {
-  BDS_FLASHCARD_DECKS,
-  BDS_FLASHCARDS
-} from "@/lib/bds-content";
-import {
-  ArrowLeft,
-  RotateCw,
-  CheckCircle2,
-  XCircle,
-  Award,
-  Layers,
-  RotateCcw,
-  Sparkles
-} from "lucide-react";
+import { BDS_FLASHCARD_DECKS, BDS_FLASHCARDS } from "@/lib/bds-content";
+import { ArrowLeft, RotateCw, CheckCircle2, XCircle, Award, Layers, RotateCcw, Sparkles, Shuffle, Undo2 } from "lucide-react";
 import { m, AnimatePresence, ProgressBar, EASE } from "@/components/motion";
+import { EmptyState } from "@/components/ui";
+
+type Result = "mastered" | "review";
 
 export default function FlashcardStudyPage() {
   const params = useParams();
@@ -26,90 +17,117 @@ export default function FlashcardStudyPage() {
   const deck = BDS_FLASHCARD_DECKS.find((d) => d.id === deckId);
   const cards = BDS_FLASHCARDS.filter((c) => c.deckId === deckId || deckId === "deck-pharm-la" || deckId === "deck-anat-cranial");
 
+  // order = the cards in this session (indices into `cards`), so a session can be shuffled or limited to missed cards
+  const [order, setOrder] = useState<number[]>(() => cards.map((_, i) => i));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [masteredCount, setMasteredCount] = useState(0);
-  const [reviewCount, setReviewCount] = useState(0);
+  const [results, setResults] = useState<Record<number, Result>>({});
   const [isCompleted, setIsCompleted] = useState(false);
 
-  if (!deck && cards.length === 0) {
-    return (
-      <div className="min-h-screen bg-canvas flex items-center justify-center p-4">
-        <div className="bg-surface p-8 rounded-2xl border border-slate-800 text-center max-w-md space-y-4">
-          <Layers className="w-10 h-10 text-slate-500 mx-auto" />
-          <h2 className="text-xl font-bold text-ink">Deck Not Found</h2>
-          <p className="text-xs text-slate-400">The requested DUHS flashcard deck could not be found.</p>
-          <Link
-            href="/flashcards"
-            className="inline-block px-5 py-2.5 bg-primary hover:bg-primary-hover text-on-primary rounded-xl text-xs font-semibold hover:from-blue-500 hover:to-indigo-500 transition"
-          >
-            Back to Flashcard Library
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  const masteredCount = Object.values(results).filter((r) => r === "mastered").length;
+  const reviewCount = Object.values(results).filter((r) => r === "review").length;
+  const currentCard = cards[order[currentIndex]] || cards[0];
 
-  const currentCard = cards[currentIndex] || cards[0];
-
-  const handleNextCard = (status: "mastered" | "review") => {
-    if (status === "mastered") {
-      setMasteredCount((prev) => prev + 1);
-    } else {
-      setReviewCount((prev) => prev + 1);
-    }
-
+  const handleNextCard = (status: Result) => {
+    setResults((prev) => ({ ...prev, [order[currentIndex]]: status }));
     setIsFlipped(false);
-    if (currentIndex < cards.length - 1) {
+    if (currentIndex < order.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
       setIsCompleted(true);
     }
   };
 
-  const handleRestart = () => {
-    setCurrentIndex(0);
+  const goBack = () => {
+    if (currentIndex === 0) return;
     setIsFlipped(false);
-    setMasteredCount(0);
-    setReviewCount(0);
-    setIsCompleted(false);
+    setCurrentIndex((i) => i - 1);
   };
 
+  const startSession = (next: number[]) => {
+    setOrder(next);
+    setCurrentIndex(0);
+    setIsFlipped(false);
+    setResults({});
+    setIsCompleted(false);
+  };
+  const handleRestart = () => startSession(cards.map((_, i) => i));
+  const shuffle = () => {
+    const a = [...order];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    startSession(a);
+  };
+  const reviseMissed = () => startSession(order.filter((i) => results[i] === "review"));
+
+  // Keyboard: Space/Enter flip, ← / 1 needs revision, → / 2 knew it, Backspace previous card
+  useEffect(() => {
+    if (isCompleted || !cards.length) return;
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      if (t.closest("input, textarea, select, [contenteditable]")) return;
+      if (t.closest("button, a") && (e.key === " " || e.key === "Enter")) return; // let focused controls act normally
+      if (e.key === " " || e.key === "Enter") {
+        e.preventDefault();
+        setIsFlipped((f) => !f);
+      } else if (isFlipped && (e.key === "ArrowLeft" || e.key === "1")) handleNextCard("review");
+      else if (isFlipped && (e.key === "ArrowRight" || e.key === "2")) handleNextCard("mastered");
+      else if (e.key === "Backspace") goBack();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
+  if (!deck && cards.length === 0) {
+    return (
+      <div className="mx-auto max-w-xl px-4 py-16">
+        <EmptyState icon={Layers} title="Deck not found" text="We couldn't find that flashcard deck." href="/flashcards" action="Back to flashcards" />
+      </div>
+    );
+  }
+
+  const total = order.length;
+  const done = Object.keys(results).length;
+
   return (
-    <div className="min-h-screen bg-canvas text-slate-100 py-8 sm:py-12 relative overflow-hidden">
-      {/* Decorative ambient background glows */}
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-10">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Link href="/flashcards" className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted transition hover:text-ink">
+          <ArrowLeft className="h-4 w-4" /> All decks
+        </Link>
+        {!isCompleted && (
+          <button onClick={shuffle} className="btn-ghost !min-h-[36px] !px-3 !py-1.5 text-xs" title="Shuffle and start again">
+            <Shuffle className="h-3.5 w-3.5" /> Shuffle
+          </button>
+        )}
+      </div>
+      <h1 className="mt-4 font-display text-2xl font-extrabold text-ink sm:text-3xl">{deck?.title || "Flashcards"}</h1>
+      {deck?.description && <p className="mt-1 text-sm text-muted">{deck.description}</p>}
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 relative z-10">
-        
-        {/* Top Header */}
-        <div className="flex items-center justify-between">
-          <Link
-            href="/flashcards"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-ink transition"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>All Flashcard Decks</span>
-          </Link>
-          <span className="text-xs font-bold text-cyan-300 bg-cyan-950/70 px-3.5 py-1 rounded-full border border-cyan-800/60 shadow-sm">
-            {deck?.title || "DUHS BDS Flashcards"}
-          </span>
-        </div>
-
-        {!isCompleted ? (
-          <div className="space-y-6">
-            {/* Progress Bar */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs font-medium text-slate-400">
-                <span>Card <strong className="text-ink">{currentIndex + 1}</strong> of {cards.length}</span>
-                <span className="text-cyan-400 font-bold">{Math.round(((currentIndex + 1) / (cards.length || 1)) * 100)}%</span>
-              </div>
-              <ProgressBar pct={((currentIndex + 1) / (cards.length || 1)) * 100} className="!h-2" barClassName="bg-gradient-to-r from-brand-500 to-accent-500" />
+      {!isCompleted ? (
+        <div className="mt-6 space-y-5">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs font-medium text-muted">
+              <span>
+                Card <strong className="text-ink">{currentIndex + 1}</strong> of {total}
+              </span>
+              <span className="flex items-center gap-3">
+                <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+                  <CheckCircle2 className="h-3.5 w-3.5" /> {masteredCount}
+                </span>
+                <span className="flex items-center gap-1 text-rose-600 dark:text-rose-400">
+                  <XCircle className="h-3.5 w-3.5" /> {reviewCount}
+                </span>
+              </span>
             </div>
+            <ProgressBar pct={(done / (total || 1)) * 100} className="!h-2" barClassName="bg-gradient-to-r from-brand-500 to-accent-500" />
+          </div>
 
-            {/* Interactive 3D Flashcard Container */}
-            <AnimatePresence mode="wait" initial={false}>
+          <AnimatePresence mode="wait" initial={false}>
             <m.div
-              key={currentIndex}
+              key={currentIndex + "-" + order[currentIndex]}
               className="perspective-1000"
               initial={{ opacity: 0, y: 14, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -120,152 +138,128 @@ export default function FlashcardStudyPage() {
                 role="button"
                 tabIndex={0}
                 aria-pressed={isFlipped}
-                aria-label={isFlipped ? "Show the question" : "Show the answer"}
+                aria-label={isFlipped ? "Answer shown. Press to see the question" : "Question shown. Press to see the answer"}
                 onClick={() => setIsFlipped(!isFlipped)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
+                    e.stopPropagation();
                     setIsFlipped(!isFlipped);
                   }
                 }}
                 initial={false}
                 animate={{ rotateY: isFlipped ? 180 : 0 }}
-                whileHover={{ y: -3 }}
                 transition={{ type: "spring", stiffness: 170, damping: 22, mass: 0.9 }}
-                className="relative w-full min-h-[360px] rounded-2xl cursor-pointer select-none transform-style-3d focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="transform-style-3d relative min-h-[340px] w-full cursor-pointer select-none rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:min-h-[380px]"
               >
-                {/* FRONT FACE (Question / Prompt) */}
-                <div className="absolute inset-0 backface-hidden bg-slate-900/90 border-2 border-slate-800 rounded-2xl p-7 sm:p-8 flex flex-col justify-between hover:border-slate-700 transition">
-                  <div className="flex items-center justify-between text-xs border-b border-slate-800 pb-3">
-                    <span className="font-bold text-cyan-300 uppercase tracking-wider bg-cyan-950/60 px-3 py-0.5 rounded-full border border-cyan-800/60">
-                      DUHS Concept Prompt
+                {/* FRONT: question */}
+                <div className="backface-hidden absolute inset-0 flex flex-col rounded-2xl border border-line bg-surface p-6 shadow-soft sm:p-8">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="eyebrow">Question</span>
+                    <span className="flex items-center gap-1.5 text-muted">
+                      <RotateCw className="h-3.5 w-3.5" /> Tap or press Space
                     </span>
-                    <div className="flex items-center gap-1.5 text-slate-400 hover:text-ink font-medium">
-                      <RotateCw className="w-3.5 h-3.5" />
-                      <span>Tap to Flip</span>
-                    </div>
                   </div>
-
-                  <div className="my-auto text-center py-6 px-4">
-                    <p className="text-lg sm:text-2xl font-bold text-ink leading-relaxed">
-                      {currentCard?.front}
-                    </p>
+                  <div className="my-auto px-2 py-6 text-center">
+                    <p className="font-display text-xl font-bold leading-relaxed text-ink sm:text-2xl">{currentCard?.front}</p>
                   </div>
-
-                  <div className="text-center text-[11px] text-slate-400 pt-3 border-t border-slate-800">
-                    Try to recall the exact answer before flipping the card.
-                  </div>
+                  <p className="text-center text-xs text-muted">Recall the answer in your head, then flip.</p>
                 </div>
 
-                {/* BACK FACE (Answer & Clinical Pearl) */}
-                <div className="absolute inset-0 backface-hidden rotate-y-180 bg-slate-950 text-ink rounded-2xl p-7 sm:p-8 flex flex-col justify-between border-2 border-primary/70 shadow-[0_0_40px_-12px_rgb(var(--c-primary)/0.5)]">
-                  <div className="flex items-center justify-between text-xs border-b border-slate-850 pb-3">
-                    <span className="font-bold text-indigo-300 uppercase tracking-wider bg-indigo-950/60 px-3 py-0.5 rounded-full border border-indigo-700/60">
-                      Answer & High-Yield Concept
+                {/* BACK: answer */}
+                <div className="backface-hidden rotate-y-180 absolute inset-0 flex flex-col rounded-2xl border-2 border-primary/60 bg-surface p-6 shadow-[0_0_40px_-14px_rgb(var(--c-primary)/0.55)] sm:p-8">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="eyebrow">Answer</span>
+                    <span className="flex items-center gap-1.5 text-muted">
+                      <RotateCw className="h-3.5 w-3.5" /> Flip back
                     </span>
-                    <div className="flex items-center gap-1.5 text-slate-400 hover:text-ink font-medium">
-                      <RotateCw className="w-3.5 h-3.5" />
-                      <span>Tap to Flip Back</span>
-                    </div>
                   </div>
-
-                  <div className="my-auto text-center py-4 px-2 space-y-4">
-                    <p className="text-lg sm:text-2xl font-extrabold text-ink leading-relaxed">
-                      {currentCard?.back}
-                    </p>
+                  <div className="my-auto space-y-4 overflow-y-auto px-1 py-4 text-center">
+                    <p className="text-lg font-bold leading-relaxed text-ink sm:text-xl">{currentCard?.back}</p>
                     {currentCard?.clinicalNote && (
-                      <div className="p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl text-xs text-slate-300 text-left max-w-lg mx-auto space-y-1">
-                        <strong className="text-cyan-400 flex items-center gap-1">
-                          <Sparkles className="w-3.5 h-3.5" />
-                          DUHS Clinical Pearl:
+                      <div className="mx-auto max-w-lg space-y-1 rounded-xl border border-primary/20 bg-soft p-3.5 text-left text-sm text-slate-300">
+                        <strong className="flex items-center gap-1.5 text-primary">
+                          <Sparkles className="h-3.5 w-3.5" /> Clinical note
                         </strong>
                         <p className="leading-relaxed">{currentCard.clinicalNote}</p>
                       </div>
                     )}
                   </div>
-
-                  <div className="text-center text-[11px] text-slate-400 pt-3 border-t border-slate-850">
-                    Mark below whether you knew this card or need to revise it.
-                  </div>
+                  <p className="text-center text-xs text-muted">Did you know it?</p>
                 </div>
               </m.div>
             </m.div>
-            </AnimatePresence>
+          </AnimatePresence>
 
-            {/* Response Buttons */}
-            {isFlipped ? (
-              <div className="grid grid-cols-2 gap-4 animate-fadeIn">
-                <button
-                  onClick={() => handleNextCard("review")}
-                  className="py-3.5 px-4 rounded-xl border border-rose-800/60 bg-rose-950/50 hover:bg-rose-900/60 text-rose-300 font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-rose-950/20 cursor-pointer"
-                >
-                  <XCircle className="w-4 h-4 text-rose-400" />
-                  <span>Needs Revision</span>
-                </button>
-                <button
-                  onClick={() => handleNextCard("mastered")}
-                  className="py-3.5 px-4 rounded-xl border border-emerald-800/60 bg-emerald-950/50 hover:bg-emerald-900/60 text-emerald-300 font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/20 cursor-pointer"
-                >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <span>Mastered (Knew It)</span>
-                </button>
-              </div>
-            ) : (
+          {isFlipped ? (
+            <div className="grid grid-cols-2 gap-3">
               <button
-                onClick={() => setIsFlipped(true)}
-                className="w-full py-4 bg-primary hover:bg-primary-hover text-on-primary rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 cursor-pointer"
+                onClick={() => handleNextCard("review")}
+                className="flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 text-sm font-bold text-rose-700 transition hover:bg-rose-500/20 dark:text-rose-300"
               >
-                <RotateCw className="w-4 h-4" />
-                <span>Show Answer (Flip Card)</span>
+                <XCircle className="h-4 w-4" /> Needs revision
+              </button>
+              <button
+                onClick={() => handleNextCard("mastered")}
+                className="flex min-h-[52px] items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 text-sm font-bold text-emerald-700 transition hover:bg-emerald-500/20 dark:text-emerald-300"
+              >
+                <CheckCircle2 className="h-4 w-4" /> Knew it
+              </button>
+            </div>
+          ) : (
+            <button onClick={() => setIsFlipped(true)} className="btn-primary w-full !min-h-[52px]">
+              <RotateCw className="h-4 w-4" /> Show answer
+            </button>
+          )}
+
+          <div className="flex items-center justify-between text-xs text-muted">
+            <button onClick={goBack} disabled={currentIndex === 0} className="inline-flex items-center gap-1 font-semibold hover:text-ink disabled:opacity-40">
+              <Undo2 className="h-3.5 w-3.5" /> Previous card
+            </button>
+            <span className="hidden sm:inline">Space flip · ← needs revision · → knew it</span>
+          </div>
+        </div>
+      ) : (
+        <m.div
+          className="mt-6 space-y-6 rounded-2xl border border-line bg-surface p-8 text-center sm:p-12"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease: EASE }}
+        >
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-soft text-primary">
+            <Award className="h-8 w-8" />
+          </div>
+          <div className="space-y-1">
+            <h2 className="font-display text-2xl font-extrabold text-ink sm:text-3xl">Session complete</h2>
+            <p className="text-sm text-muted">
+              You went through {total} card{total === 1 ? "" : "s"}.
+            </p>
+          </div>
+          <div className="mx-auto grid max-w-xs grid-cols-2 gap-3">
+            <div className="rounded-xl bg-emerald-500/10 p-4">
+              <div className="font-display text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">{masteredCount}</div>
+              <div className="mt-1 text-xs text-muted">Knew it</div>
+            </div>
+            <div className="rounded-xl bg-rose-500/10 p-4">
+              <div className="font-display text-3xl font-extrabold text-rose-600 dark:text-rose-400">{reviewCount}</div>
+              <div className="mt-1 text-xs text-muted">Needs revision</div>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            {reviewCount > 0 && (
+              <button onClick={reviseMissed} className="btn-primary">
+                <RotateCcw className="h-4 w-4" /> Revise the {reviewCount} missed
               </button>
             )}
+            <button onClick={handleRestart} className={reviewCount > 0 ? "btn-secondary" : "btn-primary"}>
+              Study whole deck again
+            </button>
+            <Link href="/flashcards" className="btn-secondary">
+              Other decks
+            </Link>
           </div>
-        ) : (
-          /* COMPLETION SUMMARY SCREEN */
-          <div className="bg-surface rounded-2xl border border-line p-8 sm:p-12 text-center space-y-6 animate-fadeIn">
-            <div className="w-16 h-16 rounded-2xl bg-indigo-950/80 border border-indigo-700/60 flex items-center justify-center mx-auto text-indigo-400">
-              <Award className="w-8 h-8" />
-            </div>
-
-            <div className="space-y-1">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-ink">
-                Deck Session Completed!
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-400">
-                You have reviewed all {cards.length} cards in this DUHS 1st Year deck.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 max-w-xs mx-auto p-4 bg-slate-950/80 rounded-2xl border border-slate-800">
-              <div className="p-2">
-                <div className="text-3xl font-extrabold text-emerald-400">{masteredCount}</div>
-                <div className="text-xs text-slate-400 font-medium mt-1">Mastered</div>
-              </div>
-              <div className="p-2">
-                <div className="text-3xl font-extrabold text-rose-400">{reviewCount}</div>
-                <div className="text-xs text-slate-400 font-medium mt-1">Needs Revision</div>
-              </div>
-            </div>
-
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
-              <button
-                onClick={handleRestart}
-                className="px-6 py-3 bg-primary hover:bg-primary-hover text-on-primary rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Study Deck Again</span>
-              </button>
-              <Link
-                href="/flashcards"
-                className="px-6 py-3 border border-slate-800 bg-slate-950/70 text-slate-300 hover:text-ink hover:bg-slate-900 rounded-xl text-xs font-semibold transition"
-              >
-                Explore Other Decks
-              </Link>
-            </div>
-          </div>
-        )}
-
-      </div>
+        </m.div>
+      )}
     </div>
   );
 }
