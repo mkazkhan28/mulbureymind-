@@ -374,8 +374,8 @@ export function CellsArt(p: ArtProps) {
           <stop offset="1" stopColor="#e86a92" />
         </radialGradient>
         <radialGradient id={g.nuc} cx="0.35" cy="0.35" r="0.7">
-          <stop offset="0" stopColor="#8e7cc3" />
-          <stop offset="1" stopColor="#3f2d75" />
+          <stop offset="0" stopColor="#5b8bd3" />
+          <stop offset="1" stopColor="#1e3a6e" />
         </radialGradient>
       </defs>
       <circle cx="60" cy="62" r="52" fill="#2a2522" opacity="0.85" />
@@ -391,7 +391,7 @@ export function CellsArt(p: ArtProps) {
               opacity="0.92"
             />
             <ellipse cx={x + (i % 3) - 1} cy={y + (i % 2)} rx={r * 0.38} ry={r * 0.3} fill={url(g.nuc)} />
-            <circle cx={x + (i % 3) - 2} cy={y - 1} r="1.1" fill="#d6ccf0" opacity="0.8" />
+            <circle cx={x + (i % 3) - 2} cy={y - 1} r="1.1" fill="#cfe0f5" opacity="0.8" />
           </g>
         ))}
       </g>
@@ -415,8 +415,8 @@ export function BrainArt(p: ArtProps) {
           <stop offset="1" stopColor="#c2557c" />
         </radialGradient>
         <radialGradient id={g.cere} cx="0.4" cy="0.3" r="0.8">
-          <stop offset="0" stopColor="#d9c4e8" />
-          <stop offset="1" stopColor="#8f6aaf" />
+          <stop offset="0" stopColor="#c9ece9" />
+          <stop offset="1" stopColor="#2f9e98" />
         </radialGradient>
         <linearGradient id={g.stem} x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="#efe2d2" />
@@ -430,7 +430,7 @@ export function BrainArt(p: ArtProps) {
       <ellipse cx="60" cy="112" rx="32" ry="4.5" fill={url(g.shadow)} />
       <path d="M66 82 C66 92 64 100 60 106 L70 106 C74 100 76 92 76 82 Z" fill={url(g.stem)} />
       <path d="M70 74 C80 72 92 74 96 82 C98 90 90 96 80 94 C72 92 68 86 70 74 Z" fill={url(g.cere)} />
-      <path d="M74 82 C80 80 88 81 93 84 M73 87 C79 86 86 88 90 90" stroke="#6f4f8f" strokeWidth="1.2" fill="none" opacity="0.7" />
+      <path d="M74 82 C80 80 88 81 93 84 M73 87 C79 86 86 88 90 90" stroke="#1f7a75" strokeWidth="1.2" fill="none" opacity="0.7" />
       <path
         d="M20 60 C17 42 30 26 48 25 C56 16 76 16 86 25 C101 27 109 42 104 56 C109 66 102 78 90 78 C84 84 70 84 64 80 C56 86 40 86 33 78 C24 76 19 70 20 60 Z"
         fill={url(g.cortex)}

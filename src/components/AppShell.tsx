@@ -175,7 +175,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         href={href}
         title={collapsed ? label : undefined}
         aria-current={active ? "page" : undefined}
-        className={`group relative flex items-center gap-3 rounded-xl px-3 ${small ? "py-1.5 text-[13px]" : "py-2.5 text-sm"} font-medium transition-colors ${
+        className={`group relative flex items-center gap-3 rounded-xl px-3 ${small ? "py-1.5 text-[13px]" : "py-2.5 text-sm"} font-display font-semibold tracking-[-0.01em] transition-colors ${
           active ? "text-primary" : "text-slate-300 hover:bg-slate-850 hover:text-ink"
         } ${collapsed ? "justify-center" : ""}`}
       >
@@ -220,7 +220,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           return (
             <div key={s.id}>
               <div className={`group flex items-center rounded-xl transition-colors hover:bg-slate-850 ${onSubject ? "bg-slate-850" : ""}`}>
-                <Link href={`/subjects/${s.slug}`} className={`flex min-w-0 flex-1 items-center gap-3 px-2.5 py-1.5 text-sm ${onSubject ? "font-semibold text-ink" : "text-slate-300"}`}>
+                <Link href={`/subjects/${s.slug}`} className={`flex min-w-0 flex-1 items-center gap-3 px-2.5 py-1.5 font-display text-sm font-bold tracking-[-0.01em] ${onSubject ? "text-ink" : "text-slate-300"}`}>
                   <SubjectArt id={s.id} className="h-7 w-7 shrink-0" />
                   <span className="truncate">{s.name}</span>
                 </Link>
@@ -301,7 +301,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <img src="/logo-icon.svg" alt="HMHDental logo" className="h-full w-full" width={40} height={40} />
       </span>
       <span className="flex min-w-0 flex-col">
-        <span className={`truncate font-display font-extrabold tracking-[-0.03em] text-ink ${small ? "text-lg" : "text-xl"} leading-none`}>
+        <span className={`truncate font-display font-bold tracking-[-0.045em] text-ink ${small ? "text-lg" : "text-xl"} leading-none`}>
           HMH<span className="text-primary">Dental</span>
         </span>
         <span className="mt-1 truncate text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">DUHS · BDS 1st Year</span>
@@ -485,7 +485,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               key={t.href}
               href={t.href}
               aria-current={active ? "page" : undefined}
-              className={`relative flex h-16 flex-col items-center justify-center gap-1 text-[11px] font-semibold ${active ? "text-primary" : "text-slate-400"}`}
+              className={`relative flex h-16 flex-col items-center justify-center gap-1 font-display text-[11px] font-bold ${active ? "text-primary" : "text-slate-400"}`}
             >
               {active && <m.span layoutId="tab-active" transition={SPRING} className="absolute top-0 h-0.5 w-10 rounded-full bg-primary" />}
               <t.icon className="h-5 w-5" />
@@ -493,7 +493,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
           );
         })}
-        <button type="button" onClick={() => setMobileMenuOpen(true)} aria-label="Open menu" className="flex h-16 flex-col items-center justify-center gap-1 text-[11px] font-semibold text-slate-400">
+        <button type="button" onClick={() => setMobileMenuOpen(true)} aria-label="Open menu" className="flex h-16 flex-col items-center justify-center gap-1 font-display text-[11px] font-bold text-slate-400">
           <Menu className="h-5 w-5" />
           Menu
         </button>
@@ -503,7 +503,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <div
         className={`pointer-events-none fixed bottom-4 right-0 z-40 hidden justify-center px-6 transition-[left] duration-300 lg:flex ${sidebarCollapsed ? "left-[76px]" : "left-72"}`}
       >
-        <nav aria-label="Main" className="pointer-events-auto flex items-center gap-1 rounded-2xl border border-line bg-canvas/90 p-1.5 shadow-lift backdrop-blur-xl">
+        <nav aria-label="Main" className="pointer-events-auto flex items-center gap-1 rounded-full border border-line bg-surface/90 p-1.5 shadow-lift backdrop-blur-xl">
           {PRIMARY_NAV.map((n) => {
             const active = isActive(n.href) || (n.href === "/subjects" && pathname.startsWith("/subjects"));
             const count = n.href === "/bookmarks" ? saved.length : 0;
@@ -512,11 +512,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 key={n.href}
                 href={n.href}
                 aria-current={active ? "page" : undefined}
-                className={`group relative flex flex-col items-center gap-0.5 rounded-xl px-3 py-1.5 text-[11px] font-semibold transition-colors xl:flex-row xl:gap-2 xl:px-4 xl:py-2.5 xl:text-sm ${
+                className={`group relative flex flex-col items-center gap-0.5 rounded-full px-3 py-1.5 font-display text-[11px] font-bold tracking-[-0.01em] transition-colors xl:flex-row xl:gap-2 xl:px-4 xl:py-2.5 xl:text-sm ${
                   active ? "text-primary" : "text-slate-300 hover:bg-slate-850 hover:text-ink"
                 }`}
               >
-                {active && <m.span layoutId="dock-active" transition={SPRING} className="absolute inset-0 rounded-xl bg-soft ring-1 ring-primary/20" />}
+                {active && <m.span layoutId="dock-active" transition={SPRING} className="absolute inset-0 rounded-full bg-soft ring-1 ring-primary/20" />}
                 <n.icon className={`relative h-[18px] w-[18px] shrink-0 ${active ? "text-primary" : "text-slate-400 group-hover:text-primary"}`} />
                 <span className="relative whitespace-nowrap">{n.label}</span>
                 {count > 0 && <span className="absolute right-1.5 top-1 rounded-full bg-primary px-1.5 text-[10px] font-bold leading-4 text-on-primary xl:relative xl:right-auto xl:top-auto xl:bg-primary/15 xl:text-primary">{count}</span>}
@@ -530,7 +530,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 }
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <div className="flex items-center px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted">{children}</div>;
+  return <div className="flex items-center px-3 pb-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{children}</div>;
 }
 
 function FooterCol({ title, links }: { title: string; links: { href: string; label: string }[] }) {

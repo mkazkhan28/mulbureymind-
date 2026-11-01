@@ -28,7 +28,7 @@ import {
 /* Tokens                                                              */
 /* ------------------------------------------------------------------ */
 export const EASE = [0.22, 1, 0.36, 1] as const; // smooth "expo-out"
-export const DUR = { fast: 0.18, base: 0.45, slow: 0.7 } as const;
+export const DUR = { fast: 0.16, base: 0.4, slow: 0.55 } as const;
 export const SPRING: Transition = { type: "spring", stiffness: 420, damping: 34, mass: 0.8 };
 export const SPRING_SOFT: Transition = { type: "spring", stiffness: 260, damping: 30 };
 

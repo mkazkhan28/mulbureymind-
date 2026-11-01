@@ -54,13 +54,13 @@ export default function PastPapersPage() {
         return "bg-cyan-500/15 text-cyan-800 dark:text-cyan-300 border-cyan-500/30";
       case "biochem":
       case "subj-biochem-1":
-        return "bg-purple-500/15 text-purple-800 dark:text-purple-300 border-purple-500/30";
+        return "bg-accent-500/15 text-accent-800 dark:text-accent-300 border-accent-500/30";
       case "pharm":
       case "subj-pharm-1":
         return "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30";
       case "path":
       case "subj-path-1":
-        return "bg-blue-500/15 text-primary border-blue-500/30";
+        return "bg-soft text-primary border-blue-500/30";
       default:
         return "bg-slate-800 text-slate-300 border-slate-700";
     }
@@ -229,7 +229,7 @@ export default function PastPapersPage() {
         </div>
 
         {/* Bottom Banner */}
-        <div className="bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 border border-indigo-500/30 p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        <div className="bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-accent-500/10 border border-indigo-500/30 p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div className="space-y-1 max-w-xl">
             <h3 className="text-lg sm:text-xl font-extrabold text-ink">
               Want to take these under official exam conditions?

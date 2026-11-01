@@ -99,13 +99,13 @@ export default function HomePage() {
       <section ref={heroRef} className="relative overflow-hidden border-b border-line">
         <HeroBackdrop />
 
-        <div className="relative mx-auto grid max-w-content items-center gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:px-8 lg:py-20">
+        <div className="relative mx-auto grid max-w-content items-center gap-14 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.08fr_1fr] lg:px-8 lg:pb-24 lg:pt-20">
           <div>
             <p className="eyebrow hero-in" style={{ "--i": 0 } as React.CSSProperties}>
               DUHS · BDS 1st Year · 2025–26
             </p>
             {/* Staggered word reveal — CSS keyframes, so it plays before JavaScript loads (no hidden LCP text) */}
-            <h1 className="mt-4 font-display text-[2.6rem] font-extrabold leading-[1.08] tracking-[-0.035em] text-ink sm:text-6xl">
+            <h1 className="mt-5 font-display text-[3rem] font-bold leading-[0.98] tracking-[-0.05em] text-ink sm:text-[4.25rem] lg:text-[4.75rem]">
               <span className="hero-line">
                 <HeroWord i={1}>Study</HeroWord> <HeroWord i={2}>smarter.</HeroWord>
               </span>
@@ -113,11 +113,11 @@ export default function HomePage() {
                 <HeroWord i={3} className="text-shimmer">Score</HeroWord> <HeroWord i={4} className="text-shimmer">higher.</HeroWord>
               </span>
             </h1>
-            <p className="hero-in mt-5 max-w-xl text-lg leading-relaxed text-muted" style={{ "--i": 5 } as React.CSSProperties}>
+            <p className="hero-in mt-6 max-w-xl text-lg leading-relaxed text-muted sm:text-xl" style={{ "--i": 5 } as React.CSSProperties}>
               Your BDS lectures, textbooks, practice questions and revision tools — organised by subject and chapter, in one place.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-9 flex flex-wrap gap-3">
               <Link href="/signup" className="btn-primary btn-sheen hero-in group !px-6 !text-[15px]" style={{ "--i": 6 } as React.CSSProperties}>
                 Start free
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -135,22 +135,32 @@ export default function HomePage() {
               </li>
             </ul>
 
-            {/* Real content counts only */}
-            <dl className="hero-in mt-9 grid max-w-lg grid-cols-3 divide-x divide-line rounded-2xl border border-line bg-surface/80 backdrop-blur" style={{ "--i": 8 } as React.CSSProperties}>
+            {/* Real content counts only — large clinical figures divided by hairlines */}
+            <dl className="hero-in mt-12 grid max-w-lg grid-cols-3 border-t border-line" style={{ "--i": 8 } as React.CSSProperties}>
               {[
                 { v: stats.lectures, l: "Lecture PDFs" },
                 { v: stats.books, l: "Textbooks" },
                 { v: stats.subjects, l: "Subjects" },
-              ].map((s) => (
-                <div key={s.l} className="px-4 py-3.5">
-                  <dt className="text-xs text-muted">{s.l}</dt>
-                  <dd className="mt-0.5 font-display text-2xl font-extrabold tracking-tight text-ink">{s.v}</dd>
+              ].map((s, i) => (
+                <div key={s.l} className={`pt-5 ${i ? "border-l border-line pl-5" : ""}`}>
+                  <dd className="font-display text-[2.25rem] font-bold leading-none tracking-[-0.05em] text-ink">{s.v}</dd>
+                  <dt className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted">{s.l}</dt>
                 </div>
               ))}
             </dl>
           </div>
 
-          <div className="hero-in-right">
+          <div className="hero-in-right relative">
+            {/* subtle floating dental illustrations around the product preview */}
+            <span aria-hidden className="float-art absolute -left-6 -top-8 z-10 hidden h-16 w-16 items-center justify-center rounded-2xl border border-line bg-surface shadow-soft sm:flex">
+              <SubjectArt id="oral-bio" className="h-11 w-11" />
+            </span>
+            <span aria-hidden className="float-art-2 absolute -right-4 top-1/3 z-10 hidden h-14 w-14 items-center justify-center rounded-2xl border border-line bg-surface shadow-soft sm:flex">
+              <SubjectArt id="biochem" className="h-10 w-10" />
+            </span>
+            <span aria-hidden className="float-art-3 absolute -bottom-6 -right-5 z-10 hidden h-14 w-14 items-center justify-center rounded-2xl border border-line bg-surface shadow-soft sm:flex">
+              <SubjectArt id="anat" className="h-10 w-10" />
+            </span>
             <HeroPreview />
           </div>
         </div>
@@ -158,7 +168,8 @@ export default function HomePage() {
 
       <WelcomeBack />
 
-      <div className="mx-auto max-w-content space-y-20 px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div>
+        <Band tone="ice">
         {/* ============================ HOW IT WORKS ============================ */}
         <section aria-labelledby="how">
           <SectionHeader id="how" title="How it works" intro="From sign-up to your first revision session in a couple of minutes." />
@@ -185,6 +196,8 @@ export default function HomePage() {
           </Stagger>
         </section>
 
+        </Band>
+        <Band tone="white">
         {/* ============================ FEATURED RESOURCES ============================ */}
         <section aria-labelledby="featured">
           <SectionHeader
@@ -210,6 +223,8 @@ export default function HomePage() {
           </div>
         </section>
 
+        </Band>
+        <Band tone="ice">
         {/* ============================ SUBJECTS ============================ */}
         <section aria-labelledby="subjects">
           <SectionHeader
@@ -257,6 +272,8 @@ export default function HomePage() {
           </Stagger>
         </section>
 
+        </Band>
+        <Band tone="white">
         {/* ============================ MCQ PRACTICE ============================ */}
         <Reveal as="section" className="card-glow relative grid gap-10 overflow-hidden rounded-2xl border border-line bg-surface p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-500/10 blur-3xl" />
@@ -292,6 +309,8 @@ export default function HomePage() {
           </ul>
         </Reveal>
 
+        </Band>
+        <Band tone="ice">
         {/* ============================ WHAT'S INSIDE ============================ */}
         <section aria-labelledby="inside">
           <SectionHeader id="inside" title="Everything else you revise from" intro="Revision tools and study materials, sorted by type." />
@@ -312,6 +331,8 @@ export default function HomePage() {
           </Stagger>
         </section>
 
+        </Band>
+        <Band tone="white">
         {/* ============================ PRICING ============================ */}
         <section aria-labelledby="pricing">
           <SectionHeader
@@ -360,6 +381,8 @@ export default function HomePage() {
           </p>
         </section>
 
+        </Band>
+        <Band tone="ice">
         {/* ============================ FAQ ============================ */}
         <section aria-labelledby="faq" className="mx-auto max-w-3xl">
           <SectionHeader id="faq" title="Questions students ask" />
@@ -376,21 +399,40 @@ export default function HomePage() {
           </p>
         </section>
 
+        </Band>
+        <Band tone="white">
         {/* ============================ CTA ============================ */}
-        <Reveal as="section" className="relative overflow-hidden rounded-2xl border border-line bg-gradient-to-br from-soft via-surface to-surface px-6 py-12 text-center sm:px-12">
-          <GraduationCap className="mx-auto h-10 w-10 text-primary" />
-          <h2 className="section-title mt-4">Ready for your next study session?</h2>
-          <p className="mx-auto mt-2 max-w-xl text-muted">Create a free account, open a chapter, and we&apos;ll keep your place for next time.</p>
-          <div className="mt-7 flex flex-wrap justify-center gap-3">
-            <Link href="/signup" className="btn-primary !px-6">
+        {/* deep-navy closing panel (same in both themes) */}
+        <Reveal as="section" className="relative overflow-hidden rounded-3xl bg-[#0a1a2f] px-6 py-16 text-center sm:px-12 sm:py-20">
+          <div aria-hidden className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgb(255_255_255/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.05)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
+          <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-[#2dd4bf]/20 blur-3xl" />
+          <span aria-hidden className="float-art relative mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+            <GraduationCap className="h-7 w-7 text-[#5eead4]" />
+          </span>
+          <h2 className="relative mx-auto mt-6 max-w-2xl font-display text-[2rem] font-bold leading-[1.05] tracking-[-0.04em] text-white sm:text-[2.75rem]">
+            Ready for your next study session?
+          </h2>
+          <p className="relative mx-auto mt-4 max-w-xl text-[#b8c7d9]">Create a free account, open a chapter, and we&apos;ll keep your place for next time.</p>
+          <div className="relative mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/signup" className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[#2dd4bf] px-7 font-display text-[15px] font-semibold text-[#04121f] transition hover:-translate-y-0.5 hover:bg-[#5eead4]">
               Create free account <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link href="/subjects" className="btn-secondary !px-6">
+            <Link href="/subjects" className="inline-flex min-h-[48px] items-center rounded-full border border-white/20 px-7 font-display text-[15px] font-semibold text-white transition hover:-translate-y-0.5 hover:border-white/40">
               Browse subjects
             </Link>
           </div>
         </Reveal>
+        </Band>
       </div>
+    </div>
+  );
+}
+
+/** Full-width section band; alternating white / ice-grey with hairline dividers */
+function Band({ tone, children }: { tone: "white" | "ice"; children: React.ReactNode }) {
+  return (
+    <div className={`border-t border-line ${tone === "ice" ? "bg-canvas-2/70" : "bg-surface/60"}`}>
+      <div className="mx-auto max-w-content px-4 py-20 sm:px-6 lg:px-8 lg:py-24">{children}</div>
     </div>
   );
 }
@@ -500,13 +542,11 @@ function HeroWord({ i, children, className = "" }: { i: number; children: React.
 function HeroBackdrop() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_at_top,black_25%,transparent_70%)]" />
-      <div className="orb left-1/2 top-[-12rem] h-[26rem] w-[44rem] -translate-x-1/2 bg-brand-500/15" />
-      <div className="orb orb-a -left-24 top-24 h-72 w-72 bg-brand-400/15" />
-      <div className="orb orb-b right-[-6rem] top-40 h-80 w-80 bg-accent-500/10" />
-      <span className="float-dot left-[12%] top-[22%] h-2 w-2 [animation-delay:-2s]" />
-      <span className="float-dot left-[46%] top-[78%] h-1.5 w-1.5 [animation-delay:-5s]" />
-      <span className="float-dot right-[8%] top-[14%] h-2.5 w-2.5 [animation-delay:-8s]" />
+      {/* clinical line grid, fading out from the top */}
+      <div className="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_80%_70%_at_50%_0%,black_30%,transparent_75%)]" />
+      {/* soft clinical-teal and electric-blue light behind the preview */}
+      <div className="orb orb-a right-[4%] top-[8%] h-[26rem] w-[26rem] bg-brand-500/[0.14]" />
+      <div className="orb orb-b right-[18%] top-[38%] h-72 w-72 bg-accent-500/[0.12]" />
     </div>
   );
 }
@@ -578,7 +618,15 @@ function HeroPreview() {
 
   return (
     <div ref={cardRef} className="relative mx-auto w-full max-w-md lg:max-w-none">
-      <div className="relative rounded-2xl border border-line bg-surface p-5 shadow-lift sm:p-6">
+      <div className="relative overflow-hidden rounded-3xl border border-line bg-surface shadow-lift">
+        {/* product-window frame, like a screenshot of the study app */}
+        <div className="flex items-center gap-1.5 border-b border-line bg-canvas-2/80 px-4 py-2.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-coral-400/80" />
+          <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+          <span className="h-2.5 w-2.5 rounded-full bg-brand-400/80" />
+          <span className="ml-3 font-display text-[11px] font-semibold tracking-wide text-muted">HMHDental · MCQ practice</span>
+        </div>
+        <div className="p-5 sm:p-6">
         <div className="flex items-center justify-between text-xs">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-soft px-2.5 py-1 font-semibold text-primary">
             <SubjectArt id="anat" className="h-4 w-4" /> Sample question · Anatomy
@@ -631,6 +679,7 @@ function HeroPreview() {
             <Target className="h-3.5 w-3.5 text-primary" /> Source: {mcq.yearSource}
           </div>
         )}
+        </div>
       </div>
     </div>
   );

@@ -446,7 +446,7 @@ const SUBJECTS = [
   { id: "anat",    label: "Anatomy",       color: "text-amber-800 dark:text-amber-400",   badge: "bg-amber-500/10 border-amber-500/30" },
   { id: "phys",    label: "Physiology",    color: "text-rose-600 dark:text-rose-400",    badge: "bg-rose-500/10 border-rose-500/30" },
   { id: "oral-bio",label: "Oral Biology",  color: "text-cyan-800 dark:text-cyan-400",    badge: "bg-cyan-500/10 border-cyan-500/30" },
-  { id: "biochem", label: "Biochemistry",  color: "text-violet-600 dark:text-violet-400",  badge: "bg-violet-500/10 border-violet-500/30" },
+  { id: "biochem", label: "Biochemistry",  color: "text-accent-600 dark:text-accent-400",  badge: "bg-accent-500/10 border-accent-500/30" },
   { id: "pharm",   label: "Pharmacology",  color: "text-emerald-800 dark:text-emerald-400", badge: "bg-emerald-500/10 border-emerald-500/30" },
   { id: "path",    label: "Pathology",     color: "text-primary",    badge: "bg-blue-500/10 border-blue-500/30" },
 ];
@@ -520,7 +520,7 @@ export default function ContentPage() {
                 placeholder="Search papers..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="pl-9 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-ink placeholder-slate-600 text-sm focus:outline-none focus:border-purple-500 w-56"
+                className="pl-9 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-ink placeholder-slate-600 text-sm focus:outline-none focus:border-accent-500 w-56"
               />
             </div>
           </div>

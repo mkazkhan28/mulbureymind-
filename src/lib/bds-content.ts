@@ -174,7 +174,7 @@ export const BDS_SUBJECTS: Subject[] = [
     slug: "biochemistry",
     icon: "🧬",
     description: "Enzyme kinetics, carbohydrate & lipid metabolism, vitamins in oral health, calcium-phosphate regulation, and molecular genetics.",
-    color: "from-purple-600 to-violet-700",
+    color: "from-accent-600 to-accent-700",
     accentColor: "purple",
     mcqCount: 540,
     flashcardCount: 160,

@@ -41,7 +41,7 @@ export default function AuthLayout({
         <div className="relative flex items-center justify-between">
           <Link href="/" className="group flex items-center gap-2.5">
             <img src="/logo-icon.svg" alt="HMHDental logo" className="h-11 w-11 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105" />
-            <span className="font-display text-2xl font-extrabold tracking-[-0.03em] text-ink">
+            <span className="font-display text-2xl font-bold tracking-[-0.04em] text-ink">
               HMH<span className="text-primary">Dental</span>
             </span>
           </Link>
@@ -62,7 +62,7 @@ export default function AuthLayout({
         </div>
 
         <div className="relative mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-10">
-          <h1 className="text-3xl font-extrabold tracking-tight text-ink animate-rise">{title}</h1>
+          <h1 className="font-display text-[2.25rem] font-bold leading-[1.05] tracking-[-0.04em] text-ink animate-rise">{title}</h1>
           <p className="mt-2 text-sm text-slate-400 animate-rise [animation-delay:80ms]">{subtitle}</p>
           <div className="mt-8 animate-rise [animation-delay:160ms]">{children}</div>
           {footer && <div className="mt-8 text-center text-sm text-slate-400 animate-rise [animation-delay:240ms]">{footer}</div>}
@@ -70,11 +70,11 @@ export default function AuthLayout({
       </div>
 
       {/* --------------------------- brand panel --------------------------- */}
-      <div className="relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-accent-800 lg:flex lg:w-1/2 lg:flex-col lg:justify-between lg:p-12 xl:p-16">
-        {/* drifting light blobs */}
-        <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-3xl animate-drift" />
-        <div className="pointer-events-none absolute -bottom-32 -right-20 h-[28rem] w-[28rem] rounded-full bg-accent-400/25 blur-3xl animate-drift [animation-delay:-7s]" />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:radial-gradient(white_1px,transparent_1px)] [background-size:24px_24px]" />
+      <div className="relative hidden overflow-hidden bg-[#0a1a2f] lg:flex lg:w-1/2 lg:flex-col lg:justify-between lg:p-12 xl:p-16">
+        {/* deep-navy clinical panel: fine grid + soft teal and electric-blue light */}
+        <div className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgb(255_255_255/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.05)_1px,transparent_1px)] [background-size:56px_56px]" />
+        <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-[#2dd4bf]/20 blur-3xl animate-drift" />
+        <div className="pointer-events-none absolute -bottom-32 -right-20 h-[28rem] w-[28rem] rounded-full bg-[#3b72f6]/25 blur-3xl animate-drift [animation-delay:-7s]" />
 
         {/* orbiting rings with tooth / molecule glyphs */}
         <div className="pointer-events-none absolute right-[-120px] top-1/2 h-[520px] w-[520px] -translate-y-1/2">
@@ -91,9 +91,9 @@ export default function AuthLayout({
 
         <div className="relative">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-300 animate-pulse" /> DUHS BDS 1st Year
+            <span className="h-1.5 w-1.5 rounded-full bg-[#ff7d66]" /> DUHS BDS 1st Year
           </span>
-          <h2 className="mt-6 max-w-md text-4xl font-extrabold leading-tight tracking-tight text-white">
+          <h2 className="mt-6 max-w-md font-display text-[2.75rem] font-bold leading-[1.05] tracking-[-0.04em] text-white">
             Your whole first year, organised in one calm place.
           </h2>
         </div>

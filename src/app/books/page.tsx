@@ -66,12 +66,12 @@ export default function BooksLibraryPage() {
                 placeholder="Search by book title, author, or keyword..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-ink placeholder-slate-500 text-sm focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition shadow-inner"
+                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-ink placeholder-slate-500 text-sm focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 transition shadow-inner"
               />
             </div>
 
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
-              <BookOpen className="w-4 h-4 text-violet-600 dark:text-violet-400" />
+              <BookOpen className="w-4 h-4 text-accent-600 dark:text-accent-400" />
               <span>{filteredBooks.length} Volumes Available</span>
             </div>
           </div>
@@ -111,7 +111,7 @@ export default function BooksLibraryPage() {
               {/* Category Subtitle */}
               <div className="flex items-center justify-between border-b border-line pb-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-violet-500 shadow-sm shadow-violet-500/50" />
+                  <div className="w-3 h-3 rounded-full bg-accent-500 shadow-sm shadow-accent-500/50" />
                   <h2 className="text-xl sm:text-2xl font-black text-ink tracking-tight">
                     {group.name}
                   </h2>
@@ -132,7 +132,7 @@ export default function BooksLibraryPage() {
                   return (
                     <div
                       key={book.id}
-                      className={`relative flex flex-col justify-between rounded-2xl p-6 bg-surface bg-gradient-to-br ${book.coverGradient} border border-line hover:border-primary/40 transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-violet-900/10 group`}
+                      className={`relative flex flex-col justify-between rounded-2xl p-6 bg-surface bg-gradient-to-br ${book.coverGradient} border border-line hover:border-primary/40 transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent-900/10 group`}
                     >
                       <div className="space-y-4">
                         {/* Top Badges */}
@@ -149,7 +149,7 @@ export default function BooksLibraryPage() {
 
                         {/* Title & Meta */}
                         <div>
-                          <h3 className="font-extrabold text-ink text-lg leading-tight group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors">
+                          <h3 className="font-extrabold text-ink text-lg leading-tight group-hover:text-accent-700 dark:group-hover:text-accent-300 transition-colors">
                             {book.title}
                           </h3>
                           {book.edition && (
@@ -190,7 +190,7 @@ export default function BooksLibraryPage() {
                           <>
                             <Link
                               href={`/read/${book.id}`}
-                              className="flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition flex items-center justify-center gap-2 group-hover:shadow-lg"
+                              className="flex-1 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-500 text-white font-bold text-xs transition flex items-center justify-center gap-2 group-hover:shadow-lg"
                             >
                               <Eye className="w-4 h-4" />
                               <span>Read &amp; take notes</span>
@@ -231,8 +231,8 @@ export default function BooksLibraryPage() {
           {/* Reader Header */}
           <div className="flex items-center justify-between px-6 py-3.5 bg-surface border-b border-slate-800">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center shrink-0">
-                <BookOpen className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+              <div className="w-9 h-9 rounded-xl bg-accent-600/20 border border-accent-500/30 flex items-center justify-center shrink-0">
+                <BookOpen className="w-5 h-5 text-accent-600 dark:text-accent-400" />
               </div>
               <div className="min-w-0">
                 <h3 className="font-bold text-ink text-sm truncate">

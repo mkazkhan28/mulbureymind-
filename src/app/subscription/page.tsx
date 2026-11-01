@@ -46,7 +46,7 @@ export default function SubscriptionPage() {
         <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 sm:p-8 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-blue-500/10 text-primary rounded-2xl border border-blue-500/30">
+              <div className="p-3 bg-soft text-primary rounded-2xl border border-blue-500/30">
                 <ShieldCheck className="w-6 h-6 text-primary" />
               </div>
               <div>

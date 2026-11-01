@@ -1,21 +1,22 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Manrope, Inter } from "next/font/google";
+import { Space_Grotesk, Manrope } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 import { MotionProvider } from "@/components/motion";
 import { ThemeProvider, themeInitScript } from "@/context/ThemeContext";
 
-/* Brand typefaces: Manrope for headings, Inter for body text */
-const display = Manrope({
+/* Brand typefaces: Space Grotesk for headings and navigation, Manrope for body text */
+const display = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["500", "600", "700"],
   variable: "--font-display",
   display: "swap",
 });
 
-const inter = Inter({
+const body = Manrope({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-body",
   display: "swap",
 });
@@ -31,8 +32,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f9fc" },
-    { media: "(prefers-color-scheme: dark)", color: "#080d1b" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f9fb" },
+    { media: "(prefers-color-scheme: dark)", color: "#071321" },
   ],
 };
 
@@ -53,7 +54,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
-        className={`${display.variable} ${inter.variable} ${geistMono.variable} font-sans antialiased min-h-screen bg-canvas text-ink`}
+        className={`${display.variable} ${body.variable} ${geistMono.variable} font-sans antialiased min-h-screen bg-canvas text-ink`}
       >
         <ThemeProvider>
           <MotionProvider>

@@ -71,13 +71,13 @@ export default function ResourcesPage() {
         return "bg-cyan-500/15 text-cyan-800 dark:text-cyan-300 border-cyan-500/30";
       case "biochem":
       case "subj-biochem-1":
-        return "bg-purple-500/15 text-purple-800 dark:text-purple-300 border-purple-500/30";
+        return "bg-accent-500/15 text-accent-800 dark:text-accent-300 border-accent-500/30";
       case "pharm":
       case "subj-pharm-1":
         return "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30";
       case "path":
       case "subj-path-1":
-        return "bg-blue-500/15 text-primary border-blue-500/30";
+        return "bg-soft text-primary border-blue-500/30";
       default:
         return "bg-slate-800 text-slate-300 border-slate-700";
     }
@@ -111,7 +111,7 @@ export default function ResourcesPage() {
             <ShieldCheck className="w-4 h-4 text-cyan-800 dark:text-cyan-400" />
             <span className="font-semibold text-slate-300">Simulated Access Tier:</span>
             <span className={`px-2.5 py-0.5 rounded-full font-bold text-[10px] border ${
-              isStudentSubscribed ? "bg-indigo-500/15 text-primary border-indigo-500/30" : "bg-slate-950/80 text-slate-400 border-slate-800"
+              isStudentSubscribed ? "bg-soft text-primary border-indigo-500/30" : "bg-slate-950/80 text-slate-400 border-slate-800"
             }`}>
               {isStudentSubscribed ? "Full Academic Pass (Active)" : "Free Student Starter"}
             </span>
@@ -201,7 +201,7 @@ export default function ResourcesPage() {
                     </div>
 
                     {res.isPremium ? (
-                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-primary border border-indigo-500/30 flex items-center gap-1 shadow-sm">
+                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-soft text-primary border border-indigo-500/30 flex items-center gap-1 shadow-sm">
                         <Lock className="w-3 h-3 text-primary" />
                         <span>Academic Pass</span>
                       </span>

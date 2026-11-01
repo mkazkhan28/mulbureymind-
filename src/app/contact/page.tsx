@@ -53,7 +53,7 @@ export default function ContactPage() {
 
               <div className="space-y-4 text-xs">
                 <div className="flex items-start gap-3">
-                  <div className="p-2.5 bg-blue-500/10 text-primary border border-blue-500/30 rounded-xl">
+                  <div className="p-2.5 bg-soft text-primary border border-blue-500/30 rounded-xl">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
@@ -64,7 +64,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="p-2.5 bg-blue-500/10 text-primary border border-blue-500/30 rounded-xl">
+                  <div className="p-2.5 bg-soft text-primary border border-blue-500/30 rounded-xl">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
@@ -188,7 +188,7 @@ export default function ContactPage() {
                 </form>
               ) : (
                 <div className="text-center py-8 space-y-3 animate-fadeIn">
-                  <div className="w-12 h-12 rounded-full bg-blue-500/10 text-primary border border-blue-500/30 flex items-center justify-center mx-auto">
+                  <div className="w-12 h-12 rounded-full bg-soft text-primary border border-blue-500/30 flex items-center justify-center mx-auto">
                     <CheckCircle2 className="w-6 h-6 text-emerald-800 dark:text-emerald-400" />
                   </div>
                   <h3 className="font-bold text-base text-ink">Message Received</h3>

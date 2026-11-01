@@ -3,13 +3,14 @@
 @tailwind utilities;
 
 /* =============================================================================
-   HMHDental colour tokens (generated)
-   Light (default): #F7F9FC off-white canvas, white cards, deep-navy #0B1530 text, cyan used selectively
-   (#0E7490 for buttons/links so text passes WCAG AA).
-   Dark (html.dark): #080D1B midnight canvas, #10192B secondary, #141F33 cards, #00D9FF electric-cyan accent.
+   HMHDental colour tokens (generated) — "Clinical Modernism"
+   Light (default): white cards on an ice-grey #F7F9FB canvas, deep-navy #0A1A2F text,
+   clinical teal #0A7A7F actions, electric blue accents, restrained coral highlights.
+   Dark (html.dark): deep-navy #071321 canvas, #0E1F34 cards, teal #2DD4BF actions.
+   No purple anywhere: violet/purple class names resolve to electric blue, pink to coral.
    ============================================================================= */
 :root {
-  --c-shadow: 11 21 48;
+  --c-shadow: 10 26 47;
   --c-amber-50: 69 26 3;
   --c-amber-100: 120 53 15;
   --c-amber-200: 146 64 14;
@@ -109,56 +110,67 @@
   --c-stone-800: 41 37 36;
   --c-stone-900: 245 245 244;
   --c-stone-950: 250 250 249;
-  --c-brand-50: 8 51 68;
-  --c-brand-100: 22 78 99;
-  --c-brand-200: 21 94 117;
-  --c-brand-300: 21 94 117;
-  --c-brand-400: 14 116 144;
-  --c-brand-500: 6 182 212;
-  --c-brand-600: 8 145 178;
-  --c-brand-700: 14 116 144;
-  --c-brand-800: 21 94 117;
-  --c-brand-900: 207 250 254;
-  --c-brand-950: 236 254 255;
-  --c-accent-50: 23 37 84;
-  --c-accent-100: 30 58 138;
-  --c-accent-200: 30 64 175;
-  --c-accent-300: 30 64 175;
-  --c-accent-400: 29 78 216;
-  --c-accent-500: 59 130 246;
-  --c-accent-600: 37 99 235;
-  --c-accent-700: 29 78 216;
-  --c-accent-800: 30 64 175;
-  --c-accent-900: 219 234 254;
-  --c-accent-950: 239 246 255;
-  --c-slate-50: 11 21 48;
-  --c-slate-100: 11 21 48;
-  --c-slate-200: 27 39 66;
-  --c-slate-300: 46 59 87;
-  --c-slate-400: 74 88 115;
-  --c-slate-500: 102 115 140;
-  --c-slate-600: 152 163 184;
-  --c-slate-700: 227 232 240;
-  --c-slate-800: 237 241 247;
-  --c-slate-850: 241 244 249;
+  --c-coral-50: 71 17 10;
+  --c-coral-100: 130 41 28;
+  --c-coral-200: 157 43 27;
+  --c-coral-300: 157 43 27;
+  --c-coral-400: 191 48 27;
+  --c-coral-500: 249 87 61;
+  --c-coral-600: 228 62 36;
+  --c-coral-700: 191 48 27;
+  --c-coral-800: 157 43 27;
+  --c-coral-900: 255 229 224;
+  --c-coral-950: 255 244 242;
+  --c-brand-50: 3 40 38;
+  --c-brand-100: 12 69 68;
+  --c-brand-200: 11 84 82;
+  --c-brand-300: 11 84 82;
+  --c-brand-400: 10 104 102;
+  --c-brand-500: 22 156 150;
+  --c-brand-600: 11 127 124;
+  --c-brand-700: 10 104 102;
+  --c-brand-800: 11 84 82;
+  --c-brand-900: 210 243 241;
+  --c-brand-950: 238 251 250;
+  --c-accent-50: 21 31 71;
+  --c-accent-100: 33 54 121;
+  --c-accent-200: 34 62 155;
+  --c-accent-300: 34 62 155;
+  --c-accent-400: 36 73 196;
+  --c-accent-500: 59 114 246;
+  --c-accent-600: 43 92 230;
+  --c-accent-700: 36 73 196;
+  --c-accent-800: 34 62 155;
+  --c-accent-900: 219 231 255;
+  --c-accent-950: 238 244 255;
+  --c-slate-50: 10 26 47;
+  --c-slate-100: 10 26 47;
+  --c-slate-200: 24 40 62;
+  --c-slate-300: 43 59 82;
+  --c-slate-400: 77 92 112;
+  --c-slate-500: 102 117 138;
+  --c-slate-600: 149 163 181;
+  --c-slate-700: 223 230 238;
+  --c-slate-800: 233 238 243;
+  --c-slate-850: 241 244 248;
   --c-slate-900: 255 255 255;
-  --c-slate-950: 247 249 252;
-  --c-canvas: 247 249 252;
-  --c-canvas-2: 238 242 248;
+  --c-slate-950: 246 248 251;
+  --c-canvas: 247 249 251;
+  --c-canvas-2: 238 243 247;
   --c-surface: 255 255 255;
-  --c-surface-2: 241 244 249;
+  --c-surface-2: 242 246 249;
   --c-elevated: 255 255 255;
-  --c-ink: 11 21 48;
-  --c-muted: 74 88 115;
-  --c-line: 227 232 240;
-  --c-primary: 14 116 144;
-  --c-primary-hover: 21 94 117;
+  --c-ink: 10 26 47;
+  --c-muted: 77 92 112;
+  --c-line: 225 232 239;
+  --c-primary: 10 122 127;
+  --c-primary-hover: 7 95 99;
   --c-on-primary: 255 255 255;
-  --c-soft: 232 251 255;
+  --c-soft: 227 244 243;
 }
 
 html.dark {
-  --c-shadow: 0 2 10;
+  --c-shadow: 0 0 0;
   --c-amber-50: 255 251 235;
   --c-amber-100: 254 243 199;
   --c-amber-200: 253 230 138;
@@ -258,53 +270,65 @@ html.dark {
   --c-stone-800: 41 37 36;
   --c-stone-900: 28 25 23;
   --c-stone-950: 12 10 9;
-  --c-brand-50: 230 251 255;
-  --c-brand-100: 196 246 255;
-  --c-brand-200: 176 244 255;
-  --c-brand-300: 122 235 255;
-  --c-brand-400: 51 225 255;
-  --c-brand-500: 0 217 255;
-  --c-brand-600: 0 184 219;
-  --c-brand-700: 0 148 179;
-  --c-brand-800: 14 116 144;
-  --c-brand-900: 21 94 117;
-  --c-brand-950: 6 48 61;
-  --c-accent-50: 239 246 255;
-  --c-accent-100: 219 234 254;
-  --c-accent-200: 191 219 254;
-  --c-accent-300: 147 197 253;
-  --c-accent-400: 96 165 250;
-  --c-accent-500: 59 130 246;
-  --c-accent-600: 37 99 235;
-  --c-accent-700: 29 78 216;
-  --c-accent-800: 30 64 175;
-  --c-accent-900: 30 58 138;
-  --c-accent-950: 23 37 84;
-  --c-slate-50: 244 247 252;
-  --c-slate-100: 238 242 248;
-  --c-slate-200: 226 232 242;
-  --c-slate-300: 201 210 224;
-  --c-slate-400: 162 174 194;
-  --c-slate-500: 117 131 156;
-  --c-slate-600: 74 90 120;
-  --c-slate-700: 42 58 87;
-  --c-slate-800: 31 45 71;
-  --c-slate-850: 26 39 64;
-  --c-slate-900: 20 31 51;
-  --c-slate-950: 8 13 27;
-  --c-canvas: 8 13 27;
-  --c-canvas-2: 16 25 43;
-  --c-surface: 20 31 51;
-  --c-surface-2: 26 39 64;
-  --c-elevated: 26 39 64;
-  --c-ink: 244 247 252;
-  --c-muted: 162 174 194;
-  --c-line: 36 50 74;
-  --c-primary: 0 217 255;
-  --c-primary-hover: 92 232 255;
-  --c-on-primary: 8 13 27;
-  --c-soft: 6 40 58;
+  --c-coral-50: 255 244 242;
+  --c-coral-100: 255 229 224;
+  --c-coral-200: 255 203 194;
+  --c-coral-300: 255 167 151;
+  --c-coral-400: 255 125 102;
+  --c-coral-500: 249 87 61;
+  --c-coral-600: 228 62 36;
+  --c-coral-700: 191 48 27;
+  --c-coral-800: 157 43 27;
+  --c-coral-900: 130 41 28;
+  --c-coral-950: 71 17 10;
+  --c-brand-50: 236 253 250;
+  --c-brand-100: 205 250 242;
+  --c-brand-200: 156 243 229;
+  --c-brand-300: 95 230 211;
+  --c-brand-400: 45 212 191;
+  --c-brand-500: 20 184 166;
+  --c-brand-600: 13 148 136;
+  --c-brand-700: 15 118 110;
+  --c-brand-800: 17 94 89;
+  --c-brand-900: 19 78 74;
+  --c-brand-950: 4 47 46;
+  --c-accent-50: 238 244 255;
+  --c-accent-100: 219 231 255;
+  --c-accent-200: 191 212 255;
+  --c-accent-300: 147 182 255;
+  --c-accent-400: 93 143 255;
+  --c-accent-500: 59 114 246;
+  --c-accent-600: 43 92 230;
+  --c-accent-700: 36 73 196;
+  --c-accent-800: 34 62 155;
+  --c-accent-900: 33 54 121;
+  --c-accent-950: 21 31 71;
+  --c-slate-50: 243 247 251;
+  --c-slate-100: 234 240 246;
+  --c-slate-200: 220 229 239;
+  --c-slate-300: 194 207 221;
+  --c-slate-400: 157 176 198;
+  --c-slate-500: 113 133 157;
+  --c-slate-600: 76 95 120;
+  --c-slate-700: 42 61 87;
+  --c-slate-800: 28 48 74;
+  --c-slate-850: 22 41 63;
+  --c-slate-900: 15 32 54;
+  --c-slate-950: 7 19 33;
+  --c-canvas: 7 19 33;
+  --c-canvas-2: 10 26 44;
+  --c-surface: 14 31 52;
+  --c-surface-2: 19 40 63;
+  --c-elevated: 19 40 63;
+  --c-ink: 238 244 250;
+  --c-muted: 157 176 198;
+  --c-line: 29 52 80;
+  --c-primary: 45 212 191;
+  --c-primary-hover: 94 234 212;
+  --c-on-primary: 4 18 31;
+  --c-soft: 10 46 53;
 }
+
 
 
 @layer base {
@@ -331,11 +355,11 @@ html.dark {
   h1, h2, h3, h4 {
     @apply font-display;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
   }
   h1 {
-    font-weight: 800;
-    letter-spacing: -0.03em;
+    font-weight: 700;
+    letter-spacing: -0.04em;
   }
 
   ::selection {
@@ -383,22 +407,22 @@ html.dark {
   }
 
   /* ---------------------------------------------------------------------------
-     Buttons — primary = electric cyan, secondary = restrained outline.
+     Buttons — pill shaped. Primary = clinical teal, secondary = hairline outline.
      States: hover, focus-visible, active, disabled, loading (aria-busy="true").
      --------------------------------------------------------------------------- */
   .btn-brand,
   .btn-primary {
-    @apply relative inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-primary px-5 py-2.5
-      text-sm font-semibold text-on-primary shadow-sm transition-all duration-200
+    @apply relative inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-primary px-6 py-2.5
+      font-display text-sm font-semibold tracking-[-0.01em] text-on-primary transition-all duration-200
       hover:bg-primary-hover hover:shadow-md active:scale-[0.98]
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-canvas
       disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-primary disabled:active:scale-100;
   }
   .btn-ghost,
   .btn-secondary {
-    @apply relative inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-line bg-surface px-5 py-2.5
-      text-sm font-semibold text-ink transition-all duration-200
-      hover:border-primary/60 hover:text-primary active:scale-[0.98]
+    @apply relative inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-line bg-surface px-6 py-2.5
+      font-display text-sm font-semibold tracking-[-0.01em] text-ink transition-all duration-200
+      hover:border-primary/50 hover:text-primary active:scale-[0.98]
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-canvas
       disabled:cursor-not-allowed disabled:opacity-50;
   }
@@ -428,20 +452,22 @@ html.dark {
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-brand-600 to-accent-600 bg-clip-text text-transparent;
-  }
-  html.dark .text-gradient {
-    @apply from-brand-300 to-brand-500;
+    @apply bg-gradient-to-r from-brand-400 to-accent-400 bg-clip-text text-transparent;
   }
 
   /* ---------------------------------------------------------------------------
      Type hierarchy — H1 page title, H2 section, H3 card/subsection
      --------------------------------------------------------------------------- */
+  /* small uppercase label with a restrained coral marker */
   .eyebrow {
-    @apply text-xs font-bold uppercase tracking-[0.14em] text-primary;
+    @apply inline-flex items-center gap-2 font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-primary;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-1.5 w-1.5 shrink-0 rounded-full bg-coral-500;
   }
   .page-title {
-    @apply font-display text-[2rem] font-extrabold leading-[1.1] tracking-[-0.03em] text-ink sm:text-[2.5rem] lg:text-[2.75rem];
+    @apply font-display text-[2.25rem] font-bold leading-[1.04] tracking-[-0.04em] text-ink sm:text-[2.75rem] lg:text-[3.25rem];
   }
   .page-lead {
     @apply text-lg font-semibold leading-snug text-ink/90 sm:text-xl;
@@ -450,19 +476,19 @@ html.dark {
     @apply max-w-2xl text-base leading-relaxed text-muted;
   }
   .section-title {
-    @apply font-display text-2xl font-bold tracking-[-0.02em] text-ink sm:text-[1.75rem];
+    @apply font-display text-[1.75rem] font-bold leading-[1.1] tracking-[-0.035em] text-ink sm:text-[2.125rem];
   }
   .section-intro {
     @apply mt-2 max-w-2xl text-[15px] leading-relaxed text-muted;
   }
   .card-title {
-    @apply font-display text-base font-bold leading-snug text-ink;
+    @apply font-display text-[17px] font-semibold leading-snug tracking-[-0.015em] text-ink;
   }
 
   /* Resource card used for subjects, MCQ sets, notes, PPTs, flashcards, papers */
   .resource-card {
-    @apply relative flex h-full min-w-0 flex-col rounded-2xl border border-line bg-surface p-5 transition-all duration-200
-      hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lift
+    @apply relative flex h-full min-w-0 flex-col rounded-2xl border border-line bg-surface p-6 transition-all duration-200
+      hover:-translate-y-1 hover:border-primary/35 hover:shadow-lift
       focus-within:border-primary/50;
   }
   .chip {
@@ -473,18 +499,25 @@ html.dark {
   }
   html.dark .chip-free { @apply text-emerald-400; }
   .chip-pro {
-    @apply inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-bold text-primary;
+    @apply inline-flex items-center gap-1 rounded-full bg-soft px-2.5 py-0.5 text-[11px] font-bold text-primary;
   }
 
   .field {
     @apply w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm text-ink placeholder:text-muted/70
-      focus:outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15 transition;
+      focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/15 transition;
   }
 
-  /* Subtle dotted grid used behind hero sections */
+  /* Clinical line grid used behind hero sections (like a radiograph light box) */
   .bg-grid {
-    background-image: radial-gradient(rgb(var(--c-slate-500) / 0.18) 1px, transparent 1px);
-    background-size: 22px 22px;
+    background-image:
+      linear-gradient(rgb(var(--c-ink) / 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-ink) / 0.055) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  html.dark .bg-grid {
+    background-image:
+      linear-gradient(rgb(var(--c-ink) / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-ink) / 0.06) 1px, transparent 1px);
   }
 }
 
@@ -593,7 +626,7 @@ html.dark .text-shimmer {
   transition-timing-function: var(--ease-out);
 }
 @media (hover: hover) {
-  .btn-primary:hover, .btn-brand:hover { transform: translateY(-1px); box-shadow: 0 8px 24px -8px rgb(var(--c-primary) / 0.55); }
+  .btn-primary:hover, .btn-brand:hover { transform: translateY(-1px); box-shadow: 0 10px 24px -12px rgb(var(--c-primary) / 0.6); }
   .btn-secondary:hover, .btn-ghost:hover { transform: translateY(-1px); }
 }
 .btn-primary:active, .btn-brand:active, .btn-secondary:active, .btn-ghost:active { transform: translateY(0) scale(0.97); }
@@ -615,21 +648,31 @@ html.dark .text-shimmer {
 .card-glow { transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s var(--ease-out); }
 @media (hover: hover) {
   .card-glow:hover {
-    border-color: rgb(var(--c-primary) / 0.5);
-    box-shadow: 0 0 0 1px rgb(var(--c-primary) / 0.15), 0 18px 48px -18px rgb(var(--c-primary) / 0.45);
+    border-color: rgb(var(--c-primary) / 0.4);
+    box-shadow: 0 24px 48px -28px rgb(var(--c-shadow) / 0.35);
+  }
+  html.dark .card-glow:hover {
+    box-shadow: 0 24px 56px -24px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(var(--c-primary) / 0.18);
   }
 }
-html.dark .card-glow:hover {
-  box-shadow: 0 0 0 1px rgb(var(--c-primary) / 0.25), 0 18px 56px -16px rgb(var(--c-primary) / 0.35);
+
+
+
+/* Floating dental illustrations: slow, small drift (transform only; off with reduced motion and off-screen) */
+.float-art { animation: float-art 7s ease-in-out infinite; will-change: transform; }
+.float-art-2 { animation: float-art 9s ease-in-out -3s infinite; will-change: transform; }
+.float-art-3 { animation: float-art 8s ease-in-out -5s infinite reverse; will-change: transform; }
+@keyframes float-art {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -10px, 0) rotate(-3deg); }
 }
-
-
+[data-offscreen] .float-art, [data-offscreen] .float-art-2, [data-offscreen] .float-art-3 { animation-play-state: paused; }
 
 /* Scroll-reveal (see src/components/Reveal.tsx) */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .reveal.is-visible {
@@ -718,6 +761,6 @@ html.dark .card-glow:hover {
     opacity: 1;
     transform: none;
   }
-  .hero-word, .hero-in, .hero-in-right, .text-shimmer { animation: none !important; opacity: 1; transform: none; }
+  .hero-word, .hero-in, .hero-in-right, .text-shimmer, .float-art, .float-art-2, .float-art-3 { animation: none !important; opacity: 1; transform: none; }
   .text-shimmer { background-position: 30% 50%; }
 }

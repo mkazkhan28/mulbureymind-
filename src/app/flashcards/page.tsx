@@ -54,9 +54,9 @@ export default function FlashcardsLibraryPage() {
       case "biochem":
       case "subj-biochem-1":
         return {
-          badge: "bg-purple-500/15 text-purple-800 dark:text-purple-300 border-purple-500/30",
-          accent: "text-purple-600 dark:text-purple-400",
-          glow: "group-hover:border-purple-500/40"
+          badge: "bg-accent-500/15 text-accent-800 dark:text-accent-300 border-accent-500/30",
+          accent: "text-accent-600 dark:text-accent-400",
+          glow: "group-hover:border-accent-500/40"
         };
       case "pharm":
       case "subj-pharm-1":
@@ -68,7 +68,7 @@ export default function FlashcardsLibraryPage() {
       case "path":
       case "subj-path-1":
         return {
-          badge: "bg-blue-500/15 text-primary border-blue-500/30",
+          badge: "bg-soft text-primary border-blue-500/30",
           accent: "text-primary",
           glow: "group-hover:border-blue-500/40"
         };

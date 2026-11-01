@@ -9,7 +9,7 @@ import PageHeader from "@/components/PageHeader";
 const planGradients = [
   { card: "from-surface to-surface", button: "bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200", border: "border-slate-800", icon: <Clock className="w-5 h-5 text-slate-400" /> },
   { card: "from-blue-500/10 to-indigo-500/5", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-blue-500/30", icon: <Zap className="w-5 h-5 text-primary" /> },
-  { card: "from-violet-500/15 to-purple-500/5", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-violet-600/60 ring-2 ring-violet-500/20", icon: <Crown className="w-5 h-5 text-violet-600 dark:text-violet-400" /> },
+  { card: "from-accent-500/15 to-accent-500/5", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-accent-600/60 ring-2 ring-accent-500/20", icon: <Crown className="w-5 h-5 text-accent-600 dark:text-accent-400" /> },
   { card: "from-indigo-500/10 to-blue-500/5", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-indigo-500/30", icon: <Infinity className="w-5 h-5 text-primary" /> },
 ];
 
