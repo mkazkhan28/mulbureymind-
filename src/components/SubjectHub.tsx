@@ -485,6 +485,18 @@ export const AREA_STYLE: Record<string, { grad: string; chip: string; icon: stri
   "head-and-neck": { grad: "from-stone-500/15 to-brand-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
   "general-anatomy": { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
   "thorax-and-abdomen": { grad: "from-rose-500/15 to-brand-500/10", chip: "bg-rose-500/10 text-rose-600 dark:text-rose-400", icon: "text-rose-600", bar: "from-brand-500 to-brand-600" },
+  // Biochemistry
+  "cell-water-and-ph": { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
+  carbohydrates: { grad: "from-amber-500/15 to-brand-500/10", chip: "bg-amber-500/10 text-amber-800 dark:text-amber-400", icon: "text-amber-700", bar: "from-brand-500 to-brand-600" },
+  lipids: { grad: "from-pink-500/15 to-amber-500/10", chip: "bg-pink-500/10 text-pink-600 dark:text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
+  proteins: { grad: "from-brand-500/20 to-pink-500/10", chip: "bg-brand-500/10 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-brand-600" },
+  "haemoglobin-and-liver": { grad: "from-rose-500/15 to-brand-500/10", chip: "bg-rose-500/10 text-rose-600 dark:text-rose-400", icon: "text-rose-600", bar: "from-brand-500 to-brand-600" },
+  enzymes: { grad: "from-sky-500/15 to-amber-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
+  "nucleotides-and-genetics": { grad: "from-brand-500/15 to-pink-500/15", chip: "bg-brand-500/10 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-brand-600" },
+  "vitamins-and-minerals": { grad: "from-orange-500/15 to-amber-500/10", chip: "bg-orange-500/10 text-orange-700 dark:text-orange-400", icon: "text-orange-600", bar: "from-brand-500 to-brand-600" },
+  endocrinology: { grad: "from-pink-500/15 to-brand-500/10", chip: "bg-pink-500/10 text-pink-600 dark:text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
+  "clinical-topics": { grad: "from-amber-500/15 to-stone-500/10", chip: "bg-amber-500/10 text-amber-800 dark:text-amber-400", icon: "text-amber-700", bar: "from-brand-500 to-brand-600" },
+  "practicals-and-revision": { grad: "from-stone-500/15 to-brand-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
 };
 export const DEFAULT_AREA_STYLE = { grad: "from-brand-500/15 to-accent-500/10", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" };
 

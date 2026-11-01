@@ -32,8 +32,8 @@ export default function BookmarksPage() {
           icon={Bookmark}
           title="Nothing saved yet"
           text="Save the lectures you want to revise the night before the exam, and they'll wait for you here."
-          href="/subjects/anatomy"
-          action="Browse Anatomy lectures"
+          href="/subjects"
+          action="Browse your subjects"
         />
       ) : (
         <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

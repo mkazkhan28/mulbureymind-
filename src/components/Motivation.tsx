@@ -306,8 +306,8 @@ export function ContinueReading({ subjectSlug, limit = 4 }: { subjectSlug?: stri
       <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-dashed border-slate-700 bg-surface/60 px-5 py-4 text-sm text-slate-400">
         <BookOpen className="h-5 w-5 text-brand-400" />
         <span className="flex-1">Open any lecture and it will appear here, so you can jump back in with one tap.</span>
-        <Link href="/subjects/anatomy" className="inline-flex items-center gap-1 font-semibold text-brand-400 hover:underline">
-          Browse Anatomy <ArrowRight className="h-4 w-4" />
+        <Link href="/subjects" className="inline-flex items-center gap-1 font-semibold text-brand-400 hover:underline">
+          Browse subjects <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
     );

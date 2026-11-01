@@ -538,6 +538,276 @@ export function LungsArt(p: ArtProps) {
   );
 }
 
+
+/* ------------------------------------------------------------------ */
+/* Biochemistry chapter art                                            */
+/* ------------------------------------------------------------------ */
+const Shadow = ({ id, cx = 60, cy = 110, rx = 28 }: { id: string; cx?: number; cy?: number; rx?: number }) => (
+  <>
+    <defs>
+      <radialGradient id={id} cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stopColor="#2a2522" stopOpacity="0.24" />
+        <stop offset="1" stopColor="#2a2522" stopOpacity="0" />
+      </radialGradient>
+    </defs>
+    <ellipse cx={cx} cy={cy} rx={rx} ry="4.5" fill={url(id)} />
+  </>
+);
+
+/** Water drop — cell, water, pH & buffers */
+export function WaterArt(p: ArtProps) {
+  const g = useIds("drop", "sh");
+  return (
+    <Svg {...p}>
+      <defs>
+        <linearGradient id={g.drop} x1="0.2" y1="0" x2="0.8" y2="1">
+          <stop offset="0" stopColor="#a9c8f0" />
+          <stop offset="1" stopColor="#2e5a99" />
+        </linearGradient>
+      </defs>
+      <Shadow id={g.sh} rx={24} />
+      <path d="M60 12 C60 12 28 52 28 74 C28 92 42 104 60 104 C78 104 92 92 92 74 C92 52 60 12 60 12 Z" fill={url(g.drop)} />
+      <path d="M44 70 C44 60 50 50 54 44" stroke="#fff" strokeWidth="5" fill="none" strokeLinecap="round" opacity="0.6" />
+      <circle cx="94" cy="30" r="6" fill="#a9c8f0" opacity="0.9" />
+      <circle cx="102" cy="48" r="3.5" fill="#a9c8f0" opacity="0.8" />
+      <circle cx="20" cy="40" r="4" fill="#a9c8f0" opacity="0.8" />
+    </Svg>
+  );
+}
+
+/** Glucose ring — carbohydrates */
+export function SugarArt(p: ArtProps) {
+  const g = useIds("ring", "sh");
+  return (
+    <Svg {...p}>
+      <defs>
+        <linearGradient id={g.ring} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fde68a" />
+          <stop offset="1" stopColor="#e09a1c" />
+        </linearGradient>
+      </defs>
+      <Shadow id={g.sh} rx={34} />
+      <path d="M30 60 L46 36 L78 36 L94 60 L78 84 L46 84 Z" fill={url(g.ring)} stroke="#b7790f" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M46 36 L78 36" stroke="#fff" strokeWidth="3" strokeLinecap="round" opacity="0.7" />
+      <circle cx="78" cy="36" r="8" fill="#e8577d" stroke="#bd3461" strokeWidth="2" />
+      <text x="78" y="40" textAnchor="middle" fontSize="10" fontWeight="700" fill="#fff" fontFamily="sans-serif">O</text>
+      {[[30, 60, 14, 52], [46, 84, 38, 100], [94, 60, 108, 68], [46, 36, 36, 22]].map(([x1, y1, x2, y2], i) => (
+        <g key={i}>
+          <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#a69c94" strokeWidth="3" strokeLinecap="round" />
+          <circle cx={x2} cy={y2} r="5" fill="#5b8bd3" />
+        </g>
+      ))}
+    </Svg>
+  );
+}
+
+/** Phospholipid pair — lipids */
+export function LipidArt(p: ArtProps) {
+  const g = useIds("head", "sh");
+  const Mol = ({ x }: { x: number }) => (
+    <g>
+      <path d={`M${x - 5} 44 C${x - 9} 56 ${x - 1} 64 ${x - 5} 76 C${x - 9} 88 ${x - 1} 94 ${x - 5} 104`} stroke="#e09a1c" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+      <path d={`M${x + 5} 44 C${x + 1} 56 ${x + 9} 64 ${x + 5} 76 C${x + 1} 88 ${x + 9} 94 ${x + 5} 104`} stroke="#f2b63d" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+      <circle cx={x} cy="30" r="15" fill={url(g.head)} />
+      <circle cx={x - 5} cy="25" r="4" fill="#fff" opacity="0.6" />
+    </g>
+  );
+  return (
+    <Svg {...p}>
+      <defs>
+        <radialGradient id={g.head} cx="0.35" cy="0.35" r="0.75">
+          <stop offset="0" stopColor="#f7c1d5" />
+          <stop offset="1" stopColor="#bd3461" />
+        </radialGradient>
+      </defs>
+      <Shadow id={g.sh} cy={112} rx={34} />
+      <Mol x={40} />
+      <Mol x={80} />
+    </Svg>
+  );
+}
+
+/** Bead chain folding into a helix — proteins & amino acids */
+export function ProteinArt(p: ArtProps) {
+  const g = useIds("a", "b", "sh");
+  const pts: [number, number][] = [[18, 92], [30, 84], [40, 72], [36, 58], [46, 46], [60, 44], [70, 54], [66, 68], [76, 78], [90, 74], [98, 60], [94, 46], [100, 32], [88, 22]];
+  return (
+    <Svg {...p}>
+      <defs>
+        <radialGradient id={g.a} cx="0.35" cy="0.35" r="0.75">
+          <stop offset="0" stopColor="#c6d9f5" />
+          <stop offset="1" stopColor="#2e5a99" />
+        </radialGradient>
+        <radialGradient id={g.b} cx="0.35" cy="0.35" r="0.75">
+          <stop offset="0" stopColor="#f7c1d5" />
+          <stop offset="1" stopColor="#bd3461" />
+        </radialGradient>
+      </defs>
+      <Shadow id={g.sh} rx={38} />
+      <polyline points={pts.map((q) => q.join(",")).join(" ")} fill="none" stroke="#a69c94" strokeWidth="3" strokeLinejoin="round" />
+      {pts.map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 8 : 7} fill={i % 3 === 0 ? url(g.b) : url(g.a)} />
+      ))}
+    </Svg>
+  );
+}
+
+/** Red blood cells — haemoglobin, bilirubin & liver */
+export function BloodArt(p: ArtProps) {
+  const g = useIds("rbc", "in", "sh");
+  const Cell = ({ x, y, r, rot }: { x: number; y: number; r: number; rot: number }) => (
+    <g transform={`rotate(${rot} ${x} ${y})`}>
+      <ellipse cx={x} cy={y} rx={r} ry={r * 0.72} fill={url(g.rbc)} />
+      <ellipse cx={x} cy={y + 1} rx={r * 0.5} ry={r * 0.32} fill={url(g.in)} />
+      <path d={`M${x - r * 0.7} ${y - r * 0.35} C${x - r * 0.4} ${y - r * 0.62} ${x + r * 0.2} ${y - r * 0.66} ${x + r * 0.5} ${y - r * 0.5}`} stroke="#fff" strokeWidth="2.5" fill="none" strokeLinecap="round" opacity="0.55" />
+    </g>
+  );
+  return (
+    <Svg {...p}>
+      <defs>
+        <radialGradient id={g.rbc} cx="0.4" cy="0.3" r="0.8">
+          <stop offset="0" stopColor="#f58a8a" />
+          <stop offset="1" stopColor="#b3203a" />
+        </radialGradient>
+        <radialGradient id={g.in} cx="0.5" cy="0.5" r="0.6">
+          <stop offset="0" stopColor="#9c1830" />
+          <stop offset="1" stopColor="#c8364f" />
+        </radialGradient>
+      </defs>
+      <Shadow id={g.sh} rx={38} />
+      <Cell x={44} y={74} r={30} rot={-12} />
+      <Cell x={82} y={42} r={24} rot={18} />
+    </Svg>
+  );
+}
+
+/** Lock-and-key enzyme — enzymes */
+export function EnzymeArt(p: ArtProps) {
+  const g = useIds("e", "s", "m", "sh");
+  const notch = "52,30 72,30 62,50";
+  return (
+    <Svg {...p}>
+      <defs>
+        <radialGradient id={g.e} cx="0.35" cy="0.3" r="0.8">
+          <stop offset="0" stopColor="#a9c8f0" />
+          <stop offset="1" stopColor="#26497c" />
+        </radialGradient>
+        <linearGradient id={g.s} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fde68a" />
+          <stop offset="1" stopColor="#e09a1c" />
+        </linearGradient>
+        <mask id={g.m}>
+          <rect width="120" height="120" fill="#fff" />
+          <polygon points={notch} fill="#000" />
+        </mask>
+      </defs>
+      <Shadow id={g.sh} rx={36} />
+      <ellipse cx="62" cy="70" rx="42" ry="36" fill={url(g.e)} mask={`url(#${g.m})`} />
+      <path d="M30 78 C34 88 44 96 56 98" stroke="#fff" strokeWidth="4" fill="none" strokeLinecap="round" opacity="0.45" />
+      <polygon points={notch} transform="translate(0 -20)" fill={url(g.s)} stroke="#b7790f" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M62 22 V26" stroke="#a69c94" strokeWidth="2" strokeDasharray="2 2" />
+    </Svg>
+  );
+}
+
+/** Citrus slice — vitamins & minerals */
+export function VitaminArt(p: ArtProps) {
+  const g = useIds("rind", "pulp", "sh");
+  const seg = Array.from({ length: 8 }, (_, i) => (i * Math.PI) / 4);
+  return (
+    <Svg {...p}>
+      <defs>
+        <linearGradient id={g.rind} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ffc35a" />
+          <stop offset="1" stopColor="#e07a12" />
+        </linearGradient>
+        <radialGradient id={g.pulp} cx="0.5" cy="0.5" r="0.6">
+          <stop offset="0" stopColor="#fff3c4" />
+          <stop offset="1" stopColor="#f6b73c" />
+        </radialGradient>
+      </defs>
+      <Shadow id={g.sh} rx={36} />
+      <circle cx="60" cy="60" r="44" fill={url(g.rind)} />
+      <circle cx="60" cy="60" r="37" fill="#fff7e0" />
+      {seg.map((a, i) => {
+        const a1 = a + 0.1, a2 = a + Math.PI / 4 - 0.1;
+        return <path key={i} d={`M${60 + 4 * Math.cos(a + 0.39)} ${60 + 4 * Math.sin(a + 0.39)} L${60 + 33 * Math.cos(a1)} ${60 + 33 * Math.sin(a1)} A33 33 0 0 1 ${60 + 33 * Math.cos(a2)} ${60 + 33 * Math.sin(a2)} Z`} fill={url(g.pulp)} />;
+      })}
+      <path d="M28 40 C34 30 44 22 56 20" stroke="#fff" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.65" />
+    </Svg>
+  );
+}
+
+/** Thyroid gland — endocrinology */
+export function GlandArt(p: ArtProps) {
+  const g = useIds("lobe", "sh");
+  return (
+    <Svg {...p}>
+      <defs>
+        <radialGradient id={g.lobe} cx="0.4" cy="0.3" r="0.85">
+          <stop offset="0" stopColor="#f7c1d5" />
+          <stop offset="1" stopColor="#bd3461" />
+        </radialGradient>
+      </defs>
+      <Shadow id={g.sh} rx={36} />
+      <rect x="54" y="14" width="12" height="94" rx="6" fill="#a69c94" opacity="0.55" />
+      <path d="M58 64 C50 84 34 100 24 92 C14 84 18 54 26 38 C32 26 44 26 48 40 C52 52 54 58 58 64 Z" fill={url(g.lobe)} />
+      <path d="M62 64 C70 84 86 100 96 92 C106 84 102 54 94 38 C88 26 76 26 72 40 C68 52 66 58 62 64 Z" fill={url(g.lobe)} />
+      <rect x="48" y="58" width="24" height="14" rx="7" fill="#d9577f" />
+      <path d="M26 50 C28 42 32 36 38 34" stroke="#fff" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6" />
+    </Svg>
+  );
+}
+
+/** Conical flask — practicals */
+export function FlaskArt(p: ArtProps) {
+  const g = useIds("glass", "liq", "sh");
+  return (
+    <Svg {...p}>
+      <defs>
+        <linearGradient id={g.liq} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#88aee3" />
+          <stop offset="1" stopColor="#2e5a99" />
+        </linearGradient>
+        <linearGradient id={g.glass} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#ffffff" stopOpacity="0.85" />
+          <stop offset="1" stopColor="#e7e1db" stopOpacity="0.85" />
+        </linearGradient>
+      </defs>
+      <Shadow id={g.sh} rx={34} />
+      <path d="M48 14 H72 V44 L98 96 C101 102 97 108 90 108 H30 C23 108 19 102 22 96 L48 44 Z" fill={url(g.glass)} stroke="#a69c94" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M36 70 H84 L96 96 C98 101 95 105 90 105 H30 C25 105 22 101 24 96 Z" fill={url(g.liq)} />
+      <rect x="44" y="10" width="32" height="7" rx="3.5" fill="#a69c94" />
+      <circle cx="52" cy="86" r="4" fill="#fff" opacity="0.7" />
+      <circle cx="66" cy="94" r="3" fill="#fff" opacity="0.6" />
+      <circle cx="74" cy="80" r="2.5" fill="#fff" opacity="0.6" />
+      <path d="M53 20 V46 L34 84" stroke="#fff" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.7" />
+    </Svg>
+  );
+}
+
+/** Light bulb — clinical & extra topics */
+export function BulbArt(p: ArtProps) {
+  const g = useIds("glass", "sh");
+  return (
+    <Svg {...p}>
+      <defs>
+        <radialGradient id={g.glass} cx="0.4" cy="0.35" r="0.7">
+          <stop offset="0" stopColor="#fff6cf" />
+          <stop offset="1" stopColor="#f2b63d" />
+        </radialGradient>
+      </defs>
+      <Shadow id={g.sh} rx={22} />
+      <path d="M60 12 C38 12 24 28 24 48 C24 64 34 72 40 82 H80 C86 72 96 64 96 48 C96 28 82 12 60 12 Z" fill={url(g.glass)} />
+      <path d="M50 82 V64 C50 58 56 56 60 60 C64 56 70 58 70 64 V82" stroke="#b7790f" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <rect x="40" y="82" width="40" height="8" rx="3" fill="#a69c94" />
+      <rect x="42" y="90" width="36" height="7" rx="3" fill="#8c827a" />
+      <path d="M50 97 H70 L66 104 H54 Z" fill="#6d645d" />
+      <path d="M36 44 C36 34 44 26 54 24" stroke="#fff" strokeWidth="4" fill="none" strokeLinecap="round" opacity="0.7" />
+    </Svg>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* Lookups                                                             */
 /* ------------------------------------------------------------------ */
@@ -557,6 +827,18 @@ const AREA_ART: Record<string, (p: ArtProps) => React.ReactElement> = {
   "head-and-neck": SkullArt,
   "general-anatomy": BoneArt,
   "thorax-and-abdomen": LungsArt,
+  // Biochemistry chapters
+  "cell-water-and-ph": WaterArt,
+  carbohydrates: SugarArt,
+  lipids: LipidArt,
+  proteins: ProteinArt,
+  "haemoglobin-and-liver": BloodArt,
+  enzymes: EnzymeArt,
+  "nucleotides-and-genetics": DnaArt,
+  "vitamins-and-minerals": VitaminArt,
+  endocrinology: GlandArt,
+  "clinical-topics": BulbArt,
+  "practicals-and-revision": FlaskArt,
 };
 
 export function SubjectArt({ id, className, title }: ArtProps & { id: string }) {

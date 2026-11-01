@@ -44,7 +44,12 @@ export default function StudentDashboardPage() {
   }, [progress]);
 
   const streak = progress ? streakOf(progress.days) : 0;
-  const anatomy = SUBJECT_STRUCTURES.anatomy;
+  // Subjects with a full lecture library; chapter progress follows the one you studied last
+  const libraries = Object.values(SUBJECT_STRUCTURES);
+  const totalLectures = libraries.reduce((n, st) => n + st.ppts.combined.filter((f) => f.pdf).length, 0);
+  const [libPick, setLibPick] = useState<string | null>(null);
+  const libSlug = libPick ?? last?.item.subjectSlug ?? libraries[0]?.subjectSlug;
+  const lib = libraries.find((st) => st.subjectSlug === libSlug) ?? libraries[0];
 
   return (
     <div className="mx-auto max-w-content px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
@@ -108,11 +113,13 @@ export default function StudentDashboardPage() {
                 <span className="chip-pro">Start here</span>
                 <h2 className="card-title mt-3 text-lg">Open your first lecture</h2>
                 <p className="mt-1 text-sm text-muted">
-                  {anatomy ? `${anatomy.ppts.combined.length} Anatomy lectures are ready to read. Pick a chapter and we'll remember your page.` : "Pick a subject to begin."}
+                  {totalLectures
+                    ? `${totalLectures} lectures in ${libraries.map((st) => st.shortName).join(" and ")} are ready to read. Pick a chapter and we'll remember your page.`
+                    : "Pick a subject to begin."}
                 </p>
               </div>
-              <Link href="/subjects/anatomy" className="btn-primary mt-5 self-start">
-                Start with Anatomy <ArrowRight className="h-4 w-4" />
+              <Link href="/subjects" className="btn-primary mt-5 self-start">
+                Choose a subject <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           )}
@@ -250,18 +257,33 @@ export default function StudentDashboardPage() {
               </Link>
             </section>
 
-            {anatomy && (
+            {lib && (
               <section aria-labelledby="chapters" className="rounded-2xl border border-line bg-surface p-5">
                 <h2 id="chapters" className="flex items-center gap-2 font-display text-lg font-bold text-ink">
                   <Target className="h-5 w-5 text-primary" /> Chapter progress
                 </h2>
-                <p className="mt-1 text-sm text-muted">Anatomy lectures you&apos;ve opened, by chapter.</p>
+                <p className="mt-1 text-sm text-muted">{lib.shortName} lectures you&apos;ve opened, by chapter.</p>
+                {libraries.length > 1 && (
+                  <div role="tablist" aria-label="Subject" className="mt-3 inline-flex rounded-xl border border-line bg-surface-2 p-1">
+                    {libraries.map((st) => (
+                      <button
+                        key={st.subjectSlug}
+                        role="tab"
+                        aria-selected={st.subjectSlug === lib.subjectSlug}
+                        onClick={() => setLibPick(st.subjectSlug)}
+                        className={`rounded-lg px-3 py-1 text-xs font-semibold transition-colors ${st.subjectSlug === lib.subjectSlug ? "bg-surface text-ink shadow-soft" : "text-muted hover:text-ink"}`}
+                      >
+                        {st.shortName}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <div className="mt-4 space-y-3">
-                  {anatomy.areas.map((a) => {
-                    const ids = lecturesInArea("anatomy", a.slug);
+                  {lib.areas.map((a) => {
+                    const ids = lecturesInArea(lib.subjectSlug, a.slug);
                     const o = progress ? ids.filter((id) => progress.opened[id]).length : 0;
                     return (
-                      <Link key={a.slug} href={`/subjects/anatomy/${a.slug}`} className="group block">
+                      <Link key={a.slug} href={`/subjects/${lib.subjectSlug}/${a.slug}`} className="group block">
                         <div className="mb-1 flex items-center gap-2 text-sm">
                           <AreaArt slug={a.slug} className="h-5 w-5" />
                           <span className="flex-1 truncate text-slate-300 group-hover:text-primary">{a.title}</span>

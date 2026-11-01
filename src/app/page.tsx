@@ -32,8 +32,14 @@ import { SectionHeader } from "@/components/PageHeader";
 import { siteStats, subjectStats, count } from "@/lib/stats";
 import { useProgress } from "@/lib/progress";
 import { catalogById } from "@/lib/catalog";
+import { getSubjectStructure } from "@/lib/subject-structure";
 
 const FREE_PLAN = MEMBERSHIP_PLANS.find((p) => p.pricePKR === 0);
+/** Subjects that have a full chapter-by-chapter lecture library */
+const LIBRARIES = BDS_SUBJECTS.flatMap((s) => {
+  const st = getSubjectStructure(s.slug);
+  return st ? [{ id: s.id, slug: s.slug, name: st.shortName }] : [];
+});
 
 export default function HomePage() {
   const heroRef = React.useRef<HTMLElement>(null);
@@ -183,15 +189,25 @@ export default function HomePage() {
         <section aria-labelledby="featured">
           <SectionHeader
             id="featured"
-            title="Featured: the Anatomy lecture library"
-            intro={`${stats.lectures} lecture PDFs arranged by area, readable right in your browser with highlights and notes.`}
-            action={
-              <Link href="/subjects/anatomy" className="btn-secondary !min-h-[40px] !py-2">
-                Open Anatomy <ArrowRight className="h-4 w-4" />
-              </Link>
-            }
+            title="Lecture libraries"
+            intro={`${stats.lectures} lecture PDFs arranged by chapter, readable right in your browser with highlights and notes.`}
           />
-          <AreaTiles />
+          <div className="space-y-8">
+            {LIBRARIES.map((lib) => (
+              <div key={lib.slug}>
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <h3 className="flex items-center gap-2 font-display text-lg font-bold text-ink">
+                    <SubjectArt id={lib.id} className="h-7 w-7" /> {lib.name}
+                    <span className="chip">{count(subjectStats(lib.id).lectures, "lecture")}</span>
+                  </h3>
+                  <Link href={`/subjects/${lib.slug}`} className="link inline-flex items-center gap-1 text-sm">
+                    Open {lib.name} <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+                <AreaTiles subjectSlug={lib.slug} />
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* ============================ SUBJECTS ============================ */}
