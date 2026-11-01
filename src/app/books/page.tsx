@@ -71,7 +71,7 @@ export default function BooksLibraryPage() {
             </div>
 
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
-              <BookOpen className="w-4 h-4 text-violet-400" />
+              <BookOpen className="w-4 h-4 text-violet-600 dark:text-violet-400" />
               <span>{filteredBooks.length} Volumes Available</span>
             </div>
           </div>
@@ -119,7 +119,7 @@ export default function BooksLibraryPage() {
                     {group.books.length} Books
                   </span>
                 </div>
-                <span className="text-xs text-slate-500 hidden sm:inline">
+                <span className="text-xs text-muted hidden sm:inline">
                   DUHS Professional Recommended Reading
                 </span>
               </div>
@@ -132,7 +132,7 @@ export default function BooksLibraryPage() {
                   return (
                     <div
                       key={book.id}
-                      className={`relative flex flex-col justify-between rounded-2xl p-6 bg-gradient-to-br ${book.coverGradient} border border-slate-800/90 hover:border-slate-700 transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-violet-900/10 group`}
+                      className={`relative flex flex-col justify-between rounded-2xl p-6 bg-surface bg-gradient-to-br ${book.coverGradient} border border-line hover:border-primary/40 transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-violet-900/10 group`}
                     >
                       <div className="space-y-4">
                         {/* Top Badges */}
@@ -141,7 +141,7 @@ export default function BooksLibraryPage() {
                             {book.subjectName}
                           </span>
                           {book.isHighYield && (
-                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-800 dark:text-amber-300 border border-amber-500/30 flex items-center gap-1">
                               <Bookmark className="w-3 h-3" /> DUHS Core
                             </span>
                           )}
@@ -149,7 +149,7 @@ export default function BooksLibraryPage() {
 
                         {/* Title & Meta */}
                         <div>
-                          <h3 className="font-extrabold text-ink text-lg leading-tight group-hover:text-violet-300 transition-colors">
+                          <h3 className="font-extrabold text-ink text-lg leading-tight group-hover:text-violet-700 dark:group-hover:text-violet-300 transition-colors">
                             {book.title}
                           </h3>
                           {book.edition && (
@@ -157,7 +157,7 @@ export default function BooksLibraryPage() {
                               {book.edition}
                             </p>
                           )}
-                          <p className="text-xs text-slate-500 mt-0.5 font-medium">
+                          <p className="text-xs text-muted mt-0.5 font-medium">
                             By {book.authors}
                           </p>
                         </div>
@@ -183,7 +183,7 @@ export default function BooksLibraryPage() {
                       {/* Action Button */}
                       <div className="pt-6 border-t border-line mt-6 flex items-center gap-2">
                         {isPlaceholder ? (
-                          <div className="w-full py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-center text-xs font-semibold text-slate-500">
+                          <div className="w-full py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-center text-xs font-semibold text-muted">
                             PDF coming soon
                           </div>
                         ) : (
@@ -232,7 +232,7 @@ export default function BooksLibraryPage() {
           <div className="flex items-center justify-between px-6 py-3.5 bg-surface border-b border-slate-800">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-xl bg-violet-600/20 border border-violet-500/30 flex items-center justify-center shrink-0">
-                <BookOpen className="w-5 h-5 text-violet-400" />
+                <BookOpen className="w-5 h-5 text-violet-600 dark:text-violet-400" />
               </div>
               <div className="min-w-0">
                 <h3 className="font-bold text-ink text-sm truncate">
@@ -256,7 +256,7 @@ export default function BooksLibraryPage() {
               </a>
               <a
                 href={getDriveDownloadUrl(activeBook.driveId)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-300 text-xs font-semibold transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs font-semibold transition"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Download</span>

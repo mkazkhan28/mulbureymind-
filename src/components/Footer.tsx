@@ -26,7 +26,7 @@ export default function Footer() {
               Dedicated high-yield digital study platform built for Dow University of Health Sciences (DUHS Karachi) BDS 1st Year students across DIKIOHS, DDC, and DIDC.
             </p>
             <div className="flex items-center gap-2 text-xs text-blue-700 bg-blue-50/80 px-3 py-1.5 rounded-lg border border-blue-200/60 w-fit">
-              <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
+              <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
               <span className="font-medium">Tailored for DUHS Modular Dental Curriculum</span>
             </div>
           </div>
@@ -38,28 +38,28 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/subjects" className="text-slate-600 hover:text-blue-600 transition flex items-center gap-2">
-                  <BookOpen className="w-3.5 h-3.5 text-blue-600" />
+                <Link href="/subjects" className="text-slate-600 hover:text-primary transition flex items-center gap-2">
+                  <BookOpen className="w-3.5 h-3.5 text-primary" />
                   <span>DUHS 1st Year (6 Subjects)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/past-papers" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/past-papers" className="text-slate-600 hover:text-primary transition">
                   DUHS Past Papers (2015–2024)
                 </Link>
               </li>
               <li>
-                <Link href="/practice" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/practice" className="text-slate-600 hover:text-primary transition">
                   Modular BCQ Simulator
                 </Link>
               </li>
               <li>
-                <Link href="/flashcards" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/flashcards" className="text-slate-600 hover:text-primary transition">
                   High-Yield Flashcards
                 </Link>
               </li>
               <li>
-                <Link href="/resources" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/resources" className="text-slate-600 hover:text-primary transition">
                   OSPE & Table Viva Guides
                 </Link>
               </li>
@@ -73,32 +73,32 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2 text-xs sm:text-sm">
               <li>
-                <Link href="/subjects/anatomy" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/subjects/anatomy" className="text-slate-600 hover:text-primary transition">
                   General Anatomy & Histology
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/physiology" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/subjects/physiology" className="text-slate-600 hover:text-primary transition">
                   Human Physiology
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/oral-biology" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/subjects/oral-biology" className="text-slate-600 hover:text-primary transition">
                   Oral Biology & Tooth Morphology
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/biochemistry" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/subjects/biochemistry" className="text-slate-600 hover:text-primary transition">
                   Biochemistry & Genetics
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/pharmacology" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/subjects/pharmacology" className="text-slate-600 hover:text-primary transition">
                   Pharmacology & Therapeutics
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/general-pathology" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/subjects/general-pathology" className="text-slate-600 hover:text-primary transition">
                   General Pathology & Microbiology
                 </Link>
               </li>
@@ -116,27 +116,27 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link href="/pricing" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/pricing" className="text-slate-600 hover:text-primary transition">
                   Free Student Access
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/about" className="text-slate-600 hover:text-primary transition">
                   About DUHS Platform
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/contact" className="text-slate-600 hover:text-primary transition">
                   Help & Contact Support
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/privacy" className="text-slate-600 hover:text-primary transition">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-slate-600 hover:text-blue-600 transition">
+                <Link href="/terms" className="text-slate-600 hover:text-primary transition">
                   Terms of Service
                 </Link>
               </li>
@@ -145,9 +145,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom copyright & disclaimer */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted">
           <p>© {new Date().getFullYear()} HMHDental. Specially customized for Dow University of Health Sciences (DUHS) Karachi.</p>
-          <div className="flex items-center gap-1.5 text-slate-500">
+          <div className="flex items-center gap-1.5 text-muted">
             <span>Crafted with</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-current" />
             <span>for future dental surgeons</span>

@@ -114,7 +114,7 @@ export default function FlashcardStudyPage() {
                 Card <strong className="text-ink">{currentIndex + 1}</strong> of {total}
               </span>
               <span className="flex items-center gap-3">
-                <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+                <span className="flex items-center gap-1 text-emerald-800 dark:text-emerald-400">
                   <CheckCircle2 className="h-3.5 w-3.5" /> {masteredCount}
                 </span>
                 <span className="flex items-center gap-1 text-rose-600 dark:text-rose-400">
@@ -237,7 +237,7 @@ export default function FlashcardStudyPage() {
           </div>
           <div className="mx-auto grid max-w-xs grid-cols-2 gap-3">
             <div className="rounded-xl bg-emerald-500/10 p-4">
-              <div className="font-display text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">{masteredCount}</div>
+              <div className="font-display text-3xl font-extrabold text-emerald-800 dark:text-emerald-400">{masteredCount}</div>
               <div className="mt-1 text-xs text-muted">Knew it</div>
             </div>
             <div className="rounded-xl bg-rose-500/10 p-4">

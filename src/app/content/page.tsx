@@ -443,12 +443,12 @@ const CONTENT_FILES: ContentFile[] = [
 
 const SUBJECTS = [
   { id: "all",     label: "All Subjects",  color: "text-slate-300",   badge: "bg-slate-800 border-slate-700" },
-  { id: "anat",    label: "Anatomy",       color: "text-amber-400",   badge: "bg-amber-950/60 border-amber-700/50" },
-  { id: "phys",    label: "Physiology",    color: "text-rose-400",    badge: "bg-rose-950/60 border-rose-700/50" },
-  { id: "oral-bio",label: "Oral Biology",  color: "text-cyan-400",    badge: "bg-cyan-950/60 border-cyan-700/50" },
-  { id: "biochem", label: "Biochemistry",  color: "text-violet-400",  badge: "bg-violet-950/60 border-violet-700/50" },
-  { id: "pharm",   label: "Pharmacology",  color: "text-emerald-400", badge: "bg-emerald-950/60 border-emerald-700/50" },
-  { id: "path",    label: "Pathology",     color: "text-blue-400",    badge: "bg-blue-950/60 border-blue-700/50" },
+  { id: "anat",    label: "Anatomy",       color: "text-amber-800 dark:text-amber-400",   badge: "bg-amber-500/10 border-amber-500/30" },
+  { id: "phys",    label: "Physiology",    color: "text-rose-600 dark:text-rose-400",    badge: "bg-rose-500/10 border-rose-500/30" },
+  { id: "oral-bio",label: "Oral Biology",  color: "text-cyan-800 dark:text-cyan-400",    badge: "bg-cyan-500/10 border-cyan-500/30" },
+  { id: "biochem", label: "Biochemistry",  color: "text-violet-600 dark:text-violet-400",  badge: "bg-violet-500/10 border-violet-500/30" },
+  { id: "pharm",   label: "Pharmacology",  color: "text-emerald-800 dark:text-emerald-400", badge: "bg-emerald-500/10 border-emerald-500/30" },
+  { id: "path",    label: "Pathology",     color: "text-primary",    badge: "bg-blue-500/10 border-blue-500/30" },
 ];
 
 const TYPE_FILTER = [
@@ -514,7 +514,7 @@ export default function ContentPage() {
             </div>
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
               <input
                 type="text"
                 placeholder="Search papers..."
@@ -534,7 +534,7 @@ export default function ContentPage() {
                 className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition ${
                   activeSubject === s.id
                     ? `${s.badge} ${s.color}`
-                    : "bg-transparent border-slate-800 text-slate-500 hover:text-slate-300"
+                    : "bg-transparent border-slate-800 text-muted hover:text-slate-300"
                 }`}
               >
                 {s.label}
@@ -547,8 +547,8 @@ export default function ContentPage() {
                 onClick={() => setActiveType(t.id)}
                 className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition ${
                   activeType === t.id
-                    ? "bg-indigo-950/60 border-indigo-600/50 text-indigo-300"
-                    : "bg-transparent border-slate-800 text-slate-500 hover:text-slate-300"
+                    ? "bg-indigo-500/10 border-indigo-600/50 text-primary"
+                    : "bg-transparent border-slate-800 text-muted hover:text-slate-300"
                 }`}
               >
                 {t.label}
@@ -561,7 +561,7 @@ export default function ContentPage() {
       {/* ── Main Content ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
         {displayGroups.length === 0 ? (
-          <div className="text-center py-20 text-slate-500">
+          <div className="text-center py-20 text-muted">
             <FileText className="w-12 h-12 mx-auto mb-4 opacity-30" />
             <p className="font-semibold">No files found</p>
             <p className="text-xs mt-1">Try changing your filters or search term</p>
@@ -583,13 +583,13 @@ export default function ContentPage() {
                       href="https://drive.google.com/drive/folders/1Vd9BjuLO2ZNv8nIHRsrFiosw80xNhJrz"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold hover:bg-amber-500/20 transition"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-400 text-xs font-semibold hover:bg-amber-500/20 transition"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       <span>Open Drive Anatomy Folder</span>
                     </a>
                   )}
-                  <span className="text-xs text-slate-500">{group.files.length} files</span>
+                  <span className="text-xs text-muted">{group.files.length} files</span>
                 </div>
 
                 {/* Books sub-section */}
@@ -620,7 +620,7 @@ export default function ContentPage() {
                 {pastPapers.length > 0 && (
                   <div>
                     <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-amber-400" />
+                      <FileText className="w-4 h-4 text-amber-800 dark:text-amber-400" />
                       Annual Professional Past Papers
                     </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -640,7 +640,7 @@ export default function ContentPage() {
                 {topicFiles.length > 0 && (
                   <div>
                     <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                      <BookOpen className="w-4 h-4 text-cyan-400" />
+                      <BookOpen className="w-4 h-4 text-cyan-800 dark:text-cyan-400" />
                       Topic-wise Question Sets
                     </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -667,10 +667,10 @@ export default function ContentPage() {
           {/* Modal header */}
           <div className="flex items-center justify-between px-5 py-3 bg-surface border-b border-slate-800">
             <div className="flex items-center gap-3 min-w-0">
-              <FileText className="w-5 h-5 text-indigo-400 shrink-0" />
+              <FileText className="w-5 h-5 text-primary shrink-0" />
               <div className="min-w-0">
                 <p className="font-bold text-ink text-sm truncate">{viewerFile.title}</p>
-                <p className="text-slate-500 text-xs">DUHS BDS 1st Year &bull; {viewerFile.topic}</p>
+                <p className="text-muted text-xs">DUHS BDS 1st Year &bull; {viewerFile.topic}</p>
               </div>
             </div>
             <div className="flex items-center gap-2 shrink-0 ml-3">
@@ -680,13 +680,13 @@ export default function ContentPage() {
                     href={getDriveViewUrl(viewerFile.driveId)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 border border-indigo-600/40 text-indigo-300 text-xs font-semibold hover:bg-indigo-600/30 transition"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 border border-indigo-600/40 text-primary text-xs font-semibold hover:bg-indigo-600/30 transition"
                   >
                     <ExternalLink className="w-3.5 h-3.5" /> Open in Drive
                   </a>
                   <a
                     href={getDriveDownloadUrl(viewerFile.driveId)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/20 border border-emerald-600/40 text-emerald-300 text-xs font-semibold hover:bg-emerald-600/30 transition"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/20 border border-emerald-600/40 text-emerald-800 dark:text-emerald-300 text-xs font-semibold hover:bg-emerald-600/30 transition"
                   >
                     <Download className="w-3.5 h-3.5" /> Download
                   </a>
@@ -706,12 +706,12 @@ export default function ContentPage() {
             {isPlaceholder(viewerFile.driveId) ? (
               <div className="flex flex-col items-center justify-center h-full text-center p-8 gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                  <FileText className="w-8 h-8 text-amber-400" />
+                  <FileText className="w-8 h-8 text-amber-800 dark:text-amber-400" />
                 </div>
                 <div>
                   <p className="text-ink font-bold text-lg">File ID Not Yet Added</p>
                   <p className="text-slate-400 text-sm mt-2 max-w-md">
-                    This is a placeholder. To add the actual file, replace <code className="text-amber-400 bg-slate-800 px-1.5 py-0.5 rounded text-xs">{viewerFile.driveId}</code> with the real Google Drive file ID in <code className="text-indigo-400 bg-slate-800 px-1.5 py-0.5 rounded text-xs">src/app/content/page.tsx</code>
+                    This is a placeholder. To add the actual file, replace <code className="text-amber-800 dark:text-amber-400 bg-slate-800 px-1.5 py-0.5 rounded text-xs">{viewerFile.driveId}</code> with the real Google Drive file ID in <code className="text-primary bg-slate-800 px-1.5 py-0.5 rounded text-xs">src/app/content/page.tsx</code>
                   </p>
                 </div>
               </div>
@@ -765,9 +765,9 @@ function FileCard({
             : "bg-indigo-500/10 border border-indigo-500/20"
         }`}>
           <FileText className={`w-4 h-4 ${
-            file.topic === "Past Papers" ? "text-amber-400"
-            : file.topic === "Books" ? "text-emerald-400"
-            : "text-indigo-400"
+            file.topic === "Past Papers" ? "text-amber-800 dark:text-amber-400"
+            : file.topic === "Books" ? "text-emerald-800 dark:text-emerald-400"
+            : "text-primary"
           }`} />
         </div>
         <div className="min-w-0 flex-1">
@@ -782,14 +782,14 @@ function FileCard({
       </div>
 
       {file.description && (
-        <p className="text-slate-500 text-[11px] leading-relaxed line-clamp-2">{file.description}</p>
+        <p className="text-muted text-[11px] leading-relaxed line-clamp-2">{file.description}</p>
       )}
 
       {/* Actions */}
       {file.premium ? (
         <Link
           href="/pricing"
-          className="mt-auto w-full py-2 rounded-xl text-center text-xs font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400 hover:bg-amber-500/20 transition flex items-center justify-center gap-1.5"
+          className="mt-auto w-full py-2 rounded-xl text-center text-xs font-bold bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-400 hover:bg-amber-500/20 transition flex items-center justify-center gap-1.5"
         >
           <Lock className="w-3.5 h-3.5" /> Unlock Premium
         </Link>
@@ -797,7 +797,7 @@ function FileCard({
         <div className="mt-auto flex gap-2">
           <button
             onClick={onView}
-            className="flex-1 py-2 rounded-xl text-xs font-bold bg-indigo-600/20 border border-indigo-600/30 text-indigo-300 hover:bg-indigo-600/30 transition flex items-center justify-center gap-1.5"
+            className="flex-1 py-2 rounded-xl text-xs font-bold bg-soft border border-primary/30 text-primary hover:bg-primary/15 transition flex items-center justify-center gap-1.5"
           >
             <Eye className="w-3.5 h-3.5" />
             {placeholder ? "Preview" : "View"}

@@ -147,7 +147,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const isActive = (path: string) => (path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(path + "/"));
 
   if (BARE_ROUTES.some((r) => pathname.startsWith(r))) {
-    return <>{children}</>;
+    // sign-in pages get a main landmark; the reader renders its own full-screen layout
+    return pathname.startsWith("/read/") ? <>{children}</> : <main id="main">{children}</main>;
   }
 
   /* ------------------------------------------------------------------ */
@@ -273,7 +274,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             type="button"
             onClick={() => setMoreOpen(!moreOpen)}
             aria-expanded={moreOpen}
-            className="flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-500 transition hover:text-ink"
+            className="flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted transition hover:text-ink"
           >
             More
             <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${moreOpen ? "rotate-180" : ""}`} />
@@ -427,7 +428,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
             <Link
               href="/subscription"
-              className="hidden items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-600 transition hover:bg-emerald-500/15 dark:text-emerald-400 xl:flex"
+              className="hidden items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-500/15 dark:text-emerald-400 xl:flex"
               title="Your plan status"
             >
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
@@ -523,7 +524,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 }
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <div className="flex items-center px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-500">{children}</div>;
+  return <div className="flex items-center px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted">{children}</div>;
 }
 
 function FooterCol({ title, links }: { title: string; links: { href: string; label: string }[] }) {

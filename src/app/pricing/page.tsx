@@ -7,10 +7,10 @@ import { Sparkles, ShieldCheck, Check, HelpCircle, Zap, Crown, Clock, Infinity }
 import PageHeader from "@/components/PageHeader";
 
 const planGradients = [
-  { card: "from-slate-900 to-slate-900/80", button: "bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200", border: "border-slate-800", icon: <Clock className="w-5 h-5 text-slate-400" /> },
-  { card: "from-blue-950/80 to-indigo-950/60", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-blue-800/60", icon: <Zap className="w-5 h-5 text-blue-400" /> },
-  { card: "from-violet-950/80 to-purple-950/60", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-violet-600/60 ring-2 ring-violet-500/20", icon: <Crown className="w-5 h-5 text-violet-400" /> },
-  { card: "from-indigo-950/80 to-blue-950/60", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-indigo-700/60", icon: <Infinity className="w-5 h-5 text-indigo-400" /> },
+  { card: "from-surface to-surface", button: "bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200", border: "border-slate-800", icon: <Clock className="w-5 h-5 text-slate-400" /> },
+  { card: "from-blue-500/10 to-indigo-500/5", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-blue-500/30", icon: <Zap className="w-5 h-5 text-primary" /> },
+  { card: "from-violet-500/15 to-purple-500/5", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-violet-600/60 ring-2 ring-violet-500/20", icon: <Crown className="w-5 h-5 text-violet-600 dark:text-violet-400" /> },
+  { card: "from-indigo-500/10 to-blue-500/5", button: "bg-primary hover:bg-primary-hover text-on-primary", border: "border-indigo-500/30", icon: <Infinity className="w-5 h-5 text-primary" /> },
 ];
 
 const faqs = [
@@ -46,7 +46,7 @@ export default function PricingPage() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex flex-col rounded-2xl p-7 bg-gradient-to-br ${style.card} border ${style.border} transition duration-300 hover:-translate-y-1 hover:shadow-2xl`}
+                className={`relative flex flex-col rounded-2xl p-7 bg-surface bg-gradient-to-br ${style.card} border ${style.border} transition duration-300 hover:-translate-y-1 hover:shadow-2xl`}
               >
                 {/* Popular badge */}
                 {plan.badge && (
@@ -66,14 +66,14 @@ export default function PricingPage() {
                 {/* Price */}
                 <div className="mb-2">
                   {plan.pricePKR === 0 ? (
-                    <div className="text-4xl font-extrabold text-emerald-400">Free</div>
+                    <div className="text-4xl font-extrabold text-emerald-800 dark:text-emerald-400">Free</div>
                   ) : (
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-slate-400 text-sm font-semibold">PKR</span>
                       <span className="text-4xl font-extrabold text-ink">{plan.pricePKR.toLocaleString()}</span>
                     </div>
                   )}
-                  <p className="text-slate-500 text-xs mt-1 font-medium">{plan.periodText}</p>
+                  <p className="text-muted text-xs mt-1 font-medium">{plan.periodText}</p>
                 </div>
 
                 <p className="text-slate-400 text-xs leading-relaxed mb-5 border-t border-slate-800 pt-4">
@@ -84,7 +84,7 @@ export default function PricingPage() {
                 <ul className="space-y-2.5 mb-6 flex-1">
                   {plan.features.map((f, fi) => (
                     <li key={fi} className="flex items-start gap-2.5 text-xs text-slate-300">
-                      <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                      <Check className="w-3.5 h-3.5 text-emerald-800 dark:text-emerald-400 shrink-0 mt-0.5" />
                       {f}
                     </li>
                   ))}
@@ -105,13 +105,13 @@ export default function PricingPage() {
         {/* ── Trust badges ── */}
         <div className="flex flex-wrap items-center justify-center gap-6 py-2">
           {[
-            { icon: ShieldCheck, label: "Instant Activation" },
+            { icon: ShieldCheck, label: "Activates once payment is confirmed" },
             { icon: ShieldCheck, label: "JazzCash & Easypaisa" },
             { icon: ShieldCheck, label: "Cancel Anytime" },
-            { icon: ShieldCheck, label: "DUHS Verified Content" },
+            { icon: ShieldCheck, label: "Follows the DUHS syllabus" },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-2 text-sm text-slate-400">
-              <Icon className="w-4 h-4 text-emerald-400" />
+              <Icon className="w-4 h-4 text-emerald-800 dark:text-emerald-400" />
               {label}
             </div>
           ))}
@@ -126,7 +126,7 @@ export default function PricingPage() {
                 {MEMBERSHIP_PLANS.map(p => (
                   <th key={p.id} className="px-4 py-4 text-center text-ink font-bold text-xs">
                     {p.name}
-                    <div className="text-slate-500 font-normal text-[10px] mt-0.5">
+                    <div className="text-muted font-normal text-[10px] mt-0.5">
                       {p.pricePKR === 0 ? "Free" : `PKR ${p.pricePKR.toLocaleString()}`}
                     </div>
                   </th>
@@ -151,11 +151,11 @@ export default function PricingPage() {
                   {vals.map((v, vi) => (
                     <td key={vi} className="px-4 py-3.5 text-center">
                       {v === true ? (
-                        <Check className="w-4 h-4 text-emerald-400 mx-auto" />
+                        <Check className="w-4 h-4 text-emerald-800 dark:text-emerald-400 mx-auto" />
                       ) : v === false ? (
                         <span className="text-slate-700 text-lg">—</span>
                       ) : (
-                        <span className="text-xs text-amber-400 font-semibold">{v as string}</span>
+                        <span className="text-xs text-amber-800 dark:text-amber-400 font-semibold">{v as string}</span>
                       )}
                     </td>
                   ))}
@@ -168,7 +168,7 @@ export default function PricingPage() {
         {/* ── FAQs ── */}
         <div className="max-w-3xl mx-auto space-y-4">
           <h2 className="text-2xl font-extrabold text-ink text-center mb-8">
-            <HelpCircle className="w-6 h-6 inline mr-2 text-indigo-400" />
+            <HelpCircle className="w-6 h-6 inline mr-2 text-primary" />
             Frequently Asked Questions
           </h2>
           {faqs.map((faq, i) => (
@@ -181,7 +181,7 @@ export default function PricingPage() {
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
               >
                 <span className="font-semibold text-slate-200 text-sm">{faq.q}</span>
-                <span className={`text-indigo-400 text-lg font-bold transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
+                <span className={`text-primary text-lg font-bold transition-transform ${openFaq === i ? "rotate-45" : ""}`}>+</span>
               </button>
               {openFaq === i && (
                 <div className="px-6 pb-5 text-slate-400 text-sm leading-relaxed border-t border-slate-800 pt-4">

@@ -314,7 +314,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
       </div>
 
       <div className="mt-6 flex gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-ink" role="note">
-        <Info className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+        <Info className="mt-0.5 h-4 w-4 shrink-0 text-amber-800 dark:text-amber-400" />
         <p>
           <strong>Not connected to the database yet.</strong> <span className="text-muted">Changes made here stay in this browser tab and are lost when you reload. Once Supabase is connected they will be saved for everyone.</span>
         </p>
@@ -376,7 +376,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                           <span className="flex min-w-0 items-center gap-2 text-ink">
                             <SubjectArt id={s.id} className="h-5 w-5 shrink-0" /> <span className="truncate">{s.name}</span>
                           </span>
-                          <span className={`shrink-0 tabular-nums ${n ? "text-muted" : "font-semibold text-amber-600 dark:text-amber-400"}`}>{n}</span>
+                          <span className={`shrink-0 tabular-nums ${n ? "text-muted" : "font-semibold text-amber-800 dark:text-amber-400"}`}>{n}</span>
                         </div>
                         <ProgressBar pct={(n / maxPerSubject) * 100} />
                       </li>
@@ -477,9 +477,9 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                                 </span>
                               )}
                               {q.yearSource && <span className="chip">{q.yearSource}</span>}
-                              <span className={`chip ${q.difficulty === "Hard" ? "!text-rose-600 dark:!text-rose-400" : q.difficulty === "Easy" ? "!text-emerald-600 dark:!text-emerald-400" : ""}`}>{q.difficulty}</span>
+                              <span className={`chip ${q.difficulty === "Hard" ? "!text-rose-600 dark:!text-rose-600 dark:text-rose-400" : q.difficulty === "Easy" ? "!text-emerald-700 dark:!text-emerald-800 dark:text-emerald-400" : ""}`}>{q.difficulty}</span>
                               <span className="chip">Answer {String.fromCharCode(65 + q.correctIndex)}</span>
-                              {!q.explanation?.trim() && <span className="chip !text-amber-600 dark:!text-amber-400">No explanation</span>}
+                              {!q.explanation?.trim() && <span className="chip !text-amber-700 dark:!text-amber-800 dark:text-amber-400">No explanation</span>}
                             </div>
                             <p className="text-sm font-medium leading-snug text-ink">{q.question}</p>
                           </div>
@@ -556,8 +556,8 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                 <div className="space-y-4 border-t border-line pt-5">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex flex-wrap items-center gap-2 text-sm">
-                      <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 font-semibold text-emerald-700 dark:text-emerald-300">{csvResult.validCount} ready</span>
-                      {csvResult.errorCount > 0 && <span className="rounded-full bg-rose-500/10 px-2.5 py-0.5 font-semibold text-rose-700 dark:text-rose-300">{csvResult.errorCount} with errors</span>}
+                      <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 font-semibold text-emerald-800 dark:text-emerald-300">{csvResult.validCount} ready</span>
+                      {csvResult.errorCount > 0 && <span className="rounded-full bg-rose-500/10 px-2.5 py-0.5 font-semibold text-rose-800 dark:text-rose-300">{csvResult.errorCount} with errors</span>}
                     </div>
                     {csvResult.validCount > 0 && (
                       <button onClick={handleCommitCSVQuestions} className="btn-primary">
@@ -568,7 +568,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
 
                   {csvResult.errors.length > 0 && (
                     <div className="space-y-2 rounded-xl border border-rose-500/30 bg-rose-500/5 p-4 text-sm">
-                      <p className="flex items-center gap-1.5 font-semibold text-rose-700 dark:text-rose-300">
+                      <p className="flex items-center gap-1.5 font-semibold text-rose-800 dark:text-rose-300">
                         <AlertCircle className="h-4 w-4" /> These rows won&apos;t be added until fixed:
                       </p>
                       <ul className="space-y-1 text-muted">
@@ -756,7 +756,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                           <div className="text-sm font-semibold text-ink">{t.name}</div>
                           <div className="text-xs text-muted">{parent?.name || "No subject"}</div>
                         </div>
-                        {t.highYield && <span className="chip shrink-0 !text-amber-600 dark:!text-amber-400">High-yield</span>}
+                        {t.highYield && <span className="chip shrink-0 !text-amber-700 dark:!text-amber-800 dark:text-amber-400">High-yield</span>}
                       </li>
                     );
                   })}

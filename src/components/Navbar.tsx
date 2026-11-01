@@ -32,7 +32,7 @@ export default function Navbar() {
               <span className="font-extrabold text-lg text-slate-900 tracking-tight leading-tight">
                 HMHDental
               </span>
-              <span className="text-[11px] font-bold text-blue-600 tracking-wider uppercase">
+              <span className="text-[11px] font-bold text-primary tracking-wider uppercase">
                 DUHS Dental Portal
               </span>
             </div>
@@ -42,31 +42,31 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">
             <Link
               href="/subjects"
-              className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100/70 rounded-lg transition"
+              className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-100/70 rounded-lg transition"
             >
               Subjects (6)
             </Link>
             <Link
               href="/past-papers"
-              className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100/70 rounded-lg transition"
+              className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-100/70 rounded-lg transition"
             >
               DUHS Past Papers
             </Link>
             <Link
               href="/practice"
-              className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100/70 rounded-lg transition"
+              className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-100/70 rounded-lg transition"
             >
               BCQ Simulator
             </Link>
             <Link
               href="/flashcards"
-              className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100/70 rounded-lg transition"
+              className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-100/70 rounded-lg transition"
             >
               Flashcards
             </Link>
             <Link
               href="/resources"
-              className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100/70 rounded-lg transition"
+              className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-100/70 rounded-lg transition"
             >
               Slides & Notes
             </Link>
@@ -82,7 +82,7 @@ export default function Navbar() {
           <div className="hidden sm:flex items-center gap-3">
             <Link
               href="/login"
-              className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-blue-600 border border-slate-200 bg-white hover:bg-slate-50 rounded-lg transition"
+              className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-primary border border-slate-200 bg-white hover:bg-slate-50 rounded-lg transition"
             >
               Log in
             </Link>
@@ -91,7 +91,7 @@ export default function Navbar() {
               className="px-4 py-2 text-sm font-semibold text-on-primary bg-primary hover:bg-primary-hover rounded-lg shadow-md shadow-blue-600/25 transition flex items-center gap-1.5 hover:shadow-lg"
             >
               <span>Get Started</span>
-              <Sparkles className="w-3.5 h-3.5 text-blue-200" />
+              <Sparkles className="w-3.5 h-3.5 text-blue-700 dark:text-blue-200" />
             </Link>
           </div>
 
@@ -114,41 +114,41 @@ export default function Navbar() {
           <Link
             href="/subjects"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-blue-600"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-primary"
           >
-            <BookOpen className="w-4 h-4 text-blue-600" />
+            <BookOpen className="w-4 h-4 text-primary" />
             <span>Subjects (6)</span>
           </Link>
           <Link
             href="/past-papers"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-blue-600"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-primary"
           >
-            <Award className="w-4 h-4 text-blue-600" />
+            <Award className="w-4 h-4 text-primary" />
             <span>DUHS Past Papers</span>
           </Link>
           <Link
             href="/practice"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-blue-600"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-primary"
           >
-            <FileText className="w-4 h-4 text-blue-600" />
+            <FileText className="w-4 h-4 text-primary" />
             <span>BCQ Simulator</span>
           </Link>
           <Link
             href="/flashcards"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-blue-600"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-primary"
           >
-            <Layers className="w-4 h-4 text-blue-600" />
+            <Layers className="w-4 h-4 text-primary" />
             <span>Digital Flashcards</span>
           </Link>
           <Link
             href="/resources"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-blue-600"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-primary"
           >
-            <FileText className="w-4 h-4 text-blue-600" />
+            <FileText className="w-4 h-4 text-primary" />
             <span>Notes & Slides</span>
           </Link>
           <Link
@@ -156,7 +156,7 @@ export default function Navbar() {
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-blue-700 bg-blue-50 border border-blue-200"
           >
-            <ShieldCheck className="w-4 h-4 text-blue-600" />
+            <ShieldCheck className="w-4 h-4 text-primary" />
             <span>Membership Plans</span>
           </Link>
           <div className="pt-4 border-t border-slate-200 flex flex-col gap-2">

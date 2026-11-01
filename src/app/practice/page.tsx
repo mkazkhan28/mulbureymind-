@@ -306,7 +306,7 @@ export default function PracticeQuizPage() {
                 onClick={() => toggleFlag(currentIndex)}
                 aria-pressed={!!flaggedQuestions[currentIndex]}
                 className={`inline-flex h-9 items-center gap-1.5 rounded-xl border px-3 text-xs font-semibold transition ${
-                  flaggedQuestions[currentIndex] ? "border-amber-500/60 bg-amber-500/10 text-amber-600 dark:text-amber-400" : "border-line bg-surface text-muted hover:text-ink"
+                  flaggedQuestions[currentIndex] ? "border-amber-500/60 bg-amber-500/10 text-amber-800 dark:text-amber-400" : "border-line bg-surface text-muted hover:text-ink"
                 }`}
                 title="Mark for review (M)"
               >
@@ -375,7 +375,7 @@ export default function PracticeQuizPage() {
                           </span>
                           <span className="flex-1 leading-snug">{opt}</span>
                           {showFeedback && isCorrect && (
-                            <span className="flex shrink-0 items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                            <span className="flex shrink-0 items-center gap-1 text-xs font-bold text-emerald-800 dark:text-emerald-400">
                               <CheckCircle2 className="h-5 w-5" /> Correct
                             </span>
                           )}
@@ -502,7 +502,7 @@ export default function PracticeQuizPage() {
               <h2 id="submit-title" className="font-display text-xl font-bold text-ink">Submit and see results?</h2>
               <ul className="mt-3 space-y-1 text-sm text-muted">
                 <li>{answeredCount} of {questions.length} answered</li>
-                {questions.length - answeredCount > 0 && <li className="text-amber-600 dark:text-amber-400">{questions.length - answeredCount} not answered yet</li>}
+                {questions.length - answeredCount > 0 && <li className="text-amber-800 dark:text-amber-400">{questions.length - answeredCount} not answered yet</li>}
                 {markedCount > 0 && <li>{markedCount} marked for review</li>}
               </ul>
               <div className="mt-6 flex gap-2">
@@ -578,7 +578,7 @@ export default function PracticeQuizPage() {
                     <p className="mt-1 text-muted">{score.passed ? "Well done — you're above the 60% pass mark." : "Below the 60% pass mark. Review the explanations below and try again."}</p>
                     <dl className="mt-5 grid grid-cols-3 gap-2">
                       <div className="rounded-xl bg-emerald-500/10 p-3">
-                        <dd className="font-display text-xl font-extrabold text-emerald-600 dark:text-emerald-400">{score.correct}</dd>
+                        <dd className="font-display text-xl font-extrabold text-emerald-800 dark:text-emerald-400">{score.correct}</dd>
                         <dt className="text-xs text-muted">Correct</dt>
                       </div>
                       <div className="rounded-xl bg-rose-500/10 p-3">
@@ -605,7 +605,7 @@ export default function PracticeQuizPage() {
                             <span className="flex items-center gap-2 text-slate-300">
                               <SubjectArt id={subjId} className="h-5 w-5" /> {subj?.name || subjId}
                             </span>
-                            <span className={`font-semibold tabular-nums ${pct >= 60 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                            <span className={`font-semibold tabular-nums ${pct >= 60 ? "text-emerald-800 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
                               {stat.correct}/{stat.total} · {pct}%
                             </span>
                           </div>
@@ -674,12 +674,12 @@ export default function PracticeQuizPage() {
                           <span className="flex items-center gap-2">
                             <span className="font-bold text-muted">Question {idx + 1}</span>
                             {q.yearSource && <span className="chip">{q.yearSource}</span>}
-                            {flaggedQuestions[idx] && <span className="chip !text-amber-600 dark:!text-amber-400">Marked</span>}
+                            {flaggedQuestions[idx] && <span className="chip !text-amber-700 dark:!text-amber-800 dark:text-amber-400">Marked</span>}
                           </span>
                           {choice === undefined ? (
                             <span className="font-bold text-muted">Skipped</span>
                           ) : right ? (
-                            <span className="flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400">
+                            <span className="flex items-center gap-1 font-bold text-emerald-800 dark:text-emerald-400">
                               <CheckCircle2 className="h-4 w-4" /> Correct
                             </span>
                           ) : (
@@ -702,7 +702,7 @@ export default function PracticeQuizPage() {
                               >
                                 <span className="font-bold">{String.fromCharCode(65 + oi)}.</span>
                                 <span className="flex-1">{opt}</span>
-                                {isRight && <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">Correct</span>}
+                                {isRight && <span className="text-[11px] font-bold text-emerald-800 dark:text-emerald-400">Correct</span>}
                                 {isMine && !isRight && <span className="text-[11px] font-bold text-rose-600 dark:text-rose-400">Your answer</span>}
                               </li>
                             );

@@ -7,7 +7,7 @@ export default function TermsAndRefundPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         <div className="space-y-2">
-          <span className="text-xs font-bold text-teal-400 uppercase tracking-wider">
+          <span className="text-xs font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider">
             Legal & Compliance
           </span>
           <h1 className="text-3xl font-extrabold text-ink">
@@ -21,9 +21,9 @@ export default function TermsAndRefundPage() {
         <div className="bg-surface-2 rounded-2xl border border-line p-8 sm:p-10 shadow-sm space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
           
           {/* Medical Disclaimer Banner */}
-          <div className="p-4 bg-surface border border-blue-900/60 rounded-2xl text-xs text-slate-200 space-y-1">
-            <div className="font-bold flex items-center gap-1.5 text-sky-300">
-              <AlertCircle className="w-4 h-4 text-sky-400" />
+          <div className="p-4 bg-surface border border-blue-500/30 rounded-2xl text-xs text-slate-200 space-y-1">
+            <div className="font-bold flex items-center gap-1.5 text-sky-800 dark:text-sky-300">
+              <AlertCircle className="w-4 h-4 text-sky-800 dark:text-sky-400" />
               <span>Medical & Educational Disclaimer</span>
             </div>
             <p className="leading-relaxed text-slate-300">

@@ -7,7 +7,7 @@ export default function PrivacyPolicyPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         <div className="space-y-2">
-          <span className="text-xs font-bold text-teal-400 uppercase tracking-wider">
+          <span className="text-xs font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider">
             Legal & Compliance
           </span>
           <h1 className="text-3xl font-extrabold text-ink">
@@ -51,7 +51,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="font-bold text-base text-ink">5. Contact Regarding Privacy</h2>
             <p>
               If you have any questions or wish to delete your account data, please reach out to our privacy officer at{" "}
-              <Link href="/contact" className="text-sky-400 hover:text-sky-300 font-semibold underline">
+              <Link href="/contact" className="text-sky-800 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold underline">
                 support@bdsstudyhub.pk
               </Link>.
             </p>

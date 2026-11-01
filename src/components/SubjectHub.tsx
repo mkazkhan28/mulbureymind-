@@ -81,29 +81,29 @@ export function SubjectNav({ subject, structure, current }: { subject: Subject; 
           active ? `${tone.bg} font-semibold text-ink` : "text-slate-300 hover:bg-slate-800 hover:text-ink"
         }`}
       >
-        <Icon className={`h-4 w-4 shrink-0 ${active ? tone.text : `text-slate-500 ${tone.hover}`}`} />
+        <Icon className={`h-4 w-4 shrink-0 ${active ? tone.text : `text-muted ${tone.hover}`}`} />
         <span className="flex-1 truncate">{label}</span>
-        {meta && <span className="text-[11px] text-slate-500">{meta}</span>}
+        {meta && <span className="text-[11px] text-muted">{meta}</span>}
       </Link>
     );
   };
   return (
     <nav aria-label={`${subject.name} contents`} className="space-y-5">
       <div>
-        <Link href={base} className={`mb-2 flex items-center gap-2 px-2.5 text-xs font-semibold uppercase tracking-wider ${current ? "text-slate-500 hover:text-ink" : tone.text}`}>
+        <Link href={base} className={`mb-2 flex items-center gap-2 px-2.5 text-xs font-semibold uppercase tracking-wider ${current ? "text-muted hover:text-ink" : tone.text}`}>
           <SubjectArt id={subject.id} className="h-5 w-5" /> {structure.shortName} — contents
         </Link>
         <div className="space-y-0.5">
           {item(`${base}/textbooks`, "Textbooks", Library, "textbooks", String(booksFor(structure).length))}
           {item(`${base}/course-outline`, "Course outline", ListTree, "course-outline", structure.courseOutline.length ? String(structure.courseOutline.length) : "")}
           <div className="flex items-center gap-2.5 px-2.5 pb-0.5 pt-2 text-sm text-slate-300">
-            <Presentation className="h-4 w-4 text-slate-500" /> PPTs
+            <Presentation className="h-4 w-4 text-muted" /> PPTs
           </div>
           {PPT_GROUPS.map((g) => item(`${base}/${g.slug}`, g.short, FolderOpen, g.slug, String(structure.ppts[g.key].length), true))}
         </div>
       </div>
       <div>
-        <div className="mb-2 px-2.5 text-xs font-semibold uppercase tracking-wider text-slate-500">Chapters</div>
+        <div className="mb-2 px-2.5 text-xs font-semibold uppercase tracking-wider text-muted">Chapters</div>
         <div className="space-y-0.5">
           {structure.areas.map((a) => item(`${base}/${a.slug}`, a.title, areaIcon(a.slug), a.slug))}
         </div>
@@ -207,8 +207,8 @@ export function SubjectHub({ subject, structure }: { subject: Subject; structure
                     >
                       <FolderOpen className="h-4 w-4 text-brand-400" />
                       <span className="flex-1 text-sm font-medium text-ink">{g.short}</span>
-                      <span className="text-xs text-slate-500">{structure.ppts[g.key].length || "—"}</span>
-                      <ChevronRight className="h-4 w-4 text-slate-500 transition-transform group-hover:translate-x-0.5" />
+                      <span className="text-xs text-muted">{structure.ppts[g.key].length || "—"}</span>
+                      <ChevronRight className="h-4 w-4 text-muted transition-transform group-hover:translate-x-0.5" />
                     </Link>
                   ))}
                 </div>
@@ -467,7 +467,7 @@ function MaterialCard({ href, icon: Icon, title, text, meta }: { href: string; i
       <h3 className="mt-4 font-semibold text-ink">{title}</h3>
       <p className="mt-1 flex-1 text-sm text-slate-400">{text}</p>
       <div className="mt-4 flex items-center justify-between text-sm">
-        <span className="text-slate-500">{meta}</span>
+        <span className="text-muted">{meta}</span>
         <span className="inline-flex items-center gap-1 font-semibold text-brand-400">
           Open <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </span>
@@ -479,12 +479,12 @@ function MaterialCard({ href, icon: Icon, title, text, meta }: { href: string; i
 export const AREA_STYLE: Record<string, { grad: string; chip: string; icon: string; bar: string }> = {
   // 500–700 shades look the same in light and dark themes, so tiles stay bright in both.
   // One area per colour of the palette: pink · yellow · blue · brown · grey · blue→pink
-  embryology: { grad: "from-pink-500/15 to-brand-500/10", chip: "bg-pink-500/10 text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
-  histology: { grad: "from-amber-500/15 to-brand-500/10", chip: "bg-amber-500/10 text-amber-400", icon: "text-amber-600", bar: "from-brand-500 to-brand-600" },
+  embryology: { grad: "from-pink-500/15 to-brand-500/10", chip: "bg-pink-500/10 text-pink-600 dark:text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
+  histology: { grad: "from-amber-500/15 to-brand-500/10", chip: "bg-amber-500/10 text-amber-800 dark:text-amber-400", icon: "text-amber-700", bar: "from-brand-500 to-brand-600" },
   neuroanatomy: { grad: "from-brand-500/20 to-accent-500/10", chip: "bg-brand-500/10 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-brand-600" },
   "head-and-neck": { grad: "from-stone-500/15 to-brand-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
-  "general-anatomy": { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-400", icon: "text-sky-600", bar: "from-brand-500 to-brand-600" },
-  "thorax-and-abdomen": { grad: "from-rose-500/15 to-brand-500/10", chip: "bg-rose-500/10 text-rose-400", icon: "text-rose-600", bar: "from-brand-500 to-brand-600" },
+  "general-anatomy": { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
+  "thorax-and-abdomen": { grad: "from-rose-500/15 to-brand-500/10", chip: "bg-rose-500/10 text-rose-600 dark:text-rose-400", icon: "text-rose-600", bar: "from-brand-500 to-brand-600" },
 };
 export const DEFAULT_AREA_STYLE = { grad: "from-brand-500/15 to-accent-500/10", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" };
 
@@ -509,7 +509,7 @@ function AreaCard({ area, href, ppts, lectureIds }: { area: SubjectArea; href: s
         <p className="mt-1.5 flex-1 text-sm leading-relaxed text-slate-400">{area.summary}</p>
         <div className="mt-4">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-slate-500">{progress ? `${opened} of ${lectureIds.length} opened` : `${lectureIds.length} lectures`}</span>
+            <span className="text-muted">{progress ? `${opened} of ${lectureIds.length} opened` : `${lectureIds.length} lectures`}</span>
             <span className={`rounded-full px-2 py-0.5 font-semibold ${st.chip}`}>{pct}%</span>
           </div>
           <ProgressBar pct={pct} className="mt-1.5 !h-2" barClassName={`bg-gradient-to-r ${st.bar}`} />
@@ -533,7 +533,7 @@ function GroupTabs({ base, current, structure }: { base: string; current: Colleg
             <m.span layoutId="ppt-group-tab" transition={SPRING} className="absolute inset-0 rounded-lg bg-surface shadow-soft ring-1 ring-primary/20" />
           )}
           <span className="relative">
-            {g.short} <span className="ml-1 text-xs text-slate-500">{structure.ppts[g.key].length}</span>
+            {g.short} <span className="ml-1 text-xs text-muted">{structure.ppts[g.key].length}</span>
           </span>
         </Link>
       ))}
@@ -569,7 +569,7 @@ function MobileContents({ subject, structure, current }: { subject: Subject; str
 function EmptyState({ text }: { text: string }) {
   return (
     <div className="flex items-center gap-3 rounded-2xl border border-dashed border-slate-700 bg-surface/50 px-5 py-6 text-sm text-slate-400">
-      <FileText className="h-5 w-5 shrink-0 text-slate-500" />
+      <FileText className="h-5 w-5 shrink-0 text-muted" />
       <span>{text} New files will appear here as soon as they're added.</span>
     </div>
   );
@@ -615,7 +615,7 @@ function FileList({
     <div className="space-y-10">
       {groups.map((g, gi) => (
         <div key={gi} className="space-y-6">
-          {g.title && <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500">{g.title}</h3>}
+          {g.title && <h3 className="text-sm font-semibold uppercase tracking-wider text-muted">{g.title}</h3>}
           {byTopic(g.files).map((t, ti) => (
             <section key={ti} className="space-y-3">
               {t.topic && (
@@ -658,7 +658,7 @@ function FileList({
                             className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${f.isPremium ? "blur-[2px]" : ""}`}
                           />
                         ) : (
-                          <div className="flex h-full items-center justify-center text-amber-400">
+                          <div className="flex h-full items-center justify-center text-amber-800 dark:text-amber-400">
                             <Presentation className="h-10 w-10" />
                           </div>
                         )}
@@ -667,13 +667,13 @@ function FileList({
                           {f.pages ? `${f.pages} slides` : "Slides"}
                         </span>
                         {f.isPremium ? (
-                          <span className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-amber-500 px-2 py-0.5 text-[11px] font-bold text-white">
+                          <span className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-amber-400 px-2 py-0.5 text-[11px] font-bold text-[#1c1206]">
                             <Lock className="h-3 w-3" /> Pass
                           </span>
                         ) : progress && !seen ? (
                           <span className="absolute right-2.5 top-2.5 rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-on-primary shadow">New</span>
                         ) : seen ? (
-                          <span className="absolute right-2.5 top-2.5 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-bold text-brand-700">
+                          <span className="absolute right-2.5 top-2.5 rounded-full bg-white/95 px-2 py-0.5 text-[11px] font-bold text-[#0e7490]">
                             {pct >= 95 ? "Finished ✓" : "In progress"}
                           </span>
                         ) : null}
@@ -687,7 +687,7 @@ function FileList({
                           <h5 className="line-clamp-2 flex-1 text-[15px] font-semibold leading-snug text-ink">{f.title}</h5>
                           {f.pdf && <BookmarkButton id={f.id} title={f.title} />}
                         </div>
-                        <div className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
+                        <div className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted">
                           {f.by && <span className="truncate">{f.by}</span>}
                           {from && <span className="rounded-full bg-brand-500/10 px-2 py-0.5 text-[10px] font-semibold text-brand-400">From {from}</span>}
                         </div>
@@ -727,8 +727,8 @@ function BookList({ books }: { books: BookItem[] }) {
         {books.map((b) => (
           <article key={b.id} className="flex flex-col rounded-2xl border border-line bg-surface p-5 shadow-soft">
             <div className="flex items-start gap-4">
-              <div className={`flex h-20 w-14 shrink-0 items-end rounded-md bg-gradient-to-br ${b.coverGradient} p-1.5 shadow-md ring-1 ring-line`}>
-                <BookOpen className="h-4 w-4 text-amber-400" />
+              <div className={`flex h-20 w-14 shrink-0 items-end rounded-md bg-surface-2 bg-gradient-to-br ${b.coverGradient} p-1.5 shadow-md ring-1 ring-line`}>
+                <BookOpen className="h-4 w-4 text-amber-800 dark:text-amber-400" />
               </div>
               <div className="min-w-0">
                 <h3 className="font-semibold leading-snug text-ink">{b.title}</h3>
@@ -736,7 +736,7 @@ function BookList({ books }: { books: BookItem[] }) {
                   {b.authors}
                   {b.edition ? ` · ${b.edition}` : ""}
                 </p>
-                {b.isHighYield && <span className="mt-2 inline-block rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400">High yield</span>}
+                {b.isHighYield && <span className="mt-2 inline-block rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 dark:text-emerald-400">High yield</span>}
               </div>
             </div>
             <p className="mt-3 flex-1 text-sm text-slate-400">{b.description}</p>

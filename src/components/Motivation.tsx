@@ -143,7 +143,7 @@ export function StudyPanel({ compact = false }: { compact?: boolean }) {
         <Tile tone="sky">
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold text-slate-300">Tip of the day</span>
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/15 text-sky-400">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/15 text-sky-800 dark:text-sky-400">
               <Lightbulb className="h-5 w-5" />
             </span>
           </div>
@@ -198,7 +198,7 @@ function WeekDots({ p }: { p: Progress | null }) {
                 />
               )}
             </span>
-            <span className="text-[10px] text-slate-500">{d.label}</span>
+            <span className="text-[10px] text-muted">{d.label}</span>
           </div>
         );
       })}
@@ -248,15 +248,15 @@ function Badges({ p }: { p: Progress | null }) {
             key={b.key}
             title={b.hint}
             className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-xs transition ${
-              b.earned ? "border-amber-500/40 bg-amber-500/10 text-ink" : "border-line bg-canvas text-slate-500"
+              b.earned ? "border-amber-500/40 bg-amber-500/10 text-ink" : "border-line bg-canvas text-muted"
             }`}
           >
-            <span className={`flex h-6 w-6 items-center justify-center rounded-full ${b.earned ? "bg-amber-500 text-white" : "bg-slate-800 text-slate-500"}`}>
+            <span className={`flex h-6 w-6 items-center justify-center rounded-full ${b.earned ? "bg-amber-500 text-white" : "bg-slate-800 text-muted"}`}>
               {b.earned ? <Trophy className="h-3.5 w-3.5" /> : <Lock className="h-3 w-3" />}
             </span>
             <span>
               <span className="block font-semibold">{b.title}</span>
-              <span className="block text-[10px] text-slate-500">{b.hint}</span>
+              <span className="block text-[10px] text-muted">{b.hint}</span>
             </span>
           </div>
         ))}
@@ -335,7 +335,7 @@ export function ContinueReading({ subjectSlug, limit = 4 }: { subjectSlug?: stri
             <div className="flex min-w-0 flex-1 flex-col justify-between p-3">
               <div>
                 <div className="line-clamp-2 text-sm font-semibold leading-snug text-ink">{item!.title}</div>
-                <div className="mt-0.5 truncate text-[11px] text-slate-500">{item!.areaTitle ?? item!.topic}</div>
+                <div className="mt-0.5 truncate text-[11px] text-muted">{item!.areaTitle ?? item!.topic}</div>
               </div>
               <div className="mt-2">
                 <div className="flex items-center justify-between text-[11px] text-slate-400">

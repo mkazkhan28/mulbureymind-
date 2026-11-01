@@ -45,22 +45,22 @@ export default function PastPapersPage() {
     switch (subjectId) {
       case "anat":
       case "subj-anat-1":
-        return "bg-amber-950/70 text-amber-300 border-amber-700/60";
+        return "bg-amber-500/15 text-amber-800 dark:text-amber-300 border-amber-500/30";
       case "phys":
       case "subj-physio-1":
-        return "bg-rose-950/70 text-rose-300 border-rose-700/60";
+        return "bg-rose-500/15 text-rose-800 dark:text-rose-300 border-rose-500/30";
       case "oral-bio":
       case "subj-oralbio-1":
-        return "bg-cyan-950/70 text-cyan-300 border-cyan-700/60";
+        return "bg-cyan-500/15 text-cyan-800 dark:text-cyan-300 border-cyan-500/30";
       case "biochem":
       case "subj-biochem-1":
-        return "bg-purple-950/70 text-purple-300 border-purple-700/60";
+        return "bg-purple-500/15 text-purple-800 dark:text-purple-300 border-purple-500/30";
       case "pharm":
       case "subj-pharm-1":
-        return "bg-emerald-950/70 text-emerald-300 border-emerald-700/60";
+        return "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30";
       case "path":
       case "subj-path-1":
-        return "bg-blue-950/70 text-blue-300 border-blue-700/60";
+        return "bg-blue-500/15 text-primary border-blue-500/30";
       default:
         return "bg-slate-800 text-slate-300 border-slate-700";
     }
@@ -134,7 +134,7 @@ export default function PastPapersPage() {
         <div className="space-y-4">
           {filteredMCQs.length === 0 ? (
             <div className="bg-surface p-12 rounded-2xl border border-line text-center space-y-3">
-              <Search className="w-8 h-8 text-slate-500 mx-auto" />
+              <Search className="w-8 h-8 text-muted mx-auto" />
               <h3 className="text-base font-bold text-ink">No questions found matching your filter</h3>
               <p className="text-xs text-slate-400">Try adjusting your search keywords or select "All 6 Core 1st Year Subjects".</p>
             </div>
@@ -155,14 +155,14 @@ export default function PastPapersPage() {
                       <span className={`px-2.5 py-0.5 rounded-full border text-[11px] font-bold ${getSubjectBadge(q.subjectId)}`}>
                         {subj?.name}
                       </span>
-                      <span className="bg-slate-950/80 border border-slate-800 text-indigo-300 px-2.5 py-0.5 rounded-full text-[10px] font-semibold">
+                      <span className="bg-slate-950/80 border border-slate-800 text-primary px-2.5 py-0.5 rounded-full text-[10px] font-semibold">
                         {q.yearSource}
                       </span>
                     </div>
 
                     <button
                       onClick={() => toggleExpand(q.id)}
-                      className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition cursor-pointer"
+                      className="text-xs font-semibold text-cyan-800 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 flex items-center gap-1 transition cursor-pointer"
                     >
                       {isExpanded ? (
                         <>
@@ -192,7 +192,7 @@ export default function PastPapersPage() {
                           key={optIdx}
                           className={`p-3 rounded-xl border flex items-center gap-2.5 transition ${
                             isExpanded && isCorrect
-                              ? "bg-emerald-950/40 border-emerald-500/70 text-emerald-200 font-semibold ring-1 ring-emerald-500/50"
+                              ? "bg-emerald-500/10 border-emerald-500/70 text-emerald-700 dark:text-emerald-200 font-semibold ring-1 ring-emerald-500/50"
                               : "bg-slate-950/50 border-slate-800 text-slate-300"
                           }`}
                         >
@@ -205,7 +205,7 @@ export default function PastPapersPage() {
                           </span>
                           <span className="flex-1 leading-snug">{opt}</span>
                           {isExpanded && isCorrect && (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                            <CheckCircle2 className="w-4 h-4 text-emerald-800 dark:text-emerald-400 shrink-0" />
                           )}
                         </div>
                       );
@@ -214,10 +214,10 @@ export default function PastPapersPage() {
 
                   {/* Expanded Textbook Rationale Drawer */}
                   {isExpanded && (
-                    <div className="p-4 sm:p-5 bg-slate-950/90 rounded-2xl border border-cyan-900/60 text-xs sm:text-sm space-y-2 animate-fadeIn">
-                      <div className="flex items-center gap-2 font-bold text-cyan-300">
-                        <HelpCircle className="w-4 h-4 text-cyan-400" />
-                        <span>Official DUHS Key & Clinical Explanation:</span>
+                    <div className="p-4 sm:p-5 bg-slate-950/90 rounded-2xl border border-cyan-500/30 text-xs sm:text-sm space-y-2 animate-fadeIn">
+                      <div className="flex items-center gap-2 font-bold text-cyan-800 dark:text-cyan-300">
+                        <HelpCircle className="w-4 h-4 text-cyan-800 dark:text-cyan-400" />
+                        <span>Answer & explanation:</span>
                       </div>
                       <p className="text-slate-300 leading-relaxed">{q.explanation}</p>
                     </div>
@@ -229,7 +229,7 @@ export default function PastPapersPage() {
         </div>
 
         {/* Bottom Banner */}
-        <div className="bg-gradient-to-r from-blue-950/80 via-indigo-950/80 to-purple-950/80 border border-indigo-800/60 p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        <div className="bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 border border-indigo-500/30 p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div className="space-y-1 max-w-xl">
             <h3 className="text-lg sm:text-xl font-extrabold text-ink">
               Want to take these under official exam conditions?

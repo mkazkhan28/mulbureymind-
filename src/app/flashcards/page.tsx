@@ -33,49 +33,49 @@ export default function FlashcardsLibraryPage() {
       case "anat":
       case "subj-anat-1":
         return {
-          badge: "bg-amber-950/70 text-amber-300 border-amber-700/60",
-          accent: "text-amber-400",
+          badge: "bg-amber-500/15 text-amber-800 dark:text-amber-300 border-amber-500/30",
+          accent: "text-amber-800 dark:text-amber-400",
           glow: "group-hover:border-amber-500/40"
         };
       case "phys":
       case "subj-physio-1":
         return {
-          badge: "bg-rose-950/70 text-rose-300 border-rose-700/60",
-          accent: "text-rose-400",
+          badge: "bg-rose-500/15 text-rose-800 dark:text-rose-300 border-rose-500/30",
+          accent: "text-rose-600 dark:text-rose-400",
           glow: "group-hover:border-rose-500/40"
         };
       case "oral-bio":
       case "subj-oralbio-1":
         return {
-          badge: "bg-cyan-950/70 text-cyan-300 border-cyan-700/60",
-          accent: "text-cyan-400",
+          badge: "bg-cyan-500/15 text-cyan-800 dark:text-cyan-300 border-cyan-500/30",
+          accent: "text-cyan-800 dark:text-cyan-400",
           glow: "group-hover:border-cyan-500/40"
         };
       case "biochem":
       case "subj-biochem-1":
         return {
-          badge: "bg-purple-950/70 text-purple-300 border-purple-700/60",
-          accent: "text-purple-400",
+          badge: "bg-purple-500/15 text-purple-800 dark:text-purple-300 border-purple-500/30",
+          accent: "text-purple-600 dark:text-purple-400",
           glow: "group-hover:border-purple-500/40"
         };
       case "pharm":
       case "subj-pharm-1":
         return {
-          badge: "bg-emerald-950/70 text-emerald-300 border-emerald-700/60",
-          accent: "text-emerald-400",
+          badge: "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30",
+          accent: "text-emerald-800 dark:text-emerald-400",
           glow: "group-hover:border-emerald-500/40"
         };
       case "path":
       case "subj-path-1":
         return {
-          badge: "bg-blue-950/70 text-blue-300 border-blue-700/60",
-          accent: "text-blue-400",
+          badge: "bg-blue-500/15 text-primary border-blue-500/30",
+          accent: "text-primary",
           glow: "group-hover:border-blue-500/40"
         };
       default:
         return {
           badge: "bg-slate-800 text-slate-300 border-slate-700",
-          accent: "text-indigo-400",
+          accent: "text-primary",
           glow: "group-hover:border-indigo-500/40"
         };
     }
@@ -149,7 +149,7 @@ export default function FlashcardsLibraryPage() {
                     <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${style.badge}`}>
                       {subject?.name}
                     </span>
-                    <h2 className="text-lg font-bold text-ink leading-snug mt-2.5 group-hover:text-cyan-300 transition">
+                    <h2 className="text-lg font-bold text-ink leading-snug mt-2.5 group-hover:text-cyan-700 dark:group-hover:text-cyan-300 transition">
                       {deck.title}
                     </h2>
                     <p className="text-xs text-slate-300 mt-2 leading-relaxed">

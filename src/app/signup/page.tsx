@@ -103,7 +103,7 @@ export default function SignupPage() {
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             aria-label={showPassword ? "Hide password" : "Show password"}
-            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:text-ink"
+            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted transition hover:text-ink"
           >
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
@@ -130,11 +130,11 @@ export default function SignupPage() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             className={`field pl-10 pr-11 ${mismatch ? "!border-rose-500 focus:!ring-rose-500/15" : ""}`}
           />
-          {confirmPassword && !mismatch && <Check className="absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-emerald-400 animate-fadeIn" />}
+          {confirmPassword && !mismatch && <Check className="absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-emerald-800 dark:text-emerald-400 animate-fadeIn" />}
         </Field>
 
         {(error || mismatch) && (
-          <p className="flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-400 animate-fadeIn">
+          <p className="flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-600 dark:text-rose-400 animate-fadeIn">
             <AlertCircle className="h-4 w-4 shrink-0" /> {error ?? "Passwords do not match."}
           </p>
         )}
@@ -151,7 +151,7 @@ export default function SignupPage() {
           )}
         </button>
 
-        <p className="text-center text-xs text-slate-500">
+        <p className="text-center text-xs text-muted">
           By signing up you agree to our{" "}
           <Link href="/terms" className="underline hover:text-ink">Terms</Link> and{" "}
           <Link href="/privacy" className="underline hover:text-ink">Privacy Policy</Link>.
@@ -168,7 +168,7 @@ function Field({ id, label, icon: Icon, children }: { id: string; label: string;
         {label}
       </label>
       <div className="relative">
-        <Icon className="pointer-events-none absolute left-3.5 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-slate-500" />
+        <Icon className="pointer-events-none absolute left-3.5 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-muted" />
         {children}
       </div>
     </div>

@@ -46,11 +46,11 @@ export default function SubscriptionPage() {
         <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 sm:p-8 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-blue-500/10 text-blue-400 rounded-2xl border border-blue-500/30">
-                <ShieldCheck className="w-6 h-6 text-blue-400" />
+              <div className="p-3 bg-blue-500/10 text-primary rounded-2xl border border-blue-500/30">
+                <ShieldCheck className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <span className="text-[10px] font-bold tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded-full uppercase">
+                <span className="text-[10px] font-bold tracking-wider text-primary bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded-full uppercase">
                   {currentSubscription.status}
                 </span>
                 <h2 className="text-lg font-bold text-ink mt-1">
@@ -109,20 +109,20 @@ export default function SubscriptionPage() {
               <tbody className="divide-y divide-slate-850 text-slate-300">
                 {paymentHistory.map((txn) => (
                   <tr key={txn.id} className="hover:bg-slate-950 transition">
-                    <td className="py-3 font-mono font-bold text-blue-400">{txn.id}</td>
+                    <td className="py-3 font-mono font-bold text-primary">{txn.id}</td>
                     <td className="py-3 text-slate-400">{txn.date}</td>
                     <td className="py-3 font-medium text-ink">{txn.plan}</td>
                     <td className="py-3 font-semibold text-slate-100">{txn.amount}</td>
                     <td className="py-3 text-slate-400">{txn.method}</td>
                     <td className="py-3">
-                      <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded-full">
+                      <span className="text-[10px] font-bold text-primary bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded-full">
                         {txn.status}
                       </span>
                     </td>
                     <td className="py-3 text-right">
                       <button
                         onClick={() => alert(`Receipt downloaded for ${txn.id}`)}
-                        className="text-blue-400 hover:text-blue-300 font-semibold underline inline-flex items-center gap-1"
+                        className="text-primary hover:text-blue-700 dark:hover:text-blue-300 font-semibold underline inline-flex items-center gap-1"
                       >
                         <DownloadCloud className="w-3.5 h-3.5" />
                         <span>PDF</span>

@@ -53,18 +53,18 @@ export default function ContactPage() {
 
               <div className="space-y-4 text-xs">
                 <div className="flex items-start gap-3">
-                  <div className="p-2.5 bg-blue-500/10 text-blue-400 border border-blue-500/30 rounded-xl">
+                  <div className="p-2.5 bg-blue-500/10 text-primary border border-blue-500/30 rounded-xl">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="font-bold text-ink">WhatsApp Student Helpline</div>
                     <div className="text-slate-400 mt-0.5">+92 300 0000000</div>
-                    <div className="text-[10px] text-blue-400 font-medium">Mon - Sat (9 AM - 9 PM)</div>
+                    <div className="text-[10px] text-primary font-medium">Mon - Sat (9 AM - 9 PM)</div>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="p-2.5 bg-blue-500/10 text-blue-400 border border-blue-500/30 rounded-xl">
+                  <div className="p-2.5 bg-blue-500/10 text-primary border border-blue-500/30 rounded-xl">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
@@ -87,7 +87,7 @@ export default function ContactPage() {
             </div>
 
             <div className="bg-slate-900 text-ink p-6 rounded-2xl space-y-2 text-xs shadow-md">
-              <div className="font-bold text-sm text-blue-400">
+              <div className="font-bold text-sm text-primary">
                 Are you a Class Representative (CR/GR)?
               </div>
               <p className="text-slate-300 leading-relaxed">
@@ -188,8 +188,8 @@ export default function ContactPage() {
                 </form>
               ) : (
                 <div className="text-center py-8 space-y-3 animate-fadeIn">
-                  <div className="w-12 h-12 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/30 flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="w-6 h-6 text-emerald-400" />
+                  <div className="w-12 h-12 rounded-full bg-blue-500/10 text-primary border border-blue-500/30 flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="w-6 h-6 text-emerald-800 dark:text-emerald-400" />
                   </div>
                   <h3 className="font-bold text-base text-ink">Message Received</h3>
                   <p className="text-xs text-slate-300 max-w-sm mx-auto">
@@ -197,7 +197,7 @@ export default function ContactPage() {
                   </p>
                   <button
                     onClick={() => setIsSent(false)}
-                    className="text-xs font-semibold text-blue-400 hover:text-blue-300 hover:underline pt-2"
+                    className="text-xs font-semibold text-primary hover:text-blue-700 dark:hover:text-blue-300 hover:underline pt-2"
                   >
                     Send another message
                   </button>

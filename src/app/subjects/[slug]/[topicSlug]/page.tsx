@@ -50,7 +50,7 @@ export default function TopicDetailPage() {
     return (
       <div className="min-h-screen bg-surface text-slate-200 flex items-center justify-center p-4">
         <div className="bg-surface-2 p-8 rounded-2xl border border-line text-center max-w-md space-y-4">
-          <BookOpen className="w-10 h-10 text-slate-500 mx-auto" />
+          <BookOpen className="w-10 h-10 text-muted mx-auto" />
           <h2 className="text-lg font-bold text-ink">Topic Not Found</h2>
           <p className="text-xs text-slate-400">The requested topic could not be found.</p>
           <Link
@@ -88,7 +88,7 @@ export default function TopicDetailPage() {
               <p className="eyebrow hero-in flex flex-wrap items-center gap-2" style={{ "--i": 1 } as React.CSSProperties}>
                 {subject.name} · Chapter {idx + 1} of {chapters.length}
                 {topic.highYield && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-bold normal-case tracking-normal text-amber-600 dark:text-amber-400">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-bold normal-case tracking-normal text-amber-800 dark:text-amber-400">
                     <Sparkles className="h-3 w-3" /> High-yield
                   </span>
                 )}
@@ -149,7 +149,7 @@ export default function TopicDetailPage() {
                         <span className="w-6 h-6 rounded-full bg-surface text-slate-300 border border-line text-xs font-bold flex items-center justify-center shrink-0">
                           {idx + 1}
                         </span>
-                        <span className="text-xs font-semibold text-sky-300 bg-sky-950/60 border border-sky-800/60 px-2 py-0.5 rounded">
+                        <span className="text-xs font-semibold text-sky-800 dark:text-sky-300 bg-sky-500/10 border border-sky-500/30 px-2 py-0.5 rounded">
                           {q.yearSource || "Past Paper"}
                         </span>
                       </div>
@@ -204,7 +204,7 @@ export default function TopicDetailPage() {
                     {isExpanded && (
                       <div className="p-4 bg-soft border border-primary/25 rounded-xl text-sm text-slate-300 space-y-1.5 animate-fadeIn">
                         <div className="font-semibold text-ink flex items-center gap-1.5">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                          <CheckCircle2 className="w-4 h-4 text-emerald-800 dark:text-emerald-400" />
                           <span>
                             Correct Answer: Option {String.fromCharCode(65 + q.correctIndex)} (
                             {q.options[q.correctIndex]})
@@ -219,7 +219,7 @@ export default function TopicDetailPage() {
             </div>
           ) : (
             <div className="bg-surface-2 rounded-2xl border border-line p-8 text-center space-y-3">
-              <FileText className="w-8 h-8 text-slate-500 mx-auto" />
+              <FileText className="w-8 h-8 text-muted mx-auto" />
               <p className="text-xs text-slate-400">
                 Additional questions for this topic are being compiled by the academic team.
               </p>
@@ -234,9 +234,9 @@ export default function TopicDetailPage() {
         </div>
 
         {/* previous / next chapter */}
-        <nav aria-label="Chapters" className="grid gap-3 border-t border-line pt-6 sm:grid-cols-2">
+        <nav aria-label="Chapters" className="grid grid-cols-1 gap-3 border-t border-line pt-6 sm:grid-cols-2">
           {prev ? (
-            <Link href={`/subjects/${subject.slug}/${prev.slug}`} className="card-glow group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4">
+            <Link href={`/subjects/${subject.slug}/${prev.slug}`} className="card-glow group flex min-w-0 items-center gap-3 rounded-2xl border border-line bg-surface p-4">
               <ChevronLeft className="h-5 w-5 text-muted group-hover:text-primary" />
               <span className="min-w-0">
                 <span className="block text-xs text-muted">Previous chapter</span>
@@ -247,7 +247,7 @@ export default function TopicDetailPage() {
             <span />
           )}
           {next && (
-            <Link href={`/subjects/${subject.slug}/${next.slug}`} className="card-glow group flex items-center justify-end gap-3 rounded-2xl border border-line bg-surface p-4 text-right">
+            <Link href={`/subjects/${subject.slug}/${next.slug}`} className="card-glow group flex min-w-0 items-center justify-end gap-3 rounded-2xl border border-line bg-surface p-4 text-right">
               <span className="min-w-0">
                 <span className="block text-xs text-muted">Next chapter</span>
                 <span className="block truncate font-semibold text-ink group-hover:text-primary">{next.name}</span>

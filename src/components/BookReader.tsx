@@ -426,11 +426,11 @@ export default function BookReader({ book, backHref = "/books", backLabel = "Bac
             )}
             {byPage.size > 0 && (
               <div className="mt-4 border-t border-line pt-3">
-                <div className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Pages with notes</div>
+                <div className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-muted">Pages with notes</div>
                 <div className="flex flex-wrap gap-1.5 px-2">
                   {[...byPage.keys()].sort((a, b) => a - b).map((p) => (
                     <button key={p} onClick={() => goTo(p)} className="rounded-md bg-slate-850 px-2 py-1 text-xs text-slate-300 hover:text-ink">
-                      p.{p} <span className="text-slate-500">({byPage.get(p)!.length})</span>
+                      p.{p} <span className="text-muted">({byPage.get(p)!.length})</span>
                     </button>
                   ))}
                 </div>
@@ -524,9 +524,9 @@ export default function BookReader({ book, backHref = "/books", backLabel = "Bac
                   <button onClick={() => goTo(a.page)} className="font-semibold text-brand-400 hover:underline">
                     Page {a.page}
                   </button>
-                  <span className="text-slate-500">{a.rects.length ? "Highlight" : "Page note"}</span>
+                  <span className="text-muted">{a.rects.length ? "Highlight" : "Page note"}</span>
                   <div className="flex-1" />
-                  <button onClick={() => deleteAnn(a.id)} className="rounded p-1 text-slate-500 opacity-0 transition hover:text-rose-400 group-hover:opacity-100 focus:opacity-100" aria-label="Delete note">
+                  <button onClick={() => deleteAnn(a.id)} className="rounded p-1 text-muted opacity-0 transition hover:text-rose-600 dark:hover:text-rose-400 group-hover:opacity-100 focus:opacity-100" aria-label="Delete note">
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 </div>
@@ -592,7 +592,7 @@ export default function BookReader({ book, backHref = "/books", backLabel = "Bac
                   />
                 ))}
                 <div className="flex-1" />
-                <button onClick={() => deleteAnn(active.id)} className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-rose-400 hover:bg-rose-500/10">
+                <button onClick={() => deleteAnn(active.id)} className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-500/10">
                   <Trash2 className="h-3.5 w-3.5" /> Remove
                 </button>
               </div>
@@ -939,7 +939,7 @@ function EndOfLecture({ nav }: { nav: ReaderNav }) {
                 <Link href={r.href} className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-slate-300 hover:bg-slate-850 hover:text-primary">
                   <ChevronRight className="h-3.5 w-3.5 shrink-0" />
                   <span className="truncate">{r.title}</span>
-                  {r.sub && <span className="ml-auto shrink-0 text-xs text-slate-500">{r.sub}</span>}
+                  {r.sub && <span className="ml-auto shrink-0 text-xs text-muted">{r.sub}</span>}
                 </Link>
               </li>
             ))}

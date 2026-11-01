@@ -94,8 +94,8 @@ function CheckoutContent() {
             />
 
             {/* Test Mode Notification */}
-            <div className="bg-indigo-950/60 border border-indigo-700/60 rounded-2xl p-4 flex items-start gap-3 text-xs text-indigo-200 shadow-xl">
-              <AlertCircle className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+            <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-2xl p-4 flex items-start gap-3 text-xs text-indigo-700 dark:text-indigo-200 shadow-xl">
+              <AlertCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <span className="font-bold text-ink">Safe Pakistani Payment Simulator Active:</span>
                 <p className="leading-relaxed text-slate-300">
@@ -173,11 +173,11 @@ function CheckoutContent() {
                       onClick={() => setPaymentMethod("jazzcash")}
                       className={`p-3.5 rounded-xl border text-left transition flex items-center gap-3 cursor-pointer ${
                         paymentMethod === "jazzcash"
-                          ? "border-rose-500/80 bg-rose-950/40 shadow-lg shadow-rose-950/30 ring-1 ring-rose-500"
+                          ? "border-rose-500/80 bg-rose-500/10 shadow-lg shadow-rose-950/30 ring-1 ring-rose-500"
                           : "border-slate-800 bg-slate-950/60 hover:bg-slate-900"
                       }`}
                     >
-                      <Smartphone className="w-5 h-5 text-rose-400 shrink-0" />
+                      <Smartphone className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0" />
                       <div>
                         <div className="text-xs font-bold text-ink">JazzCash</div>
                         <div className="text-[10px] text-slate-400">Mobile Account / MPIN</div>
@@ -189,11 +189,11 @@ function CheckoutContent() {
                       onClick={() => setPaymentMethod("easypaisa")}
                       className={`p-3.5 rounded-xl border text-left transition flex items-center gap-3 cursor-pointer ${
                         paymentMethod === "easypaisa"
-                          ? "border-emerald-500/80 bg-emerald-950/40 shadow-lg shadow-emerald-950/30 ring-1 ring-emerald-500"
+                          ? "border-emerald-500/80 bg-emerald-500/10 shadow-lg shadow-emerald-950/30 ring-1 ring-emerald-500"
                           : "border-slate-800 bg-slate-950/60 hover:bg-slate-900"
                       }`}
                     >
-                      <Smartphone className="w-5 h-5 text-emerald-400 shrink-0" />
+                      <Smartphone className="w-5 h-5 text-emerald-800 dark:text-emerald-400 shrink-0" />
                       <div>
                         <div className="text-xs font-bold text-ink">Easypaisa</div>
                         <div className="text-[10px] text-slate-400">Instant Wallet Approval</div>
@@ -205,11 +205,11 @@ function CheckoutContent() {
                       onClick={() => setPaymentMethod("card")}
                       className={`p-3.5 rounded-xl border text-left transition flex items-center gap-3 cursor-pointer ${
                         paymentMethod === "card"
-                          ? "border-indigo-500/80 bg-indigo-950/40 shadow-lg shadow-indigo-950/30 ring-1 ring-indigo-500"
+                          ? "border-indigo-500/80 bg-indigo-500/10 shadow-lg shadow-indigo-950/30 ring-1 ring-indigo-500"
                           : "border-slate-800 bg-slate-950/60 hover:bg-slate-900"
                       }`}
                     >
-                      <CreditCard className="w-5 h-5 text-indigo-400 shrink-0" />
+                      <CreditCard className="w-5 h-5 text-primary shrink-0" />
                       <div>
                         <div className="text-xs font-bold text-ink">Debit / Credit Card</div>
                         <div className="text-[10px] text-slate-400">PayPak, Visa, Master</div>
@@ -221,11 +221,11 @@ function CheckoutContent() {
                       onClick={() => setPaymentMethod("ibft")}
                       className={`p-3.5 rounded-xl border text-left transition flex items-center gap-3 cursor-pointer ${
                         paymentMethod === "ibft"
-                          ? "border-cyan-500/80 bg-cyan-950/40 shadow-lg shadow-cyan-950/30 ring-1 ring-cyan-500"
+                          ? "border-cyan-500/80 bg-cyan-500/10 shadow-lg shadow-cyan-950/30 ring-1 ring-cyan-500"
                           : "border-slate-800 bg-slate-950/60 hover:bg-slate-900"
                       }`}
                     >
-                      <Building className="w-5 h-5 text-cyan-400 shrink-0" />
+                      <Building className="w-5 h-5 text-cyan-800 dark:text-cyan-400 shrink-0" />
                       <div>
                         <div className="text-xs font-bold text-ink">Direct Bank Transfer</div>
                         <div className="text-[10px] text-slate-400">Raast / IBFT</div>
@@ -261,9 +261,9 @@ function CheckoutContent() {
                             <button
                               type="button"
                               onClick={() => handleCopyIban("PK88MEZN0001020304050607")}
-                              className="text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1 cursor-pointer"
+                              className="text-cyan-800 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 font-semibold flex items-center gap-1 cursor-pointer"
                             >
-                              {copiedBank ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                              {copiedBank ? <Check className="w-3 h-3 text-emerald-800 dark:text-emerald-400" /> : <Copy className="w-3 h-3" />}
                               <span>{copiedBank ? "Copied" : "Copy"}</span>
                             </button>
                           </div>
@@ -321,15 +321,15 @@ function CheckoutContent() {
                     </div>
                     <div className="flex justify-between text-slate-300">
                       <span>Curriculum Focus</span>
-                      <span className="font-semibold text-cyan-400">DUHS 1st Year (6 Subjects)</span>
+                      <span className="font-semibold text-cyan-800 dark:text-cyan-400">DUHS 1st Year (6 Subjects)</span>
                     </div>
                     <div className="flex justify-between text-slate-300">
                       <span>Gateway Fee</span>
-                      <span className="font-semibold text-emerald-400">PKR 0 (Free)</span>
+                      <span className="font-semibold text-emerald-800 dark:text-emerald-400">PKR 0 (Free)</span>
                     </div>
                     <div className="pt-3 border-t border-slate-800 flex justify-between text-sm font-extrabold text-ink">
                       <span>Total Amount:</span>
-                      <span className="text-cyan-300 text-base">
+                      <span className="text-cyan-800 dark:text-cyan-300 text-base">
                         PKR {currentPlan.pricePKR.toLocaleString()}
                       </span>
                     </div>
@@ -351,8 +351,8 @@ function CheckoutContent() {
                   </button>
 
                   <div className="text-center text-[10px] text-slate-400 flex items-center justify-center gap-1.5 pt-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>State Bank of Pakistan Compliant Gateways</span>
+                    <ShieldCheck className="w-3.5 h-3.5 text-cyan-800 dark:text-cyan-400" />
+                    <span>Paid through JazzCash, Easypaisa, card or bank transfer</span>
                   </div>
                 </div>
               </div>
@@ -362,12 +362,12 @@ function CheckoutContent() {
         ) : (
           /* SUCCESS CONFIRMATION SCREEN */
           <div className="bg-surface rounded-2xl border border-slate-800 p-8 sm:p-12 text-center space-y-6 max-w-xl mx-auto animate-fadeIn">
-            <div className="w-18 h-18 rounded-2xl bg-emerald-950/80 border border-emerald-700/60 flex items-center justify-center mx-auto text-emerald-400 shadow-xl shadow-emerald-950/30">
+            <div className="w-18 h-18 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-800 dark:text-emerald-400 shadow-xl shadow-emerald-950/30">
               <CheckCircle2 className="w-9 h-9" />
             </div>
 
             <div className="space-y-1.5">
-              <span className="text-xs font-bold text-emerald-300 uppercase tracking-widest bg-emerald-950/70 px-3.5 py-1 rounded-full border border-emerald-700/60 shadow-sm">
+              <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-widest bg-emerald-500/15 px-3.5 py-1 rounded-full border border-emerald-500/30 shadow-sm">
                 Payment Verified & Activated
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-ink">
@@ -381,15 +381,15 @@ function CheckoutContent() {
             <div className="p-5 bg-slate-950/80 rounded-2xl border border-slate-800 text-xs text-left space-y-2.5">
               <div className="flex justify-between">
                 <span className="text-slate-400">Student:</span>
-                <span className="font-semibold text-ink">{studentName || "Dr. Ayesha Khan"}</span>
+                <span className="font-semibold text-ink">{studentName || "—"}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Dental College:</span>
-                <span className="font-semibold text-ink">{collegeName || "DIKIOHS (Dow University)"}</span>
+                <span className="font-semibold text-ink">{collegeName || "—"}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Transaction Reference:</span>
-                <span className="font-mono font-bold text-cyan-400">{transactionId}</span>
+                <span className="font-mono font-bold text-cyan-800 dark:text-cyan-400">{transactionId}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Gateway Provider:</span>

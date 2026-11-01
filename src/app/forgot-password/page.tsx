@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
         <div>
           <Link
             href="/login"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-blue-400 transition"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-primary dark:hover:text-blue-400 transition"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Login</span>
@@ -56,7 +56,7 @@ export default function ForgotPasswordPage() {
                 Your Email Address
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   required
@@ -79,8 +79,8 @@ export default function ForgotPasswordPage() {
           </form>
         ) : (
           <div className="text-center py-6 space-y-4 animate-fadeIn">
-            <div className="w-12 h-12 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/30 flex items-center justify-center mx-auto">
-              <CheckCircle2 className="w-6 h-6 text-emerald-400" />
+            <div className="w-12 h-12 rounded-full bg-blue-500/10 text-primary border border-blue-500/30 flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-6 h-6 text-emerald-800 dark:text-emerald-400" />
             </div>
             <div className="space-y-1">
               <h2 className="text-lg font-bold text-ink">Reset Email Sent</h2>
