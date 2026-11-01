@@ -411,7 +411,7 @@ function WelcomeBack() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease: EASE, delay: 0.6 } }}
           exit={{ opacity: 0, y: 16, transition: { duration: 0.2, ease: EASE } }}
-          className="fixed inset-x-4 bottom-20 z-40 rounded-2xl border border-line bg-elevated p-4 shadow-lift sm:inset-x-auto sm:right-6 sm:w-[22rem] lg:bottom-6"
+          className="fixed inset-x-4 bottom-20 z-40 rounded-2xl border border-line bg-elevated p-4 shadow-lift sm:inset-x-auto sm:right-6 sm:w-[22rem] lg:bottom-24"
         >
           <button onClick={dismiss} aria-label="Dismiss" className="absolute right-2 top-2 rounded-lg p-1.5 text-muted hover:bg-surface-2 hover:text-ink">
             <X className="h-4 w-4" />

@@ -958,7 +958,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
       </Modal>
 
       {/* ============================ TOAST ============================ */}
-      <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-24 z-[80] flex justify-center px-4 lg:bottom-8">
+      <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-24 z-[80] flex justify-center px-4 lg:bottom-24">
         <AnimatePresence>
           {toast && (
             <m.div

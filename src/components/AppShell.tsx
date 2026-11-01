@@ -74,13 +74,15 @@ const MORE_NAV = [
   { href: "/admin", label: "Admin console", icon: Settings },
 ];
 
-/* Mobile bottom bar */
+/* Phone bottom bar: the five most-used places (the rest are in the side menu) */
 const TAB_NAV = [
   { href: "/dashboard", label: "Home", icon: LayoutDashboard },
   { href: "/subjects", label: "Subjects", icon: GraduationCap },
   { href: "/practice", label: "MCQs", icon: ListChecks },
+  { href: "/flashcards", label: "Cards", icon: Layers },
   { href: "/bookmarks", label: "Saved", icon: Bookmark },
 ];
+const TAB_HREFS = new Set(TAB_NAV.map((t) => t.href));
 
 const firstYearSubjects = BDS_SUBJECTS.filter((s) => s.yearId === "bds-1");
 
@@ -104,7 +106,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const [mobileSearch, setMobileSearch] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [openSubject, setOpenSubject] = useState<string | null>(null);
-  const [moreOpen, setMoreOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -117,7 +118,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const match = firstYearSubjects.find((s) => pathname.startsWith(`/subjects/${s.slug}`));
     setOpenSubject(match ? match.id : null);
-    if (MORE_NAV.some((n) => n.href !== "/" && pathname.startsWith(n.href))) setMoreOpen(true);
   }, [pathname]);
 
   useEffect(() => {
@@ -187,26 +187,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     );
   };
 
-  const SidebarBody = ({ collapsed = false }: { collapsed?: boolean }) => (
+  const SidebarBody = ({ collapsed = false, drawer = false }: { collapsed?: boolean; drawer?: boolean }) => (
     <div className="flex-1 space-y-6 overflow-y-auto overscroll-contain px-3 py-4">
-      <nav className="space-y-0.5" aria-label="Main">
-        {PRIMARY_NAV.map((n) => (
-          <React.Fragment key={n.href}>
-            {NavItem({
-              ...n,
-              collapsed,
-              badge:
-                n.href === "/bookmarks" && saved.length ? (
-                  <span className="rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-bold text-primary">{saved.length}</span>
-                ) : undefined,
-            })}
-          </React.Fragment>
-        ))}
-      </nav>
+      {/* Phone drawer only: main pages that aren't in the bottom bar */}
+      {drawer && (
+        <nav className="space-y-0.5" aria-label="More pages">
+          {PRIMARY_NAV.filter((n) => !TAB_HREFS.has(n.href)).map((n) => (
+            <React.Fragment key={n.href}>{NavItem({ ...n })}</React.Fragment>
+          ))}
+        </nav>
+      )}
 
       {/* Your subjects — the one you're in shows its chapters */}
       <div className="space-y-0.5">
-        {!collapsed && <SectionLabel>BDS 1st Year subjects</SectionLabel>}
+        {!collapsed && <SectionLabel>Your subjects</SectionLabel>}
         {firstYearSubjects.map((s) => {
           const open = openSubject === s.id;
           const onSubject = pathname.startsWith(`/subjects/${s.slug}`);
@@ -266,28 +260,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Everything else */}
-      {collapsed ? (
-        <div className="space-y-0.5 border-t border-line pt-4">{MORE_NAV.slice(0, 3).map((n) => <React.Fragment key={n.href}>{NavItem({ ...n, collapsed })}</React.Fragment>)}</div>
-      ) : (
-        <div>
-          <button
-            type="button"
-            onClick={() => setMoreOpen(!moreOpen)}
-            aria-expanded={moreOpen}
-            className="flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted transition hover:text-ink"
-          >
-            More
-            <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${moreOpen ? "rotate-180" : ""}`} />
-          </button>
-          <div className={`grid transition-all duration-300 ease-out ${moreOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
-            <div className="space-y-0.5 overflow-hidden" {...inertProps(!moreOpen)}>
-              {MORE_NAV.map((n) => (
-                <React.Fragment key={n.href}>{NavItem({ ...n, small: true })}</React.Fragment>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      <div className={collapsed ? "space-y-0.5 border-t border-line pt-4" : "space-y-0.5"}>
+        {!collapsed && <SectionLabel>Other pages</SectionLabel>}
+        {MORE_NAV.map((n) => (
+          <React.Fragment key={n.href}>{NavItem({ ...n, collapsed, small: !collapsed })}</React.Fragment>
+        ))}
+      </div>
     </div>
   );
 
@@ -380,7 +358,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <X className="h-5 w-5" />
             </button>
           </div>
-          {SidebarBody({})}
+          {SidebarBody({ drawer: true })}
           <div className="border-t border-line p-3">{ThemeSwitch({})}</div>
         </m.div>
       </div>
@@ -447,14 +425,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        <main id="main" className="w-full flex-1 pb-20 lg:pb-0">
+        <main id="main" className="w-full flex-1 pb-20 lg:pb-24">
           <PageTransition key={pathname} routeKey={pathname}>
             {children}
           </PageTransition>
         </main>
 
         {/* ============================ FOOTER ============================ */}
-        <footer className="mt-auto border-t border-line bg-canvas-2 px-4 pb-24 pt-12 sm:px-6 lg:px-8 lg:pb-12">
+        <footer className="mt-auto border-t border-line bg-canvas-2 px-4 pb-24 pt-12 sm:px-6 lg:px-8 lg:pb-28">
           <div className="mx-auto mb-8 grid max-w-content grid-cols-1 gap-8 text-sm sm:grid-cols-2 md:grid-cols-4">
             <div className="space-y-3">
               {Brand({ small: true })}
@@ -494,10 +472,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         </footer>
       </div>
 
-      {/* ============================ MOBILE TAB BAR ============================ */}
+      {/* ============================ BOTTOM NAVIGATION ============================ */}
+      {/* Phones: full-width bar with the five most-used places + Menu (subjects and other pages) */}
       <nav
-        aria-label="Quick navigation"
-        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-line bg-canvas/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
+        aria-label="Main"
+        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-line bg-canvas/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
       >
         {TAB_NAV.map((t) => {
           const active = isActive(t.href) || (t.href === "/subjects" && pathname.startsWith("/subjects"));
@@ -519,6 +498,33 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           Menu
         </button>
       </nav>
+
+      {/* Desktop: floating dock with the main menu, centred in the content area */}
+      <div
+        className={`pointer-events-none fixed bottom-4 right-0 z-40 hidden justify-center px-6 transition-[left] duration-300 lg:flex ${sidebarCollapsed ? "left-[76px]" : "left-72"}`}
+      >
+        <nav aria-label="Main" className="pointer-events-auto flex items-center gap-1 rounded-2xl border border-line bg-canvas/90 p-1.5 shadow-lift backdrop-blur-xl">
+          {PRIMARY_NAV.map((n) => {
+            const active = isActive(n.href) || (n.href === "/subjects" && pathname.startsWith("/subjects"));
+            const count = n.href === "/bookmarks" ? saved.length : 0;
+            return (
+              <Link
+                key={n.href}
+                href={n.href}
+                aria-current={active ? "page" : undefined}
+                className={`group relative flex flex-col items-center gap-0.5 rounded-xl px-3 py-1.5 text-[11px] font-semibold transition-colors xl:flex-row xl:gap-2 xl:px-4 xl:py-2.5 xl:text-sm ${
+                  active ? "text-primary" : "text-slate-300 hover:bg-slate-850 hover:text-ink"
+                }`}
+              >
+                {active && <m.span layoutId="dock-active" transition={SPRING} className="absolute inset-0 rounded-xl bg-soft ring-1 ring-primary/20" />}
+                <n.icon className={`relative h-[18px] w-[18px] shrink-0 ${active ? "text-primary" : "text-slate-400 group-hover:text-primary"}`} />
+                <span className="relative whitespace-nowrap">{n.label}</span>
+                {count > 0 && <span className="absolute right-1.5 top-1 rounded-full bg-primary px-1.5 text-[10px] font-bold leading-4 text-on-primary xl:relative xl:right-auto xl:top-auto xl:bg-primary/15 xl:text-primary">{count}</span>}
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
     </div>
   );
 }
