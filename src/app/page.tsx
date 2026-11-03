@@ -403,18 +403,18 @@ export default function HomePage() {
         <Band tone="white">
         {/* ============================ CTA ============================ */}
         {/* deep-navy closing panel (same in both themes) */}
-        <Reveal as="section" className="relative overflow-hidden rounded-3xl bg-[#0a1a2f] px-6 py-16 text-center sm:px-12 sm:py-20">
+        <Reveal as="section" className="relative overflow-hidden rounded-3xl bg-deep px-6 py-16 text-center sm:px-12 sm:py-20">
           <div aria-hidden className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgb(255_255_255/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.05)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
-          <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-[#2dd4bf]/20 blur-3xl" />
+          <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-glow/20 blur-3xl" />
           <span aria-hidden className="float-art relative mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
-            <GraduationCap className="h-7 w-7 text-[#5eead4]" />
+            <GraduationCap className="h-7 w-7 text-cta-hover" />
           </span>
           <h2 className="relative mx-auto mt-6 max-w-2xl font-display text-[2rem] font-bold leading-[1.05] tracking-[-0.04em] text-white sm:text-[2.75rem]">
             Ready for your next study session?
           </h2>
           <p className="relative mx-auto mt-4 max-w-xl text-[#b8c7d9]">Create a free account, open a chapter, and we&apos;ll keep your place for next time.</p>
           <div className="relative mt-8 flex flex-wrap justify-center gap-3">
-            <Link href="/signup" className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[#2dd4bf] px-7 font-display text-[15px] font-semibold text-[#04121f] transition hover:-translate-y-0.5 hover:bg-[#5eead4]">
+            <Link href="/signup" className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-cta px-7 font-display text-[15px] font-semibold text-on-cta transition hover:-translate-y-0.5 hover:bg-cta-hover">
               Create free account <ArrowRight className="h-4 w-4" />
             </Link>
             <Link href="/subjects" className="inline-flex min-h-[48px] items-center rounded-full border border-white/20 px-7 font-display text-[15px] font-semibold text-white transition hover:-translate-y-0.5 hover:border-white/40">

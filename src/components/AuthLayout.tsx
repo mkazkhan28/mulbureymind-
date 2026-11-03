@@ -70,11 +70,11 @@ export default function AuthLayout({
       </div>
 
       {/* --------------------------- brand panel --------------------------- */}
-      <div className="relative hidden overflow-hidden bg-[#0a1a2f] lg:flex lg:w-1/2 lg:flex-col lg:justify-between lg:p-12 xl:p-16">
+      <div className="relative hidden overflow-hidden bg-deep lg:flex lg:w-1/2 lg:flex-col lg:justify-between lg:p-12 xl:p-16">
         {/* deep-navy clinical panel: fine grid + soft teal and electric-blue light */}
         <div className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgb(255_255_255/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.05)_1px,transparent_1px)] [background-size:56px_56px]" />
-        <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-[#2dd4bf]/20 blur-3xl animate-drift" />
-        <div className="pointer-events-none absolute -bottom-32 -right-20 h-[28rem] w-[28rem] rounded-full bg-[#3b72f6]/25 blur-3xl animate-drift [animation-delay:-7s]" />
+        <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-glow/20 blur-3xl animate-drift" />
+        <div className="pointer-events-none absolute -bottom-32 -right-20 h-[28rem] w-[28rem] rounded-full bg-glow-2/25 blur-3xl animate-drift [animation-delay:-7s]" />
 
         {/* orbiting rings with tooth / molecule glyphs */}
         <div className="pointer-events-none absolute right-[-120px] top-1/2 h-[520px] w-[520px] -translate-y-1/2">

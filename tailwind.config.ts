@@ -6,7 +6,7 @@ import type { Config } from "tailwindcss";
  * Every colour below points at a CSS variable defined in src/app/globals.css.
  * The light theme (default) and the dark theme (html.dark) each set their own values:
  *   light → ice-grey #F7F9FB canvas, white cards, deep-navy text, clinical teal #0A7A7F primary
- *   dark  → deep-navy #071321 canvas, #0E1F34 cards, teal #2DD4BF primary
+ *   dark  → midnight blue #0B1226 canvas, #141D38 cards, pale grey text, burnt amber #E8903A primary
  * `brand` = clinical teal, `accent` = electric blue, `coral` = restrained highlight.
  * There is no purple: `violet`, `purple` and `fuchsia` resolve to electric blue, `pink` to coral.
  */
@@ -38,6 +38,10 @@ const config: Config = {
         ink: v("ink"),
         muted: v("muted"),
         line: v("line"),
+        deep: v("deep"),
+        glow: { DEFAULT: v("glow"), 2: v("glow-2") },
+        cta: { DEFAULT: v("cta"), hover: v("cta-hover") },
+        "on-cta": v("on-cta"),
         brand,
         accent,
         indigo: brand,
