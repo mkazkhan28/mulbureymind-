@@ -47,8 +47,8 @@ import { m, PageTransition, SPRING, EASE } from "@/components/motion";
 import GlobalSearch from "@/components/GlobalSearch";
 
 const SIDEBAR_KEY = "hmh-sidebar";
-type SidebarPrefs = { collapsed: boolean; subjectsOpen: boolean; pagesOpen: boolean };
-const DEFAULT_PREFS: SidebarPrefs = { collapsed: false, subjectsOpen: true, pagesOpen: true };
+type SidebarPrefs = { collapsed: boolean; hidden: boolean; subjectsOpen: boolean; pagesOpen: boolean };
+const DEFAULT_PREFS: SidebarPrefs = { collapsed: false, hidden: false, subjectsOpen: true, pagesOpen: true };
 
 /* Routes that render full-screen without the sidebar / top bar */
 const BARE_ROUTES = ["/login", "/signup", "/forgot-password", "/read/"];
@@ -107,6 +107,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const [mobileSearch, setMobileSearch] = useState(false);
   const [prefs, setPrefs] = useState<SidebarPrefs>(DEFAULT_PREFS);
   const sidebarCollapsed = prefs.collapsed;
+  const sidebarHidden = prefs.hidden;
   const [openSubject, setOpenSubject] = useState<string | null>(null);
   /* Tooltip for the icon-only sidebar (fixed-position, so the scrolling sidebar can't clip it) */
   const [tip, setTip] = useState<{ label: string; top: number } | null>(null);
@@ -149,6 +150,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         }
       : {};
   const [scrolled, setScrolled] = useState(false);
+  const [dockHidden, setDockHidden] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -163,7 +165,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 8);
+      // the bottom bar slides away while reading down the page and returns on scrolling up
+      if (y > lastY + 6 && y > 160) setDockHidden(true);
+      else if (y < lastY - 6 || y < 160) setDockHidden(false);
+      lastY = y;
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -369,8 +379,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* ============================ DESKTOP SIDEBAR ============================ */}
       <aside
-        className={`sticky top-0 z-40 hidden h-screen shrink-0 flex-col border-r border-line bg-canvas-2 transition-[width] duration-300 lg:flex ${
-          sidebarCollapsed ? "w-[76px]" : "w-72"
+        aria-label="Sidebar"
+        aria-hidden={sidebarHidden || undefined}
+        {...inertProps(sidebarHidden)}
+        className={`sticky top-0 z-40 hidden h-screen shrink-0 flex-col overflow-hidden bg-canvas-2 transition-[width,border-color] duration-300 ease-out lg:flex ${
+          sidebarHidden ? "w-0 border-r border-transparent" : sidebarCollapsed ? "w-[76px] border-r border-line" : "w-72 border-r border-line"
         }`}
       >
         <div className={`flex h-16 items-center border-b border-line px-4 ${sidebarCollapsed ? "justify-center" : "justify-between gap-2"}`}>
@@ -381,7 +394,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             aria-expanded={!sidebarCollapsed}
             {...tipProps("Expand sidebar", sidebarCollapsed)}
-            title={sidebarCollapsed ? undefined : "Collapse sidebar"}
+            title={sidebarCollapsed ? undefined : "Show icons only"}
           >
             {sidebarCollapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
           </button>
@@ -456,6 +469,20 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <Menu className="h-5 w-5" />
           </button>
           <div className="lg:hidden">{Brand({ small: true })}</div>
+          <button
+            type="button"
+            onClick={() => {
+              setTip(null);
+              updatePrefs({ hidden: !sidebarHidden });
+            }}
+            aria-label={sidebarHidden ? "Show sidebar" : "Hide sidebar"}
+            title={sidebarHidden ? "Show sidebar" : "Hide sidebar"}
+            aria-pressed={!sidebarHidden}
+            className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-line bg-surface text-slate-300 transition hover:border-primary/50 hover:text-primary lg:flex"
+          >
+            {sidebarHidden ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+          </button>
+          {sidebarHidden && <div className="hidden lg:block">{Brand({ small: true })}</div>}
 
           {/* Always-visible search (desktop/tablet) */}
           <GlobalSearch inputRef={searchRef} className="hidden w-full max-w-md md:block" />
@@ -541,7 +568,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       {/* Phones: full-width bar with the five most-used places + Menu (subjects and other pages) */}
       <nav
         aria-label="Main"
-        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-line bg-canvas/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
+        className={`fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-line bg-canvas/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl transition-transform duration-300 ease-out lg:hidden ${dockHidden && !mobileMenuOpen ? "translate-y-full" : ""}`}
       >
         {TAB_NAV.map((t) => {
           const active = isActive(t.href) || (t.href === "/subjects" && pathname.startsWith("/subjects"));
@@ -566,9 +593,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Desktop: floating dock with the main menu, centred in the content area */}
       <div
-        className={`pointer-events-none fixed bottom-4 right-0 z-40 hidden justify-center px-6 transition-[left] duration-300 lg:flex ${sidebarCollapsed ? "left-[76px]" : "left-72"}`}
+        className={`pointer-events-none fixed bottom-4 right-0 z-40 hidden justify-center px-6 transition-[left,transform,opacity] duration-300 ease-out lg:flex ${sidebarHidden ? "left-0" : sidebarCollapsed ? "left-[76px]" : "left-72"} ${dockHidden ? "translate-y-[140%] opacity-0" : ""}`}
       >
-        <nav aria-label="Main" className="pointer-events-auto flex items-center gap-1 rounded-full border border-line bg-surface/90 p-1.5 shadow-lift backdrop-blur-xl">
+        <nav aria-label="Main" onFocusCapture={() => setDockHidden(false)} className="pointer-events-auto flex items-center gap-1 rounded-full border border-line bg-surface/90 p-1.5 shadow-lift backdrop-blur-xl">
           {PRIMARY_NAV.map((n) => {
             const active = isActive(n.href) || (n.href === "/subjects" && pathname.startsWith("/subjects"));
             return (

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -25,6 +25,8 @@ import {
   ScanFace,
   Sprout,
   Award,
+  PanelLeft,
+  PanelLeftClose,
 } from "lucide-react";
 import type { Subject } from "@/lib/bds-content";
 import { BOOKS_DATA, type BookItem } from "@/lib/books";
@@ -64,6 +66,56 @@ const areaFiles = (files: StudyFile[], area: string): StudyFile[] => [
   ...files.filter((f) => f.area === area),
   ...files.filter((f) => f.area !== area && f.alsoIn?.includes(area)).map((f) => ({ ...f, topic: f.linkTopic ?? f.topic })),
 ];
+
+/* ======================================================================== */
+/* Page layout with the subject's contents on the left; the contents can be  */
+/* hidden for a wider reading area (remembered per browser)                  */
+/* ======================================================================== */
+const CONTENTS_KEY = "hmh-subject-contents-hidden";
+function ContentsLayout({ nav, className = "", mainClassName = "", children }: { nav: React.ReactNode; className?: string; mainClassName?: string; children: React.ReactNode }) {
+  const [hidden, setHidden] = useState(false);
+  useEffect(() => {
+    try {
+      setHidden(localStorage.getItem(CONTENTS_KEY) === "1");
+    } catch {}
+  }, []);
+  const toggle = (v: boolean) => {
+    setHidden(v);
+    try {
+      localStorage.setItem(CONTENTS_KEY, v ? "1" : "0");
+    } catch {}
+  };
+  return (
+    <div className={`grid gap-8 ${hidden ? "" : "lg:grid-cols-[240px_minmax(0,1fr)]"} ${className}`}>
+      {!hidden && (
+        <aside className="hidden animate-fadeIn lg:block" aria-label="Subject contents">
+          <div className="sticky top-24">
+            <button
+              type="button"
+              onClick={() => toggle(true)}
+              className="mb-3 inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-muted transition hover:bg-surface-2 hover:text-ink"
+            >
+              <PanelLeftClose className="h-3.5 w-3.5" /> Hide contents
+            </button>
+            {nav}
+          </div>
+        </aside>
+      )}
+      <div className={`min-w-0 ${mainClassName}`}>
+        {hidden && (
+          <button
+            type="button"
+            onClick={() => toggle(false)}
+            className="mb-4 hidden items-center gap-1.5 rounded-lg border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:border-primary/40 hover:text-primary lg:inline-flex"
+          >
+            <PanelLeft className="h-3.5 w-3.5" /> Show contents
+          </button>
+        )}
+        {children}
+      </div>
+    </div>
+  );
+}
 
 /* ======================================================================== */
 /* Title list — the subject's table of contents                            */
@@ -260,13 +312,7 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
   }
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[240px_1fr] lg:px-8">
-      <aside className="hidden lg:block">
-        <div className="sticky top-24">
-          <SubjectNav subject={subject} structure={structure} current={section} />
-        </div>
-      </aside>
-      <div className="min-w-0 space-y-6">
+    <ContentsLayout className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8" mainClassName="space-y-6" nav={<SubjectNav subject={subject} structure={structure} current={section} />}>
         <Breadcrumb items={[{ href: "/subjects", label: "My Subjects" }, { href: base, label: subject.name }, { label: title }]} />
         <header>
           <h1 className="page-title hero-in" style={{ "--i": 0 } as React.CSSProperties}>{title}</h1>
@@ -275,8 +321,7 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
         {/* Mobile: contents as a horizontal strip */}
         <MobileContents subject={subject} structure={structure} current={section} />
         <div className="animate-rise [animation-delay:80ms]">{body}</div>
-      </div>
-    </div>
+    </ContentsLayout>
   );
 }
 
@@ -307,13 +352,7 @@ function AreaPage({ subject, structure, area }: { subject: Subject; structure: S
     : undefined;
 
   return (
-    <div className="mx-auto grid max-w-content gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[240px_1fr] lg:px-8 lg:py-10">
-      <aside className="hidden lg:block">
-        <div className="sticky top-24">
-          <SubjectNav subject={subject} structure={structure} current={area.slug} />
-        </div>
-      </aside>
-      <div className="min-w-0">
+    <ContentsLayout className="mx-auto max-w-content px-4 py-8 sm:px-6 lg:px-8 lg:py-10" nav={<SubjectNav subject={subject} structure={structure} current={area.slug} />}>
         <Breadcrumb items={[{ href: "/subjects", label: "My Subjects" }, { href: base, label: subject.name }, { label: area.title }]} />
 
         <header className="mt-5 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -438,8 +477,7 @@ function AreaPage({ subject, structure, area }: { subject: Subject; structure: S
             </Link>
           )}
         </nav>
-      </div>
-    </div>
+    </ContentsLayout>
   );
 }
 
