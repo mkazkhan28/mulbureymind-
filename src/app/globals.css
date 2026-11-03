@@ -8,7 +8,7 @@
    deep espresso #352D28 text, soft stone #D6D0C8 borders, muted sage #70866D accents
    (#566A52 for sage text and buttons so they meet WCAG AA contrast).
    Dark (html.dark): midnight blue #0B1226 canvas, #141D38 cards, pale grey #ECEEF1 text,
-   soft white/grey actions, quiet steel-blue secondary.
+   burnt amber #E8903A actions, quiet steel-blue secondary.
    ============================================================================= */
 :root {
   --c-shadow: 53 45 40;
@@ -288,17 +288,17 @@ html.dark {
   --c-coral-800: 157 43 27;
   --c-coral-900: 130 41 28;
   --c-coral-950: 71 17 10;
-  --c-brand-50: 248 249 251;
-  --c-brand-100: 239 241 244;
-  --c-brand-200: 227 230 235;
-  --c-brand-300: 209 213 221;
-  --c-brand-400: 185 191 203;
-  --c-brand-500: 160 168 182;
-  --c-brand-600: 132 141 158;
-  --c-brand-700: 103 113 132;
-  --c-brand-800: 77 86 107;
-  --c-brand-900: 55 63 85;
-  --c-brand-950: 28 35 55;
+  --c-brand-50: 255 246 236;
+  --c-brand-100: 254 234 211;
+  --c-brand-200: 252 210 166;
+  --c-brand-300: 248 178 108;
+  --c-brand-400: 240 146 63;
+  --c-brand-500: 226 119 42;
+  --c-brand-600: 198 95 29;
+  --c-brand-700: 163 74 26;
+  --c-brand-800: 130 60 26;
+  --c-brand-900: 105 51 24;
+  --c-brand-950: 59 26 11;
   --c-accent-50: 241 245 250;
   --c-accent-100: 226 233 243;
   --c-accent-200: 201 213 230;
@@ -330,16 +330,16 @@ html.dark {
   --c-ink: 236 238 241;
   --c-muted: 163 169 181;
   --c-line: 38 48 77;
-  --c-primary: 230 232 236;
-  --c-primary-hover: 255 255 255;
-  --c-on-primary: 11 18 38;
-  --c-soft: 31 41 69;
+  --c-primary: 232 144 58;
+  --c-primary-hover: 244 167 90;
+  --c-on-primary: 26 14 4;
+  --c-soft: 43 30 20;
   --c-deep: 16 26 54;
-  --c-glow: 125 139 179;
+  --c-glow: 226 119 42;
   --c-glow-2: 59 79 138;
-  --c-cta: 230 232 236;
-  --c-cta-hover: 255 255 255;
-  --c-on-cta: 11 18 38;
+  --c-cta: 232 144 58;
+  --c-cta-hover: 244 167 90;
+  --c-on-cta: 26 14 4;
 }
 
 
