@@ -111,7 +111,7 @@ function CheckoutContent() {
                 
                 {/* Student Info Card */}
                 <div className="bg-surface p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                  <h2 className="text-sm font-bold text-ink uppercase tracking-wider flex items-center gap-2">
+                  <h2 className="text-sm font-bold text-ink flex items-center gap-2">
                     <span className="w-5 h-5 rounded-md bg-primary text-on-primary flex items-center justify-center text-xs">1</span>
                     Student Identification
                   </h2>
@@ -162,7 +162,7 @@ function CheckoutContent() {
 
                 {/* Payment Methods Card */}
                 <div className="bg-surface p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                  <h2 className="text-sm font-bold text-ink uppercase tracking-wider flex items-center gap-2">
+                  <h2 className="text-sm font-bold text-ink flex items-center gap-2">
                     <span className="w-5 h-5 rounded-md bg-primary text-on-primary flex items-center justify-center text-xs">2</span>
                     Select Payment Gateway
                   </h2>
@@ -292,7 +292,7 @@ function CheckoutContent() {
               {/* Right Column: Order Summary */}
               <div className="md:col-span-5 space-y-4">
                 <div className="bg-surface p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-                  <h2 className="text-sm font-bold text-ink uppercase tracking-wider">
+                  <h2 className="text-sm font-bold text-ink">
                     Order Summary
                   </h2>
 

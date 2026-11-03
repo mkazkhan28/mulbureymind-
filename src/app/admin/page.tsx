@@ -391,7 +391,7 @@ DMAT-204,impression-materials,NUMS BDS 2022,Which component of irreversible hydr
                     <Check2 ok={emptySubjects.length === 0} text={emptySubjects.length ? `${emptySubjects.length} subject(s) have no questions: ${emptySubjects.map((x) => x.s.name).join(", ")}` : "Every subject has questions"} />
                     <Check2 ok={mcqList.length >= 20} text={mcqList.length >= 20 ? "Enough questions for a 20-question mock exam" : `Mock exams need 20 questions — the bank has ${mcqList.length}`} />
                   </ul>
-                  <h3 className="mt-6 text-xs font-bold uppercase tracking-wider text-muted">Quick actions</h3>
+                  <h3 className="mt-6 text-xs font-bold text-muted">Quick actions</h3>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <button
                       onClick={() => {

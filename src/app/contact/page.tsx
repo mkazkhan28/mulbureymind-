@@ -47,7 +47,7 @@ export default function ContactPage() {
           {/* Left Column: Direct channels */}
           <div className="md:col-span-5 space-y-4">
             <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-sm space-y-6 text-slate-200">
-              <h2 className="text-sm font-bold text-ink uppercase tracking-wider">
+              <h2 className="text-sm font-bold text-ink">
                 Support Channels
               </h2>
 
@@ -101,7 +101,7 @@ export default function ContactPage() {
             <div className="bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-800 shadow-sm text-slate-200">
               {!isSent ? (
                 <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-                  <h2 className="text-sm font-bold text-ink uppercase tracking-wider mb-2">
+                  <h2 className="text-sm font-bold text-ink mb-2">
                     Send Us a Message
                   </h2>
 

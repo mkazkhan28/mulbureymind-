@@ -130,7 +130,7 @@ export default function SubjectsPage() {
 
                 {/* chapters, direct links */}
                 <div className="mt-5 border-t border-line pt-4">
-                  <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-muted">
+                  <h3 className="mb-2 text-xs font-bold text-muted">
                     {chapters.length} chapter{chapters.length === 1 ? "" : "s"}
                   </h3>
                   <ul className="grid grid-cols-1 gap-1 sm:grid-cols-2">

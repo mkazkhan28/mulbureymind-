@@ -7,7 +7,7 @@ export default function PrivacyPolicyPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         <div className="space-y-2">
-          <span className="text-xs font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider">
+          <span className="text-xs font-bold text-teal-800 dark:text-teal-400">
             Legal & Compliance
           </span>
           <h1 className="text-3xl font-extrabold text-ink">

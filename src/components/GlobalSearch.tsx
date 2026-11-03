@@ -215,7 +215,7 @@ export default function GlobalSearch({
               lastGroup = h.group;
               return (
                 <React.Fragment key={h.group + h.key}>
-                  {header && <div className="px-2.5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-wider text-muted">{header}</div>}
+                  {header && <div className="px-2.5 pb-1 pt-2 text-[11px] font-bold text-muted">{header}</div>}
                   <Link
                     id={`${listId}-${i}`}
                     role="option"

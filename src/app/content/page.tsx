@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  FileText, BookOpen, ChevronRight, Eye, Lock,
-  Download, Search, Filter, ExternalLink, X, Maximize2
-} from "lucide-react";
+import { FileText, Eye, Lock, Download, Search, ExternalLink, X, ArrowRight, ListChecks, Library } from "lucide-react";
+import PageHeader from "@/components/PageHeader";
+import { SubjectArt } from "@/components/Illustrations";
+import { Stagger, StaggerItem } from "@/components/motion";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONTENT DATA — Replace the driveId values with your actual Google Drive
@@ -442,20 +442,22 @@ const CONTENT_FILES: ContentFile[] = [
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SUBJECTS = [
-  { id: "all",     label: "All Subjects",  color: "text-slate-300",   badge: "bg-slate-800 border-slate-700" },
-  { id: "anat",    label: "Anatomy",       color: "text-amber-800 dark:text-amber-400",   badge: "bg-amber-500/10 border-amber-500/30" },
-  { id: "phys",    label: "Physiology",    color: "text-rose-600 dark:text-rose-400",    badge: "bg-rose-500/10 border-rose-500/30" },
-  { id: "oral-bio",label: "Oral Biology",  color: "text-cyan-800 dark:text-cyan-400",    badge: "bg-cyan-500/10 border-cyan-500/30" },
-  { id: "biochem", label: "Biochemistry",  color: "text-accent-600 dark:text-accent-400",  badge: "bg-accent-500/10 border-accent-500/30" },
-  { id: "pharm",   label: "Pharmacology",  color: "text-emerald-800 dark:text-emerald-400", badge: "bg-emerald-500/10 border-emerald-500/30" },
-  { id: "path",    label: "Pathology",     color: "text-primary",    badge: "bg-blue-500/10 border-blue-500/30" },
+  { id: "anat", label: "Anatomy" },
+  { id: "phys", label: "Physiology" },
+  { id: "oral-bio", label: "Oral Biology" },
+  { id: "biochem", label: "Biochemistry" },
+  { id: "pharm", label: "Pharmacology" },
+  { id: "path", label: "Pathology" },
 ];
 
-const TYPE_FILTER = [
-  { id: "all",        label: "All Types" },
-  { id: "books",      label: "📚 Books & PDFs" },
-  { id: "past-papers",label: "📄 Past Papers" },
-  { id: "topic-q",   label: "🗂️ Topic Questions" },
+/** Reference books live in the Textbooks library, so they aren't repeated here. */
+const LIBRARY_FILES = CONTENT_FILES.filter((f) => f.topic !== "Books");
+const isPaper = (f: ContentFile) => f.topic === "Past Papers";
+
+const TYPES = [
+  { id: "all", label: "Everything" },
+  { id: "papers", label: "Past papers" },
+  { id: "sets", label: "Topic question sets" },
 ];
 
 function getDriveEmbedUrl(driveId: string) {
@@ -467,9 +469,8 @@ function getDriveDownloadUrl(driveId: string) {
 function getDriveViewUrl(driveId: string) {
   return `https://drive.google.com/file/d/${driveId}/view`;
 }
-
 function isPlaceholder(driveId: string) {
-  return driveId.startsWith("PASTE_");
+  return !driveId || driveId.startsWith("PASTE_");
 }
 
 export default function ContentPage() {
@@ -478,341 +479,172 @@ export default function ContentPage() {
   const [search, setSearch] = useState("");
   const [viewerFile, setViewerFile] = useState<ContentFile | null>(null);
 
-  const filtered = CONTENT_FILES.filter(f => {
-    const matchSubject = activeSubject === "all" || f.subject === activeSubject;
-    const matchType = activeType === "all"
-      || (activeType === "books" && f.topic === "Books")
-      || (activeType === "past-papers" && f.topic === "Past Papers")
-      || (activeType === "topic-q" && f.topic !== "Past Papers" && f.topic !== "Books");
-    const matchSearch = !search || f.title.toLowerCase().includes(search.toLowerCase()) || f.topic.toLowerCase().includes(search.toLowerCase());
-    return matchSubject && matchType && matchSearch;
-  });
-
-  // Group by subject
-  const grouped = SUBJECTS.filter(s => s.id !== "all").map(subj => ({
-    ...subj,
-    files: filtered.filter(f => f.subject === subj.id),
-  })).filter(g => g.files.length > 0);
-
-  const displayGroups = activeSubject === "all" ? grouped : grouped.filter(g => g.id === activeSubject);
+  const q = search.trim().toLowerCase();
+  const filtered = LIBRARY_FILES.filter(
+    (f) =>
+      (activeSubject === "all" || f.subject === activeSubject) &&
+      (activeType === "all" || (activeType === "papers" ? isPaper(f) : !isPaper(f))) &&
+      (!q || f.title.toLowerCase().includes(q) || f.topic.toLowerCase().includes(q))
+  );
+  const papers = filtered.filter(isPaper).sort((a, b) => (b.year || "0").localeCompare(a.year || "0"));
+  const sets = filtered.filter((f) => !isPaper(f));
+  const groups = [
+    { id: "papers", title: "Past papers", intro: "DUHS annual professional papers, newest first.", files: papers },
+    { id: "sets", title: "Topic question sets", intro: "Questions grouped by topic for focused revision.", files: sets },
+  ].filter((g) => g.files.length);
 
   return (
-    <div className="min-h-screen bg-canvas text-slate-100 pb-20">
+    <div className="mx-auto max-w-content px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <PageHeader eyebrow="Content library" title="Past papers and question sets" intro="DUHS BDS 1st Year past papers and topic-wise question sets. Filter by subject or search by topic." />
 
-      {/* ── Header ── */}
-      <div className="bg-surface border-b border-slate-800 sticky top-0 z-20 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="flex-1">
-              <p className="eyebrow">Content library</p>
-              <h1 className="mt-1 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-[1.75rem]">
-                Past papers and topic questions
-              </h1>
-              <p className="mt-1 text-sm text-muted">
-                DUHS BDS 1st Year past papers and topic-wise question sets in one place.
-              </p>
-            </div>
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-              <input
-                type="text"
-                placeholder="Search papers..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                className="pl-9 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-ink placeholder-slate-600 text-sm focus:outline-none focus:border-accent-500 w-56"
-              />
-            </div>
-          </div>
-
-          {/* Subject filter tabs */}
-          <div className="flex gap-2 mt-4 overflow-x-auto pb-1 scrollbar-hide">
-            {SUBJECTS.map(s => (
-              <button
-                key={s.id}
-                onClick={() => setActiveSubject(s.id)}
-                className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition ${
-                  activeSubject === s.id
-                    ? `${s.badge} ${s.color}`
-                    : "bg-transparent border-slate-800 text-muted hover:text-slate-300"
-                }`}
-              >
-                {s.label}
-              </button>
-            ))}
-            <div className="w-px h-6 bg-slate-800 mx-1 self-center shrink-0" />
-            {TYPE_FILTER.map(t => (
+      {/* Filters */}
+      <div className="mb-8 space-y-3">
+        <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+          <label className="relative flex-1 sm:max-w-sm">
+            <span className="sr-only">Search the library</span>
+            <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+            <input type="search" placeholder="Search by title or topic" value={search} onChange={(e) => setSearch(e.target.value)} className="field !py-2.5 pl-10" />
+          </label>
+          <div role="radiogroup" aria-label="Type" className="inline-flex rounded-xl border border-line bg-surface-2 p-1">
+            {TYPES.map((t) => (
               <button
                 key={t.id}
+                role="radio"
+                aria-checked={activeType === t.id}
                 onClick={() => setActiveType(t.id)}
-                className={`shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-semibold border transition ${
-                  activeType === t.id
-                    ? "bg-indigo-500/10 border-indigo-600/50 text-primary"
-                    : "bg-transparent border-slate-800 text-muted hover:text-slate-300"
-                }`}
+                className={`rounded-lg px-3 py-1.5 text-[13px] font-semibold transition-colors ${activeType === t.id ? "bg-surface text-ink shadow-soft" : "text-muted hover:text-ink"}`}
               >
                 {t.label}
               </button>
             ))}
           </div>
         </div>
+        <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1 scrollbar-hide" role="radiogroup" aria-label="Subject">
+          {[{ id: "all", label: "All subjects" }, ...SUBJECTS].map((s) => (
+            <button
+              key={s.id}
+              role="radio"
+              aria-checked={activeSubject === s.id}
+              onClick={() => setActiveSubject(s.id)}
+              className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${
+                activeSubject === s.id ? "border-primary/40 bg-soft text-primary" : "border-line bg-surface text-slate-300 hover:border-primary/30 hover:text-ink"
+              }`}
+            >
+              {s.id !== "all" && <SubjectArt id={s.id} className="h-4 w-4" />}
+              {s.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* ── Main Content ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-        {displayGroups.length === 0 ? (
-          <div className="text-center py-20 text-muted">
-            <FileText className="w-12 h-12 mx-auto mb-4 opacity-30" />
-            <p className="font-semibold">No files found</p>
-            <p className="text-xs mt-1">Try changing your filters or search term</p>
-          </div>
-        ) : (
-          displayGroups.map(group => {
-            const subjectInfo = SUBJECTS.find(s => s.id === group.id)!;
-            const pastPapers = group.files.filter(f => f.topic === "Past Papers").sort((a,b) => (b.year||"0").localeCompare(a.year||"0"));
-            const topicFiles = group.files.filter(f => f.topic !== "Past Papers" && f.topic !== "Books");
-
-            return (
-              <section key={group.id} className="space-y-5">
-                {/* Subject heading */}
-                <div className="flex items-center gap-3">
-                  <h2 className={`text-xl font-extrabold ${subjectInfo.color}`}>{group.label}</h2>
-                  <div className="h-px flex-1 bg-slate-800" />
-                  {group.id === "anat" && (
-                    <a
-                      href="https://drive.google.com/drive/folders/1Vd9BjuLO2ZNv8nIHRsrFiosw80xNhJrz"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-400 text-xs font-semibold hover:bg-amber-500/20 transition"
-                    >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      <span>Open Drive Anatomy Folder</span>
-                    </a>
-                  )}
-                  <span className="text-xs text-muted">{group.files.length} files</span>
+      {groups.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-line px-6 py-14 text-center text-muted">
+          <FileText className="mx-auto mb-3 h-10 w-10 opacity-40" />
+          <p className="font-semibold text-ink">Nothing matches</p>
+          <p className="mt-1 text-sm">Try another subject or search term.</p>
+        </div>
+      ) : (
+        <div className="space-y-12">
+          {groups.map((g) => (
+            <section key={g.id} aria-labelledby={`g-${g.id}`}>
+              <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
+                <div>
+                  <h2 id={`g-${g.id}`} className="font-display text-xl font-semibold tracking-[-0.02em] text-ink">
+                    {g.title} <span className="ml-1 text-sm font-medium text-muted">{g.files.length}</span>
+                  </h2>
+                  <p className="mt-0.5 text-sm text-muted">{g.intro}</p>
                 </div>
+              </div>
+              <Stagger as="ul" className="grid gap-2.5 md:grid-cols-2" gap={0.03}>
+                {g.files.map((file) => (
+                  <FileRow key={file.id} file={file} onView={() => setViewerFile(file)} />
+                ))}
+              </Stagger>
+            </section>
+          ))}
+        </div>
+      )}
 
-                {/* Books sub-section */}
-                {(() => {
-                  const books = group.files.filter(f => f.topic === "Books");
-                  if (books.length === 0) return null;
-                  return (
-                    <div>
-                      <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                        <span className="text-lg">📚</span>
-                        Books &amp; Reference PDFs
-                      </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                        {books.map(file => (
-                          <FileCard
-                            key={file.id}
-                            file={file}
-                            subjectColor={subjectInfo.color}
-                            onView={() => setViewerFile(file)}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })()}
-
-                {/* Past Papers sub-section */}
-                {pastPapers.length > 0 && (
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-amber-800 dark:text-amber-400" />
-                      Annual Professional Past Papers
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                      {pastPapers.map(file => (
-                        <FileCard
-                          key={file.id}
-                          file={file}
-                          subjectColor={subjectInfo.color}
-                          onView={() => setViewerFile(file)}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Topic-wise Questions sub-section */}
-                {topicFiles.length > 0 && (
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                      <BookOpen className="w-4 h-4 text-cyan-800 dark:text-cyan-400" />
-                      Topic-wise Question Sets
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                      {topicFiles.map(file => (
-                        <FileCard
-                          key={file.id}
-                          file={file}
-                          subjectColor={subjectInfo.color}
-                          onView={() => setViewerFile(file)}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </section>
-            );
-          })
-        )}
+      {/* Related libraries, instead of repeating them here */}
+      <div className="mt-14 grid gap-3 sm:grid-cols-2">
+        <Link href="/past-papers" className="group flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3.5 transition hover:-translate-y-0.5 hover:border-primary/40">
+          <ListChecks className="h-5 w-5 text-primary" />
+          <span className="flex-1 text-sm">
+            <span className="block font-semibold text-ink">Practise past-paper MCQs</span>
+            <span className="text-muted">Interactive, with explanations</span>
+          </span>
+          <ArrowRight className="h-4 w-4 text-muted transition group-hover:translate-x-0.5 group-hover:text-primary" />
+        </Link>
+        <Link href="/books" className="group flex items-center gap-3 rounded-xl border border-line bg-surface px-4 py-3.5 transition hover:-translate-y-0.5 hover:border-primary/40">
+          <Library className="h-5 w-5 text-primary" />
+          <span className="flex-1 text-sm">
+            <span className="block font-semibold text-ink">Looking for reference books?</span>
+            <span className="text-muted">They&apos;re in the Textbooks library</span>
+          </span>
+          <ArrowRight className="h-4 w-4 text-muted transition group-hover:translate-x-0.5 group-hover:text-primary" />
+        </Link>
       </div>
+      <p className="mt-4 text-center text-xs text-muted">
+        More anatomy files are in the{" "}
+        <a href="https://drive.google.com/drive/folders/1Vd9BjuLO2ZNv8nIHRsrFiosw80xNhJrz" target="_blank" rel="noopener noreferrer" className="link inline-flex items-center gap-1">
+          anatomy Drive folder <ExternalLink className="h-3 w-3" />
+        </a>
+      </p>
 
-      {/* ── Full-screen File Viewer Modal ── */}
-      {viewerFile && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-canvas/95 backdrop-blur-md">
-          {/* Modal header */}
-          <div className="flex items-center justify-between px-5 py-3 bg-surface border-b border-slate-800">
-            <div className="flex items-center gap-3 min-w-0">
-              <FileText className="w-5 h-5 text-primary shrink-0" />
+      {/* File viewer (only for files that have been added) */}
+      {viewerFile && !isPlaceholder(viewerFile.driveId) && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-canvas/95 backdrop-blur-md" role="dialog" aria-modal="true" aria-label={viewerFile.title}>
+          <div className="flex items-center justify-between border-b border-line bg-surface px-5 py-3">
+            <div className="flex min-w-0 items-center gap-3">
+              <FileText className="h-5 w-5 shrink-0 text-primary" />
               <div className="min-w-0">
-                <p className="font-bold text-ink text-sm truncate">{viewerFile.title}</p>
-                <p className="text-muted text-xs">DUHS BDS 1st Year &bull; {viewerFile.topic}</p>
+                <p className="truncate text-sm font-semibold text-ink">{viewerFile.title}</p>
+                <p className="text-xs text-muted">{viewerFile.topic}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 shrink-0 ml-3">
-              {!isPlaceholder(viewerFile.driveId) && (
-                <>
-                  <a
-                    href={getDriveViewUrl(viewerFile.driveId)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 border border-indigo-600/40 text-primary text-xs font-semibold hover:bg-indigo-600/30 transition"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" /> Open in Drive
-                  </a>
-                  <a
-                    href={getDriveDownloadUrl(viewerFile.driveId)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/20 border border-emerald-600/40 text-emerald-800 dark:text-emerald-300 text-xs font-semibold hover:bg-emerald-600/30 transition"
-                  >
-                    <Download className="w-3.5 h-3.5" /> Download
-                  </a>
-                </>
-              )}
-              <button
-                onClick={() => setViewerFile(null)}
-                className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-ink transition"
-              >
-                <X className="w-4 h-4" />
+            <div className="ml-3 flex shrink-0 items-center gap-2">
+              <a href={getDriveViewUrl(viewerFile.driveId)} target="_blank" rel="noopener noreferrer" className="btn-secondary !min-h-[34px] !px-3 !py-1 text-xs">
+                <ExternalLink className="h-3.5 w-3.5" /> Open in Drive
+              </a>
+              <a href={getDriveDownloadUrl(viewerFile.driveId)} className="btn-secondary !min-h-[34px] !px-3 !py-1 text-xs">
+                <Download className="h-3.5 w-3.5" /> Download
+              </a>
+              <button onClick={() => setViewerFile(null)} className="rounded-lg p-1.5 text-muted transition hover:bg-surface-2 hover:text-ink" aria-label="Close">
+                <X className="h-4 w-4" />
               </button>
             </div>
           </div>
-
-          {/* Viewer iframe */}
-          <div className="flex-1 relative">
-            {isPlaceholder(viewerFile.driveId) ? (
-              <div className="flex flex-col items-center justify-center h-full text-center p-8 gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                  <FileText className="w-8 h-8 text-amber-800 dark:text-amber-400" />
-                </div>
-                <div>
-                  <p className="text-ink font-bold text-lg">File ID Not Yet Added</p>
-                  <p className="text-slate-400 text-sm mt-2 max-w-md">
-                    This is a placeholder. To add the actual file, replace <code className="text-amber-800 dark:text-amber-400 bg-slate-800 px-1.5 py-0.5 rounded text-xs">{viewerFile.driveId}</code> with the real Google Drive file ID in <code className="text-primary bg-slate-800 px-1.5 py-0.5 rounded text-xs">src/app/content/page.tsx</code>
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <iframe
-                src={getDriveEmbedUrl(viewerFile.driveId)}
-                className="w-full h-full border-0"
-                allow="autoplay"
-                title={viewerFile.title}
-              />
-            )}
-          </div>
+          <iframe src={getDriveEmbedUrl(viewerFile.driveId)} className="h-full w-full flex-1 border-0" allow="autoplay" title={viewerFile.title} />
         </div>
       )}
     </div>
   );
 }
 
-// ── File Card Component ───────────────────────────────────────────────────────
-function FileCard({
-  file,
-  subjectColor,
-  onView,
-}: {
-  file: ContentFile;
-  subjectColor: string;
-  onView: () => void;
-}) {
+function FileRow({ file, onView }: { file: ContentFile; onView: () => void }) {
   const placeholder = isPlaceholder(file.driveId);
-
+  const subject = SUBJECTS.find((s) => s.id === file.subject);
   return (
-    <div className={`relative p-4 rounded-2xl border transition duration-200 flex flex-col gap-3 ${
-      file.premium
-        ? "bg-slate-900/40 border-slate-800 hover:border-slate-700"
-        : "bg-slate-900/70 border-slate-700 hover:border-slate-500 hover:-translate-y-0.5"
-    }`}>
-      {/* Premium badge */}
-      {file.premium && (
-        <div className="absolute top-3 right-3">
-          <Lock className="w-3.5 h-3.5 text-amber-500" />
-        </div>
-      )}
-
-      {/* File info */}
-      <div className="flex items-start gap-2.5">
-        <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-          file.topic === "Past Papers"
-            ? "bg-amber-500/10 border border-amber-500/20"
-            : file.topic === "Books"
-            ? "bg-emerald-500/10 border border-emerald-500/20"
-            : "bg-indigo-500/10 border border-indigo-500/20"
-        }`}>
-          <FileText className={`w-4 h-4 ${
-            file.topic === "Past Papers" ? "text-amber-800 dark:text-amber-400"
-            : file.topic === "Books" ? "text-emerald-800 dark:text-emerald-400"
-            : "text-primary"
-          }`} />
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="text-ink text-xs font-semibold leading-tight line-clamp-2">{file.title}</p>
-          <div className="flex items-center gap-2 mt-1">
-            {file.year && (
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">{file.year}</span>
-            )}
-            <span className={`text-[10px] font-semibold ${subjectColor}`}>{file.topic}</span>
-          </div>
-        </div>
+    <StaggerItem as="li" className="flex items-center gap-3 rounded-xl border border-line bg-surface px-3.5 py-3 transition duration-200 hover:border-primary/30">
+      <SubjectArt id={file.subject} className="h-8 w-8 shrink-0" />
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-semibold text-ink">{file.title.replace(/\s+—\s+Annual Professional$/, "")}</p>
+        <p className="truncate text-xs text-muted">
+          {[subject?.label, file.year && isPaper(file) ? null : file.topic, file.pages ? `${file.pages} pages` : null].filter(Boolean).join(" · ")}
+        </p>
       </div>
-
-      {file.description && (
-        <p className="text-muted text-[11px] leading-relaxed line-clamp-2">{file.description}</p>
-      )}
-
-      {/* Actions */}
+      {file.year && <span className="chip shrink-0 tabular-nums">{file.year}</span>}
       {file.premium ? (
-        <Link
-          href="/pricing"
-          className="mt-auto w-full py-2 rounded-xl text-center text-xs font-bold bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-400 hover:bg-amber-500/20 transition flex items-center justify-center gap-1.5"
-        >
-          <Lock className="w-3.5 h-3.5" /> Unlock Premium
+        <Link href="/pricing" className="chip-pro shrink-0 !py-1" title="Included in paid plans">
+          <Lock className="h-3.5 w-3.5" /> Pro
         </Link>
+      ) : placeholder ? (
+        <span className="shrink-0 text-xs text-muted">Coming soon</span>
       ) : (
-        <div className="mt-auto flex gap-2">
-          <button
-            onClick={onView}
-            className="flex-1 py-2 rounded-xl text-xs font-bold bg-soft border border-primary/30 text-primary hover:bg-primary/15 transition flex items-center justify-center gap-1.5"
-          >
-            <Eye className="w-3.5 h-3.5" />
-            {placeholder ? "Preview" : "View"}
-          </button>
-          {!placeholder && (
-            <a
-              href={getDriveDownloadUrl(file.driveId)}
-              className="px-3 py-2 rounded-xl text-xs font-bold bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 transition"
-              title="Download"
-            >
-              <Download className="w-3.5 h-3.5" />
-            </a>
-          )}
-        </div>
+        <button onClick={onView} className="btn-primary !min-h-[32px] shrink-0 !px-3 !py-1 text-xs">
+          <Eye className="h-3.5 w-3.5" /> View
+        </button>
       )}
-    </div>
+    </StaggerItem>
   );
 }

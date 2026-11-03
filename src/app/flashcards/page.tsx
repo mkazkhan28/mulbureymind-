@@ -133,7 +133,7 @@ export default function FlashcardsLibraryPage() {
             return (
               <div
                 key={deck.id}
-                className={`bg-surface rounded-2xl border border-line p-6 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition duration-300 flex flex-col justify-between group ${style.glow}`}
+                className={`bg-surface rounded-2xl border border-line p-6 shadow-soft hover:shadow-lift hover:-translate-y-1 transition duration-300 flex flex-col justify-between group ${style.glow}`}
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -146,10 +146,10 @@ export default function FlashcardsLibraryPage() {
                   </div>
 
                   <div>
-                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${style.badge}`}>
+                    <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${style.badge}`}>
                       {subject?.name}
                     </span>
-                    <h2 className="text-lg font-bold text-ink leading-snug mt-2.5 group-hover:text-cyan-700 dark:group-hover:text-cyan-300 transition">
+                    <h2 className="font-display text-lg font-semibold text-ink leading-snug mt-2.5 group-hover:text-primary transition">
                       {deck.title}
                     </h2>
                     <p className="text-xs text-slate-300 mt-2 leading-relaxed">

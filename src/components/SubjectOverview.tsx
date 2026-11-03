@@ -214,7 +214,7 @@ export default function SubjectOverview({ subject, structure }: { subject: Subje
                     <Link href={c.href} className="flex min-w-0 flex-1 items-center gap-4">
                       <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-soft">{c.art}</span>
                       <span className="min-w-0 flex-1">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-muted">Chapter {i + 1}</span>
+                        <span className="text-[11px] font-bold text-muted">Chapter {i + 1}</span>
                         <span className="card-title block text-lg group-hover:text-primary">{c.title}</span>
                         <span className="mt-0.5 line-clamp-1 block text-sm text-muted">{c.topics.length ? c.topics.join(" · ") : c.summary}</span>
                         {c.lectureIds.length > 0 && progress && (

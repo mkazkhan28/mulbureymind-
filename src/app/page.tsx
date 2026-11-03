@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
-  Award,
   BookOpenCheck,
   Check,
   ChevronDown,
@@ -26,8 +25,7 @@ import {
 } from "lucide-react";
 import { BDS_SUBJECTS, BDS_MCQS, MEMBERSHIP_PLANS } from "@/lib/bds-content";
 import { Reveal, Stagger, StaggerItem, m, AnimatePresence, EASE } from "@/components/motion";
-import AreaTiles from "@/components/AreaTiles";
-import { SubjectArt } from "@/components/Illustrations";
+import { SubjectArt, AreaArt } from "@/components/Illustrations";
 import { SectionHeader } from "@/components/PageHeader";
 import { siteStats, subjectStats, count } from "@/lib/stats";
 import { useProgress } from "@/lib/progress";
@@ -35,12 +33,6 @@ import { catalogById } from "@/lib/catalog";
 import { getSubjectStructure } from "@/lib/subject-structure";
 
 const FREE_PLAN = MEMBERSHIP_PLANS.find((p) => p.pricePKR === 0);
-/** Subjects that have a full chapter-by-chapter lecture library */
-const LIBRARIES = BDS_SUBJECTS.flatMap((s) => {
-  const st = getSubjectStructure(s.slug);
-  return st ? [{ id: s.id, slug: s.slug, name: st.shortName }] : [];
-});
-
 export default function HomePage() {
   const heroRef = React.useRef<HTMLElement>(null);
   useEffect(() => {
@@ -144,7 +136,7 @@ export default function HomePage() {
               ].map((s, i) => (
                 <div key={s.l} className={`pt-5 ${i ? "border-l border-line pl-5" : ""}`}>
                   <dd className="font-display text-[2.25rem] font-bold leading-none tracking-[-0.05em] text-ink">{s.v}</dd>
-                  <dt className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted">{s.l}</dt>
+                  <dt className="mt-2 text-[13px] font-medium text-muted">{s.l}</dt>
                 </div>
               ))}
             </dl>
@@ -198,39 +190,12 @@ export default function HomePage() {
 
         </Band>
         <Band tone="white">
-        {/* ============================ FEATURED RESOURCES ============================ */}
-        <section aria-labelledby="featured">
-          <SectionHeader
-            id="featured"
-            title="Lecture libraries"
-            intro={`${stats.lectures} lecture PDFs arranged by chapter, readable right in your browser with highlights and notes.`}
-          />
-          <div className="space-y-8">
-            {LIBRARIES.map((lib) => (
-              <div key={lib.slug}>
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <h3 className="flex items-center gap-2 font-display text-lg font-bold text-ink">
-                    <SubjectArt id={lib.id} className="h-7 w-7" /> {lib.name}
-                    <span className="chip">{count(subjectStats(lib.id).lectures, "lecture")}</span>
-                  </h3>
-                  <Link href={`/subjects/${lib.slug}`} className="link inline-flex items-center gap-1 text-sm">
-                    Open {lib.name} <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-                <AreaTiles subjectSlug={lib.slug} />
-              </div>
-            ))}
-          </div>
-        </section>
-
-        </Band>
-        <Band tone="ice">
-        {/* ============================ SUBJECTS ============================ */}
+        {/* ============================ SUBJECTS (one section: subjects + their chapters) ============================ */}
         <section aria-labelledby="subjects">
           <SectionHeader
             id="subjects"
-            title="Explore BDS subjects"
-            intro="All six first-year subjects, following the DIKIOHS, DDC and DIDC syllabus."
+            title="Six subjects, organised by chapter"
+            intro={`${stats.lectures} lecture PDFs, textbooks and MCQs for the DIKIOHS, DDC and DIDC first-year syllabus.`}
             action={
               <Link href="/subjects" className="link inline-flex items-center gap-1 text-sm">
                 All subjects <ArrowRight className="h-4 w-4" />
@@ -240,26 +205,38 @@ export default function HomePage() {
           <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {subjects.map((s) => {
               const st = subjectStats(s.id);
+              const structure = getSubjectStructure(s.slug);
               const meta = [count(st.lectures, "lecture"), count(st.books, "textbook"), count(st.mcqs, "MCQ")].filter(Boolean);
+              const chapters = structure?.areas ?? [];
               return (
                 <StaggerItem key={s.id}>
                   <article className="resource-card card-glow group">
-                    <div className="flex items-start gap-4">
-                      <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-soft">
-                        <SubjectArt id={s.id} className="h-11 w-11" />
+                    <div className="flex items-center gap-3.5">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-soft transition-transform duration-300 group-hover:scale-105">
+                        <SubjectArt id={s.id} className="h-9 w-9" />
                       </span>
                       <div className="min-w-0">
-                        <span className="text-[11px] font-bold tracking-wide text-primary">{s.code}</span>
-                        <h3 className="card-title mt-0.5">{s.name}</h3>
+                        <h3 className="card-title">{s.name}</h3>
+                        <p className="mt-0.5 text-xs text-muted">{meta.length ? meta.join(" · ") : "Content being added"}</p>
                       </div>
                     </div>
-                    <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted">{s.description}</p>
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {meta.length ? meta.map((x) => <span key={x} className="chip">{x}</span>) : <span className="chip">Content being added</span>}
-                    </div>
+                    {chapters.length > 0 ? (
+                      <ul className="mt-4 flex flex-wrap gap-1.5" aria-label={`${s.name} chapters`}>
+                        {chapters.slice(0, 4).map((a) => (
+                          <li key={a.slug}>
+                            <Link href={`/subjects/${s.slug}/${a.slug}`} className="relative z-10 inline-flex items-center gap-1.5 rounded-full border border-line bg-canvas px-2.5 py-1 text-xs font-medium text-slate-300 transition hover:border-primary/40 hover:text-primary">
+                              <AreaArt slug={a.slug} className="h-4 w-4" /> {a.title}
+                            </Link>
+                          </li>
+                        ))}
+                        {chapters.length > 4 && <li className="inline-flex items-center px-1 text-xs text-muted">+{chapters.length - 4} more</li>}
+                      </ul>
+                    ) : (
+                      <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted">{s.description}</p>
+                    )}
                     <div className="mt-auto flex items-center gap-4 border-t border-line pt-4 text-sm">
                       <Link href={`/subjects/${s.slug}`} className="link inline-flex items-center gap-1 after:absolute after:inset-0 after:content-['']">
-                        Open subject <ArrowRight className="h-4 w-4" />
+                        Open subject <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                       </Link>
                       <Link href={`/practice?subject=${s.id}`} className="relative z-10 ml-auto text-xs font-semibold text-muted hover:text-primary">
                         Practice MCQs
@@ -273,8 +250,8 @@ export default function HomePage() {
         </section>
 
         </Band>
-        <Band tone="white">
-        {/* ============================ MCQ PRACTICE ============================ */}
+        <Band tone="ice">
+        {/* ============================ PRACTICE + STUDY TOOLS ============================ */}
         <Reveal as="section" className="card-glow relative grid gap-10 overflow-hidden rounded-2xl border border-line bg-surface p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-500/10 blur-3xl" />
           <div>
@@ -296,7 +273,7 @@ export default function HomePage() {
               { icon: Clock, t: "Timed test", d: "One minute per question, with a running clock and mark-for-review." },
               { icon: Target, t: "Mock exam", d: "A 20-question paper, then a full review of every answer." },
             ].map((x) => (
-              <li key={x.t} className="flex gap-3.5 rounded-xl border border-line bg-canvas p-4">
+              <li key={x.t} className="flex gap-3.5 rounded-xl border border-line bg-canvas p-4 transition-colors hover:border-primary/30">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-soft text-primary">
                   <x.icon className="h-5 w-5" />
                 </span>
@@ -309,27 +286,15 @@ export default function HomePage() {
           </ul>
         </Reveal>
 
-        </Band>
-        <Band tone="ice">
-        {/* ============================ WHAT'S INSIDE ============================ */}
-        <section aria-labelledby="inside">
-          <SectionHeader id="inside" title="Everything else you revise from" intro="Revision tools and study materials, sorted by type." />
-          <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <ToolCard icon={Layers} title="Flashcards" text="Flip-card decks for active recall, with a ‘revise the missed cards’ round." meta={count(stats.decks, "deck")} href="/flashcards" action="View flashcards" />
-            <ToolCard
-              icon={Highlighter}
-              title="Reader with highlights & notes"
-              text="Open any lecture or textbook in the site, highlight in four colours, add notes and export them."
-              meta="Lectures & textbooks"
-              href="/subjects/anatomy"
-              action="Open a lecture"
-            />
-            <ToolCard icon={Flame} title="Streak, goal & exam countdown" text="Set a daily lecture goal, keep your streak and see the days left before your exam." meta="Saved on this device" href="/dashboard" action="Go to dashboard" />
-            <ToolCard icon={Award} title="Past papers" text="DUHS past-paper questions with explanations, filterable by subject." href="/past-papers" action="Browse papers" />
-            <ToolCard icon={Presentation} title="Notes & PPTs" text="Lecture slides and PDF notes for each subject." meta={count(stats.lectures + stats.notes, "file")} href="/resources" action="Open resources" />
-            <ToolCard icon={Library} title="Textbooks" text="Recommended textbooks, readable inside the site." meta={count(stats.books, "book")} href="/books" action="View textbooks" />
+        <div className="mt-12">
+          <h2 id="tools" className="font-display text-xl font-semibold tracking-[-0.02em] text-ink">More ways to revise</h2>
+          <Stagger as="ul" className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <ToolCard icon={Layers} title="Flashcards" text="Flip-card decks with a ‘revise the missed cards’ round." meta={count(stats.decks, "deck")} href="/flashcards" />
+            <ToolCard icon={Highlighter} title="Highlights & notes" text="Highlight lectures and textbooks in four colours, then export your notes." href="/subjects/anatomy" />
+            <ToolCard icon={Flame} title="Streak & exam countdown" text="A daily lecture goal, your streak and the days left before your exam." href="/dashboard" />
+            <ToolCard icon={Library} title="Textbooks" text="Recommended reference books for each subject." meta={count(stats.books, "book")} href="/books" />
           </Stagger>
-        </section>
+        </div>
 
         </Band>
         <Band tone="white">
@@ -551,33 +516,20 @@ function HeroBackdrop() {
   );
 }
 
-function ToolCard({
-  icon: Icon,
-  title,
-  text,
-  meta,
-  href,
-  action,
-}: {
-  icon: React.ElementType;
-  title: string;
-  text: string;
-  meta?: string;
-  href: string;
-  action: string;
-}) {
+function ToolCard({ icon: Icon, title, text, meta, href }: { icon: React.ElementType; title: string; text: string; meta?: string; href: string }) {
   return (
-    <StaggerItem as="article" className="resource-card card-glow group">
-      <div className="flex items-center justify-between gap-3">
-        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-soft text-primary">
-          <Icon className="h-5 w-5" />
+    <StaggerItem as="li">
+      <Link href={href} className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-5 transition duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft">
+        <span className="flex items-center justify-between gap-3">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-soft text-primary transition-colors group-hover:bg-primary group-hover:text-on-primary">
+            <Icon className="h-5 w-5" />
+          </span>
+          {meta && <span className="text-xs tabular-nums text-muted">{meta}</span>}
         </span>
-        {meta && <span className="chip">{meta}</span>}
-      </div>
-      <h3 className="card-title mt-4">{title}</h3>
-      <p className="mt-1.5 flex-1 text-sm leading-relaxed text-muted">{text}</p>
-      <Link href={href} className="link mt-4 inline-flex items-center gap-1 text-sm after:absolute after:inset-0 after:content-['']">
-        {action} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        <span className="mt-4 flex items-center gap-1.5 font-display text-[15px] font-semibold text-ink group-hover:text-primary">
+          {title} <ArrowRight className="h-3.5 w-3.5 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
+        </span>
+        <span className="mt-1 text-sm leading-relaxed text-muted">{text}</span>
       </Link>
     </StaggerItem>
   );

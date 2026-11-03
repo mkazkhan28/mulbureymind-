@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { BDS_FLASHCARD_DECKS, BDS_FLASHCARDS } from "@/lib/bds-content";
 import { ArrowLeft, RotateCw, CheckCircle2, XCircle, Award, Layers, RotateCcw, Sparkles, Shuffle, Undo2 } from "lucide-react";
-import { m, AnimatePresence, ProgressBar, EASE } from "@/components/motion";
+import { m, AnimatePresence, AnimatedNumber, ProgressBar, EASE } from "@/components/motion";
 import { EmptyState } from "@/components/ui";
 
 type Result = "mastered" | "review";
@@ -23,6 +23,9 @@ export default function FlashcardStudyPage() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [results, setResults] = useState<Record<number, Result>>({});
   const [isCompleted, setIsCompleted] = useState(false);
+  // brief visual feedback when a card is marked, and which way the card leaves
+  const [flash, setFlash] = useState<{ r: Result; n: number } | null>(null);
+  const [leaveDir, setLeaveDir] = useState(0);
 
   const masteredCount = Object.values(results).filter((r) => r === "mastered").length;
   const reviewCount = Object.values(results).filter((r) => r === "review").length;
@@ -30,6 +33,8 @@ export default function FlashcardStudyPage() {
 
   const handleNextCard = (status: Result) => {
     setResults((prev) => ({ ...prev, [order[currentIndex]]: status }));
+    setLeaveDir(status === "mastered" ? 1 : -1);
+    setFlash({ r: status, n: Date.now() });
     setIsFlipped(false);
     if (currentIndex < order.length - 1) {
       setCurrentIndex((prev) => prev + 1);
@@ -40,6 +45,7 @@ export default function FlashcardStudyPage() {
 
   const goBack = () => {
     if (currentIndex === 0) return;
+    setLeaveDir(0);
     setIsFlipped(false);
     setCurrentIndex((i) => i - 1);
   };
@@ -61,6 +67,12 @@ export default function FlashcardStudyPage() {
     startSession(a);
   };
   const reviseMissed = () => startSession(order.filter((i) => results[i] === "review"));
+
+  useEffect(() => {
+    if (!flash) return;
+    const t = window.setTimeout(() => setFlash(null), 750);
+    return () => window.clearTimeout(t);
+  }, [flash]);
 
   // Keyboard: Space/Enter flip, ← / 1 needs revision, → / 2 knew it, Backspace previous card
   useEffect(() => {
@@ -90,6 +102,7 @@ export default function FlashcardStudyPage() {
 
   const total = order.length;
   const done = Object.keys(results).length;
+  const masteredPct = total ? Math.round((masteredCount / total) * 100) : 0;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-10">
@@ -115,23 +128,47 @@ export default function FlashcardStudyPage() {
               </span>
               <span className="flex items-center gap-3">
                 <span className="flex items-center gap-1 text-emerald-800 dark:text-emerald-400">
-                  <CheckCircle2 className="h-3.5 w-3.5" /> {masteredCount}
+                  <CheckCircle2 className="h-3.5 w-3.5" /> <m.span key={"m" + masteredCount} initial={{ scale: 1.5 }} animate={{ scale: 1 }} transition={{ duration: 0.25, ease: EASE }} className="inline-block tabular-nums">{masteredCount}</m.span>
                 </span>
                 <span className="flex items-center gap-1 text-rose-600 dark:text-rose-400">
-                  <XCircle className="h-3.5 w-3.5" /> {reviewCount}
+                  <XCircle className="h-3.5 w-3.5" /> <m.span key={"r" + reviewCount} initial={{ scale: 1.5 }} animate={{ scale: 1 }} transition={{ duration: 0.25, ease: EASE }} className="inline-block tabular-nums">{reviewCount}</m.span>
                 </span>
               </span>
             </div>
-            <ProgressBar pct={(done / (total || 1)) * 100} className="!h-2" barClassName="bg-gradient-to-r from-brand-500 to-accent-500" />
+            {total <= 40 ? (
+              <ol className="flex gap-1" aria-label={`${done} of ${total} cards reviewed`}>
+                {order.map((ci, i) => {
+                  const r = results[ci];
+                  return (
+                    <li
+                      key={ci + "-" + i}
+                      className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
+                        r === "mastered" ? "bg-emerald-500" : r === "review" ? "bg-rose-500" : i === currentIndex ? "bg-primary" : "bg-slate-800"
+                      }`}
+                    />
+                  );
+                })}
+              </ol>
+            ) : (
+              <ProgressBar pct={(done / (total || 1)) * 100} className="!h-2" barClassName="bg-gradient-to-r from-brand-500 to-accent-500" />
+            )}
           </div>
 
-          <AnimatePresence mode="wait" initial={false}>
+          <div className="relative">
+          <AnimatePresence mode="wait" initial={false} custom={leaveDir}>
             <m.div
               key={currentIndex + "-" + order[currentIndex]}
               className="perspective-1000"
-              initial={{ opacity: 0, y: 14, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+              custom={leaveDir}
+              variants={{
+                enter: (d: number) => ({ opacity: 0, x: d * 40, y: d ? 0 : 14 }),
+                center: { opacity: 1, x: 0, y: 0 },
+                leave: (d: number) => ({ opacity: 0, x: d * -60, rotate: d * -2 }),
+              }}
+              initial="enter"
+              animate="center"
+              exit="leave"
+              whileHover={{ y: -3 }}
               transition={{ duration: 0.25, ease: EASE }}
             >
               <m.div
@@ -191,6 +228,26 @@ export default function FlashcardStudyPage() {
             </m.div>
           </AnimatePresence>
 
+          {/* feedback when a card is marked */}
+          <AnimatePresence>
+            {flash && (
+              <m.div
+                key={flash.n}
+                role="status"
+                initial={{ opacity: 0, y: 8, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2, ease: EASE }}
+                className={`pointer-events-none absolute left-1/2 top-4 z-10 -translate-x-1/2 rounded-full px-3.5 py-1.5 text-xs font-bold shadow-lift ${
+                  flash.r === "mastered" ? "bg-emerald-500 text-white" : "bg-rose-500 text-white"
+                }`}
+              >
+                {flash.r === "mastered" ? "✓ Knew it" : "↺ Marked for revision"}
+              </m.div>
+            )}
+          </AnimatePresence>
+          </div>
+
           {isFlipped ? (
             <div className="grid grid-cols-2 gap-3">
               <button
@@ -232,16 +289,17 @@ export default function FlashcardStudyPage() {
           <div className="space-y-1">
             <h2 className="font-display text-2xl font-extrabold text-ink sm:text-3xl">Session complete</h2>
             <p className="text-sm text-muted">
-              You went through {total} card{total === 1 ? "" : "s"}.
+              You went through {total} card{total === 1 ? "" : "s"} and knew <strong className="text-ink">{masteredPct}%</strong> of them.
             </p>
+            <ProgressBar pct={masteredPct} className="mx-auto mt-4 !h-2 max-w-xs" barClassName="bg-emerald-500" />
           </div>
           <div className="mx-auto grid max-w-xs grid-cols-2 gap-3">
             <div className="rounded-xl bg-emerald-500/10 p-4">
-              <div className="font-display text-3xl font-extrabold text-emerald-800 dark:text-emerald-400">{masteredCount}</div>
+              <div className="font-display text-3xl font-extrabold text-emerald-800 dark:text-emerald-400"><AnimatedNumber value={masteredCount} /></div>
               <div className="mt-1 text-xs text-muted">Knew it</div>
             </div>
             <div className="rounded-xl bg-rose-500/10 p-4">
-              <div className="font-display text-3xl font-extrabold text-rose-600 dark:text-rose-400">{reviewCount}</div>
+              <div className="font-display text-3xl font-extrabold text-rose-600 dark:text-rose-400"><AnimatedNumber value={reviewCount} /></div>
               <div className="mt-1 text-xs text-muted">Needs revision</div>
             </div>
           </div>

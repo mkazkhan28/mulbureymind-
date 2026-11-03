@@ -471,9 +471,9 @@ html.dark {
   /* ---------------------------------------------------------------------------
      Type hierarchy — H1 page title, H2 section, H3 card/subsection
      --------------------------------------------------------------------------- */
-  /* small uppercase label with a restrained coral marker */
+  /* small sentence-case label with a restrained marker */
   .eyebrow {
-    @apply inline-flex items-center gap-2 font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-primary;
+    @apply inline-flex items-center gap-2 font-display text-[13px] font-semibold tracking-[-0.005em] text-primary;
   }
   .eyebrow::before {
     content: "";

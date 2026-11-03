@@ -90,7 +90,7 @@ export function SubjectNav({ subject, structure, current }: { subject: Subject; 
   return (
     <nav aria-label={`${subject.name} contents`} className="space-y-5">
       <div>
-        <Link href={base} className={`mb-2 flex items-center gap-2 px-2.5 text-xs font-semibold uppercase tracking-wider ${current ? "text-muted hover:text-ink" : tone.text}`}>
+        <Link href={base} className={`mb-2 flex items-center gap-2 px-2.5 text-xs font-semibold ${current ? "text-muted hover:text-ink" : tone.text}`}>
           <SubjectArt id={subject.id} className="h-5 w-5" /> {structure.shortName} — contents
         </Link>
         <div className="space-y-0.5">
@@ -103,7 +103,7 @@ export function SubjectNav({ subject, structure, current }: { subject: Subject; 
         </div>
       </div>
       <div>
-        <div className="mb-2 px-2.5 text-xs font-semibold uppercase tracking-wider text-muted">Chapters</div>
+        <div className="mb-2 px-2.5 text-xs font-semibold text-muted">Chapters</div>
         <div className="space-y-0.5">
           {structure.areas.map((a) => item(`${base}/${a.slug}`, a.title, areaIcon(a.slug), a.slug))}
         </div>
@@ -449,7 +449,7 @@ function AreaPage({ subject, structure, area }: { subject: Subject; structure: S
 function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-wider text-brand-400">{eyebrow}</p>
+      <p className="text-xs font-semibold text-brand-400">{eyebrow}</p>
       <h2 className="mt-1 text-xl font-bold tracking-tight text-ink sm:text-2xl">{title}</h2>
     </div>
   );
@@ -627,7 +627,7 @@ function FileList({
     <div className="space-y-10">
       {groups.map((g, gi) => (
         <div key={gi} className="space-y-6">
-          {g.title && <h3 className="text-sm font-semibold uppercase tracking-wider text-muted">{g.title}</h3>}
+          {g.title && <h3 className="text-sm font-semibold text-muted">{g.title}</h3>}
           {byTopic(g.files).map((t, ti) => (
             <section key={ti} className="space-y-3">
               {t.topic && (

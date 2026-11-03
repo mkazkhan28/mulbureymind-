@@ -54,7 +54,7 @@ export function StudyPanel({ compact = false }: { compact?: boolean }) {
   return (
     <div className="relative space-y-4">
       {party && <Confetti />}
-      <Stagger className={`grid gap-4 ${compact ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-2 xl:grid-cols-4"}`}>
+      <Stagger className={`grid gap-4 ${compact ? "sm:grid-cols-2 2xl:grid-cols-4" : "sm:grid-cols-2 xl:grid-cols-4"}`}>
         {/* Streak */}
         <Tile tone="amber">
           <div className="flex items-center justify-between">
@@ -289,7 +289,7 @@ function Confetti() {
 /* ======================================================================== */
 /* Continue where you left off                                               */
 /* ======================================================================== */
-export function ContinueReading({ subjectSlug, limit = 4 }: { subjectSlug?: string; limit?: number }) {
+export function ContinueReading({ subjectSlug, limit = 4, cols = "sm:grid-cols-2 lg:grid-cols-4" }: { subjectSlug?: string; limit?: number; cols?: string }) {
   const p = useProgress();
   const recent = useMemo(() => {
     if (!p) return [];
@@ -313,7 +313,7 @@ export function ContinueReading({ subjectSlug, limit = 4 }: { subjectSlug?: stri
     );
   }
   return (
-    <Stagger className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    <Stagger className={`grid gap-3 ${cols}`}>
       {recent.map(({ item, o }) => {
         const pct = item!.pages ? Math.min(100, Math.round((o.page / item!.pages) * 100)) : 0;
         return (

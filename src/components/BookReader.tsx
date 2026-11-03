@@ -426,7 +426,7 @@ export default function BookReader({ book, backHref = "/books", backLabel = "Bac
             )}
             {byPage.size > 0 && (
               <div className="mt-4 border-t border-line pt-3">
-                <div className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-muted">Pages with notes</div>
+                <div className="px-2 pb-1 text-[11px] font-semibold text-muted">Pages with notes</div>
                 <div className="flex flex-wrap gap-1.5 px-2">
                   {[...byPage.keys()].sort((a, b) => a - b).map((p) => (
                     <button key={p} onClick={() => goTo(p)} className="rounded-md bg-slate-850 px-2 py-1 text-xs text-slate-300 hover:text-ink">
@@ -908,7 +908,7 @@ function OutlineList({ items, doc, onGo, depth = 0 }: { items: OutlineItem[]; do
 function EndOfLecture({ nav }: { nav: ReaderNav }) {
   return (
     <section aria-label="Up next" className="w-full max-w-3xl rounded-2xl border border-line bg-surface p-5 sm:p-6">
-      <p className="text-xs font-bold uppercase tracking-wider text-primary">End of lecture</p>
+      <p className="text-xs font-bold text-primary">End of lecture</p>
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
         {nav.prev && (
           <Link href={nav.prev.href} className="group rounded-xl border border-line p-4 transition hover:border-primary/40">

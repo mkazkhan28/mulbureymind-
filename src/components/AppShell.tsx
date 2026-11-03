@@ -37,7 +37,6 @@ import {
   ScanFace,
   Bone,
   HeartPulse,
-  Bookmark,
   UserRound,
 } from "lucide-react";
 import { getSubjectStructure } from "@/lib/subject-structure";
@@ -46,23 +45,26 @@ import { useTheme } from "@/context/ThemeContext";
 import { SubjectArt, areaIcon } from "@/components/Illustrations";
 import { m, PageTransition, SPRING, EASE } from "@/components/motion";
 import GlobalSearch from "@/components/GlobalSearch";
-import { useBookmarks } from "@/lib/bookmarks";
+
+const SIDEBAR_KEY = "hmh-sidebar";
+type SidebarPrefs = { collapsed: boolean; subjectsOpen: boolean; pagesOpen: boolean };
+const DEFAULT_PREFS: SidebarPrefs = { collapsed: false, subjectsOpen: true, pagesOpen: true };
 
 /* Routes that render full-screen without the sidebar / top bar */
 const BARE_ROUTES = ["/login", "/signup", "/forgot-password", "/read/"];
 
-/* Primary navigation — the seven places a student needs */
+/* Primary navigation (bottom dock on desktop). Saved items live on the dashboard ("Saved resources"),
+   so there is no separate Bookmarks entry here. */
 const PRIMARY_NAV = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/subjects", label: "My Subjects", icon: GraduationCap },
+  { href: "/subjects", label: "Subjects", icon: GraduationCap },
   { href: "/practice", label: "MCQs", icon: ListChecks },
   { href: "/flashcards", label: "Flashcards", icon: Layers },
   { href: "/resources", label: "Resources", icon: Presentation },
-  { href: "/bookmarks", label: "Bookmarks", icon: Bookmark },
   { href: "/profile", label: "Profile", icon: UserRound },
 ];
 
-/* Everything else, tucked under "More" */
+/* Everything else lives in the sidebar, never in the dock */
 const MORE_NAV = [
   { href: "/", label: "Home", icon: Home },
   { href: "/past-papers", label: "Past papers", icon: Award },
@@ -80,7 +82,7 @@ const TAB_NAV = [
   { href: "/subjects", label: "Subjects", icon: GraduationCap },
   { href: "/practice", label: "MCQs", icon: ListChecks },
   { href: "/flashcards", label: "Cards", icon: Layers },
-  { href: "/bookmarks", label: "Saved", icon: Bookmark },
+  { href: "/resources", label: "Resources", icon: Presentation },
 ];
 const TAB_HREFS = new Set(TAB_NAV.map((t) => t.href));
 
@@ -100,12 +102,52 @@ function chaptersOf(s: (typeof BDS_SUBJECTS)[number]) {
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { theme, toggleTheme, setTheme } = useTheme();
-  const { items: saved } = useBookmarks();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [prefs, setPrefs] = useState<SidebarPrefs>(DEFAULT_PREFS);
+  const sidebarCollapsed = prefs.collapsed;
   const [openSubject, setOpenSubject] = useState<string | null>(null);
+  /* Tooltip for the icon-only sidebar (fixed-position, so the scrolling sidebar can't clip it) */
+  const [tip, setTip] = useState<{ label: string; top: number } | null>(null);
+
+  // Remember the sidebar layout between visits (per browser)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(SIDEBAR_KEY);
+      if (raw) setPrefs({ ...DEFAULT_PREFS, ...JSON.parse(raw) });
+    } catch {}
+  }, []);
+  const updatePrefs = (patch: Partial<SidebarPrefs>) =>
+    setPrefs((p) => {
+      const next = { ...p, ...patch };
+      try {
+        localStorage.setItem(SIDEBAR_KEY, JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  const setSidebarCollapsed = (collapsed: boolean) => {
+    setTip(null);
+    updatePrefs({ collapsed });
+  };
+  // only re-render when the tooltip actually changes (a re-render mid-click can swallow the click)
+  const showTip = (label: string, el: HTMLElement) => {
+    const r = el.getBoundingClientRect();
+    const top = Math.round(r.top + r.height / 2);
+    setTip((t) => (t && t.label === label && t.top === top ? t : { label, top }));
+  };
+  const tipProps = (label: string, on: boolean) =>
+    on
+      ? {
+          onMouseEnter: (e: React.MouseEvent<HTMLElement>) => showTip(label, e.currentTarget),
+          // keyboard focus only: a state update during a mouse click can swallow the click
+          onFocus: (e: React.FocusEvent<HTMLElement>) => {
+            if (e.currentTarget.matches(":focus-visible")) showTip(label, e.currentTarget);
+          },
+          onMouseLeave: () => setTip(null),
+          onBlur: () => setTip(null),
+        }
+      : {};
   const [scrolled, setScrolled] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -173,10 +215,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <Link
         href={href}
-        title={collapsed ? label : undefined}
+        aria-label={collapsed ? label : undefined}
         aria-current={active ? "page" : undefined}
-        className={`group relative flex items-center gap-3 rounded-xl px-3 ${small ? "py-1.5 text-[13px]" : "py-2.5 text-sm"} font-display font-semibold tracking-[-0.01em] transition-colors ${
-          active ? "text-primary" : "text-slate-300 hover:bg-slate-850 hover:text-ink"
+        {...tipProps(label, collapsed)}
+        className={`group relative flex items-center gap-3 rounded-xl px-3 ${small ? "py-2 text-[13.5px]" : "py-2.5 text-sm"} font-display font-medium tracking-[-0.01em] transition-colors duration-200 ${
+          active ? "font-semibold text-primary" : "text-slate-300 hover:bg-slate-850 hover:text-ink"
         } ${collapsed ? "justify-center" : ""}`}
       >
         {active && <m.span layoutId={collapsed ? "side-active-c" : "side-active"} transition={SPRING} className="absolute inset-0 rounded-xl bg-soft ring-1 ring-primary/15" />}
@@ -200,7 +243,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Your subjects — the one you're in shows its chapters */}
       <div className="space-y-0.5">
-        {!collapsed && <SectionLabel>Your subjects</SectionLabel>}
+        {!collapsed && (
+          <GroupToggle label="Your subjects" open={drawer || prefs.subjectsOpen} onToggle={drawer ? undefined : () => updatePrefs({ subjectsOpen: !prefs.subjectsOpen })} />
+        )}
+        <Collapse open={collapsed || drawer || prefs.subjectsOpen}>
         {firstYearSubjects.map((s) => {
           const open = openSubject === s.id;
           const onSubject = pathname.startsWith(`/subjects/${s.slug}`);
@@ -209,7 +255,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <Link
                 key={s.id}
                 href={`/subjects/${s.slug}`}
-                title={s.name}
+                aria-label={s.name}
+                {...tipProps(s.name, true)}
                 className={`flex h-10 items-center justify-center rounded-xl transition hover:bg-slate-850 ${onSubject ? "bg-soft ring-1 ring-primary/20" : ""}`}
               >
                 <SubjectArt id={s.id} className="h-7 w-7" />
@@ -220,7 +267,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           return (
             <div key={s.id}>
               <div className={`group flex items-center rounded-xl transition-colors hover:bg-slate-850 ${onSubject ? "bg-slate-850" : ""}`}>
-                <Link href={`/subjects/${s.slug}`} className={`flex min-w-0 flex-1 items-center gap-3 px-2.5 py-1.5 font-display text-sm font-bold tracking-[-0.01em] ${onSubject ? "text-ink" : "text-slate-300"}`}>
+                <Link href={`/subjects/${s.slug}`} className={`flex min-w-0 flex-1 items-center gap-3 px-2.5 py-1.5 font-display text-sm font-semibold tracking-[-0.01em] ${onSubject ? "text-ink" : "text-slate-300"}`}>
                   <SubjectArt id={s.id} className="h-7 w-7 shrink-0" />
                   <span className="truncate">{s.name}</span>
                 </Link>
@@ -257,14 +304,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           );
         })}
+        </Collapse>
       </div>
 
       {/* Everything else */}
       <div className={collapsed ? "space-y-0.5 border-t border-line pt-4" : "space-y-0.5"}>
-        {!collapsed && <SectionLabel>Other pages</SectionLabel>}
-        {MORE_NAV.map((n) => (
-          <React.Fragment key={n.href}>{NavItem({ ...n, collapsed, small: !collapsed })}</React.Fragment>
-        ))}
+        {!collapsed && (
+          <GroupToggle label="More pages" open={drawer || prefs.pagesOpen} onToggle={drawer ? undefined : () => updatePrefs({ pagesOpen: !prefs.pagesOpen })} />
+        )}
+        <Collapse open={collapsed || drawer || prefs.pagesOpen}>
+          {MORE_NAV.map((n) => (
+            <React.Fragment key={n.href}>{NavItem({ ...n, collapsed, small: !collapsed })}</React.Fragment>
+          ))}
+        </Collapse>
       </div>
     </div>
   );
@@ -304,7 +356,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <span className={`truncate font-display font-bold tracking-[-0.045em] text-ink ${small ? "text-lg" : "text-xl"} leading-none`}>
           HMH<span className="text-primary">Dental</span>
         </span>
-        <span className="mt-1 truncate text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">DUHS · BDS 1st Year</span>
+        <span className="mt-1 truncate text-[11px] font-medium text-slate-400">DUHS · BDS 1st Year</span>
       </span>
     </Link>
   );
@@ -326,8 +378,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-850 hover:text-ink"
-            title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            aria-expanded={!sidebarCollapsed}
+            {...tipProps("Expand sidebar", sidebarCollapsed)}
+            title={sidebarCollapsed ? undefined : "Collapse sidebar"}
           >
             {sidebarCollapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
           </button>
@@ -335,6 +389,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         {SidebarBody({ collapsed: sidebarCollapsed })}
         <div className="border-t border-line p-3">{sidebarCollapsed ? <div className="flex justify-center">{ThemeSwitch({ compact: true })}</div> : ThemeSwitch({})}</div>
       </aside>
+
+      {/* Tooltip for the icon-only sidebar */}
+      {sidebarCollapsed && tip && (
+        <div
+          role="tooltip"
+          className="pointer-events-none fixed left-[84px] z-[70] hidden -translate-y-1/2 animate-fadeIn whitespace-nowrap rounded-lg bg-ink px-2.5 py-1.5 font-display text-xs font-semibold text-canvas shadow-lift lg:block"
+          style={{ top: tip.top }}
+        >
+          {tip.label}
+        </div>
+      )}
 
       {/* ============================ MOBILE DRAWER ============================ */}
       <div className={`fixed inset-0 z-50 lg:hidden ${mobileMenuOpen ? "" : "pointer-events-none"}`} aria-hidden={!mobileMenuOpen}>
@@ -485,7 +550,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               key={t.href}
               href={t.href}
               aria-current={active ? "page" : undefined}
-              className={`relative flex h-16 flex-col items-center justify-center gap-1 font-display text-[11px] font-bold ${active ? "text-primary" : "text-slate-400"}`}
+              className={`relative flex h-16 flex-col items-center justify-center gap-1 font-display text-[11px] font-semibold ${active ? "text-primary" : "text-slate-400"}`}
             >
               {active && <m.span layoutId="tab-active" transition={SPRING} className="absolute top-0 h-0.5 w-10 rounded-full bg-primary" />}
               <t.icon className="h-5 w-5" />
@@ -493,7 +558,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
           );
         })}
-        <button type="button" onClick={() => setMobileMenuOpen(true)} aria-label="Open menu" className="flex h-16 flex-col items-center justify-center gap-1 font-display text-[11px] font-bold text-slate-400">
+        <button type="button" onClick={() => setMobileMenuOpen(true)} aria-label="Open menu" className="flex h-16 flex-col items-center justify-center gap-1 font-display text-[11px] font-semibold text-slate-400">
           <Menu className="h-5 w-5" />
           Menu
         </button>
@@ -506,20 +571,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <nav aria-label="Main" className="pointer-events-auto flex items-center gap-1 rounded-full border border-line bg-surface/90 p-1.5 shadow-lift backdrop-blur-xl">
           {PRIMARY_NAV.map((n) => {
             const active = isActive(n.href) || (n.href === "/subjects" && pathname.startsWith("/subjects"));
-            const count = n.href === "/bookmarks" ? saved.length : 0;
             return (
               <Link
                 key={n.href}
                 href={n.href}
                 aria-current={active ? "page" : undefined}
-                className={`group relative flex flex-col items-center gap-0.5 rounded-full px-3 py-1.5 font-display text-[11px] font-bold tracking-[-0.01em] transition-colors xl:flex-row xl:gap-2 xl:px-4 xl:py-2.5 xl:text-sm ${
+                className={`group relative flex flex-col items-center gap-0.5 rounded-full px-3 py-1.5 font-display text-[11px] font-semibold tracking-[-0.01em] transition-colors xl:flex-row xl:gap-2 xl:px-4 xl:py-2.5 xl:text-sm ${
                   active ? "text-primary" : "text-slate-300 hover:bg-slate-850 hover:text-ink"
                 }`}
               >
                 {active && <m.span layoutId="dock-active" transition={SPRING} className="absolute inset-0 rounded-full bg-soft ring-1 ring-primary/20" />}
                 <n.icon className={`relative h-[18px] w-[18px] shrink-0 ${active ? "text-primary" : "text-slate-400 group-hover:text-primary"}`} />
                 <span className="relative whitespace-nowrap">{n.label}</span>
-                {count > 0 && <span className="absolute right-1.5 top-1 rounded-full bg-primary px-1.5 text-[10px] font-bold leading-4 text-on-primary xl:relative xl:right-auto xl:top-auto xl:bg-primary/15 xl:text-primary">{count}</span>}
               </Link>
             );
           })}
@@ -529,14 +592,35 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <div className="flex items-center px-3 pb-1.5 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{children}</div>;
+/** Sidebar group heading. With onToggle it expands/collapses the group (remembered per browser). */
+function GroupToggle({ label, open, onToggle }: { label: string; open: boolean; onToggle?: () => void }) {
+  if (!onToggle) return <div className="px-3 pb-1.5 font-display text-[12.5px] font-semibold text-muted">{label}</div>;
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-expanded={open}
+      className="group flex w-full items-center justify-between rounded-lg px-3 pb-1.5 pt-0.5 font-display text-[12.5px] font-semibold text-muted transition-colors hover:text-ink"
+    >
+      {label}
+      <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${open ? "" : "-rotate-90"}`} />
+    </button>
+  );
+}
+
+/** Smooth height animation for sidebar groups (grid-rows trick: no layout measuring) */
+function Collapse({ open, children }: { open: boolean; children: React.ReactNode }) {
+  return (
+    <div className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`} {...inertProps(!open)}>
+      <div className="min-h-0 space-y-0.5 overflow-hidden">{children}</div>
+    </div>
+  );
 }
 
 function FooterCol({ title, links }: { title: string; links: { href: string; label: string }[] }) {
   return (
     <div>
-      <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-ink">{title}</h4>
+      <h4 className="mb-3 font-display text-sm font-semibold text-ink">{title}</h4>
       <ul className="space-y-2">
         {links.map((l) => (
           <li key={l.href}>
