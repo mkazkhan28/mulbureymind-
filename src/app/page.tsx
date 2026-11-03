@@ -412,7 +412,7 @@ export default function HomePage() {
           <h2 className="relative mx-auto mt-6 max-w-2xl font-display text-[2rem] font-bold leading-[1.05] tracking-[-0.04em] text-white sm:text-[2.75rem]">
             Ready for your next study session?
           </h2>
-          <p className="relative mx-auto mt-4 max-w-xl text-[#b8c7d9]">Create a free account, open a chapter, and we&apos;ll keep your place for next time.</p>
+          <p className="relative mx-auto mt-4 max-w-xl text-white/75">Create a free account, open a chapter, and we&apos;ll keep your place for next time.</p>
           <div className="relative mt-8 flex flex-wrap justify-center gap-3">
             <Link href="/signup" className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-cta px-7 font-display text-[15px] font-semibold text-on-cta transition hover:-translate-y-0.5 hover:bg-cta-hover">
               Create free account <ArrowRight className="h-4 w-4" />

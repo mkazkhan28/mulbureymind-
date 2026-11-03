@@ -1,14 +1,14 @@
 import type { Config } from "tailwindcss";
 
 /*
- * HMHDental theme — "Clinical Modernism"
- * ----------------------------------------
+ * HMHDental theme
+ * ---------------
  * Every colour below points at a CSS variable defined in src/app/globals.css.
  * The light theme (default) and the dark theme (html.dark) each set their own values:
- *   light → ice-grey #F7F9FB canvas, white cards, deep-navy text, clinical teal #0A7A7F primary
- *   dark  → midnight blue #0B1226 canvas, #141D38 cards, pale grey text, burnt amber #E8903A primary
- * `brand` = clinical teal, `accent` = electric blue, `coral` = restrained highlight.
- * There is no purple: `violet`, `purple` and `fuchsia` resolve to electric blue, `pink` to coral.
+ *   light → "Latte & Sage": latte cream #F4EBDD canvas, espresso #352D28 text, stone #D6D0C8 lines, sage #70866D accents
+ *   dark  → midnight blue #0B1226 canvas, #141D38 cards, pale grey text, soft white/grey actions
+ * `brand` = sage (light) / mist grey (dark), `accent` = muted clay (light) / steel blue (dark).
+ * `violet`, `purple` and `fuchsia` resolve to `accent`, `pink` to `coral`.
  */
 const SHADES = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"];
 const v = (name: string) => `rgb(var(--c-${name}) / <alpha-value>)`;

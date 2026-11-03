@@ -2,18 +2,18 @@
   <svg x="0" y="0" width="64" height="64" viewBox="0 0 64 64">
   <defs>
     <linearGradient id="hmh-bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0a7a7f"/>
-      <stop offset="0.55" stop-color="#0b4a4c"/>
-      <stop offset="1" stop-color="#0a1a2f"/>
+      <stop offset="0" stop-color="#70866d"/>
+      <stop offset="0.55" stop-color="#4e604b"/>
+      <stop offset="1" stop-color="#352d28"/>
     </linearGradient>
     <linearGradient id="hmh-tooth" x1="0.25" y1="0" x2="0.75" y2="1">
       <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="0.7" stop-color="#f1f5fb"/>
-      <stop offset="1" stop-color="#d4e0f2"/>
+      <stop offset="0.7" stop-color="#faf6f0"/>
+      <stop offset="1" stop-color="#ece4d8"/>
     </linearGradient>
     <linearGradient id="hmh-band" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#99f6e4"/>
-      <stop offset="1" stop-color="#2dd4bf"/>
+      <stop offset="0" stop-color="#e4eae2"/>
+      <stop offset="1" stop-color="#a7b8a3"/>
     </linearGradient>
     <radialGradient id="hmh-gloss" cx="0.3" cy="0.15" r="0.7">
       <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
@@ -25,11 +25,11 @@
   <!-- molar -->
   <path d="M16 23.5 C15.5 15 22.5 11 27.5 14.2 C30 12 34 12 36.5 14.2 C41.5 11 48.5 15 48 23.5 C47.6 30 45.5 34 44 38 C43 45 42 52 39.2 53.5 C36.8 54.7 35.4 51.5 34.8 47.5 C34.2 43.8 33.4 41.5 32 41.5 C30.6 41.5 29.8 43.8 29.2 47.5 C28.6 51.5 27.2 54.7 24.8 53.5 C22 52 21 45 20 38 C18.5 34 16.4 30 16 23.5 Z" fill="url(#hmh-tooth)"/>
   <!-- H formed in the crown -->
-  <path d="M25.5 21 V33 M38.5 21 V33 M25.5 27 H38.5" stroke="#0a1a2f" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+  <path d="M25.5 21 V33 M38.5 21 V33 M25.5 27 H38.5" stroke="#352d28" stroke-width="3.6" stroke-linecap="round" fill="none"/>
   <!-- smile band (pink → yellow) -->
   <path d="M20.5 37 C27 39.6 37 39.6 43.5 37" stroke="url(#hmh-band)" stroke-width="2.6" stroke-linecap="round" fill="none"/>
   <path d="M19.5 20 C20 17 22.5 15.6 25 16.4" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none"/>
 </svg>
-  <text x="76" y="40" font-family="Manrope, Arial, sans-serif" font-size="32" font-weight="800" letter-spacing="-1" fill="#0f172a">HMH<tspan fill="#0a7a7f">Dental</tspan></text>
-  <text x="77" y="56" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="600" letter-spacing="1.6" fill="#475569">DUHS · BDS 1ST YEAR</text>
+  <text x="76" y="40" font-family="Manrope, Arial, sans-serif" font-size="32" font-weight="800" letter-spacing="-1" fill="#352d28">HMH<tspan fill="#70866d">Dental</tspan></text>
+  <text x="77" y="56" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="600" letter-spacing="1.6" fill="#5f544b">DUHS · BDS 1ST YEAR</text>
 </svg>

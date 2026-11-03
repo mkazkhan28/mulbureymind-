@@ -91,7 +91,7 @@ export default function AuthLayout({
 
         <div className="relative">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#ff7d66]" /> DUHS BDS 1st Year
+            <span className="h-1.5 w-1.5 rounded-full bg-cta" /> DUHS BDS 1st Year
           </span>
           <h2 className="mt-6 max-w-md font-display text-[2.75rem] font-bold leading-[1.05] tracking-[-0.04em] text-white">
             Your whole first year, organised in one calm place.
