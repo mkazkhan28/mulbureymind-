@@ -35,7 +35,7 @@ import { BookmarkButton, EmptyState, Skeleton } from "@/components/ui";
  * Side column: subjects (compact), quick practice, recent activity, chapter progress.
  * Everything shown comes from real data (the library and the progress saved on this device).
  */
-const SHORT: Record<string, string> = { anat: "Anatomy", phys: "Physiology", "oral-bio": "Oral Biology", biochem: "Biochemistry", pharm: "Pharmacology", path: "Pathology" };
+const SHORT: Record<string, string> = { anat: "Anatomy", phys: "Physiology", "oral-bio": "Oral Biology", biochem: "Biochemistry", pharm: "Pharmacology", path: "Pathology", "gen-ed": "General Education" };
 
 const ago = (t: number) => {
   const s = Math.max(1, Math.round((Date.now() - t) / 1000));

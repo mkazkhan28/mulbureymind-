@@ -194,7 +194,7 @@ export default function HomePage() {
         <section aria-labelledby="subjects">
           <SectionHeader
             id="subjects"
-            title="Six subjects, organised by chapter"
+            title="Every subject, organised by chapter"
             intro={`${stats.lectures} lecture PDFs, textbooks and MCQs for the DIKIOHS, DDC and DIDC first-year syllabus.`}
             action={
               <Link href="/subjects" className="link inline-flex items-center gap-1 text-sm">
@@ -238,9 +238,11 @@ export default function HomePage() {
                       <Link href={`/subjects/${s.slug}`} className="link inline-flex items-center gap-1 after:absolute after:inset-0 after:content-['']">
                         Open subject <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                       </Link>
-                      <Link href={`/practice?subject=${s.id}`} className="relative z-10 ml-auto text-xs font-semibold text-muted hover:text-primary">
-                        Practice MCQs
-                      </Link>
+                      {st.mcqs > 0 && (
+                        <Link href={`/practice?subject=${s.id}`} className="relative z-10 ml-auto text-xs font-semibold text-muted hover:text-primary">
+                          Practice MCQs
+                        </Link>
+                      )}
                     </div>
                   </article>
                 </StaggerItem>

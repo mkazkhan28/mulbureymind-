@@ -7,7 +7,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { SubjectArt } from "@/components/Illustrations";
 
 const SLIDES = [
-  { icon: ListChecks, title: "MCQs with explanations", text: "Tutor mode, timed exams and full mock papers for all six subjects." },
+  { icon: ListChecks, title: "MCQs with explanations", text: "Tutor mode, timed exams and full mock papers, with an explanation for every answer." },
   { icon: Award, title: "10 years of DUHS past papers", text: "DIKIOHS, DDC & DIDC questions sorted by topic, with solutions." },
   { icon: Layers, title: "Flashcards that stick", text: "Active-recall decks for histology, cranial nerves and pharmacology." },
   { icon: Presentation, title: "Notes & lecture PPTs", text: "High-yield summaries and slide decks, ready for last-minute revision." },

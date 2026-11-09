@@ -161,7 +161,7 @@ export function SubjectNav({ subject, structure, current }: { subject: Subject; 
         </div>
       </div>
       <div className="space-y-0.5 border-t border-line pt-4">
-        {item(`/practice?subject=${subject.id}`, "Practice MCQs", ListChecks, "__mcq", String(subjectStats(subject.id).mcqs || ""))}
+        {subjectStats(subject.id).mcqs > 0 && item(`/practice?subject=${subject.id}`, "Practice MCQs", ListChecks, "__mcq", String(subjectStats(subject.id).mcqs))}
         {item(`/past-papers`, "Past papers", Award, "__pp")}
       </div>
     </nav>
@@ -192,11 +192,13 @@ export function SubjectHub({ subject, structure }: { subject: Subject; structure
             <h1 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-4xl">{subject.name}</h1>
             <p className="mt-2 text-slate-400">{subject.description}</p>
           </div>
-          <div className="flex gap-3 animate-rise [animation-delay:100ms]">
-            <Link href={`/practice?subject=${subject.id}`} className="btn-brand">
-              <ListChecks className="h-4 w-4" /> Practice MCQs
-            </Link>
-          </div>
+          {subjectStats(subject.id).mcqs > 0 && (
+            <div className="flex gap-3 animate-rise [animation-delay:100ms]">
+              <Link href={`/practice?subject=${subject.id}`} className="btn-brand">
+                <ListChecks className="h-4 w-4" /> Practice MCQs
+              </Link>
+            </div>
+          )}
         </header>
 
         {/* Continue where you left off */}
@@ -386,9 +388,11 @@ function AreaPage({ subject, structure, area }: { subject: Subject; structure: S
                 <Library className="h-4 w-4 shrink-0" /> Textbook
               </Link>
             )}
-            <Link href={`/practice?subject=${subject.id}`} className="btn-secondary min-w-0 justify-center !gap-1.5 !px-2.5 sm:!px-5">
-              <ListChecks className="h-4 w-4 shrink-0" /> MCQs
-            </Link>
+            {subjectStats(subject.id).mcqs > 0 && (
+              <Link href={`/practice?subject=${subject.id}`} className="btn-secondary min-w-0 justify-center !gap-1.5 !px-2.5 sm:!px-5">
+                <ListChecks className="h-4 w-4 shrink-0" /> MCQs
+              </Link>
+            )}
           </div>
         </header>
 
@@ -535,6 +539,12 @@ export const AREA_STYLE: Record<string, { grad: string; chip: string; icon: stri
   endocrinology: { grad: "from-pink-500/15 to-brand-500/10", chip: "bg-pink-500/10 text-pink-600 dark:text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
   "clinical-topics": { grad: "from-amber-500/15 to-stone-500/10", chip: "bg-amber-500/10 text-amber-800 dark:text-amber-400", icon: "text-amber-700", bar: "from-brand-500 to-brand-600" },
   "practicals-and-revision": { grad: "from-stone-500/15 to-brand-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
+  // General Education
+  "islamic-studies": { grad: "from-brand-500/20 to-amber-500/10", chip: "bg-brand-500/10 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-brand-600" },
+  "pakistan-studies": { grad: "from-emerald-500/15 to-brand-500/10", chip: "bg-emerald-500/10 text-emerald-800 dark:text-emerald-400", icon: "text-emerald-700", bar: "from-brand-500 to-brand-600" },
+  "research-methods": { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
+  philosophy: { grad: "from-stone-500/15 to-amber-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
+  "behavioural-sciences": { grad: "from-pink-500/15 to-brand-500/10", chip: "bg-pink-500/10 text-pink-600 dark:text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
 };
 export const DEFAULT_AREA_STYLE = { grad: "from-brand-500/15 to-accent-500/10", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" };
 

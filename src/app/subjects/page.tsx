@@ -150,9 +150,11 @@ export default function SubjectsPage() {
                   <Link href={`/subjects/${s.slug}`} className="btn-primary !min-h-[40px] !py-2">
                     Open subject <ArrowRight className="h-4 w-4" />
                   </Link>
-                  <Link href={`/practice?subject=${s.id}`} className="btn-secondary !min-h-[40px] !py-2">
-                    Practice MCQs
-                  </Link>
+                  {st.mcqs > 0 && (
+                    <Link href={`/practice?subject=${s.id}`} className="btn-secondary !min-h-[40px] !py-2">
+                      Practice MCQs
+                    </Link>
+                  )}
                 </div>
               </StaggerItem>
             );

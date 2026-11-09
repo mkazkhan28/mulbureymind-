@@ -175,9 +175,11 @@ export default function SubjectOverview({ subject, structure }: { subject: Subje
               <PlayCircle className="h-4 w-4" /> {lastInSubject ? "Continue" : "Start reading"}
             </Link>
           )}
-          <Link href={`/practice?subject=${subject.id}`} className={lastInSubject || firstLecture ? "btn-secondary" : "btn-primary"}>
-            <ListChecks className="h-4 w-4" /> Practice MCQs
-          </Link>
+          {st.mcqs > 0 && (
+            <Link href={`/practice?subject=${subject.id}`} className={lastInSubject || firstLecture ? "btn-secondary" : "btn-primary"}>
+              <ListChecks className="h-4 w-4" /> Practice MCQs
+            </Link>
+          )}
         </div>
       </header>
 
@@ -244,9 +246,11 @@ export default function SubjectOverview({ subject, structure }: { subject: Subje
                           <BookOpen className="h-3.5 w-3.5" /> Open chapter
                         </Link>
                       )}
-                      <Link href={`/practice?subject=${subject.id}`} className="btn-secondary !min-h-[38px] !px-3.5 !py-1.5 !text-xs">
-                        <ListChecks className="h-3.5 w-3.5" /> {c.mcqs ? count(c.mcqs, "MCQ") : "MCQs"}
-                      </Link>
+                      {st.mcqs > 0 && (
+                        <Link href={`/practice?subject=${subject.id}`} className="btn-secondary !min-h-[38px] !px-3.5 !py-1.5 !text-xs">
+                          <ListChecks className="h-3.5 w-3.5" /> {c.mcqs ? count(c.mcqs, "MCQ") : "MCQs"}
+                        </Link>
+                      )}
                       {decks.length > 0 && (
                         <Link href={`/flashcards/${decks[0].id}`} className="btn-secondary !min-h-[38px] !px-3.5 !py-1.5 !text-xs">
                           <Layers className="h-3.5 w-3.5" /> Flashcards
@@ -306,7 +310,7 @@ export default function SubjectOverview({ subject, structure }: { subject: Subje
             </>
           )}
           {decks.length > 0 && <MaterialLink href={`/flashcards/${decks[0].id}`} icon={Layers} title="Flashcards" meta={count(decks.length, "deck")} text={decks.map((d) => d.title).join(", ")} />}
-          <MaterialLink href={`/practice?subject=${subject.id}`} icon={ListChecks} title="MCQ practice" meta={st.mcqs ? count(st.mcqs, "question") : "Coming soon"} text="Tutor, timed and mock exam modes." />
+          {st.mcqs > 0 && <MaterialLink href={`/practice?subject=${subject.id}`} icon={ListChecks} title="MCQ practice" meta={count(st.mcqs, "question")} text="Tutor, timed and mock exam modes." />}
         </Stagger>
       </section>
     </div>

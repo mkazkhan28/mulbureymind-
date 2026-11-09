@@ -210,6 +210,21 @@ export const BDS_SUBJECTS: Subject[] = [
     flashcardCount: 150,
     pastPapersCount: 10,
     topicsCount: 5
+  },
+  {
+    id: "gen-ed",
+    yearId: "bds-1",
+    name: "General Education",
+    code: "Gen. Ed.",
+    slug: "general-education",
+    icon: "📚",
+    description: "Islamic Studies, Pakistan Studies, Research Methods, Philosophy and Behavioural Sciences.",
+    color: "from-brand-600 to-brand-700",
+    accentColor: "emerald",
+    mcqCount: 0,
+    flashcardCount: 0,
+    pastPapersCount: 0,
+    topicsCount: 5
   }
 ];
 

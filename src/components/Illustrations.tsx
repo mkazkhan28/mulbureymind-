@@ -808,6 +808,105 @@ export function BulbArt(p: ArtProps) {
   );
 }
 
+
+/* ---------------- General Education ---------------- */
+export function BooksArt(p: ArtProps) {
+  const g = useIds("sh");
+  return (
+    <Svg {...p}>
+      <Shadow id={g.sh} rx={30} />
+      <rect x="26" y="30" width="16" height="66" rx="3" fill="#4f7a6b" />
+      <rect x="44" y="22" width="18" height="74" rx="3" fill="#c9893b" />
+      <rect x="64" y="34" width="14" height="62" rx="3" fill="#5b7fb0" />
+      <rect x="78" y="38" width="16" height="60" rx="3" fill="#a5664a" transform="rotate(12 86 68)" />
+      <path d="M26 42 H42 M44 34 H62 M64 46 H78" stroke="#fff" strokeWidth="3" opacity="0.6" />
+      <rect x="20" y="96" width="80" height="6" rx="3" fill="#8c827a" />
+    </Svg>
+  );
+}
+export function DomeArt(p: ArtProps) {
+  const g = useIds("d", "sh");
+  return (
+    <Svg {...p}>
+      <defs>
+        <linearGradient id={g.d} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#7fb7a3" />
+          <stop offset="1" stopColor="#3f7a66" />
+        </linearGradient>
+      </defs>
+      <Shadow id={g.sh} rx={32} />
+      <path d="M60 18 V26" stroke="#c9a23b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M32 62 C32 40 46 28 60 26 C74 28 88 40 88 62 Z" fill={url(g.d)} />
+      <rect x="28" y="62" width="64" height="38" rx="3" fill="#efe6d6" />
+      <path d="M52 100 V82 C52 76 56 72 60 72 C64 72 68 76 68 82 V100 Z" fill="#8c6a43" />
+      <rect x="16" y="50" width="8" height="50" rx="3" fill="#d9cdb7" />
+      <rect x="96" y="50" width="8" height="50" rx="3" fill="#d9cdb7" />
+      <path d="M16 50 L20 40 L24 50 M96 50 L100 40 L104 50" fill="#3f7a66" />
+      <path d="M40 44 C42 38 48 34 54 32" stroke="#fff" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6" />
+    </Svg>
+  );
+}
+export function MapArt(p: ArtProps) {
+  const g = useIds("sh");
+  return (
+    <Svg {...p}>
+      <Shadow id={g.sh} rx={32} />
+      <path d="M20 34 L44 26 L76 36 L100 28 V90 L76 98 L44 88 L20 96 Z" fill="#e8dcc6" />
+      <path d="M44 26 V88 M76 36 V98" stroke="#c9b893" strokeWidth="2" />
+      <path d="M26 70 C36 60 46 74 56 62 C66 50 78 64 94 52" stroke="#5b7fb0" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="M62 30 C52 30 46 38 46 46 C46 58 62 72 62 72 C62 72 78 58 78 46 C78 38 72 30 62 30 Z" fill="#3f7a66" />
+      <circle cx="62" cy="46" r="6" fill="#fff" />
+    </Svg>
+  );
+}
+export function MindArt(p: ArtProps) {
+  const g = useIds("h", "sh");
+  return (
+    <Svg {...p}>
+      <defs>
+        <linearGradient id={g.h} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#d9cdb7" />
+          <stop offset="1" stopColor="#a69c94" />
+        </linearGradient>
+      </defs>
+      <Shadow id={g.sh} rx={26} />
+      <path d="M38 100 V84 C28 78 24 66 24 56 C24 34 40 20 60 20 C80 20 94 34 94 52 L102 66 L94 68 V80 C94 86 90 88 84 88 H74 V100 Z" fill={url(g.h)} />
+      <circle cx="58" cy="50" r="14" fill="none" stroke="#3f7a66" strokeWidth="4" />
+      <path d="M58 36 V30 M58 64 V70 M44 50 H38 M72 50 H78 M48 40 L44 36 M68 60 L72 64 M68 40 L72 36 M48 60 L44 64" stroke="#3f7a66" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="58" cy="50" r="5" fill="#c9893b" />
+    </Svg>
+  );
+}
+export function ThinkerArt(p: ArtProps) {
+  const g = useIds("sh");
+  return (
+    <Svg {...p}>
+      <Shadow id={g.sh} rx={30} />
+      <rect x="22" y="88" width="76" height="10" rx="3" fill="#a69c94" />
+      <rect x="30" y="34" width="10" height="54" rx="2" fill="#efe6d6" />
+      <rect x="55" y="34" width="10" height="54" rx="2" fill="#efe6d6" />
+      <rect x="80" y="34" width="10" height="54" rx="2" fill="#efe6d6" />
+      <path d="M22 34 L60 16 L98 34 Z" fill="#d9cdb7" />
+      <rect x="22" y="32" width="76" height="6" rx="2" fill="#c9b893" />
+      <circle cx="60" cy="25" r="4" fill="#c9893b" />
+    </Svg>
+  );
+}
+export function ChartArt(p: ArtProps) {
+  const g = useIds("sh");
+  return (
+    <Svg {...p}>
+      <Shadow id={g.sh} rx={30} />
+      <rect x="20" y="20" width="80" height="78" rx="8" fill="#f5efe4" />
+      <rect x="32" y="62" width="12" height="26" rx="2" fill="#5b7fb0" />
+      <rect x="52" y="46" width="12" height="42" rx="2" fill="#3f7a66" />
+      <rect x="72" y="34" width="12" height="54" rx="2" fill="#c9893b" />
+      <circle cx="84" cy="30" r="14" fill="none" stroke="#352d28" strokeWidth="4" />
+      <path d="M94 40 L104 50" stroke="#352d28" strokeWidth="5" strokeLinecap="round" />
+    </Svg>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* Lookups                                                             */
 /* ------------------------------------------------------------------ */
@@ -818,6 +917,7 @@ const SUBJECT_ART: Record<string, (p: ArtProps) => React.ReactElement> = {
   biochem: DnaArt,
   pharm: CapsuleArt,
   path: MicroscopeArt,
+  "gen-ed": BooksArt,
 };
 
 const AREA_ART: Record<string, (p: ArtProps) => React.ReactElement> = {
@@ -839,6 +939,12 @@ const AREA_ART: Record<string, (p: ArtProps) => React.ReactElement> = {
   endocrinology: GlandArt,
   "clinical-topics": BulbArt,
   "practicals-and-revision": FlaskArt,
+  // General Education chapters
+  "islamic-studies": DomeArt,
+  "pakistan-studies": MapArt,
+  "research-methods": ChartArt,
+  philosophy: ThinkerArt,
+  "behavioural-sciences": MindArt,
 };
 
 export function SubjectArt({ id, className, title }: ArtProps & { id: string }) {
