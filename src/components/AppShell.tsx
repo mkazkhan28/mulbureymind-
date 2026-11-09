@@ -19,8 +19,6 @@ import {
   ListChecks,
   Menu,
   Moon,
-  PanelLeft,
-  PanelLeftClose,
   Presentation,
   Search,
   Settings,
@@ -43,38 +41,42 @@ import { getSubjectStructure } from "@/lib/subject-structure";
 import { BDS_SUBJECTS, BDS_TOPICS } from "@/lib/bds-content";
 import { useTheme } from "@/context/ThemeContext";
 import { SubjectArt, areaIcon } from "@/components/Illustrations";
-import { m, PageTransition, SPRING, EASE } from "@/components/motion";
+import { m, AnimatePresence, PageTransition, SPRING, EASE } from "@/components/motion";
 import GlobalSearch from "@/components/GlobalSearch";
 
-const SIDEBAR_KEY = "hmh-sidebar";
-type SidebarPrefs = { collapsed: boolean; hidden: boolean; subjectsOpen: boolean; pagesOpen: boolean };
-const DEFAULT_PREFS: SidebarPrefs = { collapsed: false, hidden: false, subjectsOpen: true, pagesOpen: true };
-
-/* Routes that render full-screen without the sidebar / top bar */
+/* Routes that render full-screen without the top bar */
 const BARE_ROUTES = ["/login", "/signup", "/forgot-password", "/read/"];
 
-/* Primary navigation (bottom dock on desktop). Saved items live on the dashboard ("Saved resources"),
-   so there is no separate Bookmarks entry here. */
+/*
+ * Navigation (no sidebar):
+ *  - top bar: Subjects menu (every subject and its chapters), Library menu, More menu
+ *  - bottom dock: the pages students use every day
+ * Each link lives in exactly one of them. Phones use the bottom tab bar + Menu drawer instead.
+ * Saved items live on the dashboard ("Saved resources"), so there is no separate Bookmarks entry.
+ */
 const PRIMARY_NAV = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/subjects", label: "Subjects", icon: GraduationCap },
   { href: "/practice", label: "MCQs", icon: ListChecks },
   { href: "/flashcards", label: "Flashcards", icon: Layers },
   { href: "/resources", label: "Resources", icon: Presentation },
   { href: "/profile", label: "Profile", icon: UserRound },
 ];
 
-/* Everything else lives in the sidebar, never in the dock */
-const MORE_NAV = [
+/* Top-bar menus */
+const LIBRARY_NAV = [
+  { href: "/past-papers", label: "Past papers", icon: Award, text: "DUHS questions with explanations" },
+  { href: "/books", label: "Textbooks", icon: Library, text: "Recommended reference books" },
+  { href: "/content", label: "Content library", icon: FileText, text: "Annual papers and question sets" },
+];
+const MORE_LINKS = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/past-papers", label: "Past papers", icon: Award },
-  { href: "/books", label: "Textbooks", icon: Library },
-  { href: "/content", label: "Content library", icon: FileText },
   { href: "/pricing", label: "Pricing", icon: CreditCard },
   { href: "/subscription", label: "Plan status", icon: ShieldCheck },
   { href: "/contact", label: "Help & support", icon: HelpCircle },
   { href: "/admin", label: "Admin console", icon: Settings },
 ];
+/* Phone drawer: everything that isn't in the phone tab bar */
+const MORE_NAV = [...LIBRARY_NAV, ...MORE_LINKS];
 
 /* Phone bottom bar: the five most-used places (the rest are in the side menu) */
 const TAB_NAV = [
@@ -105,50 +107,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false);
-  const [prefs, setPrefs] = useState<SidebarPrefs>(DEFAULT_PREFS);
-  const sidebarCollapsed = prefs.collapsed;
-  const sidebarHidden = prefs.hidden;
   const [openSubject, setOpenSubject] = useState<string | null>(null);
-  /* Tooltip for the icon-only sidebar (fixed-position, so the scrolling sidebar can't clip it) */
-  const [tip, setTip] = useState<{ label: string; top: number } | null>(null);
-
-  // Remember the sidebar layout between visits (per browser)
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(SIDEBAR_KEY);
-      if (raw) setPrefs({ ...DEFAULT_PREFS, ...JSON.parse(raw) });
-    } catch {}
-  }, []);
-  const updatePrefs = (patch: Partial<SidebarPrefs>) =>
-    setPrefs((p) => {
-      const next = { ...p, ...patch };
-      try {
-        localStorage.setItem(SIDEBAR_KEY, JSON.stringify(next));
-      } catch {}
-      return next;
-    });
-  const setSidebarCollapsed = (collapsed: boolean) => {
-    setTip(null);
-    updatePrefs({ collapsed });
-  };
-  // only re-render when the tooltip actually changes (a re-render mid-click can swallow the click)
-  const showTip = (label: string, el: HTMLElement) => {
-    const r = el.getBoundingClientRect();
-    const top = Math.round(r.top + r.height / 2);
-    setTip((t) => (t && t.label === label && t.top === top ? t : { label, top }));
-  };
-  const tipProps = (label: string, on: boolean) =>
-    on
-      ? {
-          onMouseEnter: (e: React.MouseEvent<HTMLElement>) => showTip(label, e.currentTarget),
-          // keyboard focus only: a state update during a mouse click can swallow the click
-          onFocus: (e: React.FocusEvent<HTMLElement>) => {
-            if (e.currentTarget.matches(":focus-visible")) showTip(label, e.currentTarget);
-          },
-          onMouseLeave: () => setTip(null),
-          onBlur: () => setTip(null),
-        }
-      : {};
+  /* Which top-bar menu is open */
+  const [menu, setMenu] = useState<null | "subjects" | "library" | "more">(null);
+  const headerRef = useRef<HTMLElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [dockHidden, setDockHidden] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -156,7 +118,18 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setMobileMenuOpen(false);
     setMobileSearch(false);
+    setMenu(null);
   }, [pathname]);
+
+  // Close a top-bar menu when clicking anywhere else
+  useEffect(() => {
+    if (!menu) return;
+    const onDown = (e: PointerEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) setMenu(null);
+    };
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, [menu]);
 
   // Open the subject you're currently in, so its chapters are one click away
   useEffect(() => {
@@ -190,6 +163,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       } else if (e.key === "Escape") {
         setMobileMenuOpen(false);
         setMobileSearch(false);
+        setMenu(null);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -204,75 +178,36 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   /* ------------------------------------------------------------------ */
-  /* Sidebar contents (shared by desktop sidebar and mobile drawer)      */
+  /* Phone drawer contents                                               */
   /* ------------------------------------------------------------------ */
-  const NavItem = ({
-    href,
-    label,
-    icon: Icon,
-    badge,
-    collapsed = false,
-    small = false,
-  }: {
-    href: string;
-    label: string;
-    icon: React.ElementType;
-    badge?: React.ReactNode;
-    collapsed?: boolean;
-    small?: boolean;
-  }) => {
-    const active = isActive(href) || (href === "/subjects" && pathname.startsWith("/subjects"));
+  const NavItem = ({ href, label, icon: Icon }: { href: string; label: string; icon: React.ElementType }) => {
+    const active = isActive(href);
     return (
       <Link
         href={href}
-        aria-label={collapsed ? label : undefined}
         aria-current={active ? "page" : undefined}
-        {...tipProps(label, collapsed)}
-        className={`group relative flex items-center gap-3 rounded-xl px-3 ${small ? "py-2 text-[13.5px]" : "py-2.5 text-sm"} font-display font-medium tracking-[-0.01em] transition-colors duration-200 ${
-          active ? "font-semibold text-primary" : "text-slate-300 hover:bg-slate-850 hover:text-ink"
-        } ${collapsed ? "justify-center" : ""}`}
+        className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 font-display text-sm font-medium tracking-[-0.01em] transition-colors duration-200 ${
+          active ? "bg-soft font-semibold text-primary" : "text-slate-300 hover:bg-slate-850 hover:text-ink"
+        }`}
       >
-        {active && <m.span layoutId={collapsed ? "side-active-c" : "side-active"} transition={SPRING} className="absolute inset-0 rounded-xl bg-soft ring-1 ring-primary/15" />}
-        <Icon className={`relative h-[18px] w-[18px] shrink-0 ${active ? "text-primary" : "text-slate-400 group-hover:text-primary"}`} />
-        {!collapsed && <span className="relative flex-1 truncate">{label}</span>}
-        {!collapsed && badge && <span className="relative">{badge}</span>}
+        <Icon className={`h-[18px] w-[18px] shrink-0 ${active ? "text-primary" : "text-slate-400 group-hover:text-primary"}`} />
+        <span className="flex-1 truncate">{label}</span>
       </Link>
     );
   };
 
-  const SidebarBody = ({ collapsed = false, drawer = false }: { collapsed?: boolean; drawer?: boolean }) => (
+  const DrawerBody = () => (
     <div className="flex-1 space-y-6 overflow-y-auto overscroll-contain px-3 py-4">
-      {/* Phone drawer only: main pages that aren't in the bottom bar */}
-      {drawer && (
-        <nav className="space-y-0.5" aria-label="More pages">
-          {PRIMARY_NAV.filter((n) => !TAB_HREFS.has(n.href)).map((n) => (
-            <React.Fragment key={n.href}>{NavItem({ ...n })}</React.Fragment>
-          ))}
-        </nav>
-      )}
-
-      {/* Your subjects — the one you're in shows its chapters */}
+      <nav className="space-y-0.5" aria-label="More pages">
+        {PRIMARY_NAV.filter((n) => !TAB_HREFS.has(n.href)).map((n) => (
+          <React.Fragment key={n.href}>{NavItem({ ...n })}</React.Fragment>
+        ))}
+      </nav>
       <div className="space-y-0.5">
-        {!collapsed && (
-          <GroupToggle label="Your subjects" open={drawer || prefs.subjectsOpen} onToggle={drawer ? undefined : () => updatePrefs({ subjectsOpen: !prefs.subjectsOpen })} />
-        )}
-        <Collapse open={collapsed || drawer || prefs.subjectsOpen}>
+        <div className="px-3 pb-1.5 font-display text-[12.5px] font-semibold text-muted">Your subjects</div>
         {firstYearSubjects.map((s) => {
           const open = openSubject === s.id;
           const onSubject = pathname.startsWith(`/subjects/${s.slug}`);
-          if (collapsed) {
-            return (
-              <Link
-                key={s.id}
-                href={`/subjects/${s.slug}`}
-                aria-label={s.name}
-                {...tipProps(s.name, true)}
-                className={`flex h-10 items-center justify-center rounded-xl transition hover:bg-slate-850 ${onSubject ? "bg-soft ring-1 ring-primary/20" : ""}`}
-              >
-                <SubjectArt id={s.id} className="h-7 w-7" />
-              </Link>
-            );
-          }
           const chapters = chaptersOf(s);
           return (
             <div key={s.id}>
@@ -314,22 +249,117 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           );
         })}
-        </Collapse>
       </div>
-
-      {/* Everything else */}
-      <div className={collapsed ? "space-y-0.5 border-t border-line pt-4" : "space-y-0.5"}>
-        {!collapsed && (
-          <GroupToggle label="More pages" open={drawer || prefs.pagesOpen} onToggle={drawer ? undefined : () => updatePrefs({ pagesOpen: !prefs.pagesOpen })} />
-        )}
-        <Collapse open={collapsed || drawer || prefs.pagesOpen}>
-          {MORE_NAV.map((n) => (
-            <React.Fragment key={n.href}>{NavItem({ ...n, collapsed, small: !collapsed })}</React.Fragment>
-          ))}
-        </Collapse>
+      <div className="space-y-0.5">
+        <div className="px-3 pb-1.5 font-display text-[12.5px] font-semibold text-muted">More pages</div>
+        {MORE_NAV.map((n) => (
+          <React.Fragment key={n.href}>{NavItem({ href: n.href, label: n.label, icon: n.icon })}</React.Fragment>
+        ))}
       </div>
     </div>
   );
+
+  /* ------------------------------------------------------------------ */
+  /* Top-bar menus (desktop)                                             */
+  /* ------------------------------------------------------------------ */
+  const MenuButton = ({ id, label, active }: { id: "subjects" | "library" | "more"; label: string; active?: boolean }) => (
+    <button
+      type="button"
+      onClick={() => setMenu(menu === id ? null : id)}
+      aria-expanded={menu === id}
+      aria-controls={`menu-${id}`}
+      className={`flex items-center gap-1.5 rounded-xl px-3 py-2 font-display text-[15px] font-semibold tracking-[-0.01em] transition-colors ${
+        menu === id || active ? "bg-soft text-primary" : "text-slate-300 hover:bg-slate-850 hover:text-ink"
+      }`}
+    >
+      {label}
+      <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${menu === id ? "rotate-180" : ""}`} />
+    </button>
+  );
+
+  const menuPanel = (id: string, children: React.ReactNode, className: string) => (
+    <m.div
+      id={`menu-${id}`}
+      key={id}
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -6 }}
+      transition={{ duration: 0.18, ease: EASE }}
+      className={`absolute top-full z-40 mt-2 rounded-2xl border border-line bg-surface shadow-lift ${className}`}
+    >
+      {children}
+    </m.div>
+  );
+
+  const SubjectsPanel = () =>
+    menuPanel(
+      "subjects",
+      <div className="p-5">
+        <div className="grid gap-x-6 gap-y-5 md:grid-cols-2 xl:grid-cols-4">
+          {firstYearSubjects.map((s) => {
+            const chapters = chaptersOf(s);
+            const onSubject = pathname.startsWith(`/subjects/${s.slug}`);
+            return (
+              <div key={s.id} className="min-w-0">
+                <Link href={`/subjects/${s.slug}`} className={`group flex items-center gap-2.5 rounded-xl px-2 py-1.5 transition-colors hover:bg-surface-2 ${onSubject ? "bg-soft" : ""}`}>
+                  <SubjectArt id={s.id} className="h-8 w-8 shrink-0" />
+                  <span className={`truncate font-display text-[15px] font-semibold ${onSubject ? "text-primary" : "text-ink group-hover:text-primary"}`}>{s.name}</span>
+                </Link>
+                {chapters.length > 0 ? (
+                  <ul className="mt-1 space-y-0.5 pl-2">
+                    {chapters.slice(0, 6).map((c) => (
+                      <li key={c.href}>
+                        <Link href={c.href} className={`flex items-center gap-2 rounded-lg px-2 py-1 text-[13px] transition-colors hover:bg-surface-2 hover:text-ink ${pathname === c.href ? "font-semibold text-primary" : "text-slate-400"}`}>
+                          <c.icon className="h-4 w-4 shrink-0" />
+                          <span className="truncate">{c.label}</span>
+                        </Link>
+                      </li>
+                    ))}
+                    {chapters.length > 6 && (
+                      <li>
+                        <Link href={`/subjects/${s.slug}`} className="px-2 text-xs font-semibold text-primary hover:underline">
+                          +{chapters.length - 6} more
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                ) : (
+                  <p className="mt-1 px-2 text-xs text-muted">Lectures coming soon</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-5 flex items-center justify-between border-t border-line pt-4 text-sm">
+          <span className="text-muted">DUHS BDS 1st Year</span>
+          <Link href="/subjects" className="link inline-flex items-center gap-1 font-semibold">
+            All subjects <ChevronDown className="h-4 w-4 -rotate-90" />
+          </Link>
+        </div>
+      </div>,
+      "inset-x-4 sm:inset-x-6 lg:inset-x-8 mx-auto max-w-content"
+    );
+
+  const ListPanel = (id: string, items: { href: string; label: string; icon: React.ElementType; text?: string }[]) =>
+    menuPanel(
+      id,
+      <ul className="p-2">
+        {items.map((n) => (
+          <li key={n.href}>
+            <Link href={n.href} className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-2 ${isActive(n.href) ? "bg-soft" : ""}`}>
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-soft text-primary">
+                <n.icon className="h-[18px] w-[18px]" />
+              </span>
+              <span className="min-w-0">
+                <span className={`block font-display text-sm font-semibold ${isActive(n.href) ? "text-primary" : "text-ink group-hover:text-primary"}`}>{n.label}</span>
+                {n.text && <span className="block truncate text-xs text-muted">{n.text}</span>}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>,
+      "left-0 w-72"
+    );
 
   const ThemeSwitch = ({ compact = false }: { compact?: boolean }) =>
     compact ? (
@@ -371,50 +401,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     </Link>
   );
 
+  const inLibrary = LIBRARY_NAV.some((n) => isActive(n.href));
+  const inMore = MORE_LINKS.some((n) => n.href !== "/" && isActive(n.href));
+
   return (
     <div className="flex min-h-screen bg-canvas text-ink">
       <a href="#main" className="sr-only z-[80] rounded-lg bg-primary px-4 py-2 text-on-primary focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
         Skip to content
       </a>
 
-      {/* ============================ DESKTOP SIDEBAR ============================ */}
-      <aside
-        aria-label="Sidebar"
-        aria-hidden={sidebarHidden || undefined}
-        {...inertProps(sidebarHidden)}
-        className={`sticky top-0 z-40 hidden h-screen shrink-0 flex-col overflow-hidden bg-canvas-2 transition-[width,border-color] duration-300 ease-out lg:flex ${
-          sidebarHidden ? "w-0 border-r border-transparent" : sidebarCollapsed ? "w-[76px] border-r border-line" : "w-72 border-r border-line"
-        }`}
-      >
-        <div className={`flex h-16 items-center border-b border-line px-4 ${sidebarCollapsed ? "justify-center" : "justify-between gap-2"}`}>
-          {!sidebarCollapsed && Brand({})}
-          <button
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-850 hover:text-ink"
-            aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            aria-expanded={!sidebarCollapsed}
-            {...tipProps("Expand sidebar", sidebarCollapsed)}
-            title={sidebarCollapsed ? undefined : "Show icons only"}
-          >
-            {sidebarCollapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
-          </button>
-        </div>
-        {SidebarBody({ collapsed: sidebarCollapsed })}
-        <div className="border-t border-line p-3">{sidebarCollapsed ? <div className="flex justify-center">{ThemeSwitch({ compact: true })}</div> : ThemeSwitch({})}</div>
-      </aside>
-
-      {/* Tooltip for the icon-only sidebar */}
-      {sidebarCollapsed && tip && (
-        <div
-          role="tooltip"
-          className="pointer-events-none fixed left-[84px] z-[70] hidden -translate-y-1/2 animate-fadeIn whitespace-nowrap rounded-lg bg-ink px-2.5 py-1.5 font-display text-xs font-semibold text-canvas shadow-lift lg:block"
-          style={{ top: tip.top }}
-        >
-          {tip.label}
-        </div>
-      )}
-
-      {/* ============================ MOBILE DRAWER ============================ */}
+      {/* ============================ PHONE DRAWER ============================ */}
       <div className={`fixed inset-0 z-50 lg:hidden ${mobileMenuOpen ? "" : "pointer-events-none"}`} aria-hidden={!mobileMenuOpen}>
         <m.div
           className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -436,15 +432,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <X className="h-5 w-5" />
             </button>
           </div>
-          {SidebarBody({ drawer: true })}
+          {DrawerBody()}
           <div className="border-t border-line p-3">{ThemeSwitch({})}</div>
         </m.div>
       </div>
 
-      {/* ============================ MOBILE SEARCH SHEET ============================ */}
+      {/* ============================ SEARCH SHEET (phones & narrow screens) ============================ */}
       {mobileSearch && (
-        <div className="fixed inset-0 z-[60] bg-canvas/95 p-4 backdrop-blur-sm animate-fadeIn lg:hidden" role="dialog" aria-modal="true" aria-label="Search">
-          <div className="flex items-center gap-2">
+        <div className="fixed inset-0 z-[60] bg-canvas/95 p-4 backdrop-blur-sm animate-fadeIn xl:hidden" role="dialog" aria-modal="true" aria-label="Search">
+          <div className="mx-auto flex max-w-2xl items-center gap-2">
             <GlobalSearch autoFocus className="flex-1" onNavigate={() => setMobileSearch(false)} />
             <button onClick={() => setMobileSearch(false)} className="rounded-xl px-3 py-2 text-sm font-semibold text-muted hover:text-ink">
               Cancel
@@ -454,66 +450,67 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      {/* ============================ MAIN COLUMN ============================ */}
+      {/* ============================ PAGE ============================ */}
       <div className="flex min-w-0 flex-1 flex-col">
         <header
-          className={`sticky top-0 z-30 flex h-16 items-center gap-3 border-b px-4 transition-[background-color,border-color,box-shadow] duration-300 sm:px-6 lg:px-8 ${
-            scrolled ? "border-line bg-canvas/85 shadow-soft backdrop-blur-xl" : "border-transparent bg-canvas/70 backdrop-blur-md"
+          ref={headerRef}
+          className={`sticky top-0 z-30 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
+            scrolled || menu ? "border-line bg-canvas/90 shadow-soft backdrop-blur-xl" : "border-transparent bg-canvas/70 backdrop-blur-md"
           }`}
         >
-          <button
-            onClick={() => setMobileMenuOpen(true)}
-            className="rounded-xl p-2 text-slate-300 transition hover:bg-slate-850 hover:text-ink lg:hidden"
-            aria-label="Open menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-          <div className="lg:hidden">{Brand({ small: true })}</div>
-          <button
-            type="button"
-            onClick={() => {
-              setTip(null);
-              updatePrefs({ hidden: !sidebarHidden });
-            }}
-            aria-label={sidebarHidden ? "Show sidebar" : "Hide sidebar"}
-            title={sidebarHidden ? "Show sidebar" : "Hide sidebar"}
-            aria-pressed={!sidebarHidden}
-            className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-line bg-surface text-slate-300 transition hover:border-primary/50 hover:text-primary lg:flex"
-          >
-            {sidebarHidden ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
-          </button>
-          {sidebarHidden && <div className="hidden lg:block">{Brand({ small: true })}</div>}
-
-          {/* Always-visible search (desktop/tablet) */}
-          <GlobalSearch inputRef={searchRef} className="hidden w-full max-w-md md:block" />
-
-          <div className="ml-auto flex items-center gap-2">
+          <div className="relative mx-auto flex h-16 max-w-[90rem] items-center gap-2 px-4 sm:px-6 lg:gap-3 lg:px-8">
             <button
-              onClick={() => setMobileSearch(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-surface text-slate-300 transition hover:text-primary md:hidden"
-              aria-label="Search"
+              onClick={() => setMobileMenuOpen(true)}
+              className="rounded-xl p-2 text-slate-300 transition hover:bg-slate-850 hover:text-ink lg:hidden"
+              aria-label="Open menu"
             >
-              <Search className="h-4 w-4" />
+              <Menu className="h-5 w-5" />
             </button>
+            <div className="mr-2 shrink-0">{Brand({ small: true })}</div>
 
-            <Link
-              href="/subscription"
-              className="hidden items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-500/15 dark:text-emerald-400 xl:flex"
-              title="Your plan status"
-            >
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              Free plan
-            </Link>
+            {/* Desktop menus */}
+            <nav aria-label="Site" className="hidden items-center gap-1 lg:flex">
+              {MenuButton({ id: "subjects", label: "Subjects", active: pathname.startsWith("/subjects") })}
+              <div className="relative">
+                {MenuButton({ id: "library", label: "Library", active: inLibrary })}
+                <AnimatePresence>{menu === "library" && ListPanel("library", LIBRARY_NAV)}</AnimatePresence>
+              </div>
+              <div className="relative">
+                {MenuButton({ id: "more", label: "More", active: inMore })}
+                <AnimatePresence>{menu === "more" && ListPanel("more", MORE_LINKS)}</AnimatePresence>
+              </div>
+            </nav>
 
-            <div className="hidden sm:block">{ThemeSwitch({ compact: true })}</div>
+            <GlobalSearch inputRef={searchRef} className="ml-auto hidden w-full max-w-sm xl:block" />
 
-            <Link href="/login" className="hidden rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 transition hover:text-ink lg:block">
-              Log in
-            </Link>
-            <Link href="/signup" className="btn-primary !min-h-[40px] !px-4 !py-2">
-              <span className="hidden sm:inline">Sign up free</span>
-              <span className="sm:hidden">Join</span>
-            </Link>
+            <div className="ml-auto flex items-center gap-2 xl:ml-0">
+              <button
+                onClick={() => setMobileSearch(true)}
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-surface text-slate-300 transition hover:text-primary xl:hidden"
+                aria-label="Search"
+              >
+                <Search className="h-4 w-4" />
+              </button>
+              <Link
+                href="/subscription"
+                className="hidden items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-500/15 dark:text-emerald-400 2xl:flex"
+                title="Your plan status"
+              >
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                Free plan
+              </Link>
+              <div className="hidden sm:block">{ThemeSwitch({ compact: true })}</div>
+              <Link href="/login" className="hidden rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 transition hover:text-ink lg:block">
+                Log in
+              </Link>
+              <Link href="/signup" className="btn-primary !min-h-[40px] !px-4 !py-2">
+                <span className="hidden sm:inline">Sign up free</span>
+                <span className="sm:hidden">Join</span>
+              </Link>
+            </div>
+
+            {/* Menu panels */}
+            <AnimatePresence>{menu === "subjects" && SubjectsPanel()}</AnimatePresence>
           </div>
         </header>
 
@@ -593,11 +590,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* Desktop: floating dock with the main menu, centred in the content area */}
       <div
-        className={`pointer-events-none fixed bottom-4 right-0 z-40 hidden justify-center px-6 transition-[left,transform,opacity] duration-300 ease-out lg:flex ${sidebarHidden ? "left-0" : sidebarCollapsed ? "left-[76px]" : "left-72"} ${dockHidden ? "translate-y-[140%] opacity-0" : ""}`}
+        className={`pointer-events-none fixed bottom-4 right-0 z-40 hidden justify-center px-6 transition-[transform,opacity] duration-300 ease-out lg:flex left-0 ${dockHidden ? "translate-y-[140%] opacity-0" : ""}`}
       >
         <nav aria-label="Main" onFocusCapture={() => setDockHidden(false)} className="pointer-events-auto flex items-center gap-1 rounded-full border border-line bg-surface/90 p-1.5 shadow-lift backdrop-blur-xl">
           {PRIMARY_NAV.map((n) => {
-            const active = isActive(n.href) || (n.href === "/subjects" && pathname.startsWith("/subjects"));
+            const active = isActive(n.href);
             return (
               <Link
                 key={n.href}
@@ -615,31 +612,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
       </div>
-    </div>
-  );
-}
-
-/** Sidebar group heading. With onToggle it expands/collapses the group (remembered per browser). */
-function GroupToggle({ label, open, onToggle }: { label: string; open: boolean; onToggle?: () => void }) {
-  if (!onToggle) return <div className="px-3 pb-1.5 font-display text-[12.5px] font-semibold text-muted">{label}</div>;
-  return (
-    <button
-      type="button"
-      onClick={onToggle}
-      aria-expanded={open}
-      className="group flex w-full items-center justify-between rounded-lg px-3 pb-1.5 pt-0.5 font-display text-[12.5px] font-semibold text-muted transition-colors hover:text-ink"
-    >
-      {label}
-      <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${open ? "" : "-rotate-90"}`} />
-    </button>
-  );
-}
-
-/** Smooth height animation for sidebar groups (grid-rows trick: no layout measuring) */
-function Collapse({ open, children }: { open: boolean; children: React.ReactNode }) {
-  return (
-    <div className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`} {...inertProps(!open)}>
-      <div className="min-h-0 space-y-0.5 overflow-hidden">{children}</div>
     </div>
   );
 }

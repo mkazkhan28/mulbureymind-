@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -25,8 +25,6 @@ import {
   ScanFace,
   Sprout,
   Award,
-  PanelLeft,
-  PanelLeftClose,
 } from "lucide-react";
 import type { Subject } from "@/lib/bds-content";
 import { BOOKS_DATA, type BookItem } from "@/lib/books";
@@ -68,103 +66,14 @@ const areaFiles = (files: StudyFile[], area: string): StudyFile[] => [
 ];
 
 /* ======================================================================== */
-/* Page layout with the subject's contents on the left; the contents can be  */
-/* hidden for a wider reading area (remembered per browser)                  */
+/* Subject page layout: full width; the subject's contents sit in a strip   */
+/* of chips above the page instead of a side panel                          */
 /* ======================================================================== */
-const CONTENTS_KEY = "hmh-subject-contents-hidden";
-function ContentsLayout({ nav, className = "", mainClassName = "", children }: { nav: React.ReactNode; className?: string; mainClassName?: string; children: React.ReactNode }) {
-  const [hidden, setHidden] = useState(false);
-  useEffect(() => {
-    try {
-      setHidden(localStorage.getItem(CONTENTS_KEY) === "1");
-    } catch {}
-  }, []);
-  const toggle = (v: boolean) => {
-    setHidden(v);
-    try {
-      localStorage.setItem(CONTENTS_KEY, v ? "1" : "0");
-    } catch {}
-  };
+function ContentsLayout({ className = "", mainClassName = "", children }: { className?: string; mainClassName?: string; children: React.ReactNode }) {
   return (
-    <div className={`grid gap-8 ${hidden ? "" : "lg:grid-cols-[240px_minmax(0,1fr)]"} ${className}`}>
-      {!hidden && (
-        <aside className="hidden animate-fadeIn lg:block" aria-label="Subject contents">
-          <div className="sticky top-24">
-            <button
-              type="button"
-              onClick={() => toggle(true)}
-              className="mb-3 inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-muted transition hover:bg-surface-2 hover:text-ink"
-            >
-              <PanelLeftClose className="h-3.5 w-3.5" /> Hide contents
-            </button>
-            {nav}
-          </div>
-        </aside>
-      )}
-      <div className={`min-w-0 ${mainClassName}`}>
-        {hidden && (
-          <button
-            type="button"
-            onClick={() => toggle(false)}
-            className="mb-4 hidden items-center gap-1.5 rounded-lg border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-slate-300 transition hover:border-primary/40 hover:text-primary lg:inline-flex"
-          >
-            <PanelLeft className="h-3.5 w-3.5" /> Show contents
-          </button>
-        )}
-        {children}
-      </div>
+    <div className={className}>
+      <div className={`min-w-0 ${mainClassName}`}>{children}</div>
     </div>
-  );
-}
-
-/* ======================================================================== */
-/* Title list — the subject's table of contents                            */
-/* ======================================================================== */
-export function SubjectNav({ subject, structure, current }: { subject: Subject; structure: SubjectStructure; current?: string }) {
-  const tone = TONE[subject.id] ?? DEFAULT_TONE;
-  const base = `/subjects/${subject.slug}`;
-  const item = (href: string, label: string, Icon: React.ElementType, slug: string | undefined, meta?: string, indent = false) => {
-    const active = current === slug;
-    return (
-      <Link
-        key={href}
-        href={href}
-        className={`group flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition ${indent ? "ml-6" : ""} ${
-          active ? `${tone.bg} font-semibold text-ink` : "text-slate-300 hover:bg-slate-800 hover:text-ink"
-        }`}
-      >
-        <Icon className={`h-4 w-4 shrink-0 ${active ? tone.text : `text-muted ${tone.hover}`}`} />
-        <span className="flex-1 truncate">{label}</span>
-        {meta && <span className="text-[11px] text-muted">{meta}</span>}
-      </Link>
-    );
-  };
-  return (
-    <nav aria-label={`${subject.name} contents`} className="space-y-5">
-      <div>
-        <Link href={base} className={`mb-2 flex items-center gap-2 px-2.5 text-xs font-semibold ${current ? "text-muted hover:text-ink" : tone.text}`}>
-          <SubjectArt id={subject.id} className="h-5 w-5" /> {structure.shortName} — contents
-        </Link>
-        <div className="space-y-0.5">
-          {item(`${base}/textbooks`, "Textbooks", Library, "textbooks", String(booksFor(structure).length))}
-          {item(`${base}/course-outline`, "Course outline", ListTree, "course-outline", structure.courseOutline.length ? String(structure.courseOutline.length) : "")}
-          <div className="flex items-center gap-2.5 px-2.5 pb-0.5 pt-2 text-sm text-slate-300">
-            <Presentation className="h-4 w-4 text-muted" /> PPTs
-          </div>
-          {PPT_GROUPS.map((g) => item(`${base}/${g.slug}`, g.short, FolderOpen, g.slug, String(structure.ppts[g.key].length), true))}
-        </div>
-      </div>
-      <div>
-        <div className="mb-2 px-2.5 text-xs font-semibold text-muted">Chapters</div>
-        <div className="space-y-0.5">
-          {structure.areas.map((a) => item(`${base}/${a.slug}`, a.title, areaIcon(a.slug), a.slug))}
-        </div>
-      </div>
-      <div className="space-y-0.5 border-t border-line pt-4">
-        {subjectStats(subject.id).mcqs > 0 && item(`/practice?subject=${subject.id}`, "Practice MCQs", ListChecks, "__mcq", String(subjectStats(subject.id).mcqs))}
-        {item(`/past-papers`, "Past papers", Award, "__pp")}
-      </div>
-    </nav>
   );
 }
 
@@ -314,7 +223,7 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
   }
 
   return (
-    <ContentsLayout className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8" mainClassName="space-y-6" nav={<SubjectNav subject={subject} structure={structure} current={section} />}>
+    <ContentsLayout className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8" mainClassName="space-y-6">
         <Breadcrumb items={[{ href: "/subjects", label: "My Subjects" }, { href: base, label: subject.name }, { label: title }]} />
         <header>
           <h1 className="page-title hero-in" style={{ "--i": 0 } as React.CSSProperties}>{title}</h1>
@@ -354,8 +263,11 @@ function AreaPage({ subject, structure, area }: { subject: Subject; structure: S
     : undefined;
 
   return (
-    <ContentsLayout className="mx-auto max-w-content px-4 py-8 sm:px-6 lg:px-8 lg:py-10" nav={<SubjectNav subject={subject} structure={structure} current={area.slug} />}>
+    <ContentsLayout className="mx-auto max-w-content px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
         <Breadcrumb items={[{ href: "/subjects", label: "My Subjects" }, { href: base, label: subject.name }, { label: area.title }]} />
+        <div className="mt-4">
+          <MobileContents subject={subject} structure={structure} current={area.slug} />
+        </div>
 
         <header className="mt-5 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div className="flex min-w-0 items-start gap-4">
@@ -396,9 +308,6 @@ function AreaPage({ subject, structure, area }: { subject: Subject; structure: S
           </div>
         </header>
 
-        <div className="mt-5 lg:hidden">
-          <MobileContents subject={subject} structure={structure} current={area.slug} />
-        </div>
 
         {/* chapter search + topic quick filters */}
         <div className="sticky top-16 z-20 -mx-4 mt-6 border-b border-line bg-canvas/90 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:mx-0 lg:rounded-2xl lg:border lg:px-4">
@@ -601,6 +510,7 @@ function GroupTabs({ base, current, structure }: { base: string; current: Colleg
   );
 }
 
+/** The subject's chapters and materials as a strip of chips (scrolls on phones, wraps on wider screens). */
 function MobileContents({ subject, structure, current }: { subject: Subject; structure: SubjectStructure; current: string }) {
   const base = `/subjects/${subject.slug}`;
   const links = [
@@ -609,20 +519,31 @@ function MobileContents({ subject, structure, current }: { subject: Subject; str
     ...PPT_GROUPS.map((g) => ({ slug: g.slug, label: `PPTs · ${g.key === "ddc" ? "DDC" : "Combined"}` })),
     ...structure.areas.map((a) => ({ slug: a.slug, label: a.title })),
   ];
+  const chip = (l: { slug: string; label: string }, art = false) => (
+    <Link
+      key={l.slug}
+      href={`${base}/${l.slug}`}
+      aria-current={l.slug === current ? "page" : undefined}
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
+        l.slug === current ? "border-primary/40 bg-soft font-semibold text-primary" : "border-line bg-surface text-slate-300 hover:border-primary/30 hover:text-ink"
+      }`}
+    >
+      {art && <AreaArt slug={l.slug} className="h-4 w-4" />}
+      {l.label}
+    </Link>
+  );
+  const chapters = structure.areas.map((a) => ({ slug: a.slug, label: a.title }));
   return (
-    <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:hidden">
-      {links.map((l) => (
-        <Link
-          key={l.slug}
-          href={`${base}/${l.slug}`}
-          className={`shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-medium transition ${
-            l.slug === current ? "border-brand-500/40 bg-brand-500/10 text-brand-400" : "border-line bg-surface text-slate-300"
-          }`}
-        >
-          {l.label}
-        </Link>
-      ))}
-    </div>
+    <nav aria-label={`${subject.name} contents`} className="space-y-2">
+      <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-hide lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0">
+        <span className="hidden shrink-0 items-center pr-1 text-xs font-semibold text-muted lg:inline-flex">Chapters</span>
+        {chapters.map((l) => chip(l, true))}
+      </div>
+      <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-hide lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0">
+        <span className="hidden shrink-0 items-center pr-1 text-xs font-semibold text-muted lg:inline-flex">Materials</span>
+        {links.filter((l) => !chapters.some((c) => c.slug === l.slug)).map((l) => chip(l))}
+      </div>
+    </nav>
   );
 }
 
