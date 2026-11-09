@@ -26,12 +26,17 @@ import {
   Layers
 } from "lucide-react";
 import { SubjectArt } from "@/components/Illustrations";
+import { loadQBank, qbankSets, qbankSet, shuffle } from "@/lib/qbank";
 import PageHeader from "@/components/PageHeader";
 import { m, AnimatePresence, EASE, ProgressBar, CountUp } from "@/components/motion";
 
 export default function PracticeQuizPage() {
   // Quiz configuration
   const [selectedSubject, setSelectedSubject] = useState("all");
+  const [selectedSet, setSelectedSet] = useState("all"); // a Question Bank topic set, or "all"
+  const [questionCount, setQuestionCount] = useState<number | "all">(20);
+  const [loadingBank, setLoadingBank] = useState(false);
+  const [bankError, setBankError] = useState(false);
   const [examMode, setExamMode] = useState<"tutor" | "exam" | "mock">("tutor");
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
@@ -50,11 +55,24 @@ export default function PracticeQuizPage() {
   const firstYearSubjects = BDS_SUBJECTS.filter((s) => s.yearId === "bds-1");
 
   // Start Quiz
-  const handleStartQuiz = () => {
-    let pool = [...BDS_MCQS];
+  const handleStartQuiz = async () => {
+    // hand-written sample questions + the Question Bank (fetched now, only for the chosen subject)
+    let pool: MCQ[] = selectedSet === "all" ? [...BDS_MCQS] : [];
     if (selectedSubject !== "all") {
       pool = pool.filter((q) => q.subjectId === selectedSubject);
     }
+    setBankError(false);
+    setLoadingBank(true);
+    try {
+      const bank = await loadQBank(selectedSubject === "all" ? "all" : [selectedSubject]);
+      pool = [...pool, ...(selectedSet === "all" ? bank : bank.filter((q) => q.topicId === selectedSet))];
+    } catch {
+      setBankError(true); // carry on with what is available
+    } finally {
+      setLoadingBank(false);
+    }
+    if (pool.length === 0) return;
+    pool = shuffle(pool);
 
     // In Mock Exam mode, simulate test with timer
     if (examMode === "mock") {
@@ -65,6 +83,7 @@ export default function PracticeQuizPage() {
       pool = expandedPool.slice(0, 20);
       setTimeLeft(20 * 60); // 20 minutes
     } else {
+      if (questionCount !== "all") pool = pool.slice(0, questionCount);
       setTimeLeft(pool.length * 60); // 1 min per question
     }
 
@@ -165,10 +184,21 @@ export default function PracticeQuizPage() {
   const answeredCount = Object.keys(userAnswers).length;
   const markedCount = Object.values(flaggedQuestions).filter(Boolean).length;
   const inQuiz = quizStarted && !quizCompleted && !!currentQ;
-  const poolFor = (id: string) => (id === "all" ? BDS_MCQS.length : BDS_MCQS.filter((q) => q.subjectId === id).length);
-  const poolSize = poolFor(selectedSubject);
-  const plannedCount = examMode === "mock" ? 20 : poolSize;
-  const plannedTime = examMode === "mock" ? 20 : poolSize;
+  const bankFor = (id: string) => qbankSets(id).reduce((n, st) => n + st.count, 0);
+  const poolFor = (id: string) => (id === "all" ? BDS_MCQS.length : BDS_MCQS.filter((q) => q.subjectId === id).length) + bankFor(id);
+  const subjectSets = selectedSubject === "all" ? [] : qbankSets(selectedSubject);
+  const activeSet = selectedSet === "all" ? undefined : qbankSet(selectedSet);
+  const poolSize = activeSet ? activeSet.count : poolFor(selectedSubject);
+  const plannedCount = examMode === "mock" ? 20 : questionCount === "all" ? poolSize : Math.min(questionCount, poolSize);
+  const plannedTime = plannedCount;
+  // topic sets grouped by the folder they came from, practice sets before past papers
+  const setGroups = subjectSets.reduce<{ label: string; sets: typeof subjectSets }[]>((acc, st) => {
+    const label = st.pastPaper && st.module !== "Past papers" ? `${st.module} · past papers` : st.module;
+    const g = acc.find((x) => x.label === label);
+    if (g) g.sets.push(st);
+    else acc.push({ label, sets: [st] });
+    return acc;
+  }, []);
 
   // Keyboard: A–D or 1–4 to answer, ← → to move, M to mark for review
   useEffect(() => {
@@ -177,7 +207,7 @@ export default function PracticeQuizPage() {
       const t = e.target as HTMLElement;
       if (confirmSubmit || t.closest("input, textarea, select, [contenteditable]")) return;
       const k = e.key.toLowerCase();
-      const idx = "abcd".indexOf(k) >= 0 ? "abcd".indexOf(k) : "1234".indexOf(k);
+      const idx = "abcde".indexOf(k) >= 0 ? "abcde".indexOf(k) : "12345".indexOf(k);
       if (idx >= 0 && currentQ && idx < currentQ.options.length) {
         e.preventDefault();
         handleSelectOption(idx);
@@ -201,6 +231,11 @@ export default function PracticeQuizPage() {
         <QuerySync
           onParams={(p) => {
             if (p.get("subject")) setSelectedSubject(p.get("subject") as string);
+            const st = p.get("set") && qbankSet(p.get("set") as string);
+            if (st) {
+              setSelectedSubject(st.subjectId);
+              setSelectedSet(st.id);
+            }
           }}
         />
       </Suspense>
@@ -228,7 +263,10 @@ export default function PracticeQuizPage() {
                     type="button"
                     role="radio"
                     aria-checked={on}
-                    onClick={() => setSelectedSubject(s.id)}
+                    onClick={() => {
+                      setSelectedSubject(s.id);
+                      setSelectedSet("all");
+                    }}
                     className={`flex items-center gap-3 rounded-xl border p-3 text-left transition-colors ${
                       on ? "border-primary bg-soft ring-1 ring-primary" : "border-line bg-surface hover:border-primary/40"
                     }`}
@@ -245,6 +283,26 @@ export default function PracticeQuizPage() {
               })}
             </div>
           </section>
+
+          {setGroups.length > 0 && (
+            <section aria-labelledby="step-topic" className="mt-6 space-y-2">
+              <label id="step-topic" htmlFor="topic-set" className="text-sm font-semibold text-ink">
+                Topic <span className="font-normal text-muted">(optional)</span>
+              </label>
+              <select id="topic-set" value={selectedSet} onChange={(e) => setSelectedSet(e.target.value)} className="field">
+                <option value="all">All topics · {poolFor(selectedSubject).toLocaleString()} questions</option>
+                {setGroups.map((g) => (
+                  <optgroup key={g.label} label={g.label}>
+                    {g.sets.map((st) => (
+                      <option key={st.id} value={st.id}>
+                        {st.title} · {st.count}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </section>
+          )}
 
           <section aria-labelledby="step-mode" className="mt-8 space-y-3">
             <h2 id="step-mode" className="flex items-center gap-2 text-sm font-bold text-ink">
@@ -277,15 +335,44 @@ export default function PracticeQuizPage() {
             </div>
           </section>
 
+          {examMode !== "mock" && poolSize > 10 && (
+            <section aria-labelledby="step-count" className="mt-6 flex flex-wrap items-center gap-2">
+              <span id="step-count" className="mr-1 text-sm font-semibold text-ink">
+                Questions
+              </span>
+              <div role="radiogroup" aria-labelledby="step-count" className="flex flex-wrap gap-2">
+                {([10, 20, 50, "all"] as const)
+                  .filter((n) => n === "all" || n < poolSize)
+                  .map((n) => {
+                    const on = questionCount === n;
+                    return (
+                      <button
+                        key={n}
+                        type="button"
+                        role="radio"
+                        aria-checked={on}
+                        onClick={() => setQuestionCount(n)}
+                        className={`h-9 rounded-xl border px-3.5 text-sm font-semibold transition-colors ${on ? "border-primary bg-soft text-primary ring-1 ring-primary" : "border-line bg-surface text-muted hover:text-ink"}`}
+                      >
+                        {n === "all" ? `All ${poolSize.toLocaleString()}` : n}
+                      </button>
+                    );
+                  })}
+              </div>
+              <span className="text-xs text-muted">picked at random each time</span>
+            </section>
+          )}
+
           <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-line bg-surface p-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-sm text-muted">
               <span className="font-semibold text-ink">{plannedCount ? `${plannedCount} question${plannedCount === 1 ? "" : "s"}` : "No questions yet"}</span>
               {examMode !== "tutor" && plannedCount > 0 && <> · {plannedTime} min</>} · no negative marking · pass mark 60%
             </div>
-            <button onClick={handleStartQuiz} disabled={poolSize === 0} className="btn-primary !px-6">
-              Start {examMode === "tutor" ? "practice" : examMode === "exam" ? "timed test" : "mock exam"} <ArrowRight className="h-4 w-4" />
+            <button onClick={handleStartQuiz} disabled={poolSize === 0 || loadingBank} aria-busy={loadingBank} className="btn-primary !px-6">
+              {loadingBank ? "Loading questions…" : <>Start {examMode === "tutor" ? "practice" : examMode === "exam" ? "timed test" : "mock exam"}</>} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
+          {bankError && <p className="mt-3 text-center text-sm text-rose-700 dark:text-rose-400">The question bank didn't load. Check your connection and press Start again.</p>}
           {poolSize === 0 && <p className="mt-3 text-center text-sm text-muted">Questions for this subject are being added. Choose “All subjects” to practise now.</p>}
         </div>
       )}

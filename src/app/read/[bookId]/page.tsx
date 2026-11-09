@@ -6,6 +6,8 @@ import BookReader from "@/components/BookReader";
 import { BOOKS_DATA } from "@/lib/books";
 import { findStudyFile, getSubjectStructure } from "@/lib/subject-structure";
 import { lectureNav } from "@/lib/lecture-nav";
+import { qbankFile } from "@/lib/qbank-library";
+import { BDS_SUBJECTS } from "@/lib/bds-content";
 
 export default function ReadPage() {
   const params = useParams();
@@ -35,6 +37,19 @@ export default function ReadPage() {
         backHref={backHref}
         backLabel={`Back to ${area?.title ?? structure?.shortName ?? "subject"}`}
         nav={lectureNav(file.id)}
+      />
+    );
+  }
+
+  // 3. A Question Bank file (class test, OSPE, question bank…)
+  const qf = qbankFile(id);
+  if (qf && qf.kind !== "video") {
+    const subject = BDS_SUBJECTS.find((s) => s.id === qf.subjectId);
+    return (
+      <BookReader
+        book={{ id: qf.id, title: qf.title, edition: qf.group, authors: `${subject?.name ?? ""} question bank`, driveId: "", pdfUrl: qf.file }}
+        backHref={`/question-bank?subject=${qf.subjectId}`}
+        backLabel="Back to the question bank"
       />
     );
   }

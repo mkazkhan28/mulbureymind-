@@ -16,11 +16,20 @@ import {
   ArrowRight
 } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
+import { useQBank, qbankSets, qbankSet } from "@/lib/qbank";
+
+const PAGE = 20;
 
 export default function PastPapersPage() {
   const [selectedSubject, setSelectedSubject] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedMCQs, setExpandedMCQs] = useState<Record<string, boolean>>({});
+  const [selectedSet, setSelectedSet] = useState("all");
+  const [shown, setShown] = useState(PAGE);
+  // past-paper sets from the Question Bank, fetched for the chosen subject only
+  const { questions: bank, error: bankError } = useQBank(selectedSubject, ["pp"]);
+  const ppSets = qbankSets(selectedSubject, true);
+  const activeSet = selectedSet === "all" ? undefined : qbankSet(selectedSet);
 
   const toggleExpand = (id: string) => {
     setExpandedMCQs((prev) => ({
@@ -32,7 +41,8 @@ export default function PastPapersPage() {
   // Only 1st year subjects
   const firstYearSubjects = BDS_SUBJECTS.filter((s) => s.yearId === "bds-1");
 
-  const filteredMCQs = BDS_MCQS.filter((q) => {
+  const pool = [...(activeSet ? [] : BDS_MCQS.filter((q) => q.yearSource)), ...(bank ?? []).filter((q) => !activeSet || q.topicId === activeSet.id)];
+  const filteredMCQs = pool.filter((q) => {
     const matchesSubject = selectedSubject === "all" || q.subjectId === selectedSubject;
     const matchesSearch =
       q.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -90,7 +100,10 @@ export default function PastPapersPage() {
                 type="text"
                 placeholder="Search DUHS questions (e.g. lingula, amelogenin, lidocaine, necrosis)..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShown(PAGE);
+                }}
                 className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
               />
             </div>
@@ -99,10 +112,15 @@ export default function PastPapersPage() {
             <div className="w-full sm:w-auto">
               <select
                 value={selectedSubject}
-                onChange={(e) => setSelectedSubject(e.target.value)}
+                onChange={(e) => {
+                  setSelectedSubject(e.target.value);
+                  setSelectedSet("all");
+                  setShown(PAGE);
+                }}
+                aria-label="Subject"
                 className="w-full sm:w-64 px-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink focus:outline-none focus:ring-2 focus:ring-indigo-500/40 font-medium cursor-pointer"
               >
-                <option value="all">All 6 Core 1st Year Subjects</option>
+                <option value="all">All subjects</option>
                 {firstYearSubjects.map((s) => (
                   <option key={s.id} value={s.id}>
                     {s.name}
@@ -110,6 +128,28 @@ export default function PastPapersPage() {
                 ))}
               </select>
             </div>
+
+            {ppSets.length > 1 && (
+              <div className="w-full sm:w-auto">
+                <select
+                  value={selectedSet}
+                  onChange={(e) => {
+                    setSelectedSet(e.target.value);
+                    setShown(PAGE);
+                  }}
+                  aria-label="Topic"
+                  className="w-full sm:w-64 px-4 py-3 text-xs sm:text-sm rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink focus:outline-none focus:ring-2 focus:ring-indigo-500/40 font-medium cursor-pointer"
+                >
+                  <option value="all">All topics</option>
+                  {ppSets.map((st) => (
+                    <option key={st.id} value={st.id}>
+                      {selectedSubject === "all" ? `${BDS_SUBJECTS.find((x) => x.id === st.subjectId)?.name ?? ""} · ` : ""}
+                      {st.title} ({st.count})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
 
           {/* Quick College & Module Tags */}
@@ -125,21 +165,32 @@ export default function PastPapersPage() {
               DIDC (Dow International)
             </span>
             <span className="ml-auto text-slate-400 font-semibold shrink-0">
-              Showing <span className="text-ink font-bold">{filteredMCQs.length}</span> questions
+              {bank === null ? "Loading questions…" : <>Showing <span className="text-ink font-bold">{filteredMCQs.length.toLocaleString()}</span> questions</>}
             </span>
           </div>
         </div>
 
         {/* MCQs List */}
         <div className="space-y-4">
-          {filteredMCQs.length === 0 ? (
+          {bankError && (
+            <p className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-700 dark:text-rose-300">
+              Some past-paper questions didn't load. Check your connection and reload the page.
+            </p>
+          )}
+          {bank === null ? (
+            <div className="space-y-4" aria-hidden>
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="h-40 animate-pulse rounded-2xl border border-line bg-surface" />
+              ))}
+            </div>
+          ) : filteredMCQs.length === 0 ? (
             <div className="bg-surface p-12 rounded-2xl border border-line text-center space-y-3">
               <Search className="w-8 h-8 text-muted mx-auto" />
               <h3 className="text-base font-bold text-ink">No questions found matching your filter</h3>
-              <p className="text-xs text-slate-400">Try adjusting your search keywords or select "All 6 Core 1st Year Subjects".</p>
+              <p className="text-xs text-slate-400">Try other keywords, or choose “All subjects”.</p>
             </div>
           ) : (
-            filteredMCQs.map((q, idx) => {
+            filteredMCQs.slice(0, shown).map((q, idx) => {
               const subj = BDS_SUBJECTS.find((s) => s.id === q.subjectId);
               const isExpanded = !!expandedMCQs[q.id];
 
@@ -155,9 +206,11 @@ export default function PastPapersPage() {
                       <span className={`px-2.5 py-0.5 rounded-full border text-[11px] font-bold ${getSubjectBadge(q.subjectId)}`}>
                         {subj?.name}
                       </span>
-                      <span className="bg-slate-950/80 border border-slate-800 text-primary px-2.5 py-0.5 rounded-full text-[10px] font-semibold">
-                        {q.yearSource}
-                      </span>
+                      {q.yearSource && (
+                        <span className="bg-slate-950/80 border border-slate-800 text-primary px-2.5 py-0.5 rounded-full text-[10px] font-semibold">
+                          {q.yearSource}
+                        </span>
+                      )}
                     </div>
 
                     <button
@@ -227,6 +280,24 @@ export default function PastPapersPage() {
             })
           )}
         </div>
+
+        {bank !== null && filteredMCQs.length > shown && (
+          <div className="flex flex-col items-center gap-2">
+            <button onClick={() => setShown((n) => n + PAGE)} className="btn-secondary">
+              Show {Math.min(PAGE, filteredMCQs.length - shown)} more
+            </button>
+            <span className="text-xs text-muted">
+              {shown.toLocaleString()} of {filteredMCQs.length.toLocaleString()}
+            </span>
+          </div>
+        )}
+        {activeSet && (
+          <div className="flex justify-center">
+            <Link href={`/practice?set=${activeSet.id}`} className="btn-primary">
+              Practise this topic as a quiz <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        )}
 
         {/* Bottom Banner */}
         <div className="bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-accent-500/10 border border-indigo-500/30 p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">

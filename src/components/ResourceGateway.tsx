@@ -3,7 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, Award, FileStack, Layers, Library, ListChecks, Presentation, Stethoscope } from "lucide-react";
-import { BDS_MCQS } from "@/lib/bds-content";
 import { lecturesInArea } from "@/lib/catalog";
 import { siteStats, count } from "@/lib/stats";
 import { Stagger, StaggerItem } from "@/components/motion";
@@ -15,12 +14,11 @@ import { Stagger, StaggerItem } from "@/components/motion";
  */
 export function resourceCategories() {
   const s = siteStats();
-  const pastPaperMcqs = BDS_MCQS.filter((q) => q.yearSource).length;
   const clinical = lecturesInArea("biochemistry", "clinical-topics").length;
   return [
     { href: "/resources#slides", icon: Presentation, title: "Lecture slides", text: "Every lecture as a PDF, by subject and chapter", meta: count(s.lectures, "file") },
     { href: "/practice", icon: ListChecks, title: "MCQ practice", text: "Tutor, timed and mock-exam modes", meta: count(s.mcqs, "question") },
-    { href: "/past-papers", icon: Award, title: "Past papers", text: "DUHS questions with explanations", meta: count(pastPaperMcqs, "question") },
+    { href: "/past-papers", icon: Award, title: "Past papers", text: "DUHS questions with explanations", meta: count(s.pastPaperMcqs, "question") },
     { href: "/flashcards", icon: Layers, title: "Flashcards", text: "Active-recall decks", meta: count(s.decks, "deck") },
     { href: "/books", icon: Library, title: "Textbooks", text: "Recommended reference books", meta: count(s.books, "book") },
     { href: "/subjects/biochemistry/clinical-topics", icon: Stethoscope, title: "Clinical topics", text: "Biochemistry in dentistry and clinical cases", meta: count(clinical, "lecture") },

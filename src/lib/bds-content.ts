@@ -43,7 +43,8 @@ export interface MCQ {
   options: string[];
   correctIndex: number;
   explanation: string;
-  difficulty: "Easy" | "Medium" | "Hard";
+  /** Set for the hand-written sample questions; Question Bank questions don't carry one */
+  difficulty?: "Easy" | "Medium" | "Hard";
   isPastPaper?: boolean;
 }
 

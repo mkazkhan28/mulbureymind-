@@ -17,6 +17,7 @@ import {
   LayoutDashboard,
   Library,
   ListChecks,
+  FolderOpen,
   Menu,
   Moon,
   Presentation,
@@ -64,6 +65,7 @@ const PRIMARY_NAV = [
 
 /* Top-bar menus */
 const LIBRARY_NAV = [
+  { href: "/question-bank", label: "Question bank", icon: FolderOpen, text: "Topic sets, class tests, OSPE & viva" },
   { href: "/past-papers", label: "Past papers", icon: Award, text: "DUHS questions with explanations" },
   { href: "/books", label: "Textbooks", icon: Library, text: "Recommended reference books" },
   { href: "/content", label: "Content library", icon: FileText, text: "Annual papers and question sets" },
