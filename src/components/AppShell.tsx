@@ -71,7 +71,6 @@ const LIBRARY_NAV = [
   { href: "/content", label: "Content library", icon: FileText, text: "Annual papers and question sets" },
 ];
 const MORE_LINKS = [
-  { href: "/", label: "Home", icon: Home },
   { href: "/pricing", label: "Pricing", icon: CreditCard },
   { href: "/subscription", label: "Plan status", icon: ShieldCheck },
   { href: "/contact", label: "Help & support", icon: HelpCircle },
@@ -404,7 +403,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   );
 
   const inLibrary = LIBRARY_NAV.some((n) => isActive(n.href));
-  const inMore = MORE_LINKS.some((n) => n.href !== "/" && isActive(n.href));
+  const inMore = MORE_LINKS.some((n) => isActive(n.href));
 
   return (
     <div className="flex min-h-screen bg-canvas text-ink">
@@ -486,6 +485,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <GlobalSearch inputRef={searchRef} className="ml-auto hidden w-full max-w-sm xl:block" />
 
             <div className="ml-auto flex items-center gap-2 xl:ml-0">
+              <Link
+                href="/"
+                aria-label="Home"
+                title="Home"
+                aria-current={pathname === "/" ? "page" : undefined}
+                className={`flex h-10 w-10 items-center justify-center rounded-xl border transition hover:text-primary ${
+                  pathname === "/" ? "border-primary/40 bg-soft text-primary" : "border-line bg-surface text-slate-300"
+                }`}
+              >
+                <Home className="h-4 w-4" />
+              </Link>
               <button
                 onClick={() => setMobileSearch(true)}
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-surface text-slate-300 transition hover:text-primary xl:hidden"
