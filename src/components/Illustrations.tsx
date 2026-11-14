@@ -945,6 +945,19 @@ const AREA_ART: Record<string, (p: ArtProps) => React.ReactElement> = {
   "research-methods": ChartArt,
   philosophy: ThinkerArt,
   "behavioural-sciences": MindArt,
+  // Oral Biology chapters
+  "oral-cavity": CellsArt,
+  enamel: ToothArt,
+  "dentine-pulp": ToothArt,
+  periodontium: BoneArt,
+  "tmj-salivary": SkullArt,
+  "oral-development": EmbryoArt,
+  "dental-anatomy": BooksArt,
+  "primary-teeth": ToothArt,
+  "anterior-teeth": ToothArt,
+  "posterior-teeth": ToothArt,
+  "pulp-morphology": ToothArt,
+  occlusion: SkullArt,
 };
 
 export function SubjectArt({ id, className, title }: ArtProps & { id: string }) {

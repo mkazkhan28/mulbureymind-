@@ -454,6 +454,19 @@ export const AREA_STYLE: Record<string, { grad: string; chip: string; icon: stri
   "research-methods": { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
   philosophy: { grad: "from-stone-500/15 to-amber-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
   "behavioural-sciences": { grad: "from-pink-500/15 to-brand-500/10", chip: "bg-pink-500/10 text-pink-600 dark:text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
+  // Oral Biology
+  "oral-cavity": { grad: "from-pink-500/15 to-brand-500/10", chip: "bg-pink-500/10 text-pink-600 dark:text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
+  enamel: { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
+  "dentine-pulp": { grad: "from-amber-500/15 to-brand-500/10", chip: "bg-amber-500/10 text-amber-800 dark:text-amber-400", icon: "text-amber-700", bar: "from-brand-500 to-brand-600" },
+  periodontium: { grad: "from-stone-500/15 to-brand-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
+  "tmj-salivary": { grad: "from-rose-500/15 to-brand-500/10", chip: "bg-rose-500/10 text-rose-600 dark:text-rose-400", icon: "text-rose-600", bar: "from-brand-500 to-brand-600" },
+  "oral-development": { grad: "from-brand-500/20 to-accent-500/10", chip: "bg-brand-500/10 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-brand-600" },
+  "dental-anatomy": { grad: "from-emerald-500/15 to-brand-500/10", chip: "bg-emerald-500/10 text-emerald-800 dark:text-emerald-400", icon: "text-emerald-700", bar: "from-brand-500 to-brand-600" },
+  "primary-teeth": { grad: "from-pink-500/15 to-brand-500/10", chip: "bg-pink-500/10 text-pink-600 dark:text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
+  "anterior-teeth": { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
+  "posterior-teeth": { grad: "from-amber-500/15 to-brand-500/10", chip: "bg-amber-500/10 text-amber-800 dark:text-amber-400", icon: "text-amber-700", bar: "from-brand-500 to-brand-600" },
+  "pulp-morphology": { grad: "from-rose-500/15 to-brand-500/10", chip: "bg-rose-500/10 text-rose-600 dark:text-rose-400", icon: "text-rose-600", bar: "from-brand-500 to-brand-600" },
+  occlusion: { grad: "from-stone-500/15 to-brand-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
 };
 export const DEFAULT_AREA_STYLE = { grad: "from-brand-500/15 to-accent-500/10", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" };
 
