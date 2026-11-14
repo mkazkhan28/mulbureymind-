@@ -467,6 +467,18 @@ export const AREA_STYLE: Record<string, { grad: string; chip: string; icon: stri
   "posterior-teeth": { grad: "from-amber-500/15 to-brand-500/10", chip: "bg-amber-500/10 text-amber-800 dark:text-amber-400", icon: "text-amber-700", bar: "from-brand-500 to-brand-600" },
   "pulp-morphology": { grad: "from-rose-500/15 to-brand-500/10", chip: "bg-rose-500/10 text-rose-600 dark:text-rose-400", icon: "text-rose-600", bar: "from-brand-500 to-brand-600" },
   occlusion: { grad: "from-stone-500/15 to-brand-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
+  // Physiology
+  "cell-physiology": { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
+  "nerve-and-muscle": { grad: "from-amber-500/15 to-brand-500/10", chip: "bg-amber-500/10 text-amber-800 dark:text-amber-400", icon: "text-amber-700", bar: "from-brand-500 to-brand-600" },
+  "blood-and-immunity": { grad: "from-rose-500/15 to-brand-500/10", chip: "bg-rose-500/10 text-rose-600 dark:text-rose-400", icon: "text-rose-600", bar: "from-brand-500 to-brand-600" },
+  cardiovascular: { grad: "from-pink-500/15 to-brand-500/10", chip: "bg-pink-500/10 text-pink-600 dark:text-pink-400", icon: "text-pink-600", bar: "from-brand-500 to-brand-600" },
+  respiratory: { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
+  neurophysiology: { grad: "from-brand-500/20 to-accent-500/10", chip: "bg-brand-500/10 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-brand-600" },
+  "special-senses": { grad: "from-emerald-500/15 to-brand-500/10", chip: "bg-emerald-500/10 text-emerald-800 dark:text-emerald-400", icon: "text-emerald-700", bar: "from-brand-500 to-brand-600" },
+  "endocrine-and-reproduction": { grad: "from-amber-500/15 to-brand-500/10", chip: "bg-amber-500/10 text-amber-800 dark:text-amber-400", icon: "text-amber-700", bar: "from-brand-500 to-brand-600" },
+  gastrointestinal: { grad: "from-emerald-500/15 to-brand-500/10", chip: "bg-emerald-500/10 text-emerald-800 dark:text-emerald-400", icon: "text-emerald-700", bar: "from-brand-500 to-brand-600" },
+  renal: { grad: "from-sky-500/15 to-brand-500/10", chip: "bg-sky-500/10 text-sky-800 dark:text-sky-400", icon: "text-sky-700", bar: "from-brand-500 to-brand-600" },
+  "physiology-practicals": { grad: "from-stone-500/15 to-brand-500/10", chip: "bg-stone-500/10 text-stone-400", icon: "text-stone-600", bar: "from-brand-500 to-brand-600" },
 };
 export const DEFAULT_AREA_STYLE = { grad: "from-brand-500/15 to-accent-500/10", chip: "bg-brand-500/15 text-brand-400", icon: "text-brand-600", bar: "from-brand-500 to-accent-500" };
 

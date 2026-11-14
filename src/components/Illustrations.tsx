@@ -958,6 +958,18 @@ const AREA_ART: Record<string, (p: ArtProps) => React.ReactElement> = {
   "posterior-teeth": ToothArt,
   "pulp-morphology": ToothArt,
   occlusion: SkullArt,
+  // Physiology chapters
+  "cell-physiology": CellsArt,
+  "nerve-and-muscle": ProteinArt,
+  "blood-and-immunity": BloodArt,
+  cardiovascular: HeartArt,
+  respiratory: LungsArt,
+  neurophysiology: BrainArt,
+  "special-senses": MindArt,
+  "endocrine-and-reproduction": GlandArt,
+  gastrointestinal: EnzymeArt,
+  renal: WaterArt,
+  "physiology-practicals": FlaskArt,
 };
 
 export function SubjectArt({ id, className, title }: ArtProps & { id: string }) {
