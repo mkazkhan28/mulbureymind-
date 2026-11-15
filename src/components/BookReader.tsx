@@ -81,7 +81,8 @@ function loadPdfJs() {
       };
     }
     pdfjsPromise = import("pdfjs-dist").then((pdfjs) => {
-      pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.mjs", import.meta.url).toString();
+      // Served from /public (copied there by scripts/copy-pdf-worker.mjs before dev/build).
+      pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
       return pdfjs;
     });
   }
