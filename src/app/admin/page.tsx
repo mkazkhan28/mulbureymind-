@@ -98,7 +98,7 @@ export default function AdminDashboardPage() {
     setMcqFormOptions([...q.options]);
     setMcqFormCorrect(q.correctIndex);
     setMcqFormExplanation(q.explanation);
-    setMcqFormDifficulty(q.difficulty);
+    setMcqFormDifficulty(q.difficulty ?? "Medium");
     setShowMCQModal(true);
   };
 
