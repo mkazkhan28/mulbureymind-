@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import {
   Award,
   BookOpen,
@@ -14,6 +15,7 @@ import {
   HelpCircle,
   Home,
   Layers,
+  LogOut,
   LayoutDashboard,
   Library,
   ListChecks,
@@ -106,6 +108,36 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const { theme, toggleTheme, setTheme } = useTheme();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Who is signed in (null while checking). Admin links only show for admin accounts.
+  const [account, setAccount] = useState<{ signedIn: boolean; isAdmin: boolean } | null>(null);
+  useEffect(() => {
+    const supabase = createClient();
+    let alive = true;
+    const load = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        if (alive) setAccount({ signedIn: false, isAdmin: false });
+        return;
+      }
+      const { data } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+      if (alive) setAccount({ signedIn: true, isAdmin: data?.role === "admin" });
+    };
+    load();
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      load();
+    });
+    return () => {
+      alive = false;
+      sub.subscription.unsubscribe();
+    };
+  }, []);
+  const signOut = async () => {
+    await createClient().auth.signOut();
+    window.location.href = "/";
+  };
+  const showLink = (href: string) => href !== "/admin" || !!account?.isAdmin;
   const [mobileSearch, setMobileSearch] = useState(false);
   const [openSubject, setOpenSubject] = useState<string | null>(null);
   /* Which top-bar menu is open */
@@ -252,7 +284,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       </div>
       <div className="space-y-0.5">
         <div className="px-3 pb-1.5 font-display text-[12.5px] font-semibold text-muted">More pages</div>
-        {MORE_NAV.map((n) => (
+        {MORE_NAV.filter((n) => showLink(n.href)).map((n) => (
           <React.Fragment key={n.href}>{NavItem({ href: n.href, label: n.label, icon: n.icon })}</React.Fragment>
         ))}
       </div>
@@ -477,7 +509,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               </div>
               <div className="relative">
                 {MenuButton({ id: "more", label: "More", active: inMore })}
-                <AnimatePresence>{menu === "more" && ListPanel("more", MORE_LINKS)}</AnimatePresence>
+                <AnimatePresence>{menu === "more" && ListPanel("more", MORE_LINKS.filter((n) => showLink(n.href)))}</AnimatePresence>
               </div>
             </nav>
 
@@ -511,13 +543,34 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 Free plan
               </Link>
               <div className="hidden sm:block">{ThemeSwitch({ compact: true })}</div>
-              <Link href="/login" className="hidden rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 transition hover:text-ink lg:block">
-                Log in
-              </Link>
-              <Link href="/signup" className="btn-primary !min-h-[40px] !px-4 !py-2">
-                <span className="hidden sm:inline">Sign up free</span>
-                <span className="sm:hidden">Join</span>
-              </Link>
+              {account?.signedIn ? (
+                <>
+                  <Link
+                    href="/profile"
+                    aria-label="Your profile"
+                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-surface text-slate-300 transition hover:text-primary"
+                  >
+                    <UserRound className="h-4 w-4" />
+                  </Link>
+                  <button
+                    onClick={signOut}
+                    className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 transition hover:text-ink"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span className="hidden sm:inline">Log out</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className="hidden rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 transition hover:text-ink lg:block">
+                    Log in
+                  </Link>
+                  <Link href="/signup" className="btn-primary !min-h-[40px] !px-4 !py-2">
+                    <span className="hidden sm:inline">Sign up free</span>
+                    <span className="sm:hidden">Join</span>
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Menu panels */}

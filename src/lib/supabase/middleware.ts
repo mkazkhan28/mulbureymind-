@@ -54,7 +54,23 @@ export async function updateSession(request: NextRequest) {
   });
 
   // Refresh auth session token safely
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // The admin console is only for accounts with role = 'admin' in public.profiles.
+  const path = request.nextUrl.pathname;
+  if (path === "/admin" || path.startsWith("/admin/")) {
+    if (!user) {
+      const login = new URL("/login", request.url);
+      login.searchParams.set("next", path);
+      return NextResponse.redirect(login);
+    }
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+    if (profile?.role !== "admin") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
 
   return response;
 }
