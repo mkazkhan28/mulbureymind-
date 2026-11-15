@@ -28,7 +28,6 @@ import {
   Sun,
   X,
   Zap,
-  FolderOpen,
   ListTree,
   Sprout,
   Microscope,
