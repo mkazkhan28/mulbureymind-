@@ -1,4 +1,4 @@
-# Study files are served from the private Supabase bucket (see scripts/upload-to-supabase.mjs),
+# Study files are served from the private Cloudflare R2 bucket (see .github/workflows/sync-study-files.yml),
 # so they are not deployed as public files. Slide thumbnails stay public.
 /public/files/*
 !/public/files/thumbs

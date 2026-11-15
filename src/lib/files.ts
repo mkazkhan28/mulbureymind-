@@ -1,8 +1,8 @@
 /**
  * Study files (lecture PDFs, question-bank files and MCQ data).
  *
- * With NEXT_PUBLIC_PROTECTED_FILES=1 they live in a private Supabase Storage bucket and are
- * opened through /api/files/…, which checks that the visitor is logged in and then hands out a
+ * With NEXT_PUBLIC_PROTECTED_FILES=1 they live in a private Cloudflare R2 bucket and are
+ * opened through /api/files/…, which checks the Supabase login and then hands out a
  * short-lived signed link. Without it they are served from /public as before (local development).
  * Slide thumbnails (/files/thumbs/…) stay public: they are small previews of the first slide.
  */
