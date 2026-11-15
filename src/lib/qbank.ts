@@ -8,6 +8,7 @@
 import { useEffect, useState } from "react";
 import type { MCQ } from "@/lib/bds-content";
 import { QBANK_SETS, type QBankSet } from "@/lib/qbank-meta";
+import { PROTECTED_FILES } from "@/lib/files";
 
 export { QBANK_SETS };
 export type { QBankSet };
@@ -20,6 +21,7 @@ const cache = new Map<string, Promise<MCQ[]>>();
 
 /** Files are served from /data/qbank. The static preview sets window.__ASSET_BASE__ to serve them relatively. */
 function base() {
+  if (PROTECTED_FILES) return "/api/files/";
   if (typeof window === "undefined") return "/";
   const b = (window as unknown as { __ASSET_BASE__?: string }).__ASSET_BASE__;
   return b ?? "/";

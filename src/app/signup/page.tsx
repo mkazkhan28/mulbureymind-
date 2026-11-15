@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AlertCircle, ArrowRight, Building, Check, Eye, EyeOff, GraduationCap, Loader2, Lock, Mail, User } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
+import { createClient } from "@/lib/supabase/client";
 
 function passwordStrength(pw: string) {
   let score = 0;
@@ -32,18 +33,39 @@ export default function SignupPage() {
   const strength = passwordStrength(password);
   const mismatch = confirmPassword.length > 0 && confirmPassword !== password;
 
-  const handleSignup = (e: React.FormEvent) => {
+  const [checkEmail, setCheckEmail] = useState(false);
+
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
+    if (password.length < 8) {
+      setError("Use at least 8 characters for your password.");
+      return;
+    }
     setError(null);
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push("/dashboard");
-    }, 1000);
+    const { data, error: authError } = await createClient().auth.signUp({
+      email: email.trim(),
+      password,
+      options: {
+        data: { full_name: fullName.trim(), college_name: college, academic_year: year },
+        emailRedirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
+    setIsLoading(false);
+    if (authError) {
+      setError(/registered|exists/i.test(authError.message) ? "An account with this email already exists. Log in instead." : authError.message);
+      return;
+    }
+    if (data.session) {
+      router.replace("/dashboard");
+      router.refresh();
+    } else {
+      setCheckEmail(true); // email confirmation is switched on in Supabase
+    }
   };
 
   return (
@@ -136,6 +158,12 @@ export default function SignupPage() {
         {(error || mismatch) && (
           <p className="flex items-center gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-600 dark:text-rose-400 animate-fadeIn">
             <AlertCircle className="h-4 w-4 shrink-0" /> {error ?? "Passwords do not match."}
+          </p>
+        )}
+
+        {checkEmail && (
+          <p role="status" className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-800 dark:text-emerald-300">
+            Almost done: we sent a confirmation link to {email}. Open it, then log in.
           </p>
         )}
 

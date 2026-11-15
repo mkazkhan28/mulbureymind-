@@ -174,7 +174,7 @@ export default function PastPapersPage() {
         <div className="space-y-4">
           {bankError && (
             <p className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-700 dark:text-rose-300">
-              Some past-paper questions didn't load. Check your connection and reload the page.
+              Some past-paper questions didn't load. Make sure you're logged in, check your connection and reload the page.
             </p>
           )}
           {bank === null ? (

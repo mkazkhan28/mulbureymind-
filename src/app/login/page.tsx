@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Eye, EyeOff, Loader2, Lock, Mail, ShieldCheck, UserRound } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 import AuthLayout from "@/components/AuthLayout";
 
 export default function LoginPage() {
@@ -13,21 +14,26 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push("/dashboard");
-    }, 800);
-  };
+  const [error, setError] = useState<string | null>(null);
 
-  const handleDemoLogin = (role: "student" | "admin") => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push(role === "admin" ? "/admin" : "/dashboard");
-    }, 500);
+    const { error: authError } = await createClient().auth.signInWithPassword({ email: email.trim(), password });
+    setIsLoading(false);
+    if (authError) {
+      setError(
+        /confirm/i.test(authError.message)
+          ? "Please confirm your email first: open the link we sent you, then log in."
+          : "That email and password don't match. Try again, or reset your password.",
+      );
+      return;
+    }
+    // Go back to the page that asked for a login (only same-site paths), otherwise the dashboard.
+    const next = new URLSearchParams(window.location.search).get("next");
+    router.replace(next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard");
+    router.refresh();
   };
 
   return (
@@ -95,6 +101,12 @@ export default function LoginPage() {
           </div>
         </div>
 
+        {error && (
+          <p role="alert" className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-600 dark:text-rose-400">
+            {error}
+          </p>
+        )}
+
         <button type="submit" disabled={isLoading} className="btn-brand group w-full !py-3">
           {isLoading ? (
             <>
@@ -108,22 +120,6 @@ export default function LoginPage() {
         </button>
       </form>
 
-      {/* Prototype shortcuts (kept from the original build) */}
-      <div className="mt-8">
-        <div className="flex items-center gap-3 text-xs text-muted">
-          <span className="h-px flex-1 bg-line" />
-          or try a demo account
-          <span className="h-px flex-1 bg-line" />
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <button type="button" onClick={() => handleDemoLogin("student")} className="btn-ghost !py-2.5 !text-xs">
-            <UserRound className="h-4 w-4" /> Demo student
-          </button>
-          <button type="button" onClick={() => handleDemoLogin("admin")} className="btn-ghost !py-2.5 !text-xs">
-            <ShieldCheck className="h-4 w-4" /> Demo admin
-          </button>
-        </div>
-      </div>
     </AuthLayout>
   );
 }

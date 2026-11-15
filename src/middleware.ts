@@ -1,7 +1,13 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
+import { PROTECTED_FILES, isProtectedPath } from "@/lib/files";
 
 export async function middleware(request: NextRequest) {
+  // Study files live in the private bucket: never serve a public copy, send it through the login check.
+  const path = request.nextUrl.pathname;
+  if (PROTECTED_FILES && isProtectedPath(path)) {
+    return NextResponse.redirect(new URL(`/api/files${path}`, request.url));
+  }
   return await updateSession(request);
 }
 

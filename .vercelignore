@@ -1,0 +1,5 @@
+# Study files are served from the private Supabase bucket (see scripts/upload-to-supabase.mjs),
+# so they are not deployed as public files. Slide thumbnails stay public.
+/public/files/*
+!/public/files/thumbs
+/public/data

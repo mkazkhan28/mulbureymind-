@@ -45,6 +45,7 @@ import { SubjectArt, AreaArt, areaIcon } from "@/components/Illustrations";
 import { BookmarkButton } from "@/components/ui";
 import { Breadcrumb } from "@/components/SubjectOverview";
 import { subjectStats } from "@/lib/stats";
+import { fileHref } from "@/lib/files";
 
 export const AREA_ICONS = { Sprout, Microscope, Brain, ScanFace, Bone, HeartPulse } as const;
 
@@ -701,7 +702,7 @@ function FileList({
                           <ProgressBar pct={pct} className="flex-1" barClassName="bg-gradient-to-r from-brand-500 to-accent-500" />
                           {f.pdf && !f.isPremium && (
                             <a
-                              href={f.pdf}
+                              href={fileHref(f.pdf)}
                               download
                               className="relative z-20 rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-800 hover:text-ink"
                               title="Download PDF"

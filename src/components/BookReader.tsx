@@ -51,6 +51,7 @@ import {
 import { driveFileId, drivePreviewUrl } from "@/lib/drive";
 import { recordOpen } from "@/lib/progress";
 import { BookmarkButton } from "@/components/ui";
+import { fileHref, PROTECTED_FILES } from "@/lib/files";
 
 type PdfJs = typeof import("pdfjs-dist");
 /** Anything the reader can open: a textbook or a lecture PDF. */
@@ -88,7 +89,7 @@ function loadPdfJs() {
 }
 
 export default function BookReader({ book, backHref = "/books", backLabel = "Back to textbooks", nav }: { book: ReaderDoc; backHref?: string; backLabel?: string; nav?: ReaderNav }) {
-  const source = book.pdfUrl || (book.driveId && !book.driveId.startsWith("PASTE_") ? `/api/books/${book.id}/pdf` : "");
+  const source = fileHref(book.pdfUrl) || (book.driveId && !book.driveId.startsWith("PASTE_") ? `/api/books/${book.id}/pdf` : "");
 
   const [pdfjs, setPdfjs] = useState<PdfJs | null>(null);
   const [doc, setDoc] = useState<PDFDocumentProxy | null>(null);
@@ -972,6 +973,15 @@ function ErrorState({ book }: { book: ReaderDoc }) {
       <p className="mt-2 text-sm text-slate-400">
         The PDF didn&apos;t load. Check your connection and try again. If it keeps happening, the file may not be shared publicly yet.
       </p>
+      {PROTECTED_FILES && (
+        <p className="mt-2 text-sm text-slate-400">
+          Lecture files are for members:{" "}
+          <a href={`/login?next=${encodeURIComponent(typeof window === "undefined" ? "/" : window.location.pathname)}`} className="font-semibold text-brand-400 hover:underline">
+            log in
+          </a>{" "}
+          to open them.
+        </p>
+      )}
       <div className="mt-5 flex flex-wrap justify-center gap-2">
         <button onClick={() => window.location.reload()} className="btn-brand">
           Try again

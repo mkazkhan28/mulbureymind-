@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 import {
   Mail,
   ArrowLeft,
@@ -14,14 +15,14 @@ export default function ForgotPasswordPage() {
   const [isSent, setIsSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleReset = (e: React.FormEvent) => {
+  const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSent(true);
-    }, 800);
+    // The email link signs the student in and opens their profile.
+    // Supabase sends nothing for unknown emails, so always show the same confirmation.
+    await createClient().auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/profile` });
+    setIsLoading(false);
+    setIsSent(true);
   };
 
   return (

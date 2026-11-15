@@ -10,6 +10,7 @@ import { Stagger, StaggerItem } from "@/components/motion";
 import { BDS_SUBJECTS } from "@/lib/bds-content";
 import { QBANK_SETS } from "@/lib/qbank-meta";
 import { QBANK_FILES, QBANK_FILE_GROUPS, QBANK_GROUP_NOTES, type QBankFile } from "@/lib/qbank-library";
+import { fileHref } from "@/lib/files";
 
 /**
  * The Question Bank hub: the topic-wise MCQ sets (practised in /practice and /past-papers)
@@ -179,7 +180,7 @@ function FileRow({ file }: { file: QBankFile }) {
   return (
     <StaggerItem as="li">
       {file.kind === "video" ? (
-        <a href={file.file} target="_blank" rel="noopener" className={cls}>
+        <a href={fileHref(file.file)} target="_blank" rel="noopener" className={cls}>
           {inner}
         </a>
       ) : (

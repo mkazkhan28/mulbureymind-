@@ -372,7 +372,7 @@ export default function PracticeQuizPage() {
               {loadingBank ? "Loading questions…" : <>Start {examMode === "tutor" ? "practice" : examMode === "exam" ? "timed test" : "mock exam"}</>} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
-          {bankError && <p className="mt-3 text-center text-sm text-rose-700 dark:text-rose-400">The question bank didn't load. Check your connection and press Start again.</p>}
+          {bankError && <p className="mt-3 text-center text-sm text-rose-700 dark:text-rose-400">The question bank didn't load. Make sure you're logged in, check your connection and press Start again.</p>}
           {poolSize === 0 && <p className="mt-3 text-center text-sm text-muted">Questions for this subject are being added. Choose “All subjects” to practise now.</p>}
         </div>
       )}
