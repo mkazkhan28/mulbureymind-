@@ -11,6 +11,11 @@
    burnt amber #E8903A actions, quiet steel-blue secondary.
    ============================================================================= */
 :root {
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
   --c-shadow: 53 45 40;
   --c-amber-50: 69 26 3;
   --c-amber-100: 120 53 15;

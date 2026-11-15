@@ -1,25 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Space_Grotesk, Manrope } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 import { MotionProvider } from "@/components/motion";
 import { ThemeProvider, themeInitScript } from "@/context/ThemeContext";
 
-/* Brand typefaces: Space Grotesk for headings and navigation, Manrope for body text */
-const display = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const body = Manrope({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-body",
-  display: "swap",
-});
+/* Brand typefaces: Space Grotesk for headings and navigation, Manrope for body text.
+   Loaded from Google Fonts in the browser (see <head>) rather than downloaded at build time,
+   so a font-service hiccup on the build machine can't break a deployment. */
+const GOOGLE_FONTS = "https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&family=Space+Grotesk:wght@500..700&display=swap";
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
@@ -51,10 +40,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="light" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href={GOOGLE_FONTS} />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
-        className={`${display.variable} ${body.variable} ${geistMono.variable} font-sans antialiased min-h-screen bg-canvas text-ink`}
+        className={`${geistMono.variable} font-sans antialiased min-h-screen bg-canvas text-ink`}
       >
         <ThemeProvider>
           <MotionProvider>
