@@ -50,10 +50,12 @@ export function presignGet({ host, path, accessKeyId, secretAccessKey, region = 
 
 /** Signed link to a file in the R2 bucket, or null when R2 is not configured. */
 export function r2SignedUrl(key: string, expiresIn = 3600) {
-  const account = process.env.R2_ACCOUNT_ID;
-  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
-  const bucket = process.env.R2_BUCKET;
+  // Tolerate values pasted with spaces/line breaks, or the full endpoint URL instead of the Account ID.
+  const clean = (v?: string) => (v ?? "").replace(/\s+/g, "");
+  const account = clean(process.env.R2_ACCOUNT_ID).replace(/^https?:\/\//, "").split(/[./]/)[0];
+  const accessKeyId = clean(process.env.R2_ACCESS_KEY_ID);
+  const secretAccessKey = clean(process.env.R2_SECRET_ACCESS_KEY);
+  const bucket = clean(process.env.R2_BUCKET).split("/").pop();
   if (!account || !accessKeyId || !secretAccessKey || !bucket) return null;
   return presignGet({
     host: `${account}.r2.cloudflarestorage.com`,

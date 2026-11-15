@@ -12,22 +12,43 @@ on:
     paths:
       - "public/files/**"
       - "public/data/**"
+      - ".github/workflows/sync-study-files.yml"
 concurrency: sync-study-files
 jobs:
   sync:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: auto
       AWS_REQUEST_CHECKSUM_CALCULATION: when_required
       AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
-      ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
-      BUCKET: ${{ secrets.R2_BUCKET }}
     steps:
       - uses: actions/checkout@v4
+      - name: Read the R2 settings (tolerates pasted spaces, line breaks or a full endpoint URL)
+        env:
+          RAW_ACCOUNT: ${{ secrets.R2_ACCOUNT_ID }}
+          RAW_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          RAW_SECRET: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          RAW_BUCKET: ${{ secrets.R2_BUCKET }}
+        run: |
+          clean() { printf '%s' "$1" | tr -d '[:space:]'; }
+          account=$(clean "$RAW_ACCOUNT"); account=${account#https://}; account=${account#http://}; account=${account%%.*}; account=${account%%/*}
+          bucket=$(clean "$RAW_BUCKET"); bucket=${bucket##*/}
+          if ! printf '%s' "$account" | grep -Eq '^[0-9a-f]{32}$'; then
+            echo "::error::R2_ACCOUNT_ID should be the 32-character Account ID from Cloudflare (letters a-f and numbers). It has ${#account} characters after cleaning."
+            exit 1
+          fi
+          [ -n "$bucket" ] || { echo "::error::R2_BUCKET is empty"; exit 1; }
+          {
+            echo "AWS_ACCESS_KEY_ID=$(clean "$RAW_KEY_ID")"
+            echo "AWS_SECRET_ACCESS_KEY=$(clean "$RAW_SECRET")"
+            echo "ENDPOINT=https://$account.r2.cloudflarestorage.com"
+            echo "BUCKET=$bucket"
+          } >> "$GITHUB_ENV"
+          echo "Bucket: $bucket"
       - name: Allow the website to read files from the bucket (CORS)
+        # Needs an "Admin Read & Write" token; with an "Object Read & Write" token set CORS once in the dashboard instead.
+        continue-on-error: true
         run: |
           aws s3api put-bucket-cors --endpoint-url "$ENDPOINT" --bucket "$BUCKET" --cors-configuration '{
             "CORSRules": [{
