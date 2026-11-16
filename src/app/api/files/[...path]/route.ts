@@ -31,6 +31,14 @@ export async function GET(request: NextRequest, { params }: { params: { path: st
     return NextResponse.json({ error: "Please log in to open this file." }, { status: 401 });
   }
 
+  const { data: access } = await supabase.rpc("has_access");
+  if (access !== true) {
+    if (request.headers.get("sec-fetch-mode") === "navigate") {
+      return NextResponse.redirect(new URL("/pending", request.url));
+    }
+    return NextResponse.json({ error: "Your account is waiting for approval." }, { status: 403 });
+  }
+
   const signed = r2SignedUrl(key, LINK_SECONDS);
   if (!signed) {
     return NextResponse.json({ error: "File storage is not configured." }, { status: 500 });

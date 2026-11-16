@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { GATED, isOpenPath } from "@/lib/access";
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({
@@ -69,6 +70,25 @@ export async function updateSession(request: NextRequest) {
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
     if (profile?.role !== "admin") {
       return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
+
+  // Test run: only approved accounts may use the site beyond the open pages (see src/lib/access.ts).
+  if (GATED && !isOpenPath(path)) {
+    if (!user) {
+      const login = new URL("/login", request.url);
+      login.searchParams.set("next", path);
+      return NextResponse.redirect(login);
+    }
+    const { data: access, error } = await supabase.rpc("has_access");
+    let allowed = access === true;
+    if (error) {
+      // access.sql not run yet: only admins get in
+      const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+      allowed = profile?.role === "admin";
+    }
+    if (!allowed) {
+      return NextResponse.redirect(new URL("/pending", request.url));
     }
   }
 

@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useAccount } from "@/lib/useAccount";
+import { GATED } from "@/lib/access";
 import {
   ArrowRight,
   BookOpenCheck,
@@ -85,6 +87,10 @@ export default function HomePage() {
     },
   ];
 
+  // Test run: visitors and unapproved accounts only get the hero with its two buttons.
+  const account = useAccount();
+  const full = !GATED || !!account?.hasAccess;
+
   return (
     <div className="relative">
       {/* ============================ HERO ============================ */}
@@ -110,8 +116,8 @@ export default function HomePage() {
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
-              <Link href="/signup" className="btn-primary btn-sheen hero-in group !px-6 !text-[15px]" style={{ "--i": 6 } as React.CSSProperties}>
-                Start free
+              <Link href={full && account?.signedIn ? "/dashboard" : "/login"} className="btn-primary btn-sheen hero-in group !px-6 !text-[15px]" style={{ "--i": 6 } as React.CSSProperties}>
+                {full && account?.signedIn ? "Open dashboard" : "Start free"}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <Link href="/subjects" className="btn-secondary hero-in !px-6 !text-[15px]" style={{ "--i": 7 } as React.CSSProperties}>
@@ -158,6 +164,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      {full && (
+      <>
       <WelcomeBack />
 
       <div>
@@ -391,6 +399,8 @@ export default function HomePage() {
         </Reveal>
         </Band>
       </div>
+      </>
+      )}
     </div>
   );
 }

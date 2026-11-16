@@ -3,7 +3,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { signOut, useAccount } from "@/lib/useAccount";
+import { GATED } from "@/lib/access";
 import {
   Award,
   BookOpen,
@@ -108,35 +109,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const { theme, toggleTheme, setTheme } = useTheme();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // Who is signed in (null while checking). Admin links only show for admin accounts.
-  const [account, setAccount] = useState<{ signedIn: boolean; isAdmin: boolean } | null>(null);
-  useEffect(() => {
-    const supabase = createClient();
-    let alive = true;
-    const load = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) {
-        if (alive) setAccount({ signedIn: false, isAdmin: false });
-        return;
-      }
-      const { data } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
-      if (alive) setAccount({ signedIn: true, isAdmin: data?.role === "admin" });
-    };
-    load();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => {
-      load();
-    });
-    return () => {
-      alive = false;
-      sub.subscription.unsubscribe();
-    };
-  }, []);
-  const signOut = async () => {
-    await createClient().auth.signOut();
-    window.location.href = "/";
-  };
+  // Who is signed in (null while checking). Without access (test run) the shell shows only
+  // the logo, theme switch and login buttons; admin links only show for admin accounts.
+  const account = useAccount();
+  const full = !GATED || !!account?.hasAccess;
+  const fullRef = useRef(full);
+  fullRef.current = full;
   const showLink = (href: string) => href !== "/admin" || !!account?.isAdmin;
   const [mobileSearch, setMobileSearch] = useState(false);
   const [openSubject, setOpenSubject] = useState<string | null>(null);
@@ -187,7 +165,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   // Ctrl/⌘ K focuses search anywhere
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      if (fullRef.current && (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         const el = searchRef.current;
         if (el && el.offsetParent !== null) el.focus();
@@ -491,16 +469,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           }`}
         >
           <div className="relative mx-auto flex h-16 max-w-[90rem] items-center gap-2 px-4 sm:px-6 lg:gap-3 lg:px-8">
-            <button
-              onClick={() => setMobileMenuOpen(true)}
-              className="rounded-xl p-2 text-slate-300 transition hover:bg-slate-850 hover:text-ink lg:hidden"
-              aria-label="Open menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
+            {full && (
+              <button
+                onClick={() => setMobileMenuOpen(true)}
+                className="rounded-xl p-2 text-slate-300 transition hover:bg-slate-850 hover:text-ink lg:hidden"
+                aria-label="Open menu"
+              >
+                <Menu className="h-5 w-5" />
+              </button>
+            )}
             <div className="mr-2 shrink-0">{Brand({ small: true })}</div>
 
             {/* Desktop menus */}
+            {full && (
             <nav aria-label="Site" className="hidden items-center gap-1 lg:flex">
               {MenuButton({ id: "subjects", label: "Subjects", active: pathname.startsWith("/subjects") })}
               <div className="relative">
@@ -512,10 +493,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <AnimatePresence>{menu === "more" && ListPanel("more", MORE_LINKS.filter((n) => showLink(n.href)))}</AnimatePresence>
               </div>
             </nav>
+            )}
 
-            <GlobalSearch inputRef={searchRef} className="ml-auto hidden w-full max-w-sm xl:block" />
+            {full && <GlobalSearch inputRef={searchRef} className="ml-auto hidden w-full max-w-sm xl:block" />}
 
-            <div className="ml-auto flex items-center gap-2 xl:ml-0">
+            <div className={`ml-auto flex items-center gap-2 ${full ? "xl:ml-0" : ""}`}>
               <Link
                 href="/"
                 aria-label="Home"
@@ -527,6 +509,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               >
                 <Home className="h-4 w-4" />
               </Link>
+              {full && (
               <button
                 onClick={() => setMobileSearch(true)}
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-surface text-slate-300 transition hover:text-primary xl:hidden"
@@ -534,6 +517,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               >
                 <Search className="h-4 w-4" />
               </button>
+              )}
+              {full && (
               <Link
                 href="/subscription"
                 className="hidden items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-500/15 dark:text-emerald-400 2xl:flex"
@@ -542,9 +527,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <span className="h-2 w-2 rounded-full bg-emerald-500" />
                 Free plan
               </Link>
+              )}
               <div className="hidden sm:block">{ThemeSwitch({ compact: true })}</div>
               {account?.signedIn ? (
                 <>
+                  {full && (
                   <Link
                     href="/profile"
                     aria-label="Your profile"
@@ -552,6 +539,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                   >
                     <UserRound className="h-4 w-4" />
                   </Link>
+                  )}
                   <button
                     onClick={signOut}
                     className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 transition hover:text-ink"
@@ -596,6 +584,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <ShieldCheck className="h-3.5 w-3.5" /> DIKIOHS • DDC • DIDC syllabus
               </div>
             </div>
+            {full && (<>
             <FooterCol title="Subjects" links={firstYearSubjects.map((s) => ({ href: `/subjects/${s.slug}`, label: s.name }))} />
             <FooterCol
               title="Study"
@@ -617,6 +606,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 { href: "/terms", label: "Terms of service" },
               ]}
             />
+            </>)}
           </div>
           <div className="mx-auto flex max-w-content flex-col items-center justify-between gap-3 border-t border-line pt-6 text-xs text-slate-400 sm:flex-row">
             <p>© {new Date().getFullYear()} Molar Hub. Made for Dow University dental students.</p>
@@ -627,6 +617,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* ============================ BOTTOM NAVIGATION ============================ */}
       {/* Phones: full-width bar with the five most-used places + Menu (subjects and other pages) */}
+      {full && (
       <nav
         aria-label="Main"
         className={`fixed inset-x-0 bottom-0 z-40 grid grid-cols-6 border-t border-line bg-canvas/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl transition-transform duration-300 ease-out lg:hidden ${dockHidden && !mobileMenuOpen ? "translate-y-full" : ""}`}
@@ -651,8 +642,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           Menu
         </button>
       </nav>
+      )}
 
       {/* Desktop: floating dock with the main menu, centred in the content area */}
+      {full && (
       <div
         className={`pointer-events-none fixed bottom-4 right-0 z-40 hidden justify-center px-6 transition-[transform,opacity] duration-300 ease-out lg:flex left-0 ${dockHidden ? "translate-y-[140%] opacity-0" : ""}`}
       >
@@ -676,6 +669,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
       </div>
+      )}
     </div>
   );
 }
