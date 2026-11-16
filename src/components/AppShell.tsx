@@ -422,11 +422,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const Brand = ({ small = false }: { small?: boolean }) => (
     <Link href="/" className="group flex min-w-0 items-center gap-2.5">
       <span className={`flex shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-105 ${small ? "h-9 w-9" : "h-10 w-10"}`}>
-        <img src="/logo-icon.svg" alt="HMHDental logo" className="h-full w-full" width={40} height={40} />
+        <img src="/logo-icon.svg" alt="Molar Hub logo" className="h-full w-full" width={40} height={40} />
       </span>
       <span className="flex min-w-0 flex-col">
         <span className={`truncate font-display font-bold tracking-[-0.045em] text-ink ${small ? "text-lg" : "text-xl"} leading-none`}>
-          HMH<span className="text-primary">Dental</span>
+          Molar<span className="text-primary">Hub</span>
         </span>
         <span className="mt-1 truncate text-[11px] font-medium text-slate-400">DUHS · BDS 1st Year</span>
       </span>
@@ -619,7 +619,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             />
           </div>
           <div className="mx-auto flex max-w-content flex-col items-center justify-between gap-3 border-t border-line pt-6 text-xs text-slate-400 sm:flex-row">
-            <p>© {new Date().getFullYear()} HMHDental. Made for Dow University dental students.</p>
+            <p>© {new Date().getFullYear()} Molar Hub. Made for Dow University dental students.</p>
             <p>Built for future dental surgeons</p>
           </div>
         </footer>

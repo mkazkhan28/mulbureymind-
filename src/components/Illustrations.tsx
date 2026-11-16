@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Original HMHDental illustrations (drawn for this site, no third-party artwork).
+ * Original Molar Hub illustrations (drawn for this site, no third-party artwork).
  * Soft, shaded "medical illustration" style using the brand palette:
  * blue · pink · yellow · warm grey · brown.
  *

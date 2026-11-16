@@ -30,7 +30,7 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-lg text-slate-900 tracking-tight leading-tight">
-                HMHDental
+                Molar Hub
               </span>
               <span className="text-[11px] font-bold text-primary tracking-wider uppercase">
                 DUHS Dental Portal

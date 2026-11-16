@@ -14,7 +14,7 @@ export default function TermsAndRefundPage() {
             Terms of Service & Refund Policy
           </h1>
           <p className="text-xs text-slate-400">
-            Please read these terms carefully before subscribing to any HMHDental membership.
+            Please read these terms carefully before subscribing to any Molar Hub membership.
           </p>
         </div>
 
@@ -27,7 +27,7 @@ export default function TermsAndRefundPage() {
               <span>Medical & Educational Disclaimer</span>
             </div>
             <p className="leading-relaxed text-slate-300">
-              HMHDental is an educational revision aid designed to prepare students for theoretical dental examinations. The content does not constitute clinical dental advice or replace hospital patient treatment protocols.
+              Molar Hub is an educational revision aid designed to prepare students for theoretical dental examinations. The content does not constitute clinical dental advice or replace hospital patient treatment protocols.
             </p>
           </div>
 

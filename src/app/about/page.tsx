@@ -17,9 +17,9 @@ export default function AboutPage() {
         {/* Header */}
         <PageHeader
           eyebrow="About"
-          title="About HMHDental"
+          title="About Molar Hub"
           lead="A study platform for DUHS BDS 1st Year students."
-          intro="HMHDental brings lecture slides, textbooks, practice questions and revision tools for Dow University dental colleges into one organised place."
+          intro="Molar Hub brings lecture slides, textbooks, practice questions and revision tools for Dow University dental colleges into one organised place."
         />
 
         {/* Story Card */}
@@ -32,7 +32,7 @@ export default function AboutPage() {
               Preparing for BDS modular assessments and annual examinations at Dow University traditionally involved searching through blurry past-paper photocopies, conflicting answer keys, and unorganized WhatsApp groups.
             </p>
             <p>
-              <strong className="text-ink">HMHDental</strong> was founded specifically to provide a high-yield, verified, and organized digital platform for BDS 1st Year students across DIKIOHS (Dr. Ishrat-ul-Ebad Khan Institute of Oral Health Sciences), Dow Dental College (DDC), and Dow International Dental College (DIDC).
+              <strong className="text-ink">Molar Hub</strong> was founded specifically to provide a high-yield, verified, and organized digital platform for BDS 1st Year students across DIKIOHS (Dr. Ishrat-ul-Ebad Khan Institute of Oral Health Sciences), Dow Dental College (DDC), and Dow International Dental College (DIDC).
             </p>
             <p>
               Every BCQ and concept is verified against standard dental textbooks, including <em className="text-primary">BD Chaurasia & Snell Clinical Anatomy</em>, <em className="text-primary">Guyton & Hall Physiology</em>, <em className="text-primary">Ten Cate&apos;s Oral Histology & Wheeler&apos;s Tooth Morphology</em>, <em className="text-primary">Lippincott Biochemistry</em>, <em className="text-primary">Katzung Pharmacology</em>, and <em className="text-primary">Robbins General Pathology</em>.

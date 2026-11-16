@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * HMHDental motion system (Motion for React).
+ * Molar Hub motion system (Motion for React).
  *
  * Principles
  * - Only transform + opacity are animated (GPU-friendly, no layout shift).

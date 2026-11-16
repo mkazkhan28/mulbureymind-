@@ -17,7 +17,7 @@ const faqs = [
   { q: "Which payment methods are accepted?", a: "JazzCash, Easypaisa, local debit/credit cards (Visa, Mastercard, PayPak), and direct bank transfer (Raast / IBFT). Instant activation on payment." },
   { q: "Does the plan include every subject?", a: "Yes. All paid plans include every BDS 1st Year subject: Anatomy, Physiology, Oral Biology, Biochemistry, Pharmacology, Pathology and General Education." },
   { q: "What about BDS 2nd, 3rd, and Final Year?", a: "Those modules are pending and will unlock in upcoming sessions. Current focus is 100% dedicated to DUHS BDS 1st Year professional exam mastery." },
-  { q: "Can I use HMHDental on my smartphone?", a: "Yes! 100% mobile-friendly for Android, iPhone, iPad, and laptops with fast load times." },
+  { q: "Can I use Molar Hub on my smartphone?", a: "Yes! 100% mobile-friendly for Android, iPhone, iPad, and laptops with fast load times." },
   { q: "Are questions verified for DUHS Karachi?", a: "Questions are taken from DUHS past papers (DIKIOHS, DDC & DIDC) and each comes with a textbook-referenced explanation." },
   { q: "Can I upgrade my plan later?", a: "Yes — upgrade at any time without losing saved progress, quiz attempts, or bookmarked questions." },
 ];

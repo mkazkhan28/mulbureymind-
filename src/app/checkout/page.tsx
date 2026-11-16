@@ -371,7 +371,7 @@ function CheckoutContent() {
                 Payment Verified & Activated
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-ink">
-                Welcome to HMHDental!
+                Welcome to Molar Hub!
               </h2>
               <p className="text-xs text-slate-300">
                 Your subscription to <strong className="text-ink">{currentPlan.name}</strong> is now live on your account.

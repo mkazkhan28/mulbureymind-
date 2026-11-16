@@ -886,7 +886,7 @@ export const BDS_RESOURCES: StudyResource[] = [
     title: "Guyton Physiology Dental High-Yield Revision Tables",
     type: "PDF",
     fileSize: "4.8 MB",
-    author: "HMHDental Academic Team",
+    author: "Molar Hub Academic Team",
     isPremium: false,
     description: "Fast review sheets for cardiovascular loops, neuromuscular physiology, and acid-base disorders."
   },
@@ -916,7 +916,7 @@ export const BDS_RESOURCES: StudyResource[] = [
     title: "High-Yield Dental Pharmacology Master Summary",
     type: "PDF",
     fileSize: "4.8 MB",
-    author: "HMHDental Academic Team",
+    author: "Molar Hub Academic Team",
     isPremium: true,
     description: "Tabular comparisons of autonomic drugs, emergency kits, local anesthetic calculations, and antimicrobials."
   },

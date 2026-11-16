@@ -30,6 +30,6 @@
   <path d="M20.5 37 C27 39.6 37 39.6 43.5 37" stroke="url(#hmh-band)" stroke-width="2.6" stroke-linecap="round" fill="none"/>
   <path d="M19.5 20 C20 17 22.5 15.6 25 16.4" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none"/>
 </svg>
-  <text x="76" y="40" font-family="Manrope, Arial, sans-serif" font-size="32" font-weight="800" letter-spacing="-1" fill="#352d28">HMH<tspan fill="#70866d">Dental</tspan></text>
+  <text x="76" y="40" font-family="Manrope, Arial, sans-serif" font-size="32" font-weight="800" letter-spacing="-1" fill="#352d28">Molar<tspan fill="#70866d">Hub</tspan></text>
   <text x="77" y="56" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="600" letter-spacing="1.6" fill="#5f544b">DUHS · BDS 1ST YEAR</text>
 </svg>

@@ -40,9 +40,9 @@ export default function AuthLayout({
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_top_left,black_10%,transparent_60%)]" />
         <div className="relative flex items-center justify-between">
           <Link href="/" className="group flex items-center gap-2.5">
-            <img src="/logo-icon.svg" alt="HMHDental logo" className="h-11 w-11 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105" />
+            <img src="/logo-icon.svg" alt="Molar Hub logo" className="h-11 w-11 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105" />
             <span className="font-display text-2xl font-bold tracking-[-0.04em] text-ink">
-              HMH<span className="text-primary">Dental</span>
+              Molar<span className="text-primary">Hub</span>
             </span>
           </Link>
           <div className="flex items-center gap-2">

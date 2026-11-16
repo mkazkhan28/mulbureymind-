@@ -47,7 +47,7 @@ export default function HomePage() {
 
   const faqs: { q: string; a: React.ReactNode }[] = [
     {
-      q: "Is HMHDental free?",
+      q: "Is Molar Hub free?",
       a: (
         <>
           Yes, there is a free plan and you don&apos;t need a card to sign up.
@@ -578,7 +578,7 @@ function HeroPreview() {
           <span className="h-2.5 w-2.5 rounded-full bg-coral-400/80" />
           <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
           <span className="h-2.5 w-2.5 rounded-full bg-brand-400/80" />
-          <span className="ml-3 font-display text-[11px] font-semibold tracking-wide text-muted">HMHDental · MCQ practice</span>
+          <span className="ml-3 font-display text-[11px] font-semibold tracking-wide text-muted">Molar Hub · MCQ practice</span>
         </div>
         <div className="p-5 sm:p-6">
         <div className="flex items-center justify-between text-xs">
