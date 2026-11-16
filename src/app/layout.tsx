@@ -5,10 +5,11 @@ import AppShell from "@/components/AppShell";
 import { MotionProvider } from "@/components/motion";
 import { ThemeProvider, themeInitScript } from "@/context/ThemeContext";
 
-/* Brand typefaces: Space Grotesk for headings and navigation, Manrope for body text.
+/* Brand typefaces: Bricolage Grotesque for the Molar Hub wordmark, Space Grotesk for headings
+   and navigation, Manrope for body text.
    Loaded from Google Fonts in the browser (see <head>) rather than downloaded at build time,
    so a font-service hiccup on the build machine can't break a deployment. */
-const GOOGLE_FONTS = "https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&family=Space+Grotesk:wght@500..700&display=swap";
+const GOOGLE_FONTS = "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Manrope:wght@400..800&family=Space+Grotesk:wght@500..700&display=swap";
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",

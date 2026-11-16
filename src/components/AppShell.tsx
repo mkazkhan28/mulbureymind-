@@ -425,7 +425,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <img src="/logo-icon.svg" alt="Molar Hub logo" className="h-full w-full" width={40} height={40} />
       </span>
       <span className="flex min-w-0 flex-col">
-        <span className={`truncate font-display font-bold tracking-[-0.045em] text-ink ${small ? "text-lg" : "text-xl"} leading-none`}>
+        <span className={`truncate font-brand tracking-[-0.04em] text-ink ${small ? "text-lg" : "text-xl"} leading-none`}>
           Molar<span className="text-primary">Hub</span>
         </span>
         <span className="mt-1 truncate text-[11px] font-medium text-slate-400">DUHS · BDS 1st Year</span>

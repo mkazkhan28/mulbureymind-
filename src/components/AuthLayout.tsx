@@ -41,7 +41,7 @@ export default function AuthLayout({
         <div className="relative flex items-center justify-between">
           <Link href="/" className="group flex items-center gap-2.5">
             <img src="/logo-icon.svg" alt="Molar Hub logo" className="h-11 w-11 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105" />
-            <span className="font-display text-2xl font-bold tracking-[-0.04em] text-ink">
+            <span className="font-brand text-2xl tracking-[-0.035em] text-ink">
               Molar<span className="text-primary">Hub</span>
             </span>
           </Link>

@@ -766,6 +766,12 @@ html.dark .text-shimmer {
 }
 
 @layer utilities {
+  /* Molar Hub wordmark */
+  .font-brand {
+    font-family: "Bricolage Grotesque", var(--font-display);
+    font-weight: 700;
+  }
+
   .text-balance {
     text-wrap: balance;
   }
