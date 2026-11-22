@@ -91,7 +91,7 @@ export default function ContactPage() {
                 Are you a Class Representative (CR/GR)?
               </div>
               <p className="text-slate-300 leading-relaxed">
-                Contact us for batch registrations of 15+ dental students across DIKIOHS, DDC, or DIDC to receive customized college discount packages.
+                Contact us for batch registrations of 15+ dental students from your college to receive customized college discount packages.
               </p>
             </div>
           </div>
@@ -158,8 +158,8 @@ export default function ContactPage() {
                     >
                       <option value="general">General Inquiry</option>
                       <option value="payment">JazzCash / Easypaisa Payment Assistance</option>
-                      <option value="question-feedback">Suggest / Report a DUHS BCQ Correction</option>
-                      <option value="batch">DUHS Batch / College Group Subscription</option>
+                      <option value="question-feedback">Suggest / Report a BCQ Correction</option>
+                      <option value="batch">Batch / College Group Subscription</option>
                     </select>
                   </div>
 
@@ -170,7 +170,7 @@ export default function ContactPage() {
                     <textarea
                       required
                       rows={4}
-                      placeholder="How can our DUHS academic team help you today?"
+                      placeholder="How can our academic team help you today?"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       className="w-full p-2.5 rounded-xl border border-slate-800 bg-slate-900 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-xs"
@@ -193,7 +193,7 @@ export default function ContactPage() {
                   </div>
                   <h3 className="font-bold text-base text-ink">Message Received</h3>
                   <p className="text-xs text-slate-300 max-w-sm mx-auto">
-                    Thank you, {name}! Our DUHS academic support team will get back to you shortly via WhatsApp or email.
+                    Thank you, {name}! Our academic support team will get back to you shortly via WhatsApp or email.
                   </p>
                   <button
                     onClick={() => setIsSent(false)}

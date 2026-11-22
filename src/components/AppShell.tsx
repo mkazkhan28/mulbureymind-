@@ -68,7 +68,7 @@ const PRIMARY_NAV = [
 /* Top-bar menus */
 const LIBRARY_NAV = [
   { href: "/question-bank", label: "Question bank", icon: FolderOpen, text: "Topic sets, class tests, OSPE & viva" },
-  { href: "/past-papers", label: "Past papers", icon: Award, text: "DUHS questions with explanations" },
+  { href: "/past-papers", label: "Past papers", icon: Award, text: "Exam questions with explanations" },
   { href: "/books", label: "Textbooks", icon: Library, text: "Recommended reference books" },
   { href: "/content", label: "Content library", icon: FileText, text: "Annual papers and question sets" },
 ];
@@ -341,7 +341,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </div>
         <div className="mt-5 flex items-center justify-between border-t border-line pt-4 text-sm">
-          <span className="text-muted">DUHS BDS 1st Year</span>
+          <span className="text-muted">BDS 1st Year</span>
           <Link href="/subjects" className="link inline-flex items-center gap-1 font-semibold">
             All subjects <ChevronDown className="h-4 w-4 -rotate-90" />
           </Link>
@@ -406,7 +406,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <span className={`truncate font-brand tracking-[-0.04em] text-ink ${small ? "text-lg" : "text-xl"} leading-none`}>
           Molar<span className="text-primary">Hub</span>
         </span>
-        <span className="mt-1 truncate text-[11px] font-medium text-slate-400">DUHS · BDS 1st Year</span>
+        <span className="mt-1 truncate text-[11px] font-medium text-slate-400">BDS 1st Year</span>
       </span>
     </Link>
   );
@@ -578,10 +578,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <div className="space-y-3">
               {Brand({ small: true })}
               <p className="text-xs leading-relaxed text-slate-400">
-                Study portal built for Dow University of Health Sciences (DUHS Karachi) BDS 1st Year students.
+                Study portal built for BDS 1st Year dental students.
               </p>
               <div className="flex items-center gap-1.5 text-xs font-medium text-primary">
-                <ShieldCheck className="h-3.5 w-3.5" /> DIKIOHS • DDC • DIDC syllabus
+                <ShieldCheck className="h-3.5 w-3.5" /> BDS 1st Year syllabus
               </div>
             </div>
             {full && (<>
@@ -609,7 +609,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </>)}
           </div>
           <div className="mx-auto flex max-w-content flex-col items-center justify-between gap-3 border-t border-line pt-6 text-xs text-slate-400 sm:flex-row">
-            <p>© {new Date().getFullYear()} Molar Hub. Made for Dow University dental students.</p>
+            <p>© {new Date().getFullYear()} Molar Hub. Made for BDS dental students.</p>
             <p>Built for future dental surgeons</p>
           </div>
         </footer>

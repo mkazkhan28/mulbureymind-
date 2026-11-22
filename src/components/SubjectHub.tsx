@@ -147,7 +147,7 @@ export function SubjectHub({ subject, structure }: { subject: Subject; structure
                 href={`${base}/course-outline`}
                 icon={ListTree}
                 title="Course outline"
-                text="The official DUHS syllabus and lecture plan for the year."
+                text="The official syllabus and lecture plan for the year."
                 meta={structure.courseOutline.length ? `${structure.courseOutline.length} file${structure.courseOutline.length === 1 ? "" : "s"}` : "Coming soon"}
               />
             </Reveal>
@@ -205,7 +205,7 @@ export function SubjectSection({ subject, structure, section }: { subject: Subje
     body = <BookList books={booksFor(structure)} />;
   } else if (section === "course-outline") {
     title = "Course outline";
-    intro = "The DUHS syllabus and lecture plan for this subject.";
+    intro = "The syllabus and lecture plan for this subject.";
     body = <FileList files={structure.courseOutline} empty="The course outline hasn't been uploaded yet." />;
   } else if (group) {
     title = group.title;
@@ -542,7 +542,7 @@ function MobileContents({ subject, structure, current }: { subject: Subject; str
   const links = [
     { slug: "textbooks", label: "Textbooks" },
     { slug: "course-outline", label: "Outline" },
-    ...PPT_GROUPS.map((g) => ({ slug: g.slug, label: `PPTs · ${g.key === "ddc" ? "DDC" : "Combined"}` })),
+    ...PPT_GROUPS.map((g) => ({ slug: g.slug, label: `PPTs · ${g.key === "ddc" ? "Second set" : "Combined"}` })),
     ...structure.areas.map((a) => ({ slug: a.slug, label: a.title })),
   ];
   const chip = (l: { slug: string; label: string }, art = false) => (

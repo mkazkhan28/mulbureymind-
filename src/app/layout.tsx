@@ -28,9 +28,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Molar Hub | DUHS 1st Year Dental Portal",
+  title: "Molar Hub | BDS 1st Year Dental Portal",
   description:
-    "Dow University of Health Sciences (DUHS) dedicated 1st Year BDS study portal. High-yield modular BCQs, past papers, flashcards, and verified slides for DIKIOHS, DDC, DIDC & affiliated dental colleges in Karachi.",
+    "A study portal for BDS 1st Year dental students: lecture slides, textbooks, past papers, practice MCQs and flashcards, organised by subject.",
 };
 
 export default function RootLayout({

@@ -30,7 +30,7 @@ function CheckoutContent() {
   const [paymentMethod, setPaymentMethod] = useState<"jazzcash" | "easypaisa" | "card" | "ibft">("jazzcash");
   const [studentName, setStudentName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
-  const [collegeName, setCollegeName] = useState("DIKIOHS (Dow University)");
+  const [collegeName, setCollegeName] = useState("");
   const [bankRefNumber, setBankRefNumber] = useState("");
   const [copiedBank, setCopiedBank] = useState(false);
 
@@ -64,14 +64,14 @@ function CheckoutContent() {
 
       const data = await response.json();
       setTimeout(() => {
-        const generatedTxId = data.orderId || `TXN-DUHS-${Math.floor(100000 + Math.random() * 900000)}`;
+        const generatedTxId = data.orderId || `TXN-MH-${Math.floor(100000 + Math.random() * 900000)}`;
         setTransactionId(generatedTxId);
         setIsProcessing(false);
         setIsSuccess(true);
       }, 1000);
     } catch {
       setTimeout(() => {
-        setTransactionId(`TXN-DUHS-${Math.floor(100000 + Math.random() * 900000)}`);
+        setTransactionId(`TXN-MH-${Math.floor(100000 + Math.random() * 900000)}`);
         setIsProcessing(false);
         setIsSuccess(true);
       }, 1000);
@@ -137,7 +137,7 @@ function CheckoutContent() {
                       <input
                         type="text"
                         required
-                        placeholder="e.g. DIKIOHS, Dow Dental College, or DIDC"
+                        placeholder="Your dental college"
                         value={collegeName}
                         onChange={(e) => setCollegeName(e.target.value)}
                         className="w-full p-3 rounded-xl border border-slate-700/80 bg-slate-950/80 text-ink placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition"
@@ -321,7 +321,7 @@ function CheckoutContent() {
                     </div>
                     <div className="flex justify-between text-slate-300">
                       <span>Curriculum Focus</span>
-                      <span className="font-semibold text-cyan-800 dark:text-cyan-400">DUHS 1st Year (6 Subjects)</span>
+                      <span className="font-semibold text-cyan-800 dark:text-cyan-400">BDS 1st Year (6 Subjects)</span>
                     </div>
                     <div className="flex justify-between text-slate-300">
                       <span>Gateway Fee</span>

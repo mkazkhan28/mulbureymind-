@@ -22,7 +22,7 @@ export default function SignupPage() {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [college, setCollege] = useState("DIKIOHS (Dow University)");
+  const [college, setCollege] = useState("");
   const [year, setYear] = useState("bds-1");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -71,7 +71,7 @@ export default function SignupPage() {
   return (
     <AuthLayout
       title="Create your free account"
-      subtitle="Join DUHS BDS students studying smarter. No card needed."
+      subtitle="Join BDS students studying smarter. No card needed."
       footer={
         <>
           Already have an account?{" "}
@@ -87,17 +87,12 @@ export default function SignupPage() {
         </Field>
 
         <Field id="email" label="Email address" icon={Mail}>
-          <input id="email" type="email" required autoComplete="email" placeholder="you@duhs.edu.pk" value={email} onChange={(e) => setEmail(e.target.value)} className="field pl-10" />
+          <input id="email" type="email" required autoComplete="email" placeholder="you@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)} className="field pl-10" />
         </Field>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field id="college" label="College" icon={Building}>
-            <select id="college" value={college} onChange={(e) => setCollege(e.target.value)} className="field appearance-none pl-10">
-              <option>DIKIOHS (Dow University)</option>
-              <option>Dow Dental College (DDC)</option>
-              <option>DIDC</option>
-              <option>Other</option>
-            </select>
+            <input id="college" type="text" autoComplete="organization" placeholder="Your dental college" value={college} onChange={(e) => setCollege(e.target.value)} className="field pl-10" />
           </Field>
           <Field id="year" label="Year" icon={GraduationCap}>
             <select id="year" value={year} onChange={(e) => setYear(e.target.value)} className="field appearance-none pl-10">

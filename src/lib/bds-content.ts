@@ -959,7 +959,7 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     description: "Try out the platform and practice with initial high-yield questions for BDS 1st Year.",
     features: [
       "Access to sample MCQs across all 6 first-year subjects",
-      "Basic past-paper overview (DUHS)",
+      "Basic past-paper overview",
       "Sample digital flashcard decks",
       "Instant quiz scoring & rationale",
       "Community discussion preview"
@@ -1011,7 +1011,7 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
     description: "Complete, unrestricted access until your final university professional examination.",
     features: [
       "Everything in 6-Month Pass",
-      "All DUHS past-paper questions",
+      "All past-paper questions",
       "Downloadable high-yield PDF summaries & slide atlases",
       "Bookmark difficult questions for revision",
       "Detailed weak-topic analytics across all 6 subjects",
@@ -1022,7 +1022,7 @@ export const MEMBERSHIP_PLANS: MembershipPlan[] = [
 ];
 
 // -------------------------------------------------------------
-// Subject Topics Structure (DUHS BDS 1st Year Curriculum)
+// Subject Topics Structure (BDS 1st Year Curriculum)
 // -------------------------------------------------------------
 export interface SubjectTopic {
   id: string;

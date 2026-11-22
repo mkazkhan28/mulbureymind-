@@ -8,7 +8,7 @@ import { SubjectArt } from "@/components/Illustrations";
 
 const SLIDES = [
   { icon: ListChecks, title: "MCQs with explanations", text: "Tutor mode, timed exams and full mock papers, with an explanation for every answer." },
-  { icon: Award, title: "10 years of DUHS past papers", text: "DIKIOHS, DDC & DIDC questions sorted by topic, with solutions." },
+  { icon: Award, title: "10 years of past papers", text: "Exam questions sorted by topic, with solutions." },
   { icon: Layers, title: "Flashcards that stick", text: "Active-recall decks for histology, cranial nerves and pharmacology." },
   { icon: Presentation, title: "Notes & lecture PPTs", text: "High-yield summaries and slide decks, ready for last-minute revision." },
 ];
@@ -91,7 +91,7 @@ export default function AuthLayout({
 
         <div className="relative">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-cta" /> DUHS BDS 1st Year
+            <span className="h-1.5 w-1.5 rounded-full bg-cta" /> BDS 1st Year
           </span>
           <h2 className="mt-6 max-w-md font-display text-[2.75rem] font-bold leading-[1.05] tracking-[-0.04em] text-white">
             Your whole first year, organised in one calm place.

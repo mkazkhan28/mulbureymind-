@@ -27,7 +27,7 @@ const firstYear = BDS_SUBJECTS.filter((s) => s.yearId === "bds-1");
 
 const PAGES: { title: string; sub: string; href: string; icon: React.ElementType; words: string }[] = [
   { title: "MCQ practice", sub: "Tutor, timed and mock exam modes", href: "/practice", icon: ListChecks, words: "mcq quiz test exam practice bcq" },
-  { title: "Past papers", sub: "DUHS past-paper questions", href: "/past-papers", icon: Award, words: "past papers annual previous" },
+  { title: "Past papers", sub: "Past-paper questions", href: "/past-papers", icon: Award, words: "past papers annual previous" },
   { title: "Flashcards", sub: "Active-recall decks", href: "/flashcards", icon: Layers, words: "flashcards cards revise recall" },
   { title: "Resources", sub: "Notes and lecture slides", href: "/resources", icon: Presentation, words: "notes ppt slides pdf resources handouts" },
   { title: "Textbooks", sub: "Recommended books", href: "/books", icon: Library, words: "books textbooks reference" },

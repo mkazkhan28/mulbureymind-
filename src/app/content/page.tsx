@@ -38,7 +38,7 @@ const CONTENT_FILES: ContentFile[] = [
     subject: "anat",
     topic: "Books",
     premium: false,
-    description: "Key chapters for DUHS BDS 1st Year: Head & Neck, Thorax, Embryology",
+    description: "Key chapters for BDS 1st Year: Head & Neck, Thorax, Embryology",
   },
   {
     id: "anat-book-snell",
@@ -48,7 +48,7 @@ const CONTENT_FILES: ContentFile[] = [
     subject: "anat",
     topic: "Books",
     premium: true,
-    description: "Clinical anatomy with dental relevance — preferred by DUHS examiners",
+    description: "Clinical anatomy with dental relevance — preferred by examiners",
   },
   {
     id: "anat-book-histology",
@@ -58,7 +58,7 @@ const CONTENT_FILES: ContentFile[] = [
     subject: "anat",
     topic: "Books",
     premium: true,
-    description: "Epithelium, connective tissue, bone and cartilage — high yield for DUHS",
+    description: "Epithelium, connective tissue, bone and cartilage — high yield",
   },
 
   // ── PHYSIOLOGY BOOKS ──────────────────────────────────────────────────────
@@ -70,7 +70,7 @@ const CONTENT_FILES: ContentFile[] = [
     subject: "phys",
     topic: "Books",
     premium: false,
-    description: "Standard reference for DUHS Physiology — CVS, Blood, Renal, Respiratory",
+    description: "Standard reference for Physiology — CVS, Blood, Renal, Respiratory",
   },
   {
     id: "phys-book-ganong",
@@ -92,7 +92,7 @@ const CONTENT_FILES: ContentFile[] = [
     subject: "oral-bio",
     topic: "Books",
     premium: false,
-    description: "Primary textbook for Oral Biology & Tooth Morphology at DUHS",
+    description: "Primary textbook for Oral Biology & Tooth Morphology",
   },
   {
     id: "oral-book-wheeler",
@@ -114,7 +114,7 @@ const CONTENT_FILES: ContentFile[] = [
     subject: "biochem",
     topic: "Books",
     premium: false,
-    description: "Metabolism, enzymes, molecular biology — DUHS BDS 1st Year relevant chapters",
+    description: "Metabolism, enzymes, molecular biology — BDS 1st Year relevant chapters",
   },
   {
     id: "biochem-book-harper",
@@ -124,7 +124,7 @@ const CONTENT_FILES: ContentFile[] = [
     subject: "biochem",
     topic: "Books",
     premium: true,
-    description: "Most recommended by DUHS examiners — clinical correlations included",
+    description: "Most recommended by examiners — clinical correlations included",
   },
   {
     id: "biochem-book-lippincott",
@@ -168,7 +168,7 @@ const CONTENT_FILES: ContentFile[] = [
     subject: "path",
     topic: "Books",
     premium: false,
-    description: "Inflammation, neoplasia, cell injury — the DUHS standard for Pathology",
+    description: "Inflammation, neoplasia, cell injury — a standard text for Pathology",
   },
   {
     id: "path-book-harsh",
@@ -178,7 +178,7 @@ const CONTENT_FILES: ContentFile[] = [
     subject: "path",
     topic: "Books",
     premium: true,
-    description: "Pakistani curriculum-friendly pathology text — used widely at DUHS",
+    description: "Pakistani curriculum-friendly pathology text — used widely in Pakistan",
   },
 
   // ── ANATOMY PAST PAPERS ───────────────────────────────────────────────────
@@ -192,7 +192,7 @@ const CONTENT_FILES: ContentFile[] = [
     year: "2024",
     pages: 4,
     premium: false,
-    description: "DUHS BDS 1st Year Annual Professional Examination — General Anatomy & Histology",
+    description: "BDS 1st Year Annual Professional Examination — General Anatomy & Histology",
   },
   {
     id: "anat-pp-2023",
@@ -204,7 +204,7 @@ const CONTENT_FILES: ContentFile[] = [
     year: "2023",
     pages: 4,
     premium: false,
-    description: "DUHS BDS 1st Year Anatomy paper with SEQs and MCQs",
+    description: "BDS 1st Year Anatomy paper with SEQs and MCQs",
   },
   {
     id: "anat-pp-2022",
@@ -489,13 +489,13 @@ export default function ContentPage() {
   const papers = filtered.filter(isPaper).sort((a, b) => (b.year || "0").localeCompare(a.year || "0"));
   const sets = filtered.filter((f) => !isPaper(f));
   const groups = [
-    { id: "papers", title: "Past papers", intro: "DUHS annual professional papers, newest first.", files: papers },
+    { id: "papers", title: "Past papers", intro: "Annual professional papers, newest first.", files: papers },
     { id: "sets", title: "Topic question sets", intro: "Questions grouped by topic for focused revision.", files: sets },
   ].filter((g) => g.files.length);
 
   return (
     <div className="mx-auto max-w-content px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-      <PageHeader eyebrow="Content library" title="Past papers and question sets" intro="DUHS BDS 1st Year past papers and topic-wise question sets. Filter by subject or search by topic." />
+      <PageHeader eyebrow="Content library" title="Past papers and question sets" intro="BDS 1st Year past papers and topic-wise question sets. Filter by subject or search by topic." />
 
       {/* Filters */}
       <div className="mb-8 space-y-3">

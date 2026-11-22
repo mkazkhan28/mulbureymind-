@@ -71,7 +71,7 @@ export default function HomePage() {
     },
     {
       q: "Which syllabus does it follow?",
-      a: "It is built for DUHS BDS 1st Year and follows the DIKIOHS, DDC and DIDC teaching. Lectures are grouped by subject and chapter the way they are taught.",
+      a: "It is built for BDS 1st Year. Lectures are grouped by subject and chapter the way they are taught.",
     },
     {
       q: "How do I pay for a plan?",
@@ -100,7 +100,7 @@ export default function HomePage() {
         <div className="relative mx-auto grid max-w-content items-center gap-14 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.08fr_1fr] lg:px-8 lg:pb-24 lg:pt-20">
           <div>
             <p className="eyebrow hero-in" style={{ "--i": 0 } as React.CSSProperties}>
-              DUHS · BDS 1st Year · 2025–26
+              BDS 1st Year · 2025–26
             </p>
             {/* Staggered word reveal — CSS keyframes, so it plays before JavaScript loads (no hidden LCP text) */}
             <h1 className="mt-5 font-display text-[3rem] font-bold leading-[0.98] tracking-[-0.05em] text-ink sm:text-[4.25rem] lg:text-[4.75rem]">
@@ -203,7 +203,7 @@ export default function HomePage() {
           <SectionHeader
             id="subjects"
             title="Every subject, organised by chapter"
-            intro={`${stats.lectures} lecture PDFs, textbooks and MCQs for the DIKIOHS, DDC and DIDC first-year syllabus.`}
+            intro={`${stats.lectures} lecture PDFs, textbooks and MCQs for the BDS first-year syllabus.`}
             action={
               <Link href="/subjects" className="link inline-flex items-center gap-1 text-sm">
                 All subjects <ArrowRight className="h-4 w-4" />

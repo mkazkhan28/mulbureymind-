@@ -120,7 +120,7 @@ export default function BooksLibraryPage() {
                   </span>
                 </div>
                 <span className="text-xs text-muted hidden sm:inline">
-                  DUHS Professional Recommended Reading
+                  Recommended Reading
                 </span>
               </div>
 
@@ -142,7 +142,7 @@ export default function BooksLibraryPage() {
                           </span>
                           {book.isHighYield && (
                             <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-800 dark:text-amber-300 border border-amber-500/30 flex items-center gap-1">
-                              <Bookmark className="w-3 h-3" /> DUHS Core
+                              <Bookmark className="w-3 h-3" /> Core
                             </span>
                           )}
                         </div>

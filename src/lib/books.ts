@@ -183,7 +183,7 @@ export const BOOKS_DATA: BookItem[] = [
     premium: false,
   },
 
-  // ── PHYSIOLOGY BOOKS (DUHS REFERENCES) ──
+  // ── PHYSIOLOGY BOOKS ──
   {
     id: "phys-book-1",
     title: "Guyton and Hall Textbook of Medical Physiology",
@@ -229,7 +229,7 @@ export const BOOKS_DATA: BookItem[] = [
     subjectColor: "text-accent-400",
     badgeColor: "bg-accent-950/60 border-accent-700/50 text-accent-300",
     coverGradient: "from-accent-500/15 via-accent-500/5 to-transparent",
-    description: "Concise metabolism roadmaps, enzyme kinetics, and vitamin functions required for DUHS BDS biochemistry.",
+    description: "Concise metabolism roadmaps, enzyme kinetics, and vitamin functions required for BDS biochemistry.",
     topicsCovered: ["Carbohydrate Metabolism", "Enzymology", "Vitamins & Minerals", "Fluoride & Bone Matrix"],
     isHighYield: true,
     premium: false,
@@ -271,7 +271,7 @@ export const BOOKS_DATA: BookItem[] = [
   {
     id: "comm-book-1",
     title: "Sobers' Community Dentistry",
-    edition: "DUHS Curriculum Recommended",
+    edition: "Curriculum Recommended",
     authors: "BDS Preventive & Community Dentistry Panel",
     driveId: "1K0FYkp3hBOISWT_IRLaCmIJzvyWm0Ijy",
     subjectId: "comm-dent",

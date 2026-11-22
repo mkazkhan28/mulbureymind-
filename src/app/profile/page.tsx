@@ -13,7 +13,7 @@ const KEY = "hmh-profile";
 type Profile = { name: string; college: string; phone: string; year: string };
 const EMPTY: Profile = { name: "", college: "", phone: "", year: "bds-1" };
 
-const COLLEGES = ["DIKIOHS (Dow University)", "Dr. Ishrat-ul-Ebad Khan Institute (DIDC)", "Dow Dental College (DDC)"];
+const COLLEGES: string[] = [];
 
 const initialsOf = (name: string) =>
   name
@@ -180,7 +180,7 @@ export default function ProfilePage() {
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             <Field id="college" label="Dental college" icon={Building}>
-              <input id="college" list="colleges" placeholder="e.g. DIKIOHS (Dow University)" value={p.college} onChange={set("college")} className="field pl-10" />
+              <input id="college" list="colleges" placeholder="Your dental college" value={p.college} onChange={set("college")} className="field pl-10" />
               <datalist id="colleges">
                 {COLLEGES.map((c) => (
                   <option key={c} value={c} />

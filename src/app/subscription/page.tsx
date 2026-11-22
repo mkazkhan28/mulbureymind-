@@ -10,7 +10,7 @@ import PageHeader from "@/components/PageHeader";
 
 export default function SubscriptionPage() {
   const currentSubscription = {
-    plan: "DUHS BDS 1st Year Full Session Pass",
+    plan: "BDS 1st Year Full Session Pass",
     amount: "PKR 1,999",
     status: "Active",
     startDate: "October 19, 2026",
@@ -20,9 +20,9 @@ export default function SubscriptionPage() {
 
   const paymentHistory = [
     {
-      id: "TXN-DUHS-948102",
+      id: "TXN-MH-948102",
       date: "Oct 19, 2026",
-      plan: "DUHS BDS 1st Year Full Pass",
+      plan: "BDS 1st Year Full Pass",
       amount: "PKR 1,999",
       method: "JazzCash",
       status: "Active",

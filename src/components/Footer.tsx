@@ -18,16 +18,16 @@ export default function Footer() {
                   Molar Hub
                 </span>
                 <span className="text-[11px] font-semibold text-blue-700 uppercase tracking-wider">
-                  DUHS BDS 1st Year Edition
+                  BDS 1st Year Edition
                 </span>
               </div>
             </div>
             <p className="text-sm text-slate-600 leading-relaxed max-w-sm">
-              Dedicated high-yield digital study platform built for Dow University of Health Sciences (DUHS Karachi) BDS 1st Year students across DIKIOHS, DDC, and DIDC.
+              Dedicated high-yield digital study platform built for BDS BDS 1st Year students.
             </p>
             <div className="flex items-center gap-2 text-xs text-blue-700 bg-blue-50/80 px-3 py-1.5 rounded-lg border border-blue-200/60 w-fit">
               <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
-              <span className="font-medium">Tailored for DUHS Modular Dental Curriculum</span>
+              <span className="font-medium">Tailored for Modular Dental Curriculum</span>
             </div>
           </div>
 
@@ -40,12 +40,12 @@ export default function Footer() {
               <li>
                 <Link href="/subjects" className="text-slate-600 hover:text-primary transition flex items-center gap-2">
                   <BookOpen className="w-3.5 h-3.5 text-primary" />
-                  <span>DUHS 1st Year (6 Subjects)</span>
+                  <span>1st Year (6 Subjects)</span>
                 </Link>
               </li>
               <li>
                 <Link href="/past-papers" className="text-slate-600 hover:text-primary transition">
-                  DUHS Past Papers (2015–2024)
+                  Past Papers (2015–2024)
                 </Link>
               </li>
               <li>
@@ -69,7 +69,7 @@ export default function Footer() {
           {/* BDS 1st Year Subjects */}
           <div>
             <h3 className="text-slate-900 font-semibold text-xs tracking-wider uppercase mb-4">
-              DUHS 1st Year Subjects
+              1st Year Subjects
             </h3>
             <ul className="space-y-2 text-xs sm:text-sm">
               <li>
@@ -122,7 +122,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/about" className="text-slate-600 hover:text-primary transition">
-                  About DUHS Platform
+                  About Platform
                 </Link>
               </li>
               <li>
@@ -146,7 +146,7 @@ export default function Footer() {
 
         {/* Bottom copyright & disclaimer */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted">
-          <p>© {new Date().getFullYear()} Molar Hub. Specially customized for Dow University of Health Sciences (DUHS) Karachi.</p>
+          <p>© {new Date().getFullYear()} Molar Hub. Specially customized for BDS.</p>
           <div className="flex items-center gap-1.5 text-muted">
             <span>Crafted with</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-current" />

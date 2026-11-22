@@ -127,7 +127,7 @@ export default function StudentDashboardPage() {
         <div className="hero-in rounded-2xl border border-line bg-surface p-6 sm:p-7" style={{ "--i": 0 } as React.CSSProperties}>
           <div className="flex flex-wrap items-center gap-2 text-[13px] text-muted">
             <Link href="/subjects" className="chip-pro !py-1 hover:bg-primary/15" title="Your year and college">
-              <GraduationCap className="h-3.5 w-3.5" /> BDS 1st Year · DUHS
+              <GraduationCap className="h-3.5 w-3.5" /> BDS 1st Year
             </Link>
           </div>
           <h1 id="overview" className="mt-3 font-display text-[1.9rem] font-bold leading-tight tracking-[-0.035em] text-ink sm:text-[2.2rem]">

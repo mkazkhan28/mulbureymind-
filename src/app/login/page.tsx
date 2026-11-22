@@ -39,7 +39,7 @@ export default function LoginPage() {
   return (
     <AuthLayout
       title="Welcome back"
-      subtitle="Log in to continue your DUHS BDS 1st Year preparation."
+      subtitle="Log in to continue your BDS 1st Year preparation."
       footer={
         <>
           New to Molar Hub?{" "}
@@ -61,7 +61,7 @@ export default function LoginPage() {
               type="email"
               required
               autoComplete="email"
-              placeholder="you@duhs.edu.pk"
+              placeholder="you@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="field pl-10"

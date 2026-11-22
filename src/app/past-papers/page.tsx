@@ -85,9 +85,9 @@ export default function PastPapersPage() {
         {/* Header */}
         <PageHeader
           eyebrow="Past papers"
-          title="DUHS past-paper questions"
+          title="Past-paper questions"
           lead="See what has been asked before."
-          intro="Past examination questions from DIKIOHS, DDC and DIDC with explanations. Filter by subject or search by keyword or year."
+          intro="Past examination questions with explanations. Filter by subject or search by keyword or year."
         />
 
         {/* Filter & Search Bar */}
@@ -98,7 +98,7 @@ export default function PastPapersPage() {
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search DUHS questions (e.g. lingula, amelogenin, lidocaine, necrosis)..."
+                placeholder="Search questions (e.g. lingula, amelogenin, lidocaine, necrosis)..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -152,18 +152,8 @@ export default function PastPapersPage() {
             )}
           </div>
 
-          {/* Quick College & Module Tags */}
+          {/* Question count */}
           <div className="flex items-center gap-2 pt-3 border-t border-line overflow-x-auto text-xs text-slate-400">
-            <span className="font-semibold text-slate-300 shrink-0">DUHS Colleges:</span>
-            <span className="px-2.5 py-1 bg-slate-950/60 border border-slate-800 rounded-lg text-slate-300 font-medium shrink-0">
-              DIKIOHS (Ojha Campus)
-            </span>
-            <span className="px-2.5 py-1 bg-slate-950/60 border border-slate-800 rounded-lg text-slate-300 font-medium shrink-0">
-              DDC (Dow Dental College, DMC)
-            </span>
-            <span className="px-2.5 py-1 bg-slate-950/60 border border-slate-800 rounded-lg text-slate-300 font-medium shrink-0">
-              DIDC (Dow International)
-            </span>
             <span className="ml-auto text-slate-400 font-semibold shrink-0">
               {bank === null ? "Loading questions…" : <>Showing <span className="text-ink font-bold">{filteredMCQs.length.toLocaleString()}</span> questions</>}
             </span>
@@ -306,7 +296,7 @@ export default function PastPapersPage() {
               Want to take these under official exam conditions?
             </h3>
             <p className="text-xs sm:text-sm text-slate-300">
-              Launch the DUHS Exam Simulator with real-time countdown timer, instant marking, and modular analytics.
+              Launch the Exam Simulator with real-time countdown timer, instant marking, and modular analytics.
             </p>
           </div>
           <Link

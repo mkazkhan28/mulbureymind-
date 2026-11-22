@@ -16,9 +16,9 @@ const planGradients = [
 const faqs = [
   { q: "Which payment methods are accepted?", a: "JazzCash, Easypaisa, local debit/credit cards (Visa, Mastercard, PayPak), and direct bank transfer (Raast / IBFT). Instant activation on payment." },
   { q: "Does the plan include every subject?", a: "Yes. All paid plans include every BDS 1st Year subject: Anatomy, Physiology, Oral Biology, Biochemistry, Pharmacology, Pathology and General Education." },
-  { q: "What about BDS 2nd, 3rd, and Final Year?", a: "Those modules are pending and will unlock in upcoming sessions. Current focus is 100% dedicated to DUHS BDS 1st Year professional exam mastery." },
+  { q: "What about BDS 2nd, 3rd, and Final Year?", a: "Those modules are pending and will unlock in upcoming sessions. Current focus is 100% dedicated to BDS 1st Year professional exam mastery." },
   { q: "Can I use Molar Hub on my smartphone?", a: "Yes! 100% mobile-friendly for Android, iPhone, iPad, and laptops with fast load times." },
-  { q: "Are questions verified for DUHS Karachi?", a: "Questions are taken from DUHS past papers (DIKIOHS, DDC & DIDC) and each comes with a textbook-referenced explanation." },
+  { q: "Are the questions verified?", a: "Questions are taken from past exam papers and each comes with a textbook-referenced explanation." },
   { q: "Can I upgrade my plan later?", a: "Yes — upgrade at any time without losing saved progress, quiz attempts, or bookmarked questions." },
 ];
 
@@ -108,7 +108,7 @@ export default function PricingPage() {
             { icon: ShieldCheck, label: "Activates once payment is confirmed" },
             { icon: ShieldCheck, label: "JazzCash & Easypaisa" },
             { icon: ShieldCheck, label: "Cancel Anytime" },
-            { icon: ShieldCheck, label: "Follows the DUHS syllabus" },
+            { icon: ShieldCheck, label: "Follows the BDS 1st Year syllabus" },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-2 text-sm text-slate-400">
               <Icon className="w-4 h-4 text-emerald-800 dark:text-emerald-400" />
@@ -139,7 +139,7 @@ export default function PricingPage() {
                 ["Full MCQ practice library", false, true, true, true],
                 ["Timed mock examination mode", false, true, true, true],
                 ["3D Flashcard decks", "Sample", true, true, true],
-                ["DUHS past papers", false, true, true, true],
+                ["Past papers", false, true, true, true],
                 ["Weak-topic analytics", false, true, true, true],
                 ["Lecture slides & PDF notes", false, false, true, true],
                 ["Priority WhatsApp support", false, false, true, true],

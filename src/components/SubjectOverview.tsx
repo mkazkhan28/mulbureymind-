@@ -298,7 +298,7 @@ export default function SubjectOverview({ subject, structure }: { subject: Subje
           {structure ? (
             <>
               <MaterialLink href={`${base}/textbooks`} icon={Library} title="Textbooks" meta={count(books.length, "book") || "Coming soon"} text="Recommended books, readable in the site." />
-              <MaterialLink href={`${base}/course-outline`} icon={ListTree} title="Course outline" meta={count(structure.courseOutline.length, "file") || "Coming soon"} text="The DUHS syllabus and lecture plan." />
+              <MaterialLink href={`${base}/course-outline`} icon={ListTree} title="Course outline" meta={count(structure.courseOutline.length, "file") || "Coming soon"} text="The syllabus and lecture plan." />
               {PPT_GROUPS.map((g) => (
                 <MaterialLink key={g.key} href={`${base}/${g.slug}`} icon={FolderOpen} title={g.title} meta={count(structure.ppts[g.key].length, "lecture") || "Coming soon"} text={g.description} />
               ))}

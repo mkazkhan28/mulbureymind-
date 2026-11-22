@@ -9,13 +9,13 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 text-slate-800 shadow-xs">
-      {/* Top announcement banner focused on DUHS in crisp clean blue/grey */}
+      {/* Top announcement banner focused on in crisp clean blue/grey */}
       <div className="bg-gradient-to-r from-blue-50 via-slate-50 to-blue-50 text-slate-700 text-xs py-1.5 px-4 text-center font-medium flex items-center justify-center gap-2 border-b border-blue-100">
         <span className="inline-flex items-center rounded-full bg-primary text-on-primary px-2.5 py-0.5 text-[10px] font-bold tracking-wider uppercase shadow-xs">
-          DUHS Karachi
+          BDS 1st Year
         </span>
         <span className="text-slate-700">
-          🎯 Dedicated to Dow University of Health Sciences (DIKIOHS • DDC • DIDC) BDS 1st Year Modular BCQs
+          🎯 Dedicated to BDS 1st Year Modular BCQs
         </span>
       </div>
 
@@ -33,7 +33,7 @@ export default function Navbar() {
                 Molar Hub
               </span>
               <span className="text-[11px] font-bold text-primary tracking-wider uppercase">
-                DUHS Dental Portal
+                Dental Portal
               </span>
             </div>
           </Link>
@@ -50,7 +50,7 @@ export default function Navbar() {
               href="/past-papers"
               className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-100/70 rounded-lg transition"
             >
-              DUHS Past Papers
+              Past Papers
             </Link>
             <Link
               href="/practice"
@@ -125,7 +125,7 @@ export default function Navbar() {
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-primary"
           >
             <Award className="w-4 h-4 text-primary" />
-            <span>DUHS Past Papers</span>
+            <span>Past Papers</span>
           </Link>
           <Link
             href="/practice"
